@@ -15,6 +15,9 @@ const Base = styled(ButtonBase)`
   img {
     border-radius: 50%;
     margin-top: 0;
+    
+    max-width: 120px;
+    max-height: 120px;
   }
   
   &.Mui-disabled {
@@ -41,7 +44,7 @@ const Title = styled(Typography)`
 `;
 
 
-const Product = () => {
+const Product = ({ title, photo, price, currency, time }) => {
   const [added, setAdded] = useState(0);
 
   const handleClick = () => {
@@ -60,9 +63,9 @@ const Product = () => {
     <Base component="div" onClick={added === 0 ? handleClick : () => {}} sx={{
       background: added ? '#F0D9FF' : 'inherit'
     }}>
-      <img src={PicOne} alt=""/>
-      <Title>Pumpkin Milk Soup</Title>
-      {added === 0 && <Chip color="secondary" label="1100 LKR  􀐱15"></Chip>}
+      <img src={photo} alt=""/>
+      <Title>{title}</Title>
+      {added === 0 && <Chip color="secondary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
         {added}
