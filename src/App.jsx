@@ -1,34 +1,49 @@
-import {useState} from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
-import {Button} from '@mui/material';
+import React from 'react';
+import {Chip, styled} from '@mui/material';
+import Product from './Product.jsx';
+
+const Base = styled('div')`
+  padding: 20px;
+`;
+
+const Tags = styled('div')`
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  
+  margin-bottom: 16px;
+  
+  > * {
+    margin-left: 8px;
+  }
+`;
+
+const Catalog = styled('div')`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/public/vite.svg" className="logo" alt="Vite logo"/>
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo"/>
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button variant="contained" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <Base className="App">
+      <Tags>
+        <Chip label="🥐 Breakfast" variant="outlined" />
+        <Chip label="🥪 Main" variant="outlined" />
+        <Chip label="🥗 Salads" variant="outlined" />
+        <Chip label="🥤 Drinks" variant="outlined" />
+      </Tags>
+      <Catalog>
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+        <Product />
+      </Catalog>
+    </Base>
   );
 }
 
