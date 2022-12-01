@@ -1,12 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc, deleteDoc} from 'firebase/firestore';
 import BasketContext from './BasketContext.jsx';
 import {firestore} from '../firebase.js';
 
+const STATUS = {
+  cooking: 'Cooking...',
+  cooked: 'Cooked',
+  delivery: 'Delivering',
+}
+
 const BasketProvider = ({children, ...rest}) => {
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState(0);
+  const [table, setTable] = useState(null);
   const [price, setPrice] = useState(0);
+  const [isCooking, setIsCooking] = useState(false);
   const [step, setStep] = useState('INFO');
 
   const handleProductAdd = (product) => {
@@ -39,19 +47,34 @@ const BasketProvider = ({children, ...rest}) => {
 
     setProducts(newProducts);
     setCount(count - 1);
-    setPrice( price - parseInt(product.price));
+    setPrice(price - parseInt(product.price));
   };
 
   const handleMakeOrder = async () => {
     const order = doc(collection(firestore, 'basket'));
 
-    return await setDoc(order, {
+    await setDoc(order, {
       products,
       sumPrice: price,
       sumCount: count,
+      table,
+      status: STATUS.cooking,
       date: new Date()
-    })
-  }
+    });
+
+    setIsCooking(true);
+    setStep('COOKING');
+  };
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const table = urlParams.get('table');
+
+    if (table) {
+      setTable(table);
+    }
+  }, []);
 
   return (
     <BasketContext.Provider {...rest} value={{
@@ -60,7 +83,10 @@ const BasketProvider = ({children, ...rest}) => {
       price,
       currency: 'LKR',
       step,
+      table,
       setStep,
+      isCooking,
+      setIsCooking,
       addProduct: handleProductAdd,
       deleteProduct: handleProductDelete,
       makeOrder: handleMakeOrder

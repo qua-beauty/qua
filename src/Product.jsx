@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {ButtonBase, Chip, styled, Typography} from '@mui/material';
-import {BasketContext} from './Basket/index.js';
+import BasketContext from './Basket/BasketContext.jsx';
 
 const Base = styled(ButtonBase)`
   display: flex;

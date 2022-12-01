@@ -4,7 +4,8 @@ const initialValue = {
   products: [],
   count: 0,
   currency: 'LKR',
-  step: 'INFO', // 'INFO' | 'DETAILS' | 'COOKING' | 'SUCCESS'
+  step: 'INFO', // 'INFO' | 'DETAILS' | 'COOKING' | 'SUCCESS',
+  isCooking: false,
   addProduct: () => {},
   deleteProduct: () => {}
 };

@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, IconButton, styled, Typography} from '@mui/material';
 import ProductInline from '../ProductInline.jsx';
-import {CatalogContext} from '../Catalog/index.js';
-import {BasketContext} from './index.js';
+import CatalogContext from '../Catalog/CatalogContext.jsx';
+import BasketContext from './BasketContext.jsx';
 import {Close} from '@mui/icons-material';
 
 const Base = styled('div')`
@@ -40,14 +40,14 @@ const CloseButton = styled(IconButton)`
 `;
 
 const BasketExpanded = () => {
+  const [loading, setLoading] = useState(false);
   const {getProductById} = useContext(CatalogContext);
   const {products, price, setStep, makeOrder} = useContext(BasketContext);
 
   const handleSend = async () => {
+    setLoading(true);
     await makeOrder();
-
-    setStep('COOKING');
-
+    setLoading(false);
   }
 
   return (
@@ -62,7 +62,7 @@ const BasketExpanded = () => {
                          {...getProductById(product.id)}
                          count={product.count}/>)}
       </Products>
-      <Button variant="contained" color="secondary" size="large" onClick={handleSend}>Send for cooking {price}</Button>
+      <Button variant="contained" color="secondary" size="large" onClick={handleSend} disabled={loading}>Send for cooking {price}</Button>
     </Base>
   );
 };

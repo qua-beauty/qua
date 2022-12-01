@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
-import {BasketProvider} from './Basket';
-import {CatalogProvider} from './Catalog';
+import BasketProvider from './Basket/BasketProvider.jsx';
+import CatalogProvider from './Catalog/CatalogProvider.jsx';
 
 const theme = createTheme({
   typography: {

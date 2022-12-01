@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Button, IconButton, styled, Typography} from '@mui/material';
-import {CatalogContext} from '../Catalog/index.js';
-import {BasketContext} from './index.js';
+import CatalogContext from '../Catalog/CatalogContext.jsx';
+import BasketContext from './BasketContext.jsx';
 import {Close} from '@mui/icons-material';
 
 const Base = styled('div')`
@@ -61,11 +61,9 @@ const Label = styled('div')`
   font-size: 20px;
 `;
 
-
-
 const BasketCooking = () => {
   const {getProductById} = useContext(CatalogContext);
-  const {products, price, setStep} = useContext(BasketContext);
+  const {products, setStep} = useContext(BasketContext);
 
   return (
     <Base>

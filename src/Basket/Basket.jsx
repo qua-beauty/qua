@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {styled, Typography} from '@mui/material';
-import {BasketContext} from './index.js';
+import BasketContext from './BasketContext.jsx';
 import BasketExpanded from './BasketExpanded.jsx';
 import BasketCooking from './BasketCooking.jsx';
 
