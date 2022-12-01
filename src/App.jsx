@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
-import {firestore} from './firebase.js';
-import {addDoc, collection, getDocs, getDoc, onSnapshot, setDoc, updateDoc, deleteDoc} from 'firebase/firestore';
+import {getCatalog} from './services.js';
+import {Basket} from './Basket/index.js';
 
 const Base = styled('div')`
   padding: 20px;
@@ -30,21 +30,9 @@ function App() {
   const [catalog, setCatalog] = useState(null);
 
   useEffect(() => {
-    const newCatalog = [];
-
-    getDocs(collection(firestore, "catalog")).then(docs => {
-      docs.forEach((doc) => {
-        newCatalog.push({
-          id: doc.id,
-          ...doc.data()
-        });
-      });
-      setCatalog(newCatalog);
-      return newCatalog;
-    })
+    getCatalog().then((data) => setCatalog(data));
   }, []);
 
-  console.log(catalog);
   return (
     <Base className="App">
       <Tags>
@@ -55,9 +43,10 @@ function App() {
       </Tags>
       <Catalog>
         {catalog && catalog.map(product => {
-          return <Product {...product} />
+          return <Product key={product.id} {...product} />
         })}
       </Catalog>
+      <Basket />
     </Base>
   );
 }
