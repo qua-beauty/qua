@@ -1,37 +1,60 @@
-import React from 'react';
-import {Button, styled, Typography} from '@mui/material';
+import React, {useContext} from 'react';
+import {Button, IconButton, styled, Typography} from '@mui/material';
 import ProductInline from '../ProductInline.jsx';
+import {CatalogContext} from '../Catalog/index.js';
+import {BasketContext} from './index.js';
+import {Close} from '@mui/icons-material';
 
 const Base = styled('div')`
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
-  
+
   background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
   backdrop-filter: blur(2px);
   border-radius: 24px 24px 0 0;
+
+  padding: 40px 20px 80px;
+  text-align: center;
 `;
 
 const Title = styled(Typography)`
-
+  
 `;
 
 const Products = styled('div')`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  
+  margin: 40px 0;
+`;
+
+const CloseButton = styled(IconButton)`
+  position: absolute;
+  top: 8px;
+  right: 8px;
 `;
 
 const BasketExpanded = () => {
+  const {getProductById} = useContext(CatalogContext);
+  const {products, price, setStep} = useContext(BasketContext);
+
   return (
     <Base>
-      <Title>👨‍🍳 We are ready to cook!</Title>
+      <CloseButton onClick={() => setStep('INFO')}>
+        <Close />
+      </CloseButton>
+      <Title variant="h5">👨‍🍳 We are ready to cook!</Title>
       <Products>
-        <ProductInline />
+        {products && products.map(product =>
+          <ProductInline key={product.id}
+                         {...getProductById(product.id)}
+                         count={product.count}/>)}
       </Products>
-      <Button variant="contained" color="primary">Send for cooking</Button>
+      <Button variant="contained" color="secondary" size="large">Send for cooking {price}</Button>
     </Base>
-  )
+  );
 };
 
 export default BasketExpanded;

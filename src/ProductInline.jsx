@@ -4,13 +4,8 @@ import {styled, Typography} from '@mui/material';
 const Base = styled('div')`
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  border-radius: 16px;
-
-  max-width: 50%;
-  width: 190px;
-  height: 240px;
 
 
   img {
@@ -19,6 +14,10 @@ const Base = styled('div')`
 
     max-width: 56px;
     max-height: 56px;
+  }
+  
+  & + & {
+    margin-top: 12px;
   }
 `;
 
@@ -40,7 +39,7 @@ const Info = styled('div')`
 `;
 
 const ProductInline = (product) => {
-  const {title, photo, price, currency, time, id} = product;
+  const {title, photo, price, currency, count} = product;
 
   return (
     <Base>
@@ -48,8 +47,8 @@ const ProductInline = (product) => {
         <img src={photo} alt=""/>
         <Title>{title}</Title>
       </Info>
-      <Count>1</Count>
-      <Price>${price} ${currency}</Price>
+      <Count>{count}</Count>
+      <Price>{price} {currency}</Price>
     </Base>
   );
 };

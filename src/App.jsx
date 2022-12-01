@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
-import {getCatalog} from './services.js';
 import {Basket} from './Basket/index.js';
+import {CatalogContext} from './Catalog/index.js';
 
 const Base = styled('div')`
   padding: 20px;
@@ -27,11 +27,7 @@ const Catalog = styled('div')`
 
 
 function App() {
-  const [catalog, setCatalog] = useState(null);
-
-  useEffect(() => {
-    getCatalog().then((data) => setCatalog(data));
-  }, []);
+  const {catalog} = useContext(CatalogContext);
 
   return (
     <Base className="App">
