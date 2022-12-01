@@ -48,18 +48,18 @@ const Title = styled(Typography)`
 const Product = (product) => {
   const {title, photo, price, currency, time, id} = product;
   const [added, setAdded] = useState(0);
-  const {onProductAdd, onProductDelete} = useContext(BasketContext);
+  const {addProduct, deleteProduct} = useContext(BasketContext);
 
   const handleClick = () => {
     setAdded(added + 1);
-    onProductAdd(product);
+    addProduct(product);
   };
   const handlePlus = () => {
     setAdded(added + 1);
-    onProductAdd(product);
+    addProduct(product);
   };
   const handleMinus = () => {
-    onProductDelete(product);
+    deleteProduct(product);
     setAdded(added - 1);
   };
 

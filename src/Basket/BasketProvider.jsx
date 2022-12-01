@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import {addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc, deleteDoc} from 'firebase/firestore';
 import BasketContext from './BasketContext.jsx';
+import {firestore} from '../firebase.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [products, setProducts] = useState([]);
@@ -40,6 +42,17 @@ const BasketProvider = ({children, ...rest}) => {
     setPrice( price - parseInt(product.price));
   };
 
+  const handleMakeOrder = async () => {
+    const order = doc(collection(firestore, 'basket'));
+
+    return await setDoc(order, {
+      products,
+      sumPrice: price,
+      sumCount: count,
+      date: new Date()
+    })
+  }
+
   return (
     <BasketContext.Provider {...rest} value={{
       products,
@@ -48,8 +61,9 @@ const BasketProvider = ({children, ...rest}) => {
       currency: 'LKR',
       step,
       setStep,
-      onProductAdd: handleProductAdd,
-      onProductDelete: handleProductDelete
+      addProduct: handleProductAdd,
+      deleteProduct: handleProductDelete,
+      makeOrder: handleMakeOrder
     }}>
       {children}
     </BasketContext.Provider>

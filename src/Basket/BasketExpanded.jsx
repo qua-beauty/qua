@@ -11,6 +11,9 @@ const Base = styled('div')`
   right: 0;
   left: 0;
 
+  margin: 0 auto;
+  max-width: 480px;
+
   background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
   backdrop-filter: blur(2px);
   border-radius: 24px 24px 0 0;
@@ -38,7 +41,14 @@ const CloseButton = styled(IconButton)`
 
 const BasketExpanded = () => {
   const {getProductById} = useContext(CatalogContext);
-  const {products, price, setStep} = useContext(BasketContext);
+  const {products, price, setStep, makeOrder} = useContext(BasketContext);
+
+  const handleSend = async () => {
+    await makeOrder();
+
+    setStep('COOKING');
+
+  }
 
   return (
     <Base>
@@ -52,7 +62,7 @@ const BasketExpanded = () => {
                          {...getProductById(product.id)}
                          count={product.count}/>)}
       </Products>
-      <Button variant="contained" color="secondary" size="large">Send for cooking {price}</Button>
+      <Button variant="contained" color="secondary" size="large" onClick={handleSend}>Send for cooking {price}</Button>
     </Base>
   );
 };

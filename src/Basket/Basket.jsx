@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {styled, Typography} from '@mui/material';
 import {BasketContext} from './index.js';
 import BasketExpanded from './BasketExpanded.jsx';
+import BasketCooking from './BasketCooking.jsx';
 
 const Base = styled('div')`
   position: fixed;
@@ -9,6 +10,8 @@ const Base = styled('div')`
   right: 0;
   left: 0;
 
+  margin: 0 auto;
+  max-width: 480px;
   height: 124px;
   padding: 20px;
 
@@ -51,7 +54,7 @@ const Basket = () => {
 
   const handleCheckout = () => {
     setStep('DETAILS');
-  }
+  };
 
   return products.length > 0 && (
     step === 'INFO' ? (
@@ -62,10 +65,10 @@ const Basket = () => {
         </Info>
         <Action>Checkout 􀄫</Action>
       </Base>
-    ) : (
+    ) : step === 'DETAILS' ? (
       <BasketExpanded/>
-    )
-  )
+    ) : step === 'COOKING' && <BasketCooking />
+  );
 };
 
 export default Basket;

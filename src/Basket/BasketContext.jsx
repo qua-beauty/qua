@@ -4,9 +4,9 @@ const initialValue = {
   products: [],
   count: 0,
   currency: 'LKR',
-  step: 'INFO', // 'INFO' | 'DETAILS' | 'DELIVERY' | 'SUCCESS'
-  onProductAdd: () => {},
-  onProductDelete: () => {}
+  step: 'INFO', // 'INFO' | 'DETAILS' | 'COOKING' | 'SUCCESS'
+  addProduct: () => {},
+  deleteProduct: () => {}
 };
 
 const BasketContext = createContext(initialValue);

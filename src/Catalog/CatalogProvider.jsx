@@ -6,10 +6,6 @@ import CatalogContext from './CatalogContext.jsx';
 const CatalogProvider = ({ children, ...rest }) => {
   const [catalog, setCatalog] = useState([]);
 
-  const getProductById = (productId) => {
-
-  }
-
   useEffect(() => {
     const newCatalog = [];
 
