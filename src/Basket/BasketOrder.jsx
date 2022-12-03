@@ -8,6 +8,7 @@ const collapsedCss = {
   height: '120px',
   transition: 'width, height 0.225s ease'
 }
+
 const expandedCss = {
   padding: '28px 28px 80px',
   height: '360px',

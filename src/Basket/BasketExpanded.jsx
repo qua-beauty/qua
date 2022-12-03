@@ -11,13 +11,13 @@ const Base = styled('div')`
 `;
 
 const Title = styled(Typography)`
-  
+
 `;
 
 const Products = styled('div')`
   display: flex;
   flex-direction: column;
-  
+
   margin: 40px 0;
 `;
 
@@ -27,30 +27,27 @@ const CloseButton = styled(IconButton)`
   right: 8px;
 `;
 
-const BasketExpanded = ({ setExpanded }) => {
+const BasketExpanded = ({setExpanded, basket, price, makeOrder}) => {
   const [loading, setLoading] = useState(false);
-  const {getProduct} = useContext(CatalogContext);
-  const {products, price, makeOrder} = useContext(BasketContext);
 
   const handleSend = async () => {
     setLoading(true);
     await makeOrder();
     setLoading(false);
-  }
+  };
 
   return (
     <Base>
       <CloseButton onClick={() => setExpanded(false)}>
-        <Close />
+        <Close/>
       </CloseButton>
       <Title variant="h5">👨‍🍳 We are ready to cook!</Title>
       <Products>
-        {products && products.map(product =>
-          <ProductInline key={product.id}
-                         {...getProduct(product.id)}
-                         count={product.count}/>)}
+        {basket && basket.products.map(product =>
+          <ProductInline key={product.id} {...product} />)}
       </Products>
-      <Button variant="contained" color="primary" size="large" onClick={handleSend} disabled={loading}>Send for cooking {price}</Button>
+      <Button variant="contained" color="primary" size="large" onClick={handleSend} disabled={loading}>Send for
+        cooking {price}</Button>
     </Base>
   );
 };

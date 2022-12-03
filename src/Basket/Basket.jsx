@@ -37,7 +37,7 @@ const Action = styled(Typography)`
   color: ${({theme}) => theme.palette.primary.dark};
 `;
 
-const BasketCollapsed = ({ setExpanded, count, price, currency }) => {
+const BasketCollapsed = ({setExpanded, count, price, currency}) => {
   return (
     <Base onClick={setExpanded}>
       <Info>
@@ -46,17 +46,18 @@ const BasketCollapsed = ({ setExpanded, count, price, currency }) => {
       </Info>
       <Action>Checkout 􀄫</Action>
     </Base>
-  )
+  );
 };
 
 const Basket = () => {
   const [expanded, setExpanded] = useState(false);
-  const {products, ...basketRest} = useContext(BasketContext);
+  const {basket, ...basketRest} = useContext(BasketContext);
 
-  if(products.length <= 0) return <></>;
+  if (!(basket && basket.products.length > 0)) return <></>;
 
   return (
-    expanded ? <BasketExpanded setExpanded={setExpanded}/> : <BasketCollapsed {...basketRest} setExpanded={() => setExpanded(true)} />
+    expanded ? <BasketExpanded basket={basket} {...basketRest} setExpanded={setExpanded}/> :
+      <BasketCollapsed {...basketRest} setExpanded={() => setExpanded(true)}/>
   );
 };
 

@@ -1,7 +1,7 @@
 import {createContext} from 'react';
 
 const initialValue = {
-  products: [],
+  basket: [],
   count: 0,
   currency: 'LKR',
   step: 'INFO', // 'INFO' | 'DETAILS' | 'COOKING' | 'SUCCESS',

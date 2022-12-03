@@ -5,38 +5,35 @@ import {auth, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
 
 export const STATUS = {
-  cooking: 'Cooking...',
+  cooking: 'Cooking',
   cooked: 'Cooked',
   delivery: 'Delivering',
 };
 
 const BasketProvider = ({children, ...rest}) => {
-  const [user, loading] = useAuthState(auth);
+  const [user, ] = useAuthState(auth);
   const [order, setOrder] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [count, setCount] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [basket, setBasket] = useState(null);
+  const [currency, ] = useState('LKR');
 
   const handleProductAdd = (product) => {
-    const newProducts = [...products];
-    const isProductExist = newProducts.filter(x => x.id === product.id)[0];
+    const products = basket ? [...basket.products] : [];
+    const isProductExist = products.filter(x => x.id === product.id)[0];
 
     if (isProductExist) {
       ++isProductExist.count;
     } else {
-      newProducts.push({
-        id: product.id,
-        count: 1
+      products.push({
+        ...product,
+        count: 1,
       });
     }
 
-    setProducts(newProducts);
-    setCount(count + 1);
-    setPrice(price + parseInt(product.price));
+    setBasket({ products });
   };
 
   const handleProductDelete = (product) => {
-    const newProducts = products.filter(p => {
+    const products = basket.products.filter(p => {
       if (p.id === product.id) {
         if (p.count <= 1) return false;
         --p.count;
@@ -45,21 +42,17 @@ const BasketProvider = ({children, ...rest}) => {
       return p;
     });
 
-    setProducts(newProducts);
-    setCount(count - 1);
-    setPrice(price - parseInt(product.price));
+    setBasket({ products });
   };
 
   const handleMakeOrder = async () => {
     const orderRef = doc(collection(firestore, 'basket'));
     const order = {
-      products,
-      sumPrice: price,
-      sumCount: count,
+      products: basket.products,
       status: STATUS.cooking,
       date: new Date(),
       user: user.uid
-    }
+    };
 
     await setDoc(orderRef, order);
     const orderId = await getDoc(orderRef);
@@ -68,6 +61,8 @@ const BasketProvider = ({children, ...rest}) => {
       ...order,
       id: orderId
     });
+
+    setBasket(null);
   };
 
   useEffect(() => {
@@ -77,7 +72,7 @@ const BasketProvider = ({children, ...rest}) => {
 
       getDocs(q).then(docs => {
         docs.forEach((doc) => {
-          setOrder({
+          if (!order) setOrder({
             ...doc.data(),
             id: doc.id
           });
@@ -86,13 +81,16 @@ const BasketProvider = ({children, ...rest}) => {
     }
   }, [user]);
 
+  const count = basket && basket.products.reduce((acc, product) => acc + parseInt(product.count), 0);
+  const price = basket && basket.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
+
   return (
     <BasketContext.Provider {...rest} value={{
-      products,
+      basket,
+      currency,
+      order,
       count,
       price,
-      currency: 'LKR',
-      order,
       addProduct: handleProductAdd,
       deleteProduct: handleProductDelete,
       makeOrder: handleMakeOrder

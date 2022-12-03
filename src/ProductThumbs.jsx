@@ -1,5 +1,4 @@
-import React, {useContext, useState} from 'react';
-import CatalogContext from './Catalog/CatalogContext.jsx';
+import React from 'react';
 import {styled} from '@mui/material';
 
 const Base = styled('div')`
@@ -22,14 +21,12 @@ const sizes = {
 };
 
 const ProductThumbs = ({products, size = 'medium'}) => {
-  const {getProduct} = useContext(CatalogContext);
-
   if (!products) return <></>;
 
   return (
     <Base>
       {products && products.map(product => {
-        return <img key={product.id} src={getProduct(product.id).photo} width={sizes[size]} height={sizes[size]} alt=""/>;
+        return <img key={product.id} src={product.photo} width={sizes[size]} height={sizes[size]} alt=""/>;
       })}
     </Base>
   );

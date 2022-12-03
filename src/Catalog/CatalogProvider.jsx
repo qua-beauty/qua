@@ -66,8 +66,7 @@ const CatalogProvider = ({children, ...rest}) => {
       catalog: getCatalog(),
       category,
       filters,
-      filter: handleFilter,
-      getProduct: (productId) => catalog.filter(product => product.id === productId)[0]
+      filter: handleFilter
     }} {...rest}>
       {children}
     </CatalogContext.Provider>

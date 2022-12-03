@@ -53,7 +53,7 @@ const Title = styled(Typography)`
 const Product = (product) => {
   const {title, photo, price, currency, time, id} = product;
   const [added, setAdded] = useState(0);
-  const {addProduct, deleteProduct} = useContext(BasketContext);
+  const {addProduct, deleteProduct, basket} = useContext(BasketContext);
 
   const handleClick = () => {
     setAdded(added + 1);
