@@ -78,7 +78,7 @@ const BasketCooking = () => {
         <Label>Cooking...</Label>
       </Cooking>
       <Slogan>Crispy sandwich and your favorite soup will be ready soon</Slogan>
-      <Button variant="contained" color="secondary" size="large" onClick={() => setStep('INFO')}>Close</Button>
+      <Button variant="contained" color="primary" size="large" onClick={() => setStep('INFO')}>Close</Button>
     </Base>
   );
 };

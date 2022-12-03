@@ -16,7 +16,7 @@ const Tags = styled('div')`
 
   margin-bottom: 16px;
 
-  > * {
+  > .MuiChip-root {
     margin-left: 8px;
   }
 `;

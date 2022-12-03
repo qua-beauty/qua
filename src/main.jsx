@@ -8,6 +8,11 @@ import CatalogProvider from './Catalog/CatalogProvider.jsx';
 const theme = createTheme({
   typography: {
     fontFamily: '"SF Pro", "Helvetica Nueu", Roboto'
+  },
+  palette: {
+    primary: {
+      main: '#4C3CAC'
+    }
   }
 });
 

@@ -62,7 +62,7 @@ const BasketExpanded = () => {
                          {...getProductById(product.id)}
                          count={product.count}/>)}
       </Products>
-      <Button variant="contained" color="secondary" size="large" onClick={handleSend} disabled={loading}>Send for cooking {price}</Button>
+      <Button variant="contained" color="primary" size="large" onClick={handleSend} disabled={loading}>Send for cooking {price}</Button>
     </Base>
   );
 };

@@ -30,7 +30,7 @@ const Info = styled('div')`
 `;
 
 const Count = styled('div')`
-  background: ${({theme}) => theme.palette.secondary.main};
+  background: ${({theme}) => theme.palette.primary.main};
   border-radius: 50%;
   padding: 4px 12px;
   display: flex;
@@ -46,7 +46,7 @@ const Action = styled(Typography)`
   display: block;
   font-weight: 500;
 
-  color: ${({theme}) => theme.palette.secondary.dark};
+  color: ${({theme}) => theme.palette.primary.dark};
 `;
 
 const Basket = () => {

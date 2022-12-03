@@ -6,11 +6,10 @@ const Base = styled(ButtonBase)`
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-
-  max-width: 50%;
+  
+  margin: 0 4px;
   width: 190px;
   height: 240px;
-
 
   img {
     border-radius: 50%;
@@ -30,7 +29,12 @@ const PlusMinus = styled('div')`
   align-items: center;
 
   > * {
-    margin: 0 8px;
+  }
+  
+  > span {
+    display: inline-block;
+    min-width: 32px;
+    text-align: center;
   }
 `;
 
@@ -38,6 +42,7 @@ const ChipButton = styled(Chip)`
   background: #fff;
   width: 40px;
   height: 32px;
+  
 `;
 
 const Title = styled(Typography)`
@@ -71,10 +76,10 @@ const Product = (product) => {
     }}>
       <img src={photo} alt=""/>
       <Title>{title}</Title>
-      {added === 0 && <Chip color="secondary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
+      {added === 0 && <Chip color="primary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
-        {added}
+        <span>{added}</span>
         <ChipButton label="􀅼" onClick={handlePlus}></ChipButton>
       </PlusMinus>}
     </Base>
