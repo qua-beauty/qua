@@ -1,11 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
 import Basket from './Basket/Basket.jsx';
 import CatalogContext from './Catalog/CatalogContext.jsx';
+import Header from './Header.jsx';
+import { signInAnonymously } from "firebase/auth";
+import {useAuthState} from 'react-firebase-hooks/auth';
+import {auth} from './firebase.js';
 
 const Base = styled('div')`
-  padding: 20px;
 `;
 
 const Tags = styled('div')`
@@ -27,16 +30,32 @@ const Catalog = styled('div')`
   justify-content: center;
 `;
 
-
 function App() {
+  const [user, loading] = useAuthState(auth);
   const {catalog, category, filter, filters} = useContext(CatalogContext);
 
   const handleFilter = (categoryId) => () => {
     filter('category', `${categoryId}`);
   }
 
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      signInAnonymously(auth)
+        .then(() => {
+          console.log('signed');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ...
+        });
+    }
+  }, [user])
+
   return (
     <Base className="App">
+      <Header />
       <Tags>
         {category && category.map(cat => {
           return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`} color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined" onClick={handleFilter(cat.id)}/>

@@ -50,7 +50,7 @@ const Action = styled(Typography)`
 `;
 
 const Basket = () => {
-  const {products, count, price, currency, step, setStep} = useContext(BasketContext);
+  const {products, count, price, currency, step, setStep, isCooking} = useContext(BasketContext);
 
   const handleCheckout = () => {
     setStep('DETAILS');
