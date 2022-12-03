@@ -10,6 +10,7 @@ const Base = styled('div')`
 
 const Tags = styled('div')`
   display: flex;
+  justify-content: center;
   flex-wrap: nowrap;
   overflow: auto;
 
@@ -23,19 +24,23 @@ const Tags = styled('div')`
 const Catalog = styled('div')`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 
 function App() {
-  const {catalog} = useContext(CatalogContext);
+  const {catalog, category, filter, filters} = useContext(CatalogContext);
+
+  const handleFilter = (categoryId) => () => {
+    filter('category', `${categoryId}`);
+  }
 
   return (
     <Base className="App">
       <Tags>
-        <Chip label="🥐 Breakfast" variant="outlined"/>
-        <Chip label="🥪 Main" variant="outlined"/>
-        <Chip label="🥗 Salads" variant="outlined"/>
-        <Chip label="🥤 Drinks" variant="outlined"/>
+        {category && category.map(cat => {
+          return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`} color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined" onClick={handleFilter(cat.id)}/>
+        })}
       </Tags>
       <Catalog>
         {catalog && catalog.map(product => {
