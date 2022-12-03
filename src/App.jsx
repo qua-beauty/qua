@@ -7,6 +7,7 @@ import Header from './Header.jsx';
 import { signInAnonymously } from "firebase/auth";
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth} from './firebase.js';
+import BasketOrder from './Basket/BasketOrder.jsx';
 
 const Base = styled('div')`
 `;
@@ -28,6 +29,20 @@ const Catalog = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+`;
+
+const BasketBox = styled('div')`
+  background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
+  backdrop-filter: blur(2px);
+  border-radius: 24px 24px 0 0;
+  
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  margin: 0 auto;
+  max-width: 480px;
 `;
 
 function App() {
@@ -66,7 +81,10 @@ function App() {
           return <Product key={product.id} {...product} />;
         })}
       </Catalog>
-      <Basket/>
+      <BasketBox>
+        <Basket/>
+        <BasketOrder />
+      </BasketBox>
     </Base>
   );
 }

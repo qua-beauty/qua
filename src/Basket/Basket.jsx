@@ -1,23 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
 import BasketExpanded from './BasketExpanded.jsx';
-import BasketCooking from './BasketCooking.jsx';
 
 const Base = styled('div')`
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  margin: 0 auto;
-  max-width: 480px;
+  padding: 40px 20px 80px;
   height: 124px;
-  padding: 20px;
-
-  background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
-  backdrop-filter: blur(2px);
-  border-radius: 24px 24px 0 0;
 
   display: flex;
   align-items: flex-start;
@@ -49,25 +37,26 @@ const Action = styled(Typography)`
   color: ${({theme}) => theme.palette.primary.dark};
 `;
 
+const BasketCollapsed = ({ setExpanded, count, price, currency }) => {
+  return (
+    <Base onClick={setExpanded}>
+      <Info>
+        <Count>{count}</Count>
+        <Price>{price} {currency}</Price>
+      </Info>
+      <Action>Checkout 􀄫</Action>
+    </Base>
+  )
+};
+
 const Basket = () => {
-  const {products, count, price, currency, step, setStep, isCooking} = useContext(BasketContext);
+  const [expanded, setExpanded] = useState(false);
+  const {products, ...basketRest} = useContext(BasketContext);
 
-  const handleCheckout = () => {
-    setStep('DETAILS');
-  };
+  if(products.length <= 0) return <></>;
 
-  return products.length > 0 && (
-    step === 'INFO' ? (
-      <Base onClick={handleCheckout}>
-        <Info>
-          <Count>{count}</Count>
-          <Price>{price} {currency}</Price>
-        </Info>
-        <Action>Checkout 􀄫</Action>
-      </Base>
-    ) : step === 'DETAILS' ? (
-      <BasketExpanded/>
-    ) : step === 'COOKING' && <BasketCooking />
+  return (
+    expanded ? <BasketExpanded setExpanded={setExpanded}/> : <BasketCollapsed {...basketRest} setExpanded={() => setExpanded(true)} />
   );
 };
 

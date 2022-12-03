@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc, deleteDoc} from 'firebase/firestore';
+import {collection, doc, setDoc, query, where, getDocs, getDoc} from 'firebase/firestore';
+import {useAuthState} from 'react-firebase-hooks/auth';
+import {auth, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
-import {firestore} from '../firebase.js';
 
-const STATUS = {
+export const STATUS = {
   cooking: 'Cooking...',
   cooked: 'Cooked',
   delivery: 'Delivering',
-}
+};
 
 const BasketProvider = ({children, ...rest}) => {
+  const [user, loading] = useAuthState(auth);
+  const [order, setOrder] = useState(null);
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState(0);
-  const [table, setTable] = useState(null);
   const [price, setPrice] = useState(0);
-  const [isCooking, setIsCooking] = useState(false);
-  const [step, setStep] = useState('INFO');
 
   const handleProductAdd = (product) => {
     const newProducts = [...products];
@@ -51,30 +51,40 @@ const BasketProvider = ({children, ...rest}) => {
   };
 
   const handleMakeOrder = async () => {
-    const order = doc(collection(firestore, 'basket'));
-
-    await setDoc(order, {
+    const orderRef = doc(collection(firestore, 'basket'));
+    const order = {
       products,
       sumPrice: price,
       sumCount: count,
-      table,
       status: STATUS.cooking,
-      date: new Date()
-    });
+      date: new Date(),
+      user: user.uid
+    }
 
-    setIsCooking(true);
-    setStep('COOKING');
+    await setDoc(orderRef, order);
+    const orderId = await getDoc(orderRef);
+
+    setOrder({
+      ...order,
+      id: orderId
+    });
   };
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const table = urlParams.get('table');
+    if (user) {
+      const basket = collection(firestore, 'basket');
+      const q = query(basket, where('user', '==', user.uid), where('status', '==', STATUS.cooking));
 
-    if (table) {
-      setTable(table);
+      getDocs(q).then(docs => {
+        docs.forEach((doc) => {
+          setOrder({
+            ...doc.data(),
+            id: doc.id
+          });
+        });
+      });
     }
-  }, []);
+  }, [user]);
 
   return (
     <BasketContext.Provider {...rest} value={{
@@ -82,11 +92,7 @@ const BasketProvider = ({children, ...rest}) => {
       count,
       price,
       currency: 'LKR',
-      step,
-      table,
-      setStep,
-      isCooking,
-      setIsCooking,
+      order,
       addProduct: handleProductAdd,
       deleteProduct: handleProductDelete,
       makeOrder: handleMakeOrder
