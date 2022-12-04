@@ -2,7 +2,7 @@ const {initializeApp, cert} = require('firebase-admin/app');
 const {getFirestore} = require('firebase-admin/firestore');
 
 initializeApp({
-  credential: cert('/cert.json'),
+  credential: cert('./cert.json'),
   projectId: "lanka-496b2",
 });
 
