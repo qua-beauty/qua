@@ -10,11 +10,23 @@ export const STATUS = {
   delivery: 'Delivering',
 };
 
+export const BASKET_STEP = {
+  details: 'DETAILS',
+  delivery: 'DELIVERY',
+  login: 'LOGIN'
+};
+
 const BasketProvider = ({children, ...rest}) => {
   const [user, ] = useAuthState(auth);
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
   const [currency, ] = useState('LKR');
+
+  const [basketExpanded, setBasketExpanded] = useState(false);
+  const [basketStep, setBasketStep] = useState(null);
+
+  const handleCollapse = () => setBasketExpanded(false);
+  const handleExpand = () => setBasketExpanded(true);
 
   const handleProductAdd = (product) => {
     const products = basket ? [...basket.products] : [];
@@ -45,13 +57,15 @@ const BasketProvider = ({children, ...rest}) => {
     setBasket({ products });
   };
 
-  const handleMakeOrder = async () => {
+  const handleMakeOrder = async ({ address, phone }) => {
     const orderRef = doc(collection(firestore, 'basket'));
     const order = {
       products: basket.products,
       status: STATUS.cooking,
       date: new Date(),
-      user: user.uid
+      user: user.uid,
+      address,
+      phone,
     };
 
     await setDoc(orderRef, order);
@@ -63,6 +77,8 @@ const BasketProvider = ({children, ...rest}) => {
     });
 
     setBasket(null);
+    setBasketStep(BASKET_STEP.details);
+    setBasketExpanded(false);
   };
 
   useEffect(() => {
@@ -91,9 +107,15 @@ const BasketProvider = ({children, ...rest}) => {
       order,
       count,
       price,
+      basketExpanded,
+      basketStep,
+      setBasketExpanded,
+      setBasketStep,
+      collapseBasket: handleCollapse,
+      expandBasket: handleExpand,
       addProduct: handleProductAdd,
       deleteProduct: handleProductDelete,
-      makeOrder: handleMakeOrder
+      makeOrder: handleMakeOrder,
     }}>
       {children}
     </BasketContext.Provider>

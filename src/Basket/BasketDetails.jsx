@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {Button, IconButton, styled, Typography} from '@mui/material';
 import ProductInline from '../ProductInline.jsx';
-import CatalogContext from '../Catalog/CatalogContext.jsx';
-import BasketContext from './BasketContext.jsx';
 import {Close} from '@mui/icons-material';
+import BasketContext from './BasketContext.jsx';
+import {BASKET_STEP} from './BasketProvider.jsx';
 
 const Base = styled('div')`
   padding: 40px 20px 80px;
@@ -27,18 +27,12 @@ const CloseButton = styled(IconButton)`
   right: 8px;
 `;
 
-const BasketExpanded = ({setExpanded, basket, price, makeOrder}) => {
-  const [loading, setLoading] = useState(false);
-
-  const handleSend = async () => {
-    setLoading(true);
-    await makeOrder();
-    setLoading(false);
-  };
+const BasketDetails = () => {
+  const {basket, price, setBasketStep, collapseBasket} = useContext(BasketContext);
 
   return (
     <Base>
-      <CloseButton onClick={() => setExpanded(false)}>
+      <CloseButton onClick={collapseBasket}>
         <Close/>
       </CloseButton>
       <Title variant="h5">👨‍🍳 We are ready to cook!</Title>
@@ -46,10 +40,9 @@ const BasketExpanded = ({setExpanded, basket, price, makeOrder}) => {
         {basket && basket.products.map(product =>
           <ProductInline key={product.id} {...product} />)}
       </Products>
-      <Button variant="contained" color="primary" size="large" onClick={handleSend} disabled={loading}>Send for
-        cooking {price}</Button>
+      <Button variant="contained" color="primary" size="large" onClick={() => setBasketStep(BASKET_STEP.delivery)}>Checkout {price}</Button>
     </Base>
   );
 };
 
-export default BasketExpanded;
+export default BasketDetails;

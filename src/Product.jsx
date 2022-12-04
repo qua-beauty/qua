@@ -1,14 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ButtonBase, Chip, styled, Typography} from '@mui/material';
 import BasketContext from './Basket/BasketContext.jsx';
 
 const Base = styled(ButtonBase)`
+  flex: 1;
   display: flex;
   flex-direction: column;
   border-radius: 16px;
   
-  margin: 0 4px;
-  width: 190px;
+  margin: 4px;
+  min-width: 164px;
   height: 240px;
 
   img {
@@ -51,7 +52,7 @@ const Title = styled(Typography)`
 
 
 const Product = (product) => {
-  const {title, photo, price, currency, time, id} = product;
+  const {title, photo, price, currency, time} = product;
   const [added, setAdded] = useState(0);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
 
@@ -67,6 +68,12 @@ const Product = (product) => {
     deleteProduct(product);
     setAdded(added - 1);
   };
+
+  useEffect(() => {
+    if(!basket) {
+      setAdded(0);
+    }
+  }, [basket])
 
 
   return (

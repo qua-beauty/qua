@@ -1,7 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
-import BasketExpanded from './BasketExpanded.jsx';
+import BasketDetails from './BasketDetails.jsx';
+import BasketDelivery from './BasketDelivery.jsx';
+import {BASKET_STEP} from './BasketProvider.jsx';
 
 const Base = styled('div')`
   padding: 40px 20px 80px;
@@ -37,9 +39,11 @@ const Action = styled(Typography)`
   color: ${({theme}) => theme.palette.primary.dark};
 `;
 
-const BasketCollapsed = ({setExpanded, count, price, currency}) => {
+const BasketCollapsed = () => {
+  const {count, price, currency, expandBasket} = useContext(BasketContext);
+
   return (
-    <Base onClick={setExpanded}>
+    <Base onClick={expandBasket}>
       <Info>
         <Count>{count}</Count>
         <Price>{price} {currency}</Price>
@@ -50,15 +54,17 @@ const BasketCollapsed = ({setExpanded, count, price, currency}) => {
 };
 
 const Basket = () => {
-  const [expanded, setExpanded] = useState(false);
-  const {basket, ...basketRest} = useContext(BasketContext);
+  const {basket, basketExpanded, basketStep} = useContext(BasketContext);
 
-  if (!(basket && basket.products.length > 0)) return <></>;
+  if(!basket || basket.products.length === 0) return <></>;
 
-  return (
-    expanded ? <BasketExpanded basket={basket} {...basketRest} setExpanded={setExpanded}/> :
-      <BasketCollapsed {...basketRest} setExpanded={() => setExpanded(true)}/>
-  );
+  if(basketExpanded) {
+    if (basketStep === BASKET_STEP.delivery) return <BasketDelivery />;
+    return <BasketDetails />
+  }
+
+  return <BasketCollapsed/>;
+
 };
 
 export default Basket;
