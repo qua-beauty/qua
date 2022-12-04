@@ -6,6 +6,7 @@ bot.start(ctx => {
 })
 
 const handler = async (event) => {
+  console.log(event);
   try {
     await bot.handleUpdate(JSON.parse(event.body));
     return { statusCode: 200, body: '' };
