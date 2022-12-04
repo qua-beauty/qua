@@ -1,10 +1,8 @@
 const { Telegraf } = require('telegraf');
-const startAction = require('./actions/start.js')
-
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.start(ctx => {
-  return startAction(ctx)
+  return ctx.reply(`Hello Freak`);
 })
 
 const handler = async (event) => {
