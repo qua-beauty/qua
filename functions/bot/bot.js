@@ -7,9 +7,10 @@ bot.start(ctx => {
 
 bot.launch();
 
-const handler = async (request, response) => {
+const handler = async (request) => {
   try {
-    return {statusCode: 200, body: ''};
+    await bot.handleUpdate(JSON.parse(request.body));
+    return { statusCode: 200, body: ''};
   } catch (e) {
     console.log(e);
     return {statusCode: 400, body: 'This endpoint is meant for bot and telegram communication'};
