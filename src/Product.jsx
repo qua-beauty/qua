@@ -10,6 +10,7 @@ const Base = styled(ButtonBase)`
   
   margin: 4px;
   min-width: 164px;
+  max-width: 200px;
   height: 240px;
 
   img {
