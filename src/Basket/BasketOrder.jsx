@@ -16,6 +16,7 @@ const expandedCss = {
 }
 
 const Base = styled(Box)`
+  background: linear-gradient(136.18deg, #D5DEE7 -19.7%, #FFAFBD -19.7%, #C9FFBF 21.36%, #BFFFF3 101.63%);
   position: relative;
   text-align: center;
   

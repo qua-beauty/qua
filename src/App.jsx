@@ -35,7 +35,8 @@ const BasketBox = styled('div')`
   background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
   backdrop-filter: blur(2px);
   border-radius: 24px 24px 0 0;
-  
+
+  overflow: hidden;
   position: fixed;
   bottom: 0;
   right: 0;
