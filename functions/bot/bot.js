@@ -17,11 +17,15 @@ bot.start(async (ctx) => {
     telegramUser: user
   })
 
-  const productsMessage = order.products.reduce(async (acc, product) => {
+  console.log(order.data());
+
+  const { products } = order.data();
+
+  const productsMessage = products.reduce(async (acc, product) => {
     return acc + `${product.count} ${product.title} \n `
   }, '')
 
-  const sum = order.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0)
+  const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0)
 
   return ctx.reply(`
     Здравствуйте, мы сформировали ваш заказ \n
