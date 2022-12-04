@@ -1,9 +1,24 @@
 const {Telegraf} = require('telegraf');
+const {firestore} = require('./firebase.js');
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
-bot.start((ctx, par) => {
-  console.log(ctx, par);
-  return ctx.reply(`Hello Freak`);
+bot.start(async (ctx) => {
+  console.log(ctx.update.message)
+  if(!ctx.startPayload) return ctx.reply(`No Payload, eee`);
+
+  const user = ctx.update.message.from;
+  const orderId = ctx.startPayload;
+
+  const orderRef = await firestore.collection('basket').doc(orderId);
+  const order = await orderRef.get();
+
+  if(order.exists) {
+    await orderRef.update({
+      telegramUser: user
+    })
+  }
+
+  return ctx.reply(`Hello` + user.user_name);
 });
 
 const handler = async (event) => {
