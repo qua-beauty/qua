@@ -1,16 +1,24 @@
 import React, {useContext} from 'react';
-import {styled, Typography} from '@mui/material';
+import {Box, styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
 import BasketDetails from './BasketDetails.jsx';
 import BasketDelivery from './BasketDelivery.jsx';
 import {BASKET_STEP} from './BasketProvider.jsx';
 
-const Base = styled('div')`
-  padding: 40px 20px 80px;
-  height: 124px;
+const withOrderCss = {
+  padding: '20px',
+}
+
+const withoutOrderCss = {
+  padding: '20px 20px 80px',
+  height: '120px',
+}
+
+const Base = styled(Box)`
+  padding: 20px 20px 20px;
 
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -40,10 +48,10 @@ const Action = styled(Typography)`
 `;
 
 const BasketCollapsed = () => {
-  const {count, price, currency, expandBasket} = useContext(BasketContext);
+  const {count, price, currency, expandBasket, order} = useContext(BasketContext);
 
   return (
-    <Base onClick={expandBasket}>
+    <Base onClick={expandBasket} sx={order ? withOrderCss : withoutOrderCss}>
       <Info>
         <Count>{count}</Count>
         <Price>{price} {currency}</Price>
