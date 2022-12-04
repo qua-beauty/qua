@@ -1,6 +1,7 @@
 [build]
+  command = "vite build"
   functions = "functions"
-  command = "netlify-lambda install && mkdir ./public"
+  publish = "dist"
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
