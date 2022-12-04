@@ -18,7 +18,7 @@ bot.start(async (ctx) => {
     })
   }
 
-  return ctx.reply(`Hello` + user.user_name);
+  return ctx.reply(`Hello` + user.username);
 });
 
 const handler = async (event) => {
