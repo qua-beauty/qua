@@ -17,11 +17,9 @@ bot.start(async (ctx) => {
     telegramUser: user
   })
 
-  console.log(order.data());
-
   const { products } = order.data();
 
-  const productsMessage = products.reduce(async (acc, product) => {
+  const productsMessage = products.reduce((acc, product) => {
     return acc + `${product.count} ${product.title} \n `
   }, '')
 
@@ -31,8 +29,7 @@ bot.start(async (ctx) => {
     Здравствуйте, мы сформировали ваш заказ \n
     ${productsMessage}
     на общую сумму ${sum} \n
-    Подскажите куда привезти товар?
-  ` + user.username);
+    Подскажите куда привезти товар?`);
 });
 
 const handler = async (event) => {
