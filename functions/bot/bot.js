@@ -1,19 +1,17 @@
-const { Telegraf } = require('telegraf');
+const {Telegraf} = require('telegraf');
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.start(ctx => {
   return ctx.reply(`Hello Freak`);
-})
+});
 
-const handler = async (event) => {
-  console.log(event);
+const handler = async (request, response) => {
   try {
-    await bot.handleUpdate(JSON.parse(event.body));
-    return { statusCode: 200, body: '' };
+    return bot.handleUpdate(request.body, response);
   } catch (e) {
-    console.log(e)
-    return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' };
+    console.log(e);
+    return {statusCode: 400, body: 'This endpoint is meant for bot and telegram communication'};
   }
-}
+};
 
-module.exports = { handler }
+module.exports = {handler};
