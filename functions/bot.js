@@ -5,12 +5,12 @@ bot.start(ctx => {
   return ctx.reply(`Hello Freak`);
 });
 
-bot.launch();
-
-const handler = async (request) => {
+const handler = async (event) => {
   try {
-    await bot.handleUpdate(JSON.parse(request.body));
-    return { statusCode: 200, body: ''};
+    await bot.handleUpdate(JSON.parse(event.body)).then(() => {
+      console.log('Received an update from Telegram!', event.body);
+    });
+    return {statusCode: 200};
   } catch (e) {
     console.log(e);
     return {statusCode: 400, body: 'This endpoint is meant for bot and telegram communication'};
