@@ -5,9 +5,11 @@ bot.start(ctx => {
   return ctx.reply(`Hello Freak`);
 });
 
+bot.launch();
+
 const handler = async (request, response) => {
   try {
-    return bot.handleUpdate(request.body, response);
+    return {statusCode: 200, body: ''};
   } catch (e) {
     console.log(e);
     return {statusCode: 400, body: 'This endpoint is meant for bot and telegram communication'};
