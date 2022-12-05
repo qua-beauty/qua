@@ -4,10 +4,16 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import {auth, logout} from './firebase.js';
+import logotypeSvg from './assets/logotype.svg';
 
 const Base = styled(AppBar)`
   border-bottom: none;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+`;
+
+const Logo = styled(Typography)`
+  padding: 28px 20px 0;
+  text-align: center;
 `;
 
 const Header = () => {
@@ -24,9 +30,9 @@ const Header = () => {
 
     <Base position="static" color="transparent" variant="outlined" elevation={0}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-          lanka.cafe
-        </Typography>
+        <Logo variant="h6" component="div" sx={{flexGrow: 1}}>
+          <img src={logotypeSvg} alt="lanka.cafe"/>
+        </Logo>
         {auth.currentUser && (
           <div>
             <IconButton

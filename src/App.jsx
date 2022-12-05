@@ -5,9 +5,16 @@ import Basket from './Basket/Basket.jsx';
 import CatalogContext from './Catalog/CatalogContext.jsx';
 import Header from './Header.jsx';
 import BasketOrder from './Basket/BasketOrder.jsx';
+import Footer from './Footer.jsx';
 
 const Base = styled('div')`
-  padding: 0 0 124px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const Main = styled('main')`
 `;
 
 const Tags = styled('div')`
@@ -33,7 +40,7 @@ const Catalog = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 4px;
+  padding: 0 10px;
 `;
 
 const BasketBox = styled('div')`
@@ -62,27 +69,30 @@ function App() {
 
     <Base className="App">
       <Header/>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
-        <Tags>
-          {category && category.map(cat => {
-            return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`}
-                         color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined"
-                         onClick={handleFilter(cat.id)}/>;
+      <Main>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <Tags>
+            {category && category.map(cat => {
+              return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`}
+                           color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined"
+                           onClick={handleFilter(cat.id)}/>;
+            })}
+          </Tags>
+        </Box>
+        <Catalog>
+          {catalog && catalog.map(product => {
+            return <Product key={product.id} {...product} />;
           })}
-        </Tags>
-      </Box>
-      <Catalog>
-        {catalog && catalog.map(product => {
-          return <Product key={product.id} {...product} />;
-        })}
-      </Catalog>
+        </Catalog>
+      </Main>
       <BasketBox>
         <Basket/>
         <BasketOrder/>
       </BasketBox>
+      <Footer />
     </Base>
   );
 }

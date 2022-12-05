@@ -14,6 +14,16 @@ const theme = createTheme({
     primary: {
       main: '#4C3CAC'
     }
+  },
+  components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 20,
+          paddingRight: 20
+        }
+      }
+    }
   }
 });
 

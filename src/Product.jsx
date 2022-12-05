@@ -10,7 +10,7 @@ const Base = styled(ButtonBase)`
   border-radius: 16px;
 
   overflow: hidden;
-  margin: 4px;
+  margin: 10px;
   min-width: 164px;
   max-width: 200px;
   height: 240px;
@@ -27,9 +27,10 @@ const Image = styled('div')`
   display: flex;
   align-items: center;
   overflow: hidden;
+  border-radius: 16px;
   
   img {
-    border-radius: 8px;
+    
     margin-top: 0;
 
     width: 100%;
@@ -90,7 +91,7 @@ const Product = (product) => {
   return (
     <Base component="div" onClick={added === 0 ? handleClick : () => {
     }} sx={{
-      background: added ? '#edd9ff' : '#f0eff5'
+      background: added ? '#edd9ff' : 'inherit'
     }}>
       <Image>
         <img src={photo} alt=""/>
