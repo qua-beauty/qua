@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {collection, doc, setDoc, query, where, getDocs, getDoc} from 'firebase/firestore';
+import {collection, doc, setDoc, query, where, getDocs, getDoc, onSnapshot} from 'firebase/firestore';
+import {signInWithCustomToken} from 'firebase/auth';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
@@ -17,10 +18,10 @@ export const BASKET_STEP = {
 };
 
 const BasketProvider = ({children, ...rest}) => {
-  const [user, ] = useAuthState(auth);
+  const [user,] = useAuthState(auth);
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
-  const [currency, ] = useState('LKR');
+  const [currency,] = useState('LKR');
 
   const [basketExpanded, setBasketExpanded] = useState(false);
   const [basketStep, setBasketStep] = useState(null);
@@ -41,7 +42,7 @@ const BasketProvider = ({children, ...rest}) => {
       });
     }
 
-    setBasket({ products });
+    setBasket({products});
   };
 
   const handleProductDelete = (product) => {
@@ -54,31 +55,38 @@ const BasketProvider = ({children, ...rest}) => {
       return p;
     });
 
-    setBasket({ products });
+    setBasket({products});
   };
 
-  const handleMakeOrder = async ({ address, phone }) => {
+  const handleMakeOrder = async () => {
     const orderRef = doc(collection(firestore, 'basket'));
     const order = {
       products: basket.products,
       status: STATUS.cooking,
       date: new Date(),
-      user: user.uid,
-      address,
-      phone,
     };
 
     await setDoc(orderRef, order);
-    const orderId = await getDoc(orderRef);
+    const orderSnap = await getDoc(orderRef);
 
     setOrder({
       ...order,
-      id: orderId
+      id: orderSnap.id
     });
 
     setBasket(null);
     setBasketStep(BASKET_STEP.details);
     setBasketExpanded(false);
+
+    window.open(`https://t.me/lankacafebot?start=${orderSnap.id}`);
+
+    onSnapshot(orderRef, async (orderSnap) => {
+      const data = orderSnap.data();
+
+      if (!auth.currentUser && data.token) {
+        await signInWithCustomToken(auth, data.token);
+      }
+    });
   };
 
   useEffect(() => {

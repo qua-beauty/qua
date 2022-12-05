@@ -1,15 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
 import Basket from './Basket/Basket.jsx';
 import CatalogContext from './Catalog/CatalogContext.jsx';
 import Header from './Header.jsx';
-import { signInAnonymously } from "firebase/auth";
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth} from './firebase.js';
 import BasketOrder from './Basket/BasketOrder.jsx';
 
 const Base = styled('div')`
+  
 `;
 
 const Tags = styled('div')`
@@ -47,27 +45,11 @@ const BasketBox = styled('div')`
 `;
 
 function App() {
-  const [user, loading] = useAuthState(auth);
   const {catalog, category, filter, filters} = useContext(CatalogContext);
 
   const handleFilter = (categoryId) => () => {
     filter('category', `${categoryId}`);
   }
-
-  useEffect(() => {
-    if (loading) return;
-    if (!user) {
-      signInAnonymously(auth)
-        .then(() => {
-          console.log('signed');
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ...
-        });
-    }
-  }, [user])
 
   return (
     <Base className="App">

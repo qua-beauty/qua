@@ -1,9 +1,10 @@
 const {Telegraf} = require('telegraf');
 const {firestore} = require('./firebase.js');
+const firebase = require('firebase-admin');
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.start(async (ctx) => {
-  if(!ctx.startPayload) return ctx.reply(`No Payload, eee`);
+  if (!ctx.startPayload) return ctx.reply(`No Payload, eee`);
 
   const user = ctx.update.message.from;
   const orderId = ctx.startPayload;
@@ -11,19 +12,20 @@ bot.start(async (ctx) => {
   const orderRef = await firestore.collection('basket').doc(orderId);
   const order = await orderRef.get();
 
-  if(!order.exists) return ctx.reply('No order found');
+  if (!order.exists) return ctx.reply('No order found');
 
+  const token = await firebase.auth().createCustomToken(user.id.toString());
   await orderRef.update({
-    telegramUser: user
-  })
+    user: user.id,
+    token
+  });
 
-  const { products } = order.data();
-
+  const {products} = order.data();
   const productsMessage = products.reduce((acc, product) => {
-    return acc + `${product.count} ${product.title} \n `
-  }, '')
+    return acc + `${product.count} ${product.title} \n `;
+  }, '');
 
-  const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0)
+  const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
 
   return ctx.reply(`
     Здравствуйте, мы сформировали ваш заказ \n
