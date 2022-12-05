@@ -97,7 +97,7 @@ const Product = (product) => {
         <img src={photo} alt=""/>
       </Image>
       <Title>{title}</Title>
-      {added === 0 && <Chip color="primary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
+      {added === 0 && <Chip color="secondary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
         <span>{added}</span>

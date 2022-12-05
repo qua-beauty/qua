@@ -48,6 +48,7 @@ const BasketBox = styled('div')`
   backdrop-filter: blur(2px);
   border-radius: 24px 24px 0 0;
 
+  z-index: 100;
   overflow: hidden;
   position: fixed;
   bottom: 0;
