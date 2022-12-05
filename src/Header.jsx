@@ -7,12 +7,13 @@ import {auth, logout} from './firebase.js';
 import logotypeSvg from './assets/logotype.svg';
 
 const Base = styled(AppBar)`
+  border: none;
   border-bottom: none;
   margin-bottom: 16px;
 `;
 
 const Logo = styled(Typography)`
-  padding: 28px 20px 0;
+  padding: 36px 20px 16px;
   text-align: center;
 `;
 
