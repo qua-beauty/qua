@@ -6,23 +6,33 @@ const Base = styled(ButtonBase)`
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   border-radius: 16px;
-  
+
+  overflow: hidden;
   margin: 4px;
   min-width: 164px;
   max-width: 200px;
   height: 240px;
-
-  img {
-    border-radius: 50%;
-    margin-top: 0;
-
-    max-width: 120px;
-    max-height: 120px;
-  }
+  
+  
 
   &.Mui-disabled {
     pointer-events: all;
+  }
+`;
+
+const Image = styled('div')`
+  height: 140px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  
+  img {
+    border-radius: 8px;
+    margin-top: 0;
+
+    width: 100%;
   }
 `;
 
@@ -80,9 +90,11 @@ const Product = (product) => {
   return (
     <Base component="div" onClick={added === 0 ? handleClick : () => {
     }} sx={{
-      background: added ? '#F0D9FF' : 'inherit'
+      background: added ? '#edd9ff' : '#f0eff5'
     }}>
-      <img src={photo} alt=""/>
+      <Image>
+        <img src={photo} alt=""/>
+      </Image>
       <Title>{title}</Title>
       {added === 0 && <Chip color="primary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
       {added > 0 && <PlusMinus>

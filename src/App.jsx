@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Chip, styled} from '@mui/material';
+import {Box, Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
 import Basket from './Basket/Basket.jsx';
 import CatalogContext from './Catalog/CatalogContext.jsx';
@@ -7,19 +7,25 @@ import Header from './Header.jsx';
 import BasketOrder from './Basket/BasketOrder.jsx';
 
 const Base = styled('div')`
-  
+  padding: 0 0 124px;
 `;
 
 const Tags = styled('div')`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   overflow: auto;
 
-  margin-bottom: 16px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-bottom: 20px;
 
   > .MuiChip-root {
-    margin-left: 8px;
+    font-size: 14px;
+
+    + .MuiChip-root {
+      margin-left: 8px;
+    }
   }
 `;
 
@@ -27,6 +33,7 @@ const Catalog = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 4px;
 `;
 
 const BasketBox = styled('div')`
@@ -49,16 +56,24 @@ function App() {
 
   const handleFilter = (categoryId) => () => {
     filter('category', `${categoryId}`);
-  }
+  };
 
   return (
+
     <Base className="App">
-      <Header />
-      <Tags>
-        {category && category.map(cat => {
-          return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`} color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined" onClick={handleFilter(cat.id)}/>
-        })}
-      </Tags>
+      <Header/>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <Tags>
+          {category && category.map(cat => {
+            return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`}
+                         color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined"
+                         onClick={handleFilter(cat.id)}/>;
+          })}
+        </Tags>
+      </Box>
       <Catalog>
         {catalog && catalog.map(product => {
           return <Product key={product.id} {...product} />;
@@ -66,7 +81,7 @@ function App() {
       </Catalog>
       <BasketBox>
         <Basket/>
-        <BasketOrder />
+        <BasketOrder/>
       </BasketBox>
     </Base>
   );

@@ -27,7 +27,7 @@ const Header = () => {
         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
           lanka.cafe
         </Typography>
-        {auth && (
+        {auth.currentUser && (
           <div>
             <IconButton
               size="large"
