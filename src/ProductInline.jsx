@@ -1,5 +1,6 @@
 import React from 'react';
 import {styled, Typography} from '@mui/material';
+import {getCurrencyTitle} from './utils.js';
 
 const Base = styled('div')`
   display: flex;
@@ -48,7 +49,7 @@ const ProductInline = (product) => {
         <Title>{title}</Title>
       </Info>
       <Count>{count}</Count>
-      <Price>{price} {currency}</Price>
+      <Price>{price} {getCurrencyTitle(currency)}</Price>
     </Base>
   );
 };

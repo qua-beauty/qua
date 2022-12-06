@@ -24,6 +24,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.40.0",
     "react-router-dom": "^6.4.4",
+    "react-timer-hook": "^3.0.5",
     "telegraf": "^4.11.2"
   },
   "devDependencies": {

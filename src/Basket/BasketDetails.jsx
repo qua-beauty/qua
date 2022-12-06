@@ -4,6 +4,7 @@ import ProductInline from '../ProductInline.jsx';
 import {Close} from '@mui/icons-material';
 import BasketContext from './BasketContext.jsx';
 import {BASKET_STEP} from './BasketProvider.jsx';
+import {getCurrencyTitle} from '../utils.js';
 
 const Base = styled('div')`
   padding: 40px 20px 80px;
@@ -27,20 +28,43 @@ const CloseButton = styled(IconButton)`
   right: 8px;
 `;
 
+const SubmitButton = styled(Button)`
+  text-transform: none;
+`;
+
+const ButtonSubtitle = styled('span')`
+  font-size: 14px;
+  
+`;
+const ButtonTitle = styled('span')`
+  margin-left: 32px;
+  font-size: 16px;
+  
+  span {
+    margin-left: 8px;
+  }
+`;
+
 const BasketDetails = () => {
-  const {basket, price, setBasketStep, collapseBasket} = useContext(BasketContext);
+  const {basket, price, currency, timeForCook, setBasketStep, collapseBasket} = useContext(BasketContext);
 
   return (
     <Base>
       <CloseButton onClick={collapseBasket}>
         <Close/>
       </CloseButton>
-      <Title variant="h5">👨‍🍳 We are ready to cook!</Title>
+      <Title variant="h5">👨‍🍳 Мы готовы к готовке!</Title>
       <Products>
         {basket && basket.products.map(product =>
           <ProductInline key={product.id} {...product} />)}
       </Products>
-      <Button variant="contained" color="primary" size="large" onClick={() => setBasketStep(BASKET_STEP.delivery)}>Checkout {price}</Button>
+      <SubmitButton onClick={() => setBasketStep(BASKET_STEP.delivery)}
+              variant="contained"
+              color="primary"
+              size="large">
+        <ButtonSubtitle>Продолжить</ButtonSubtitle>
+        <ButtonTitle>{price} {getCurrencyTitle(currency)}<span>{timeForCook ? ' 􀐱 ' + timeForCook: ''}</span></ButtonTitle>
+      </SubmitButton>
     </Base>
   );
 };

@@ -4,6 +4,7 @@ import BasketContext from './BasketContext.jsx';
 import BasketDetails from './BasketDetails.jsx';
 import BasketDelivery from './BasketDelivery.jsx';
 import {BASKET_STEP} from './BasketProvider.jsx';
+import {getCurrencyTitle} from '../utils.js';
 
 const withOrderCss = {
   padding: '20px',
@@ -54,7 +55,7 @@ const BasketCollapsed = () => {
     <Base onClick={expandBasket} sx={order ? withOrderCss : withoutOrderCss}>
       <Info>
         <Count>{count}</Count>
-        <Price>{price} {currency}</Price>
+        <Price>{price} {getCurrencyTitle(currency)}</Price>
       </Info>
       <Action>Checkout 􀄫</Action>
     </Base>

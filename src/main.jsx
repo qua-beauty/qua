@@ -26,6 +26,14 @@ const theme = createTheme({
           paddingRight: 20
         }
       }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          height: 48,
+          borderRadius: 16
+        }
+      }
     }
   }
 });

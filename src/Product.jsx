@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ButtonBase, Chip, styled, Typography} from '@mui/material';
 import BasketContext from './Basket/BasketContext.jsx';
+import {getCurrencyTitle} from './utils.js';
 
 const Base = styled(ButtonBase)`
   flex: 1;
@@ -14,8 +15,7 @@ const Base = styled(ButtonBase)`
   min-width: 164px;
   max-width: 200px;
   height: 240px;
-  
-  
+
 
   &.Mui-disabled {
     pointer-events: all;
@@ -28,9 +28,9 @@ const Image = styled('div')`
   align-items: center;
   overflow: hidden;
   border-radius: 16px;
-  
+
   img {
-    
+
     margin-top: 0;
 
     width: 100%;
@@ -43,7 +43,7 @@ const PlusMinus = styled('div')`
 
   > * {
   }
-  
+
   > span {
     display: inline-block;
     min-width: 32px;
@@ -55,7 +55,7 @@ const ChipButton = styled(Chip)`
   background: #fff;
   width: 40px;
   height: 32px;
-  
+
 `;
 
 const Title = styled(Typography)`
@@ -82,10 +82,10 @@ const Product = (product) => {
   };
 
   useEffect(() => {
-    if(!basket) {
+    if (!basket) {
       setAdded(0);
     }
-  }, [basket])
+  }, [basket]);
 
 
   return (
@@ -97,7 +97,9 @@ const Product = (product) => {
         <img src={photo} alt=""/>
       </Image>
       <Title>{title}</Title>
-      {added === 0 && <Chip color="secondary" label={`${price} ${currency}  􀐱${time}`}></Chip>}
+
+      {added === 0 && <Chip color="secondary" label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
+
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
         <span>{added}</span>

@@ -76,7 +76,7 @@ function App() {
           justifyContent: 'center'
         }}>
           <Tags>
-            {category && category.map(cat => {
+            {category && category.sort((a,b) => a.order - b.order ).map(cat => {
               return <Chip key={cat.id} label={`${cat.icon} ${cat.title}`}
                            color={filters['category'] === cat.id ? 'primary' : 'default'} variant="outlined"
                            onClick={handleFilter(cat.id)}/>;

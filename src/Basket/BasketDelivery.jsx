@@ -4,6 +4,7 @@ import {ArrowBack, Close} from '@mui/icons-material';
 import BasketContext from './BasketContext.jsx';
 import {useForm, Controller} from 'react-hook-form';
 import {MuiTelInput, matchIsValidTel} from 'mui-tel-input';
+import {getCurrencyTitle} from '../utils.js';
 
 const Base = styled('div')`
   padding: 40px 20px 80px;
@@ -40,8 +41,21 @@ const BackButton = styled(IconButton)`
   left: 8px;
 `;
 
+const ButtonSubtitle = styled('span')`
+  font-size: 14px;
+  
+`;
+const ButtonTitle = styled('span')`
+  margin-left: 32px;
+  font-size: 16px;
+  
+  span {
+    margin-left: 8px;
+  }
+`;
+
 const BasketDelivery = () => {
-  const {collapseBasket, makeOrder, setBasketStep} = useContext(BasketContext);
+  const {collapseBasket, makeOrder, setBasketStep, price, currency, timeForCook} = useContext(BasketContext);
   const {handleSubmit, control, formState: {isValid}} = useForm();
   const [loading, setLoading] = useState(false);
 
@@ -62,20 +76,20 @@ const BasketDelivery = () => {
         <ArrowBack/>
       </BackButton>
       <form onSubmit={handleSubmit(handleMakeOrder)}>
-        <Title variant="h5">🛵 Delivery</Title>
+        <Title variant="h5">🛵 Куда доставляем?</Title>
         <Controller
           name="phone"
           control={control}
           rules={{validate: matchIsValidTel, required: true}}
           render={({field: {onChange, value}, fieldState}) => (
             <PhoneField
-              label="Contact Number"
+              label="Контактный телефон"
               id="outlined-size-small"
               size="small"
               margin="normal"
               variant="filled"
               fullWidth={true}
-              helperText={fieldState.invalid ? 'Contact Number is invalid, please try different number' : 'To call you and approve the order'}
+              helperText={fieldState.invalid ? 'Телефон неверный, введите другой' : 'Чтобы подтвердить ваш заказ'}
               type="tel"
               value={value}
               onChange={onChange}
@@ -88,7 +102,7 @@ const BasketDelivery = () => {
           control={control}
           render={({field: {onChange, value}, fieldState}) => (
             <Field
-              label="Hotel or address"
+              label="Отель, вилла или адрес"
               id="outlined-size-small"
               size="small"
               margin="normal"
@@ -96,14 +110,17 @@ const BasketDelivery = () => {
               rows={2}
               variant="filled"
               fullWidth={true}
-              helperText={fieldState.invalid ? 'Address is invalid' : 'Currier will find you by this address'}
+              helperText={fieldState.invalid ? 'А доставить-то куда?' : 'Курьер доставит заказ на этот адрес'}
               value={value}
               onChange={onChange}
               error={fieldState.invalid}
             />
           )}
         />
-        <SubmitButton variant="contained" type="submit" disabled={loading}>Make Order</SubmitButton>
+        <SubmitButton variant="contained" type="submit" disabled={loading}>
+          <ButtonSubtitle>Оформить заказ</ButtonSubtitle>
+          <ButtonTitle>{price} {getCurrencyTitle(currency)}<span>{timeForCook ? ' 􀐱 ' + timeForCook: ''}</span></ButtonTitle>
+        </SubmitButton>
       </form>
     </Base>
   );

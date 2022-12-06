@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {collection, doc, setDoc, query, where, getDocs, getDoc, onSnapshot} from 'firebase/firestore';
 import {signInWithCustomToken} from 'firebase/auth';
 import {useAuthState} from 'react-firebase-hooks/auth';
@@ -105,16 +105,35 @@ const BasketProvider = ({children, ...rest}) => {
     }
   }, [user]);
 
-  const count = basket && basket.products.reduce((acc, product) => acc + parseInt(product.count), 0);
-  const price = basket && basket.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
+  const getTimeForCook = () => {
+
+    if (!basket) return null;
+
+    const timesCount = basket.products.length + 1;
+    const timesSum = basket.products.reduce((acc, product) => acc + parseInt(product.time), 0);
+    const timesAvg = timesSum / timesCount;
+
+    return timesAvg + timesSum * ((timesCount - 1) * 0.1);
+  };
+
+  const getCount = () => {
+    if (!basket) return null;
+    return basket.products.reduce((acc, product) => acc + parseInt(product.count), 0);
+  };
+
+  const getSum = () => {
+    if (!basket) return 0;
+    return basket.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
+  };
 
   return (
     <BasketContext.Provider {...rest} value={{
       basket,
       currency,
       order,
-      count,
-      price,
+      count: getCount(),
+      price: getSum(),
+      timeForCook: getTimeForCook(),
       basketExpanded,
       basketStep,
       setBasketExpanded,
