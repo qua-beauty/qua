@@ -5,11 +5,11 @@ const welcomeReply = (ctx) => {
     return ctx.reply(message, {
         ...Markup.keyboard([
             Markup.button.webApp("🥥 Открыть приложение", "https://lanka.cafe"),
-        ])
+        ]).oneTime()
     });
 }
 
-const orderWelcomeReply = (ctx, order) => {
+const orderWelcomeReply = async (ctx, order) => {
     const {products} = order;
 
     const productsMessage = products.reduce((acc, product) => {
@@ -24,11 +24,7 @@ ${productsMessage}
 Подскажите куда привезти товар? \n
 (можете прикрепить локацию или отправить адрес)`;
 
-    return ctx.reply(message, {
-        one_time_keyboard: true,
-        resize_keyboard: true,
-        input_field_placeholder: 'Отправьте адрес или прикрепите локацию',
-    });
+    return ctx.reply(message);
 }
 
 module.exports = {
