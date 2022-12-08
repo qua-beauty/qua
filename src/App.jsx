@@ -6,6 +6,7 @@ import CatalogContext from './Catalog/CatalogContext.jsx';
 import Header from './Header.jsx';
 import BasketOrder from './Basket/BasketOrder.jsx';
 import Footer from './Footer.jsx';
+import {webApp} from './telegramUtils.js';
 
 const Base = styled('div')`
   padding: 0;
@@ -23,6 +24,7 @@ const Tags = styled('div')`
   flex-wrap: nowrap;
   overflow: auto;
 
+  margin-top: 20px;
   padding-right: 20px;
   padding-left: 20px;
   margin-bottom: 20px;
@@ -37,10 +39,22 @@ const Tags = styled('div')`
 `;
 
 const Catalog = styled('div')`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 10px;
+  padding: 0 5px 96px;
+  
+  max-width: 800px;
+  margin: -10px auto 0;
+  
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+
+  @media (min-width: 560px) {
+    grid-template-columns: 33% 33% 33%;
+  }
+  
+  @media (min-width: 720px) {
+    grid-template-columns: 25% 25% 25% 25%;
+  }
 `;
 
 const BasketBox = styled('div')`
@@ -69,7 +83,8 @@ function App() {
   return (
 
     <Base className="App">
-      <Header/>
+      {!webApp && <Header />}
+
       <Main>
         <Box sx={{
           display: 'flex',
@@ -93,7 +108,7 @@ function App() {
         <Basket/>
         <BasketOrder/>
       </BasketBox>
-      <Footer />
+      {!webApp && <Footer />}
     </Base>
   );
 }

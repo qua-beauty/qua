@@ -3,18 +3,20 @@ import {ButtonBase, Chip, styled, Typography} from '@mui/material';
 import BasketContext from './Basket/BasketContext.jsx';
 import {getCurrencyTitle} from './utils.js';
 
-const Base = styled(ButtonBase)`
+const Base = styled('div')`
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   border-radius: 16px;
 
+  padding-top: 10px;
+
+  align-items: center;
   overflow: hidden;
-  margin: 10px;
-  min-width: 164px;
-  max-width: 200px;
-  height: 240px;
+  margin: 5px;
+  box-sizing: border-box;
+  height: 208px;
 
 
   &.Mui-disabled {
@@ -23,17 +25,15 @@ const Base = styled(ButtonBase)`
 `;
 
 const Image = styled('div')`
-  height: 140px;
+  height: 120px;
   display: flex;
   align-items: center;
   overflow: hidden;
-  border-radius: 16px;
 
   img {
-
+    border-radius: 50%;
     margin-top: 0;
-
-    width: 100%;
+    width: 120px;
   }
 `;
 
@@ -59,7 +59,9 @@ const ChipButton = styled(Chip)`
 `;
 
 const Title = styled(Typography)`
-  margin: 12px 0;
+  margin: 8px 0;
+  font-size: 13px;
+  font-weight: 500;
 `;
 
 
@@ -89,8 +91,7 @@ const Product = (product) => {
 
 
   return (
-    <Base component="div" onClick={added === 0 ? handleClick : () => {
-    }} sx={{
+    <Base component="div" sx={{
       background: added ? '#edd9ff' : 'inherit'
     }}>
       <Image>
@@ -98,7 +99,7 @@ const Product = (product) => {
       </Image>
       <Title>{title}</Title>
 
-      {added === 0 && <Chip color="secondary" label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
+      {added === 0 && <Chip color="secondary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
 
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>

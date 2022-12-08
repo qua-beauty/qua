@@ -5,14 +5,15 @@ import BasketDetails from './BasketDetails.jsx';
 import BasketDelivery from './BasketDelivery.jsx';
 import {BASKET_STEP} from './BasketProvider.jsx';
 import {getCurrencyTitle} from '../utils.js';
+import {webApp} from '../telegramUtils.js';
 
 const withOrderCss = {
   padding: '20px',
 }
 
 const withoutOrderCss = {
-  padding: '20px 20px 80px',
-  height: '120px',
+  padding: '20px 20px 20px',
+  height: '72px',
 }
 
 const Base = styled(Box)`
@@ -51,13 +52,15 @@ const Action = styled(Typography)`
 const BasketCollapsed = () => {
   const {count, price, currency, expandBasket, order} = useContext(BasketContext);
 
+
+
   return (
     <Base onClick={expandBasket} sx={order ? withOrderCss : withoutOrderCss}>
       <Info>
         <Count>{count}</Count>
         <Price>{price} {getCurrencyTitle(currency)}</Price>
       </Info>
-      <Action>Checkout 􀄫</Action>
+      <Action>Продолжить 􀄫</Action>
     </Base>
   );
 };

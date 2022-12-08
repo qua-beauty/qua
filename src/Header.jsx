@@ -15,6 +15,8 @@ const Base = styled(AppBar)`
 const Logo = styled(Typography)`
   padding: 36px 20px 16px;
   text-align: center;
+  
+  cursor: pointer;
 `;
 
 const Header = () => {

@@ -46,7 +46,7 @@ const ButtonTitle = styled('span')`
 `;
 
 const BasketDetails = () => {
-  const {basket, price, currency, timeForCook, setBasketStep, collapseBasket} = useContext(BasketContext);
+  const {basket, price, currency, timeForCook, makeOrder, collapseBasket} = useContext(BasketContext);
 
   return (
     <Base>
@@ -58,7 +58,7 @@ const BasketDetails = () => {
         {basket && basket.products.map(product =>
           <ProductInline key={product.id} {...product} />)}
       </Products>
-      <SubmitButton onClick={() => setBasketStep(BASKET_STEP.delivery)}
+      <SubmitButton onClick={() => makeOrder()}
               variant="contained"
               color="primary"
               size="large">
