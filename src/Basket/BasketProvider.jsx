@@ -6,12 +6,6 @@ import {auth, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
 import {webApp} from '../telegramUtils.js';
 
-export const STATUS = {
-  cooking: 'Cooking',
-  cooked: 'Cooked',
-  delivery: 'Delivering',
-};
-
 export const BASKET_STEP = {
   details: 'DETAILS',
   delivery: 'DELIVERY',
@@ -60,11 +54,11 @@ const BasketProvider = ({children, ...rest}) => {
   };
 
   const handleMakeOrder = async () => {
-    const orderRef = doc(collection(firestore, 'basket'));
+    const orderRef = doc(collection(firestore, 'orders'));
     const order = {
       products: basket.products,
-      status: STATUS.cooking,
       date: new Date(),
+      user: user.uid
     };
 
     await setDoc(orderRef, order);
@@ -79,10 +73,19 @@ const BasketProvider = ({children, ...rest}) => {
     setBasketStep(BASKET_STEP.details);
     setBasketExpanded(false);
 
-    if (webApp && webApp.sendData) {
-      webApp.sendData(JSON.stringify({
-        orderId: orderSnap.id
-      }));
+    if (webApp) {
+      const userRef = doc(collection(firestore, 'users'), webApp.initDataUnsafe.user.id.toString());
+      const userSnap = await getDoc(userRef);
+      const clientId = userSnap.data().clientId;
+
+      await fetch(`https://lanka.cafe/api/salebotCreateOrder`, {
+        method: 'POST',
+        body: JSON.stringify({
+          user_id: userSnap.id,
+          client_id: clientId,
+          order_id: orderSnap.id
+        })
+      });
 
       webApp.close();
     } else {
@@ -100,8 +103,8 @@ const BasketProvider = ({children, ...rest}) => {
 
   useEffect(() => {
     if (user) {
-      const basket = collection(firestore, 'basket');
-      const q = query(basket, where('user', '==', user.uid), where('status', '==', STATUS.cooking));
+      const basket = collection(firestore, 'orders');
+      const q = query(basket, where('user', '==', user.uid));
 
       getDocs(q).then(docs => {
         docs.forEach((doc) => {
