@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Box, Chip, styled} from '@mui/material';
 import Product from './Product.jsx';
 import Basket from './Basket/Basket.jsx';
@@ -7,6 +7,7 @@ import Header from './Header.jsx';
 import BasketOrder from './Basket/BasketOrder.jsx';
 import Footer from './Footer.jsx';
 import {webApp} from './telegramUtils.js';
+import useAuth from './Account/auth.js';
 
 const Base = styled('div')`
   padding: 0;
@@ -79,6 +80,10 @@ function App() {
   const handleFilter = (categoryId) => () => {
     filter('category', `${categoryId}`);
   };
+
+  useEffect(() => {
+    useAuth();
+  }, [])
 
   return (
 
