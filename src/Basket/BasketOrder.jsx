@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {Box, Button, css, styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
-import ProductThumbs from '../ProductThumbs.jsx';
+import ProductThumbs from '../Catalog/ProductThumbs.jsx';
 
 const collapsedCss = {
   padding: '16px 16px 80px',

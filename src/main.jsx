@@ -34,6 +34,13 @@ const theme = createTheme({
           borderRadius: 16
         }
       }
+    },
+    MuiSkeleton: {
+      styleOverrides: {
+        rounded: {
+          borderRadius: '16px'
+        }
+      }
     }
   }
 });
