@@ -7,7 +7,7 @@ const Base = styled('div')`
   flex-wrap: nowrap;
   overflow: auto;
 
-  padding-left: 20px;
+  padding: 20px;
   
   > * {
     margin-right: 16px;

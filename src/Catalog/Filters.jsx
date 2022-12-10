@@ -11,9 +11,7 @@ const Base = styled('div')`
   flex-wrap: nowrap;
   overflow: auto;
   
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding: 20px;
 
   > .MuiChip-root {
     font-size: 14px;
