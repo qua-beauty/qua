@@ -4,7 +4,7 @@ import ProductSkeleton from './ProductSkeleton.jsx';
 
 const Base = styled('div')`
   max-width: 800px;
-  margin: 20px auto 0;
+  margin: 0 auto 0;
   
   display: grid;
   grid-template-columns: 50% 50%;
