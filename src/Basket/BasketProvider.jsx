@@ -58,7 +58,7 @@ const BasketProvider = ({children, ...rest}) => {
     const order = {
       products: basket.products,
       date: new Date(),
-      user: user.uid
+      user: user ? user.uid : null
     };
 
     await setDoc(orderRef, order);
