@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {collection, doc, setDoc, query, where, getDocs, getDoc, onSnapshot} from 'firebase/firestore';
 import {signInWithCustomToken} from 'firebase/auth';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth, firestore} from '../firebase.js';
+import {auth, siteUrl, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
 import {webApp} from '../telegramUtils.js';
 
@@ -78,7 +78,7 @@ const BasketProvider = ({children, ...rest}) => {
       const userSnap = await getDoc(userRef);
       const clientId = userSnap.data().clientId;
 
-      await fetch(`https://lanka.cafe/api/salebotCreateOrder`, {
+      await fetch(`${siteUrl}/api/salebotCreateOrder`, {
         method: 'POST',
         body: JSON.stringify({
           user_id: userSnap.id,

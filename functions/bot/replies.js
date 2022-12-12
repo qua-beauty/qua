@@ -1,10 +1,11 @@
 const {Markup} = require("telegraf");
+const {siteUrl} = require('../../src/firebase.js');
 
 const welcomeReply = (ctx) => {
     const message = 'С вами бот по доставке продуктов и блюд в Мириссе и Велигаме (скоро). Выберите позиции и закажите доставку используя приложение ⬇️';
     return ctx.reply(message, {
         ...Markup.keyboard([
-            Markup.button.webApp("🥥 Открыть приложение", "https://lanka.cafe"),
+            Markup.button.webApp("🥥 Открыть приложение", siteUrl),
         ]).oneTime()
     });
 }

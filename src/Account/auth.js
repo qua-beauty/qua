@@ -1,12 +1,12 @@
 import {webApp} from '../telegramUtils.js';
 import {signInWithCustomToken} from 'firebase/auth';
-import {auth} from '../firebase.js';
+import {auth, siteUrl} from '../firebase.js';
 
 const useAuth = () => {
   if (!webApp || !webApp.initDataUnsafe.user) return null;
   const user = webApp.initDataUnsafe.user;
 
-  fetch('https://lanka.cafe/api/createCustomToken', {
+  fetch(`${siteUrl}/api/createCustomToken`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
