@@ -29,7 +29,6 @@ const CatalogSkeleton = () => {
       <ProductSkeleton />
       <ProductSkeleton />
       <ProductSkeleton />
-      <ProductSkeleton />
     </Base>
   );
 };

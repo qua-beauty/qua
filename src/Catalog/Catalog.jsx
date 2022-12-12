@@ -25,13 +25,9 @@ const Base = styled('div')`
 `;
 
 const Catalog = () => {
-  const {catalog} = useContext(CatalogContext);
+  const {catalog, catalogLoaded} = useContext(CatalogContext);
 
-  if (catalog.length === 0) {
-    return <CatalogSkeleton/>;
-  }
-
-  return catalog.length === 0 ? <CatalogSkeleton /> : (
+  return !catalogLoaded ? <CatalogSkeleton /> : (
     <Base>
       {catalog.map(product => {
         return <Product key={product.id} {...product} />;

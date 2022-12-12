@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import CatalogContext from './CatalogContext.jsx';
 
 const CatalogProvider = ({children, ...rest}) => {
+  const [loaded, setLoaded] = useState(false);
   const [catalog, setCatalog] = useState([]);
   const [category, setCategory] = useState([]);
   const [filters, setFilters] = useState({});
@@ -46,6 +47,7 @@ const CatalogProvider = ({children, ...rest}) => {
         });
       });
 
+      setLoaded(true);
       setCatalog(newCatalog);
     });
 
@@ -66,6 +68,7 @@ const CatalogProvider = ({children, ...rest}) => {
       catalog: getCatalog(),
       category,
       filters,
+      catalogLoaded: loaded,
       filter: handleFilter
     }} {...rest}>
       {children}

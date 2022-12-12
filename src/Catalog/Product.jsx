@@ -17,6 +17,8 @@ const Base = styled('div')`
   margin: 5px;
   box-sizing: border-box;
   height: 208px;
+  
+  text-align: center;
 
 
   &.Mui-disabled {

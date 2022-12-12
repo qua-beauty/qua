@@ -12,6 +12,10 @@ const Base = styled('div')`
   > * {
     margin-right: 16px;
   }
+
+  @media (min-width: 560px) {
+    justify-content: center;
+  }
 `;
 const FiltersSkeleton = () => {
   return (
