@@ -1,16 +1,17 @@
-import React, {useState, useContext} from 'react';
-import {Box, Button, css, styled, Typography} from '@mui/material';
+import React, {useState, useContext, useEffect} from 'react';
+import {Box, Button, styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
 import ProductThumbs from '../Catalog/ProductThumbs.jsx';
+import {useTimer} from '../components/Timer.jsx';
 
 const collapsedCss = {
-  padding: '16px 16px 80px',
-  height: '120px',
+  padding: '16px',
+  height: '72px',
   transition: 'width, height 0.225s ease'
 }
 
 const expandedCss = {
-  padding: '28px 28px 80px',
+  padding: '28px 28px 28px',
   height: '360px',
   transition: 'width, height 0.225s ease'
 }
@@ -31,13 +32,26 @@ const Cooking = styled('div')`
   justify-content: space-between;
 `;
 
-const Timer = styled('div')`
+const Action = styled(Typography)`
+  display: block;
+  font-weight: 500;
+
+  color: ${({theme}) => theme.palette.primary.dark};
+`;
+
+const TimerBase = styled('div')`
   
 `;
 
-const Label = styled('div')`
-  font-size: 20px;
-`;
+const Timer = ({ endTime }) => {
+  const {minutes, seconds, invalidTime} = useTimer(endTime);
+  
+  return (
+    <TimerBase>
+      {invalidTime ? `Look's like already cooked!` : `${minutes}:${seconds}`}
+    </TimerBase>
+  )
+}
 
 const BasketOrder = () => {
   const [expanded, setExpanded] = useState(false);
@@ -49,8 +63,8 @@ const BasketOrder = () => {
     <Base sx={expanded ? expandedCss : collapsedCss}>
       <Cooking onClick={() => setExpanded(true)}>
         <ProductThumbs products={order.products} size={expanded ? 'medium' : 'small'} />
-        <Timer>14:37</Timer>
-        <Label>Cooking...</Label>
+        {order && order.endTime && <Timer endTime={order.endTime} />}
+        <Action>Cooking...</Action>
       </Cooking>
 
       {expanded && <>

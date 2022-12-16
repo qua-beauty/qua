@@ -5,6 +5,8 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import {auth, siteUrl, firestore} from '../firebase.js';
 import BasketContext from './BasketContext.jsx';
 import {webApp} from '../telegramUtils.js';
+import {settings} from '../settings.js';
+import salebot from '../salebot.js';
 
 export const BASKET_STEP = {
   details: 'DETAILS',
@@ -55,10 +57,15 @@ const BasketProvider = ({children, ...rest}) => {
 
   const handleMakeOrder = async () => {
     const orderRef = doc(collection(firestore, 'orders'));
+    const currentTime = new Date();
+    const endTime = currentTime.setMinutes(currentTime.getMinutes() + 15);
+    const userId = user ? user.uid : null;
+    const {products} = basket;
+
     const order = {
-      products: basket.products,
-      date: new Date(),
-      user: user ? user.uid : null
+      products,
+      endTime,
+      user: userId
     };
 
     await setDoc(orderRef, order);
@@ -73,23 +80,8 @@ const BasketProvider = ({children, ...rest}) => {
     setBasketStep(BASKET_STEP.details);
     setBasketExpanded(false);
 
-    if (webApp) {
-      const userRef = doc(collection(firestore, 'users'), webApp.initDataUnsafe.user.id.toString());
-      const userSnap = await getDoc(userRef);
-      const clientId = userSnap.data().clientId;
-
-      await fetch(`${siteUrl}/api/salebotCreateOrder`, {
-        method: 'POST',
-        body: JSON.stringify({
-          user_id: userSnap.id,
-          client_id: clientId,
-          order_id: orderSnap.id
-        })
-      });
-
-      webApp.close();
-    } else {
-      window.open(`https://t.me/lankacafebot?start=${orderSnap.id}`);
+    if(settings.integrations.includes('salebot')) {
+      salebot.saveOrder(orderSnap, userId).then();
     }
 
     onSnapshot(orderRef, async (orderSnap) => {
@@ -99,6 +91,12 @@ const BasketProvider = ({children, ...rest}) => {
         await signInWithCustomToken(auth, data.token);
       }
     });
+
+    if (webApp) {
+      webApp.close();
+    } else {
+      window.open(`https://t.me/lankacafebot?start=${orderSnap.id}`);
+    }
   };
 
   useEffect(() => {
@@ -108,6 +106,7 @@ const BasketProvider = ({children, ...rest}) => {
 
       getDocs(q).then(docs => {
         docs.forEach((doc) => {
+          console.log(doc.data())
           if (!order) setOrder({
             ...doc.data(),
             id: doc.id
@@ -118,7 +117,6 @@ const BasketProvider = ({children, ...rest}) => {
   }, [user]);
 
   const getTimeForCook = () => {
-
     if (!basket) return null;
 
     const timesCount = basket.products.length + 1;

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {styled} from '@mui/material';
 import Basket from './Basket/Basket.jsx';
 import Header from './Header.jsx';
@@ -36,15 +36,11 @@ const BasketBox = styled('div')`
 `;
 
 function App() {
-  useEffect(() => {
-    useAuth();
-  }, []);
+  useAuth();
 
   return (
-
     <Base className="App">
-      {!webApp && <Header/>}
-
+      <Header/>
       <Main>
         <Filters/>
         <Catalog/>
