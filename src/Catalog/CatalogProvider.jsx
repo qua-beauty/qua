@@ -24,12 +24,18 @@ const CatalogProvider = ({children, ...rest}) => {
 
   const getCatalog = () => {
     const filterKeys = Object.keys(filters);
+    const singleCategory = category.filter(cat => cat.type === 'single').map(cat => cat.id);
 
     return catalog.filter((eachObj) => {
+      if (eachObj.category.some(r => singleCategory.includes(r)) && !filters?.category?.includes(eachObj.category)) {
+        return false;
+      }
+
       return filterKeys.every((eachKey) => {
         if (!filters[eachKey].length) {
           return true;
         }
+
         return filters[eachKey].includes(eachObj[eachKey]);
       });
     });
