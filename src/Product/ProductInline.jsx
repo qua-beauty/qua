@@ -39,13 +39,30 @@ const Info = styled('div')`
   align-items: center;
 `;
 
+const Image = styled('div')`
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    margin-top: 0;
+    width: 100%;
+  }
+`;
+
 const ProductInline = (product) => {
   const {title, photo, price, currency, count} = product;
 
   return (
     <Base>
       <Info>
-        <img src={photo} alt=""/>
+        <Image>
+          <img src={photo} alt=""/>
+        </Image>
         <Title>{title}</Title>
       </Info>
       <Count>{count}</Count>

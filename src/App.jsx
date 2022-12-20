@@ -38,16 +38,21 @@ const BasketBox = styled('div')`
 function App() {
   useAuth();
 
+  if(webApp) {
+    webApp.BackButton.hide();
+  }
+
   return (
     <Base className="App">
       <Header/>
       <Main>
-        <Filters/>
         <Catalog/>
+
       </Main>
       <BasketBox>
         <Basket/>
         <BasketOrder/>
+        <Filters/>
       </BasketBox>
       {!webApp && <Footer/>}
     </Base>

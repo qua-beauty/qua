@@ -1,9 +1,8 @@
 import React, {useContext} from 'react';
 import {styled} from '@mui/material';
-import Product from './Product.jsx';
+import Product from '../Product/Product.jsx';
 import CatalogContext from './CatalogContext.jsx';
 import CatalogSkeleton from './CatalogSkeleton.jsx';
-import FiltersSkeleton from './FiltersSkeleton.jsx';
 
 const Base = styled('div')`
   padding: 0 5px 96px;

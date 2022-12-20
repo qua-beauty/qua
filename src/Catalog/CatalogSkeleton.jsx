@@ -1,6 +1,6 @@
 import React from 'react';
 import {styled} from '@mui/material';
-import ProductSkeleton from './ProductSkeleton.jsx';
+import ProductSkeleton from '../Product/ProductSkeleton.jsx';
 
 const Base = styled('div')`
   max-width: 800px;

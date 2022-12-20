@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Button, IconButton, styled, Typography} from '@mui/material';
-import ProductInline from '../Catalog/ProductInline.jsx';
+import ProductInline from '../Product/ProductInline.jsx';
 import {Close} from '@mui/icons-material';
 import BasketContext from './BasketContext.jsx';
 import {BASKET_STEP} from './BasketProvider.jsx';

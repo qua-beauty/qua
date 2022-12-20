@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {Box, Button, styled, Typography} from '@mui/material';
 import BasketContext from './BasketContext.jsx';
-import ProductThumbs from '../Catalog/ProductThumbs.jsx';
+import ProductThumbs from '../Product/ProductThumbs.jsx';
 import {useTimer} from '../components/Timer.jsx';
 
 const collapsedCss = {
