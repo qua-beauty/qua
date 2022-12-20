@@ -5,6 +5,7 @@ import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import BasketProvider from './Basket/BasketProvider.jsx';
 import CatalogProvider from './Catalog/CatalogProvider.jsx';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import ProductDetails from './Product/ProductDetails.jsx';
 
 const theme = createTheme({
   typography: {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
     path: '/',
     element: (<App />),
   },
+  {
+    path: '/:productId',
+    element: (<ProductDetails />)
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -1,11 +1,10 @@
 import React, {useContext} from 'react';
 import {Box, Chip, styled} from '@mui/material';
-import Product from './Product.jsx';
 import CatalogContext from './CatalogContext.jsx';
-import CatalogSkeleton from './CatalogSkeleton.jsx';
 import FiltersSkeleton from './FiltersSkeleton.jsx';
 
 const Base = styled('div')`
+  background: #fff;
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;

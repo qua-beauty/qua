@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ButtonBase, Chip, styled, Typography} from '@mui/material';
+import {Chip, styled, Typography} from '@mui/material';
 import BasketContext from '../Basket/BasketContext.jsx';
 import {getCurrencyTitle} from '../utils.js';
+import {Link} from 'react-router-dom';
 
 const Base = styled('div')`
   flex: 1;
@@ -26,14 +27,15 @@ const Base = styled('div')`
   }
 `;
 
-const Image = styled('div')`
+const Image = styled(Link)`
   height: 120px;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
+  border-radius: 50%;
 
   img {
-    border-radius: 50%;
     margin-top: 0;
     width: 120px;
   }
@@ -68,7 +70,7 @@ const Title = styled(Typography)`
 
 
 const Product = (product) => {
-  const {title, photo, price, currency, time} = product;
+  const {title, photo, price, currency, time, id} = product;
   const [added, setAdded] = useState(0);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
 
@@ -96,7 +98,7 @@ const Product = (product) => {
     <Base component="div" sx={{
       background: added ? '#edd9ff' : 'inherit'
     }}>
-      <Image>
+      <Image to={`/${id}`}>
         <img src={photo} alt=""/>
       </Image>
       <Title>{title}</Title>

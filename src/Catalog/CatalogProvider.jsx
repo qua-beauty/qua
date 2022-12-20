@@ -72,6 +72,7 @@ const CatalogProvider = ({children, ...rest}) => {
   return (
     <CatalogContext.Provider value={{
       catalog: getCatalog(),
+      getProduct: (productId) => catalog.filter(product => product.id === productId)[0],
       category,
       filters,
       catalogLoaded: loaded,
