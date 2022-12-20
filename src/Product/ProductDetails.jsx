@@ -1,9 +1,8 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Box, styled, Typography} from '@mui/material';
-import {useActionData, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import CatalogContext from '../Catalog/CatalogContext.jsx';
 import {webApp} from '../telegramUtils.js';
-
 
 const Base = styled('div')`
   flex: 1;
@@ -36,10 +35,9 @@ const Photo = styled('img')`
 
 const Backdrop = styled('img')`
   position: absolute;
-  top: -50%;
-  margin-top: 25%;
   left: 0;
   width: 100%;
+  height: 300px;
   filter: blur(40px)
 `;
 
@@ -63,12 +61,15 @@ const ProductDetails = () => {
   const product = getProduct(productId);
   const navigate = useNavigate();
 
-  if(webApp) {
+  useEffect(() => {
+    if(!webApp) return;
+
     webApp.BackButton.show();
     webApp.BackButton.onClick(() => {
-      navigate(-1);
+      navigate('/');
     })
-  }
+  }, []);
+
 
   const {title, photo, description, price, currency, time} = product || {};
 

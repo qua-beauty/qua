@@ -1,31 +1,40 @@
-import React, {useContext} from 'react';
-import {Button, IconButton, styled, Typography} from '@mui/material';
+import React, {useContext, useEffect} from 'react';
+import {Button, styled, Typography} from '@mui/material';
 import ProductInline from '../Product/ProductInline.jsx';
-import {Close} from '@mui/icons-material';
 import BasketContext from './BasketContext.jsx';
-import {BASKET_STEP} from './BasketProvider.jsx';
 import {getCurrencyTitle} from '../utils.js';
+import {webApp} from '../telegramUtils.js';
+import {useNavigate} from 'react-router-dom';
 
 const Base = styled('div')`
-  padding: 40px 20px 80px;
-  text-align: center;
+  background: ${({ theme }) => theme.palette.background.paper};
+  padding: 16px 16px 16px;
 `;
 
 const Title = styled(Typography)`
+  display: inline-flex;
+  align-items: center;
 
+  background: ${({ theme }) => theme.palette.background.default};
+  border-radius: 16px;
+  
+  height: 32px;
+  padding: 0 12px;
+  
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  span {
+    margin-left: 4px;
+    font-size: 2rem;
+  }
 `;
 
 const Products = styled('div')`
   display: flex;
   flex-direction: column;
 
-  margin: 40px 0;
-`;
-
-const CloseButton = styled(IconButton)`
-  position: absolute;
-  top: 8px;
-  right: 8px;
+  margin: 16px 0 0px;
 `;
 
 const SubmitButton = styled(Button)`
@@ -46,25 +55,43 @@ const ButtonTitle = styled('span')`
 `;
 
 const BasketDetails = () => {
-  const {basket, price, currency, timeForCook, makeOrder, collapseBasket} = useContext(BasketContext);
+  const {basket, price, currency, timeForCook, makeOrder} = useContext(BasketContext);
+  const navigate = useNavigate();
+
+  if(webApp) {
+    webApp.MainButton.text = `Оформить заказ 🎛 ${price} ${getCurrencyTitle(currency)}`;
+    webApp.MainButton.color = '#66bb6a';
+    webApp.MainButton.onClick(makeOrder);
+    webApp.MainButton.enable();
+
+    webApp.BackButton.show();
+    webApp.BackButton.onClick(() => {
+      navigate('/');
+    })
+  }
+
+  useEffect(() => {
+    return () => {
+      if(webApp){
+        webApp.MainButton.offClick(makeOrder);
+      }
+    }
+  }, [])
 
   return (
     <Base>
-      <CloseButton onClick={collapseBasket}>
-        <Close/>
-      </CloseButton>
-      <Title variant="h5">👨‍🍳 Мы готовы к готовке!</Title>
+      <Title color="textPrimary" variant="caption">Ваша корзина</Title>
       <Products>
         {basket && basket.products.map(product =>
           <ProductInline key={product.id} {...product} />)}
       </Products>
-      <SubmitButton onClick={() => makeOrder()}
+      {!webApp && <SubmitButton onClick={() => makeOrder()}
               variant="contained"
               color="primary"
               size="large">
         <ButtonSubtitle>Продолжить</ButtonSubtitle>
         <ButtonTitle>{price} {getCurrencyTitle(currency)}<span>{timeForCook ? ' 􀐱 ' + timeForCook: ''}</span></ButtonTitle>
-      </SubmitButton>
+      </SubmitButton>}
     </Base>
   );
 };

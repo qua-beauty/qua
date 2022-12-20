@@ -106,7 +106,6 @@ const BasketProvider = ({children, ...rest}) => {
 
       getDocs(q).then(docs => {
         docs.forEach((doc) => {
-          console.log(doc.data())
           if (!order) setOrder({
             ...doc.data(),
             id: doc.id

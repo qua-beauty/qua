@@ -20,10 +20,9 @@ const Main = styled('main')`
 `;
 
 const BasketBox = styled('div')`
-  background: linear-gradient(74.19deg, #FAD0C4 9.5%, #FAD0C4 10.09%, #F0D9FF 68.93%);
+  background: ${({ theme }) => theme.palette.background.paper};
   backdrop-filter: blur(2px);
   border-radius: 24px 24px 0 0;
-  border-top: 1px solid #ddd;
   box-shadow: 0 -2px 16px rgb(0 0 0 / 10%);
 
   z-index: 100;
@@ -48,13 +47,12 @@ function App() {
     <Base className="App">
       {!webApp && <Header/>}
       <Main>
+        <Filters/>
         <Catalog/>
-
       </Main>
       <BasketBox>
         <Basket/>
         <BasketOrder/>
-        <Filters/>
       </BasketBox>
       {!webApp && <Footer/>}
     </Base>

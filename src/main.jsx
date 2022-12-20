@@ -6,17 +6,28 @@ import BasketProvider from './Basket/BasketProvider.jsx';
 import CatalogProvider from './Catalog/CatalogProvider.jsx';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import ProductDetails from './Product/ProductDetails.jsx';
+import BasketDetails from './Basket/BasketDetails.jsx';
+import {webApp} from './telegramUtils.js';
 
 const theme = createTheme({
   typography: {
     fontFamily: '"SF Pro", "Helvetica Nueu", Roboto'
   },
   palette: {
+    mode: webApp ? webApp.colorScheme : 'light',
     primary: {
-      main: '#4C3CAC'
+      main: webApp ? webApp.themeParams.button_color : '#4C3CAC'
     },
     secondary: {
       main: '#B8FCCB'
+    },
+    text: {
+      primary: webApp ? webApp.themeParams.text_color : 'rgba(0 0 0 / 0.87)',
+      secondary: webApp ? webApp.themeParams.hint_color : 'rgba(0 0 0 / 0.54)',
+    },
+    background: {
+      default: webApp ? webApp.themeParams.secondary_bg_color : '#ededed',
+      paper: webApp ? webApp.themeParams.bg_color : '#fff'
     }
   },
   components: {
@@ -50,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (<App />),
+  },
+  {
+    path: '/basket',
+    element: (<BasketDetails />)
   },
   {
     path: '/:productId',

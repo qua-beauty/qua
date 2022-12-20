@@ -4,7 +4,8 @@ import CatalogContext from './CatalogContext.jsx';
 import FiltersSkeleton from './FiltersSkeleton.jsx';
 
 const Base = styled('div')`
-  background: #fff;
+  background: ${({ theme }) => theme.palette.background.default};
+  border-bottom: 1px solid ${({ theme }) => theme.palette.divider};
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;

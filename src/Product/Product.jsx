@@ -5,6 +5,7 @@ import {getCurrencyTitle} from '../utils.js';
 import {Link} from 'react-router-dom';
 
 const Base = styled('div')`
+  background: ${({ theme }) => theme.palette.background.paper};
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -45,9 +46,6 @@ const PlusMinus = styled('div')`
   display: flex;
   align-items: center;
 
-  > * {
-  }
-
   > span {
     display: inline-block;
     min-width: 32px;
@@ -56,7 +54,7 @@ const PlusMinus = styled('div')`
 `;
 
 const ChipButton = styled(Chip)`
-  background: #fff;
+  background: ${({ theme }) => theme.palette.background.paper};
   width: 40px;
   height: 32px;
 
@@ -68,11 +66,10 @@ const Title = styled(Typography)`
   font-weight: 500;
 `;
 
-
 const Product = (product) => {
   const {title, photo, price, currency, time, id} = product;
-  const [added, setAdded] = useState(0);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
+  const [added, setAdded] = useState(0);
 
   const handleClick = () => {
     setAdded(added + 1);
@@ -90,13 +87,17 @@ const Product = (product) => {
   useEffect(() => {
     if (!basket) {
       setAdded(0);
+    } else if(basket.products && basket.products.length > 0) {
+      const product = basket.products.find(p => p.id === id);
+      const count = product ? product.count : 0;
+
+      setAdded(count);
     }
   }, [basket]);
 
-
   return (
     <Base component="div" sx={{
-      background: added ? '#edd9ff' : 'inherit'
+      background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
       <Image to={`/${id}`}>
         <img src={photo} alt=""/>

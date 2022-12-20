@@ -23,11 +23,7 @@ const Base = styled('div')`
 `;
 
 const Title = styled(Typography)`
-  margin-left: 16px;
-`;
-
-const Count = styled('div')`
-
+  font-weight: 500;
 `;
 
 const Price = styled('div')`
@@ -35,13 +31,16 @@ const Price = styled('div')`
 `;
 
 const Info = styled('div')`
+  flex: 1;
+  margin-left: 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 const Image = styled('div')`
-  height: 48px;
-  width: 48px;
+  height: 64px;
+  width: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,14 +58,13 @@ const ProductInline = (product) => {
 
   return (
     <Base>
+      <Image>
+        <img src={photo} alt=""/>
+      </Image>
       <Info>
-        <Image>
-          <img src={photo} alt=""/>
-        </Image>
-        <Title>{title}</Title>
+        <Title color="primary">{title}</Title>
+        <Price>{count} x {price} {getCurrencyTitle(currency)}</Price>
       </Info>
-      <Count>{count}</Count>
-      <Price>{price} {getCurrencyTitle(currency)}</Price>
     </Base>
   );
 };

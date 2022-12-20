@@ -5,7 +5,7 @@ import CatalogContext from './CatalogContext.jsx';
 import CatalogSkeleton from './CatalogSkeleton.jsx';
 
 const Base = styled('div')`
-  padding: 0 5px 96px;
+  padding: 16px 4px 96px;
 
   max-width: 800px;
   margin: -10px auto 0;

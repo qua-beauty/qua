@@ -11,13 +11,13 @@ const collapsedCss = {
 }
 
 const expandedCss = {
-  padding: '28px 28px 28px',
+  padding: '16px',
   height: '360px',
   transition: 'width, height 0.225s ease'
 }
 
 const Base = styled(Box)`
-  background: linear-gradient(136.18deg, #D5DEE7 -19.7%, #FFAFBD -19.7%, #C9FFBF 21.36%, #BFFFF3 101.63%);
+  border-bottom: 1px solid ${({ theme }) => theme.palette.divider};
   position: relative;
   text-align: center;
   
