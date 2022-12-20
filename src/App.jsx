@@ -46,7 +46,7 @@ function App() {
 
   return (
     <Base className="App">
-      <Header/>
+      {!webApp <Header/>}
       <Main>
         <Catalog/>
 
