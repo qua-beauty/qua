@@ -3,8 +3,8 @@ import {AppBar, Toolbar, Typography, IconButton, styled} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {auth, logout} from './firebase.js';
-import logotypeSvg from './assets/logotype.svg';
+import {auth, logout} from '../firebase.js';
+import logotypeSvg from '../assets/logotype.svg';
 
 const Base = styled(AppBar)`
   border: none;

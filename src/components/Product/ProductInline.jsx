@@ -1,6 +1,6 @@
 import React from 'react';
 import {styled, Typography} from '@mui/material';
-import {getCurrencyTitle} from '../utils.js';
+import {getCurrencyTitle} from '../../utils.js';
 
 const Base = styled('div')`
   display: flex;

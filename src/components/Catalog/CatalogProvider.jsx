@@ -1,5 +1,5 @@
 import {collection, getDocs} from 'firebase/firestore';
-import {firestore} from '../firebase.js';
+import {firestore} from '../../firebase.js';
 import {useEffect, useState} from 'react';
 import CatalogContext from './CatalogContext.jsx';
 

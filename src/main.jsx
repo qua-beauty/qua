@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
-import BasketProvider from './Basket/BasketProvider.jsx';
-import CatalogProvider from './Catalog/CatalogProvider.jsx';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import ProductDetails from './Product/ProductDetails.jsx';
-import BasketDetails from './Basket/BasketDetails.jsx';
+import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from '@mui/material';
+import {RouterProvider} from 'react-router-dom';
+import BasketProvider from './components/Basket/BasketProvider.jsx';
+import CatalogProvider from './components/Catalog/CatalogProvider.jsx';
 import {webApp} from './telegramUtils.js';
+import {router} from './router.jsx';
 
 const theme = createTheme({
   typography: {
@@ -43,7 +41,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           height: 48,
-          borderRadius: 16
+          borderRadius: 16,
+          textTransform: 'none'
         }
       }
     },
@@ -57,27 +56,19 @@ const theme = createTheme({
   }
 });
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: (<App />),
-  },
-  {
-    path: '/basket',
-    element: (<BasketDetails />)
-  },
-  {
-    path: '/:productId',
-    element: (<ProductDetails />)
-  }
-]);
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BasketProvider>
         <CatalogProvider>
           <CssBaseline/>
+          <GlobalStyles
+            styles={{
+              body: {
+                background: webApp ? webApp.themeParams.bg_color : '#fff'
+              }
+            }}
+          />
           <RouterProvider router={router} />
         </CatalogProvider>
       </BasketProvider>

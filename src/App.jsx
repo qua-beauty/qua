@@ -1,62 +1,39 @@
-import React from 'react';
-import {styled} from '@mui/material';
-import Basket from './Basket/Basket.jsx';
-import Header from './Header.jsx';
-import BasketOrder from './Basket/BasketOrder.jsx';
-import Footer from './Footer.jsx';
+import React, {useContext, useEffect} from 'react';
 import {webApp} from './telegramUtils.js';
-import useAuth from './Account/auth.js';
-import Catalog from './Catalog/Catalog.jsx';
-import Filters from './Catalog/Filters.jsx';
-
-const Base = styled('div')`
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const Main = styled('main')`
-`;
-
-const BasketBox = styled('div')`
-  background: ${({ theme }) => theme.palette.background.paper};
-  backdrop-filter: blur(2px);
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 -2px 16px rgb(0 0 0 / 10%);
-
-  z-index: 100;
-  overflow: hidden;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  margin: 0 auto;
-  max-width: 480px;
-`;
+import useAuth from './components/Account/auth.js';
+import {Outlet, useNavigate} from 'react-router-dom';
+import {useTheme} from '@mui/material';
+import BasketContext from './components/Basket/BasketContext.jsx';
 
 function App() {
   useAuth();
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const {basket} = useContext(BasketContext);
 
   if(webApp) {
     webApp.BackButton.hide();
   }
 
-  return (
-    <Base className="App">
-      {!webApp && <Header/>}
-      <Main>
-        <Filters/>
-        <Catalog/>
-      </Main>
-      <BasketBox>
-        <Basket/>
-        <BasketOrder/>
-      </BasketBox>
-      {!webApp && <Footer/>}
-    </Base>
-  );
+  useEffect(() => {
+    if(!webApp) return;
+
+    if(basket) {
+      webApp.MainButton.text = 'В корзину 🧺';
+      webApp.MainButton.color = theme.palette.primary.main;
+      webApp.MainButton.textColor = theme.palette.common.white;
+      webApp.MainButton.onClick(() => {
+        navigate('/basket');
+      });
+      webApp.MainButton.show();
+      webApp.enableClosingConfirmation();
+    } else {
+      webApp.MainButton.hide();
+      webApp.disableClosingConfirmation();
+    }
+  }, [basket]);
+
+  return (<Outlet />);
 }
 
 export default App;

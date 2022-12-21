@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Chip, styled, Typography} from '@mui/material';
 import BasketContext from '../Basket/BasketContext.jsx';
-import {getCurrencyTitle} from '../utils.js';
+import {getCurrencyTitle} from '../../utils.js';
 import {Link} from 'react-router-dom';
 
 const Base = styled('div')`
@@ -57,7 +57,6 @@ const ChipButton = styled(Chip)`
   background: ${({ theme }) => theme.palette.background.paper};
   width: 40px;
   height: 32px;
-
 `;
 
 const Title = styled(Typography)`
@@ -99,7 +98,7 @@ const Product = (product) => {
     <Base component="div" sx={{
       background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
-      <Image to={`/${id}`}>
+      <Image to={`/product/${id}`}>
         <img src={photo} alt=""/>
       </Image>
       <Title>{title}</Title>

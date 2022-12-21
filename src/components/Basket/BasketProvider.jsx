@@ -2,29 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {collection, doc, setDoc, query, where, getDocs, getDoc, onSnapshot} from 'firebase/firestore';
 import {signInWithCustomToken} from 'firebase/auth';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth, siteUrl, firestore} from '../firebase.js';
+import {auth, firestore} from '../../firebase.js';
 import BasketContext from './BasketContext.jsx';
-import {webApp} from '../telegramUtils.js';
-import {settings} from '../settings.js';
-import salebot from '../salebot.js';
-
-export const BASKET_STEP = {
-  details: 'DETAILS',
-  delivery: 'DELIVERY',
-  login: 'LOGIN'
-};
+import {webApp} from '../../telegramUtils.js';
+import {settings} from '../../settings.js';
+import salebot from '../../salebot.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [user,] = useAuthState(auth);
+
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
   const [currency,] = useState('LKR');
-
-  const [basketExpanded, setBasketExpanded] = useState(false);
-  const [basketStep, setBasketStep] = useState(null);
-
-  const handleCollapse = () => setBasketExpanded(false);
-  const handleExpand = () => setBasketExpanded(true);
 
   const handleProductAdd = (product) => {
     const products = basket ? [...basket.products] : [];
@@ -55,7 +44,7 @@ const BasketProvider = ({children, ...rest}) => {
     setBasket({products});
   };
 
-  const handleMakeOrder = async () => {
+  const handleMakeOrder = async (data) => {
     const orderRef = doc(collection(firestore, 'orders'));
     const currentTime = new Date();
     const endTime = currentTime.setMinutes(currentTime.getMinutes() + 15);
@@ -65,7 +54,8 @@ const BasketProvider = ({children, ...rest}) => {
     const order = {
       products,
       endTime,
-      user: userId
+      user: userId,
+      ...data
     };
 
     await setDoc(orderRef, order);
@@ -77,8 +67,6 @@ const BasketProvider = ({children, ...rest}) => {
     });
 
     setBasket(null);
-    setBasketStep(BASKET_STEP.details);
-    setBasketExpanded(false);
 
     if(settings.integrations.includes('salebot')) {
       salebot.saveOrder(orderSnap, userId).then();
@@ -98,22 +86,6 @@ const BasketProvider = ({children, ...rest}) => {
       window.open(`https://t.me/lankacafebot?start=${orderSnap.id}`);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      const basket = collection(firestore, 'orders');
-      const q = query(basket, where('user', '==', user.uid));
-
-      getDocs(q).then(docs => {
-        docs.forEach((doc) => {
-          if (!order) setOrder({
-            ...doc.data(),
-            id: doc.id
-          });
-        });
-      });
-    }
-  }, [user]);
 
   const getTimeForCook = () => {
     if (!basket) return null;
@@ -135,6 +107,22 @@ const BasketProvider = ({children, ...rest}) => {
     return basket.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
   };
 
+  useEffect(() => {
+    if (user) {
+      const basket = collection(firestore, 'orders');
+      const q = query(basket, where('user', '==', user.uid));
+
+      getDocs(q).then(docs => {
+        docs.forEach((doc) => {
+          if (!order) setOrder({
+            ...doc.data(),
+            id: doc.id
+          });
+        });
+      });
+    }
+  }, [user]);
+
   return (
     <BasketContext.Provider {...rest} value={{
       basket,
@@ -143,12 +131,6 @@ const BasketProvider = ({children, ...rest}) => {
       count: getCount(),
       price: getSum(),
       timeForCook: getTimeForCook(),
-      basketExpanded,
-      basketStep,
-      setBasketExpanded,
-      setBasketStep,
-      collapseBasket: handleCollapse,
-      expandBasket: handleExpand,
       addProduct: handleProductAdd,
       deleteProduct: handleProductDelete,
       makeOrder: handleMakeOrder,

@@ -4,7 +4,7 @@ import {ArrowBack, Close} from '@mui/icons-material';
 import BasketContext from './BasketContext.jsx';
 import {useForm, Controller} from 'react-hook-form';
 import {MuiTelInput, matchIsValidTel} from 'mui-tel-input';
-import {getCurrencyTitle} from '../utils.js';
+import {getCurrencyTitle} from '../../utils.js';
 
 const Base = styled('div')`
   padding: 40px 20px 80px;
