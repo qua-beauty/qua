@@ -1,16 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {collection, doc, setDoc, query, where, getDocs, getDoc, onSnapshot} from 'firebase/firestore';
-import {signInWithCustomToken} from 'firebase/auth';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {auth, firestore} from '../../firebase.js';
+import React, {useState} from 'react';
 import BasketContext from './BasketContext.jsx';
-import {webApp} from '../../telegramUtils.js';
-import {settings} from '../../settings.js';
-import salebot from '../../salebot.js';
+import {createOrder} from '../../services.js';
 
 const BasketProvider = ({children, ...rest}) => {
-  const [user,] = useAuthState(auth);
-
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
   const [currency,] = useState('LKR');
@@ -45,46 +37,18 @@ const BasketProvider = ({children, ...rest}) => {
   };
 
   const handleMakeOrder = async (data) => {
-    const orderRef = doc(collection(firestore, 'orders'));
     const currentTime = new Date();
     const endTime = currentTime.setMinutes(currentTime.getMinutes() + 15);
-    const userId = user ? user.uid : null;
     const {products} = basket;
 
-    const order = {
+    return createOrder({
       products,
       endTime,
-      user: userId,
       ...data
-    };
-
-    await setDoc(orderRef, order);
-    const orderSnap = await getDoc(orderRef);
-
-    setOrder({
-      ...order,
-      id: orderSnap.id
-    });
-
-    setBasket(null);
-
-    if(settings.integrations.includes('salebot')) {
-      salebot.saveOrder(orderSnap, userId).then();
-    }
-
-    onSnapshot(orderRef, async (orderSnap) => {
-      const data = orderSnap.data();
-
-      if (!auth.currentUser && data.token) {
-        await signInWithCustomToken(auth, data.token);
-      }
-    });
-
-    if (webApp) {
-      webApp.close();
-    } else {
-      window.open(`https://t.me/lankacafebot?start=${orderSnap.id}`);
-    }
+    }).then((order) => {
+      setOrder(order)
+      setBasket(null);
+    })
   };
 
   const getTimeForCook = () => {
@@ -106,22 +70,6 @@ const BasketProvider = ({children, ...rest}) => {
     if (!basket) return 0;
     return basket.products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
   };
-
-  useEffect(() => {
-    if (user) {
-      const basket = collection(firestore, 'orders');
-      const q = query(basket, where('user', '==', user.uid));
-
-      getDocs(q).then(docs => {
-        docs.forEach((doc) => {
-          if (!order) setOrder({
-            ...doc.data(),
-            id: doc.id
-          });
-        });
-      });
-    }
-  }, [user]);
 
   return (
     <BasketContext.Provider {...rest} value={{

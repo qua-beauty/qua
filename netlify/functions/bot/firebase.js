@@ -9,6 +9,18 @@ initializeApp({
 
 const firestore = getFirestore();
 
+const checkOrdersUpdate = (userId) => {
+  console.log(userId);
+
+  firestore.collection("orders").where("user", "==", userId).orderBy("created")
+    .onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc);
+      });
+    });
+}
+
 module.exports = {
-  firestore
+  firestore,
+  checkOrdersUpdate
 };

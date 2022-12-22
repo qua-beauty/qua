@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, InputBase, styled, TextField, Typography} from '@mui/material';
+import {Button, InputBase, styled, Typography} from '@mui/material';
 import ProductInline from '../Product/ProductInline.jsx';
 import BasketContext from './BasketContext.jsx';
 import {getCurrencyTitle} from '../../utils.js';
@@ -60,11 +60,20 @@ const BasketDetails = () => {
   const {basket, price, currency, makeOrder} = useContext(BasketContext);
   const navigate = useNavigate();
 
+  const handleMakeOrder = () => {
+    webApp.MainButton.disable();
+
+    makeOrder({comment}).then(() => {
+      webApp.disableClosingConfirmation();
+      webApp.close();
+    })
+  };
+
   if (webApp) {
     webApp.MainButton.text = `Оформить заказ 🎛 ${price} ${getCurrencyTitle(currency)}`;
     webApp.MainButton.color = '#66bb6a';
-    webApp.MainButton.onClick(() => makeOrder({comment}));
     webApp.MainButton.enable();
+    webApp.MainButton.onClick(handleMakeOrder);
 
     webApp.BackButton.show();
     webApp.BackButton.onClick(() => {
@@ -75,7 +84,7 @@ const BasketDetails = () => {
   useEffect(() => {
     return () => {
       if (webApp) {
-        webApp.MainButton.offClick(() => makeOrder({comment}));
+        webApp.MainButton.offClick(handleMakeOrder);
       }
     };
   }, []);

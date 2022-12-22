@@ -11,10 +11,6 @@ function App() {
   const navigate = useNavigate();
   const {basket} = useContext(BasketContext);
 
-  if(webApp) {
-    webApp.BackButton.hide();
-  }
-
   useEffect(() => {
     if(!webApp) return;
 
