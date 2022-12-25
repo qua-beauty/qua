@@ -62,9 +62,11 @@ const BasketDetails = () => {
 
   const handleMakeOrder = () => {
     webApp.MainButton.disable();
+    webApp.MainButton.showProgress();
 
     makeOrder({comment}).then(() => {
       webApp.disableClosingConfirmation();
+      webApp.MainButton.hideProgress();
       webApp.close();
     })
   };

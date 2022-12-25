@@ -2,14 +2,10 @@ const {Telegraf} = require('telegraf');
 const {getOrder} = require('./services.js');
 const {connectTelegram} = require('./auth.js');
 const {orderWelcomeReply, welcomeReply} = require('./replies.js');
-const {checkOrdersUpdate} = require('./firebase.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.start(async (ctx) => {
-  const user = ctx.message.from.id;
-  checkOrdersUpdate(user);
-
   return welcomeReply(ctx);
 });
 
@@ -36,4 +32,7 @@ const handler = async (event) => {
   }
 };
 
-module.exports = {handler};
+module.exports = {
+  handler,
+  bot
+};
