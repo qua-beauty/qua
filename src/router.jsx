@@ -8,19 +8,23 @@ import App from './App.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (<App />),
+    element: (<App/>),
     children: [
       {
         path: '',
-        element: (<Home />),
+        element: (<Home/>),
       },
       {
         path: 'basket',
-        element: (<BasketDetails />)
+        element: (<BasketDetails/>)
       },
       {
         path: 'product/:productId',
-        element: (<ProductDetails />)
+        element: (<ProductDetails/>)
+      },
+      {
+        path: 'shop/:shopId',
+        element: (<Home />)
       }
     ]
   },

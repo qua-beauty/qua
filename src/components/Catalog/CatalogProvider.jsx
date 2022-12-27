@@ -2,12 +2,16 @@ import {collection, getDocs} from 'firebase/firestore';
 import {firestore} from '../../firebase.js';
 import {useEffect, useState} from 'react';
 import CatalogContext from './CatalogContext.jsx';
+import {useParams} from 'react-router-dom';
 
 const CatalogProvider = ({children, ...rest}) => {
   const [loaded, setLoaded] = useState(false);
   const [catalog, setCatalog] = useState([]);
   const [category, setCategory] = useState([]);
   const [filters, setFilters] = useState({});
+  const {shopId} = useParams();
+
+  console.log(useParams())
 
   const handleFilter = (key, value) => {
     if (filters.hasOwnProperty(key) && filters[key] === value) {
@@ -45,11 +49,17 @@ const CatalogProvider = ({children, ...rest}) => {
     const newCatalog = [];
     const newCategory = [];
 
+    console.log(shopId);
+
     getDocs(collection(firestore, 'catalog')).then(docs => {
       docs.forEach((doc) => {
+        const data = doc.data();
+
+        if(shopId && data.shopId !== shopId) return;
+
         newCatalog.push({
           id: doc.id,
-          ...doc.data()
+          ...data
         });
       });
 
@@ -73,6 +83,7 @@ const CatalogProvider = ({children, ...rest}) => {
     <CatalogContext.Provider value={{
       catalog: getCatalog(),
       getProduct: (productId) => catalog.filter(product => product.id === productId)[0],
+      catalogByShop: () => getCatalog(),
       category,
       filters,
       catalogLoaded: loaded,

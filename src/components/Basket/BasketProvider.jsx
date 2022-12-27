@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import BasketContext from './BasketContext.jsx';
 import {createOrder} from '../../services.js';
-import {answerQuery} from '../../telegramUtils.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [order, setOrder] = useState(null);

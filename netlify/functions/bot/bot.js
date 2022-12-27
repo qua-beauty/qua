@@ -1,23 +1,20 @@
-const {Telegraf} = require('telegraf');
-const {getOrder} = require('./services.js');
-const {connectTelegram} = require('./auth.js');
-const {orderWelcomeReply, welcomeReply} = require('./replies.js');
+const {Telegraf, Scenes, session} = require('telegraf');
+const {startScene} = require('./scenes/startScene.js');
+const {orderScene} = require('./scenes/orderScene.js');
+const {masks} = require('./utils.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
-bot.start(async (ctx) => {
-  return welcomeReply(ctx);
+const stage = new Scenes.Stage([startScene, orderScene]);
+bot.use(session());
+bot.use(stage.middleware());
+
+bot.start((ctx) => {
+  ctx.scene.enter('WELCOME_SCENE');
 });
 
-bot.on('message', async (ctx) => {
-  if (ctx.message.web_app_data) {
-    const user = ctx.message.from;
-    const data = JSON.parse(ctx.message.web_app_data.data);
-    const order = await getOrder(data.orderId);
-
-    await connectTelegram(order.ref, user);
-    return orderWelcomeReply(ctx, order.data);
-  }
+bot.hears(masks.order, (ctx) => {
+  ctx.scene.enter('ORDER_SCENE');
 });
 
 const handler = async (event) => {

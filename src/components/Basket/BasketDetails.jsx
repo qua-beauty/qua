@@ -68,7 +68,7 @@ const BasketDetails = () => {
       webApp.disableClosingConfirmation();
       webApp.MainButton.hideProgress();
       webApp.close();
-    })
+    });
   };
 
   if (webApp) {

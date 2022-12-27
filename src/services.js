@@ -25,11 +25,9 @@ export const createOrder = async (data) => {
         queryId: webApp.initDataUnsafe.query_id,
         id: webApp.initDataUnsafe.query_id,
         type: 'article',
-        title: 'Заказ создан!',
-        description: 'orderCreated',
+        title: 'Order Created',
         input_message_content: {
-          message_text: createOrderMessage(order),
-          parse_mode: "MarkdownV2"
+          message_text: `Delivery Order #${order.id}`,
         },
       })
     })

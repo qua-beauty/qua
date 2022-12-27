@@ -1,5 +1,5 @@
 const firebase = require('firebase-admin');
-require('../bot/firebase.js');
+require('./bot/firebase.js');
 
 const handler = async (event) => {
   try {

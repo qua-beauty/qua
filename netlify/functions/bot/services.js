@@ -3,11 +3,12 @@ const firebase = require('firebase-admin');
 
 const getOrder = async (orderId) => {
   const orderRef = firestore.collection('orders').doc(orderId);
-  const order = await orderRef.get();
+  const order = await orderRef.get().catch(e => console.log(e));
+  console.log(order);
 
   return order.exists ? {
     data: order.data(),
-    ref: orderRef
+    id: order.id
   } : null;
 };
 
