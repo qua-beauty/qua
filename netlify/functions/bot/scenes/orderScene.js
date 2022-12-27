@@ -1,7 +1,7 @@
 const {Scenes} = require('telegraf');
 const {getOrder} = require('../services.js');
 const {masks} = require('../utils.js');
-const {Message} = require('../layouts/message.js');
+const {Message} = require('../message.js');
 
 const orderScene = new Scenes.WizardScene('ORDER_SCENE',
   async (ctx) => {

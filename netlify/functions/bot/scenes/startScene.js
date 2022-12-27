@@ -1,6 +1,6 @@
 const {Scenes} = require('telegraf');
-const {Keyboard} = require('../layouts/keyboard.js');
-const {Message} = require('../layouts/message.js');
+const {Keyboard} = require('../keyboards.js');
+const {Message} = require('../messages.js');
 const startScene = new Scenes.BaseScene('WELCOME_SCENE');
 
 startScene.enter((ctx) => {
