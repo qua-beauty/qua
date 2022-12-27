@@ -1,11 +1,10 @@
 const {Telegraf, Scenes, session} = require('telegraf');
 const {startScene} = require('./scenes/startScene.js');
-const {orderScene} = require('./scenes/orderScene.js');
 const {masks} = require('./utils.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
-const stage = new Scenes.Stage([startScene, orderScene]);
+const stage = new Scenes.Stage([startScene]);
 bot.use(session());
 bot.use(stage.middleware());
 
