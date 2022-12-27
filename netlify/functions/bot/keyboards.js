@@ -1,9 +1,7 @@
 const {Markup} = require('telegraf');
 
 const Keyboards = {
-  start: Markup.inlineKeyboard([
-    [Markup.button.url(`Маркет`, `https://lankacafe.netlify.app`)],
-  ])
+  start: Markup.inlineKeyboard([Markup.button.url(`Маркет`, process.env.TWA_URL)])
 }
 
 module.exports = {
