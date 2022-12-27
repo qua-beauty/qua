@@ -11,15 +11,19 @@ const getStatusTitle = (status) => {
 
 const Messages = {
   start: `С Вами Маркет! Привет!\n\nЯ помогу вам оформить заказ на доставку блюда или продуктов!\n\nВы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!`,
-  orderCreated: () => {
-    const {products, comment, status, id} = order;
+  orderCreated: (data) => {
+    if(!data) {
+      return 'Произошло что-то странное, я не могу найти заказ. Отправил ошибку человеку, скоро он с вами свяжется.'
+    }
+
+    const {products, comment, status} = data;
 
     const productsMessage = products.reduce((acc, product, index) => {
       return acc + `${index + 1}\\. ${product.title} \\(${product.count} x ${product.price}\\)\n`;
     }, '');
 
     const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
-    return `Заказ \\#${id}\n\nМой заказ:\\!\n${productsMessage}\n*Общая сумма: ${sum}*\n*Комментарий:* ${comment}\n*Статус*: ${getStatusTitle(status)}`;
+    return `Ваш заказ:\\!\n${productsMessage}\n*Общая сумма: ${sum}*\n*Комментарий:* ${comment}\n*Статус*: ${getStatusTitle(status)}`;
   }
 }
 
