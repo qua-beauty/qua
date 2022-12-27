@@ -5,7 +5,6 @@ const {Message} = require('../messages.js');
 
 const orderScene = new Scenes.WizardScene('ORDER_SCENE',
   async (ctx) => {
-    console.log(ctx);
     const {message_id, text, chat: {id}} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
 

@@ -7,7 +7,7 @@ const getOrder = async (orderId) => {
   console.log(order);
 
   return order.exists ? {
-    data: order.data(),
+    ...order.data(),
     id: order.id
   } : null;
 };
