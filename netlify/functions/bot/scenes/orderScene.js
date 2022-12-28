@@ -8,6 +8,8 @@ const orderScene = new Scenes.WizardScene('ORDER_SCENE',
     const {text} = ctx.update.message;
     const match = text.match(masks.order);
 
+    console.log(text);
+
     if (match) {
       const orderId = match[0].replace('#', '');
       const order = await getOrder(orderId);
