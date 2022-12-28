@@ -40,9 +40,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       chatId, ctx.wizard.state.messageId,
       undefined,
       messages.orderPhoneNumber,
-      {
-        reply_markup: keyboards.orderPhoneNumber
-      }
+      keyboards.orderPhoneNumber
     );
 
     ctx.scene.state.location = location ? location : text;
