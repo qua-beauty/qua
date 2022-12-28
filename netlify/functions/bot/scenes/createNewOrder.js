@@ -35,12 +35,14 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     const {message_id: updateMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
 
+    console.log(ctx.state, ctx.wizard.state);
+
     await ctx.telegram.deleteMessage(chatId, updateMessageId);
     await ctx.telegram.editMessageText(
-      chatId, ctx.wizard.state.messageId,
+      chatId,
+      ctx.wizard.state.messageId,
       undefined,
-      messages.orderPhoneNumber,
-      keyboards.orderPhoneNumber
+      messages.orderPhoneNumber
     );
 
     ctx.scene.state.location = location ? location : text;
