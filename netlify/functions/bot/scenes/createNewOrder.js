@@ -7,58 +7,53 @@ const {keyboards} = require('../keyboards.js');
 
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
   async (ctx) => {
-    const {message_id: updateMessageId, text, chat: {id: chatId}} = ctx.update.message;
-    const orderId = text.match(masks.order)[0].replace('#', '');
-    await ctx.telegram.deleteMessage(chatId, updateMessageId);
 
+    // move to react
+    const {message_id: uMessageId, text, chat: {id: chatId}} = ctx.update.message;
+    const orderId = text.match(masks.order)[0].replace('#', '');
+    await ctx.telegram.deleteMessage(chatId, uMessageId);
     const order = await getOrder(orderId);
     await ctx.reply(messages.orderDraftCreated(order), {
       parse_mode: 'MarkdownV2'
     });
 
-    const {message_id: messageId} = await ctx.reply(
+    const message = await ctx.reply(
       messages.orderWhereToDelivery,
       keyboards.orderDeliveryAddress
     );
 
-    ctx.scene.state.orderId = orderId;
-    ctx.scene.state.messageId = messageId;
+    ctx.scene.state = {
+      orderId,
+      messageId: message.message_id
+    };
 
     return ctx.wizard.next();
   },
   async (ctx) => {
-    try {
+    const {message_id: uMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
+    const {messageId} = ctx.scene.state;
 
-    } catch (e) {
-      console.log(e.message);
-    }
-
-    const {message_id: updateMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
-
-    console.log(ctx.state, ctx.wizard.state);
-
-    await ctx.telegram.deleteMessage(chatId, updateMessageId);
     await ctx.telegram.editMessageText(
       chatId,
-      ctx.wizard.state.messageId,
-      undefined,
-      messages.orderPhoneNumber
+      messageId,
+      null,
+      messages.orderPhoneNumber,
+      keyboards.orderPhoneNumber
     );
+    await ctx.telegram.deleteMessage(chatId, uMessageId);
 
-    ctx.scene.state.location = location ? location : text;
-    ctx.scene.state.messageId = messageId;
+    ctx.scene.state = {
+      ...ctx.scene.state,
+      messageId,
+      location: location ? location : text
+    }
 
     return ctx.wizard.next();
 
   },
   async (ctx) => {
-    try {
-      await ctx.deleteMessage(ctx.wizard.state.messageId);
-    } catch (e) {
-      console.log(e.message);
-    }
-
-    const {message_id: updateMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
+    const {message_id: uMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
+    const {messageId} = ctx.scene.state;
 
     if (contact) {
       ctx.scene.state.phoneNumber = contact.phone_number;
@@ -68,14 +63,14 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         phoneNumber: ctx.wizard.state.phoneNumber
       });
 
-      await ctx.telegram.deleteMessage(chatId, updateMessageId);
       await ctx.telegram.editMessageText(
         chatId,
-        ctx.wizard.state.messageId,
-        undefined,
+        messageId,
+        null,
         messages.orderCreated,
         keyboards.removeKeyboard
       );
+      await ctx.telegram.deleteMessage(chatId, uMessageId);
 
       return await ctx.scene.leave();
     } else if (text.match(masks.phoneNumber)) {
@@ -89,8 +84,8 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       await ctx.telegram.deleteMessage(chatId, updateMessageId);
       await ctx.telegram.editMessageText(
         chatId,
-        ctx.wizard.state.messageId,
-        undefined,
+        messageId,
+        null,
         messages.orderCreated,
         keyboards.removeKeyboard
       );
