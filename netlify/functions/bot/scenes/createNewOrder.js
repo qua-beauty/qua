@@ -11,49 +11,37 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     // move to react
     const {message_id: uMessageId, text, chat: {id: chatId}} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
-    await ctx.telegram.deleteMessage(chatId, uMessageId);
     const order = await getOrder(orderId);
+
     await ctx.reply(messages.orderDraftCreated(order), {
       parse_mode: 'MarkdownV2'
     });
 
-    const message = await ctx.reply(
+    await ctx.reply(
       messages.orderWhereToDelivery,
       keyboards.orderDeliveryAddress
     );
 
-    ctx.scene.state = {
-      orderId,
-      messageId: message.message_id
-    };
+    await ctx.telegram.deleteMessage(chatId, uMessageId);
 
+    ctx.scene.state.orderId = orderId;
     return ctx.wizard.next();
   },
   async (ctx) => {
     const {message_id: uMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
-    const {messageId} = ctx.scene.state;
 
-    await ctx.telegram.editMessageText(
-      chatId,
-      messageId,
-      null,
+    await ctx.reply(
       messages.orderPhoneNumber,
       keyboards.orderPhoneNumber
     );
     await ctx.telegram.deleteMessage(chatId, uMessageId);
 
-    ctx.scene.state = {
-      ...ctx.scene.state,
-      messageId,
-      location: location ? location : text
-    }
-
+    ctx.scene.state.location = location ? location : text
     return ctx.wizard.next();
 
   },
   async (ctx) => {
     const {message_id: uMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
-    const {messageId} = ctx.scene.state;
 
     if (contact) {
       ctx.scene.state.phoneNumber = contact.phone_number;
@@ -63,10 +51,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         phoneNumber: ctx.wizard.state.phoneNumber
       });
 
-      await ctx.telegram.editMessageText(
-        chatId,
-        messageId,
-        null,
+      await ctx.reply(
         messages.orderCreated,
         keyboards.removeKeyboard
       );
@@ -81,14 +66,11 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         phoneNumber: ctx.wizard.state.phoneNumber
       });
 
-      await ctx.telegram.deleteMessage(chatId, updateMessageId);
-      await ctx.telegram.editMessageText(
-        chatId,
-        messageId,
-        null,
+      await ctx.reply(
         messages.orderCreated,
         keyboards.removeKeyboard
       );
+      await ctx.telegram.deleteMessage(chatId, updateMessageId);
 
       return await ctx.scene.leave();
     } else {
