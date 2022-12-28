@@ -17,26 +17,33 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       parse_mode: 'MarkdownV2'
     });
 
-    await ctx.reply(
+    const {message_id: messageId} = await ctx.reply(
       messages.orderWhereToDelivery,
       keyboards.orderDeliveryAddress
     );
 
     await ctx.telegram.deleteMessage(chatId, uMessageId);
 
-    ctx.scene.state.orderId = orderId;
+    ctx.scene.state = {
+      orderId,
+      messageId
+    };
     return ctx.wizard.next();
   },
   async (ctx) => {
     const {message_id: uMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
 
-    await ctx.reply(
+    const {message_id: messageId} = await ctx.reply(
       messages.orderPhoneNumber,
       keyboards.orderPhoneNumber
     );
+    await ctx.deleteMessage(ctx.scene.state.messageId);
     await ctx.telegram.deleteMessage(chatId, uMessageId);
 
-    ctx.scene.state.location = location ? location : text
+    ctx.scene.state = {
+      ...ctx.scene.state,
+      location: location ? location : text
+    };
     return ctx.wizard.next();
 
   },
@@ -45,37 +52,26 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     if (contact) {
       ctx.scene.state.phoneNumber = contact.phone_number;
-
-      await updateOrder(ctx.wizard.state.orderId, {
-        location: ctx.wizard.state.location,
-        phoneNumber: ctx.wizard.state.phoneNumber
-      });
-
-      await ctx.reply(
-        messages.orderCreated,
-        keyboards.removeKeyboard
-      );
-      await ctx.telegram.deleteMessage(chatId, uMessageId);
-
-      return await ctx.scene.leave();
     } else if (text.match(masks.phoneNumber)) {
       ctx.scene.state.phoneNumber = text;
-
-      await updateOrder(ctx.wizard.state.orderId, {
-        location: ctx.wizard.state.location,
-        phoneNumber: ctx.wizard.state.phoneNumber
-      });
-
-      await ctx.reply(
-        messages.orderCreated,
-        keyboards.removeKeyboard
-      );
-      await ctx.telegram.deleteMessage(chatId, updateMessageId);
-
-      return await ctx.scene.leave();
     } else {
-      await ctx.reply(messages.orderPhoneNumberInvalid);
+      return await ctx.reply(messages.orderPhoneNumberInvalid);
     }
+
+    await updateOrder(ctx.wizard.state.orderId, {
+      location: ctx.wizard.state.location,
+      phoneNumber: ctx.wizard.state.phoneNumber
+    });
+
+    await ctx.reply(
+      messages.orderCreated,
+      keyboards.removeKeyboard
+    );
+
+    await ctx.deleteMessage(ctx.scene.state.messageId);
+    await ctx.telegram.deleteMessage(chatId, uMessageId);
+
+    return await ctx.scene.leave();
   },
 );
 
