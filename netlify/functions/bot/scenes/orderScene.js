@@ -8,18 +8,9 @@ const orderScene = new Scenes.WizardScene('ORDER_SCENE',
     const {text} = ctx.update.message;
     const match = text.match(masks.order);
 
-    console.log(text);
-
-    if (match) {
-      const orderId = match[0].replace('#', '');
-      const order = await getOrder(orderId);
-
-      await ctx.reply(Message.orderCreated(order), {
-        parse_mode: 'MarkdownV2'
-      });
-    } else {
-      return ctx.scene.leave();
-    }
+    await ctx.reply('jdet vas '+match[0], {
+      parse_mode: 'MarkdownV2'
+    });
 
     return ctx.wizard.next();
   },
