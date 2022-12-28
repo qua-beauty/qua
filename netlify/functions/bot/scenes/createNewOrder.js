@@ -42,6 +42,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     ctx.scene.state = {
       ...ctx.scene.state,
+      messageId,
       location: location ? location : text
     };
     return ctx.wizard.next();
