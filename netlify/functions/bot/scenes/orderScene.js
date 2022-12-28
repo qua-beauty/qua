@@ -8,7 +8,13 @@ const orderScene = new Scenes.WizardScene('ORDER_SCENE',
     const {text} = ctx.update.message;
     const match = text.match(masks.order);
 
-    await ctx.reply('jdet vas '+match[0]);
+    console.log(text);
+
+    if (match) {
+      await ctx.reply(Message.orderCreated(null));
+    } else {
+      return ctx.scene.leave();
+    }
 
     return ctx.wizard.next();
   },
