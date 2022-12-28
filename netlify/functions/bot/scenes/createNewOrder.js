@@ -7,33 +7,56 @@ const {keyboards} = require('../keyboards.js');
 
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
   async (ctx) => {
-    const {message_id:messageId, text, chat: {id:chatId}} = ctx.update.message;
+    const {message_id: updateMessageId, text, chat: {id: chatId}} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
+    await ctx.telegram.deleteMessage(chatId, updateMessageId);
+
     const order = await getOrder(orderId);
-
-    ctx.scene.state.orderId = orderId;
-
-    await ctx.telegram.deleteMessage(chatId, messageId);
     await ctx.reply(messages.orderDraftCreated(order), {
       parse_mode: 'MarkdownV2'
     });
 
-    await ctx.reply(messages.orderWhereToDelivery, keyboards.orderDeliveryAddress);
+    const {message_id: messageId} = await ctx.reply(
+      messages.orderWhereToDelivery,
+      keyboards.orderDeliveryAddress
+    );
+
+    ctx.scene.state.orderId = orderId;
+    ctx.scene.state.messageId = messageId;
 
     return ctx.wizard.next();
   },
   async (ctx) => {
-    const {location, text} = ctx.update.message;
+    try {
+      await ctx.deleteMessage(ctx.wizard.state.messageId);
+    } catch (e) {
+      console.log(e.message);
+    }
+
+    const {message_id: updateMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
+
+    await ctx.telegram.deleteMessage(chatId, updateMessageId);
+    const {message_id: messageId} = await ctx.reply(
+      messages.orderPhoneNumber,
+      keyboards.orderPhoneNumber
+    );
+
     ctx.scene.state.location = location ? location : text;
-    await ctx.reply(messages.orderPhoneNumber, keyboards.orderPhoneNumber);
+    ctx.scene.state.messageId = messageId;
 
     return ctx.wizard.next();
 
   },
   async (ctx) => {
-    const {contact, text} = ctx.update.message;
+    try {
+      await ctx.deleteMessage(ctx.wizard.state.messageId);
+    } catch (e) {
+      console.log(e.message);
+    }
 
-    if(contact) {
+    const {message_id: updateMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
+
+    if (contact) {
       ctx.scene.state.phoneNumber = contact.phone_number;
 
       await updateOrder(ctx.wizard.state.orderId, {
@@ -41,10 +64,11 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         phoneNumber: ctx.wizard.state.phoneNumber
       });
 
+      await ctx.telegram.deleteMessage(chatId, updateMessageId);
       await ctx.reply(messages.orderCreated, keyboards.removeKeyboard);
 
       return await ctx.scene.leave();
-    } else if(text.match(masks.phoneNumber)) {
+    } else if (text.match(masks.phoneNumber)) {
       ctx.scene.state.phoneNumber = text;
 
       await updateOrder(ctx.wizard.state.orderId, {
@@ -52,6 +76,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         phoneNumber: ctx.wizard.state.phoneNumber
       });
 
+      await ctx.telegram.deleteMessage(chatId, updateMessageId);
       await ctx.reply(messages.orderCreated, keyboards.removeKeyboard);
 
       return await ctx.scene.leave();
