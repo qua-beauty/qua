@@ -11,7 +11,12 @@ const orderScene = new Scenes.WizardScene('ORDER_SCENE',
     console.log(text);
 
     if (match) {
-      await ctx.reply(Message.orderCreated(null));
+      const orderId = match[0].replace('#', '');
+      const order = await getOrder(orderId);
+
+      await ctx.reply(Message.orderCreated(order), {
+        parse_mode: 'MarkdownV2'
+      });
     } else {
       return ctx.scene.leave();
     }
