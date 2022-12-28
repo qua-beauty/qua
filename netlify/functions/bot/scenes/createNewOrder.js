@@ -74,9 +74,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         ctx.wizard.state.messageId,
         undefined,
         messages.orderCreated,
-        {
-          reply_markup: keyboards.removeKeyboard
-        }
+        keyboards.removeKeyboard
       );
 
       return await ctx.scene.leave();
@@ -94,9 +92,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
         ctx.wizard.state.messageId,
         undefined,
         messages.orderCreated,
-        {
-          reply_markup: keyboards.removeKeyboard
-        }
+        keyboards.removeKeyboard
       );
 
       return await ctx.scene.leave();
