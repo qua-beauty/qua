@@ -24,7 +24,11 @@ const Messages = {
 
     const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
     return `Ваш заказ:\n${productsMessage}\n*Общая сумма: ${sum}*\n*Комментарий:* ${comment}\n*Статус*: ${getStatusTitle(status)}`;
-  }
+  },
+  orderWhereToDelivery: 'Куда доставить заказ?',
+  orderPhoneNumber: 'Как с вами связаться?',
+  orderPhoneNumberInvalid: 'Телефон введен неправильно, попробуйте еще раз!'
+
 }
 
 module.exports = {

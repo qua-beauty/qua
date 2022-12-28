@@ -2,6 +2,7 @@ const {Telegraf, Scenes, session} = require('telegraf');
 const {startScene} = require('./scenes/startScene.js');
 const {orderScene} = require('./scenes/orderScene.js');
 const {masks} = require('./utils.js');
+const {sceneNames} = require('./constants.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -10,11 +11,11 @@ bot.use(session());
 bot.use(stage.middleware());
 
 bot.start(async (ctx) => {
-  await ctx.scene.enter('WELCOME_SCENE');
+  await ctx.scene.enter(sceneNames.START);
 });
 
 bot.hears(masks.order, async (ctx) => {
-  await ctx.scene.enter('ORDER_SCENE');
+  await ctx.scene.enter(sceneNames.CREATE_NEW_ORDER);
 });
 
 const handler = async (event) => {

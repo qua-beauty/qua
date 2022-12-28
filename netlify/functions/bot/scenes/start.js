@@ -1,17 +1,19 @@
 const {Scenes} = require('telegraf');
 const {Keyboard} = require('../keyboards.js');
 const {Message} = require('../messages.js');
-const startScene = new Scenes.BaseScene('WELCOME_SCENE');
+const {sceneNames} = require('../constants.js');
 
-startScene.enter((ctx) => {
-  ctx.reply(Message.start, Keyboard.start);
+const start = new Scenes.BaseScene(sceneNames.START);
+
+start.enter(async (ctx) => {
+  await ctx.reply(Message.start, Keyboard.start);
   ctx.scene.leave();
 });
 
-startScene.leave((ctx) => {
+start.leave((ctx) => {
   console.log('User left start scene');
 });
 
 module.exports = {
-  startScene
+  start
 };
