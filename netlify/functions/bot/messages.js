@@ -11,7 +11,7 @@ const getStatusTitle = (status) => {
 
 const messages = {
   start: `С Вами Маркет! Привет!\n\nЯ помогу вам оформить заказ на доставку блюда или продуктов!\n\nВы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!`,
-  orderCreated: (data) => {
+  orderDraftCreated: (data) => {
     if(!data) {
       return 'Произошло что-то странное, я не могу найти заказ. Отправил ошибку человеку, скоро он с вами свяжется.'
     }
@@ -27,7 +27,8 @@ const messages = {
   },
   orderWhereToDelivery: 'Куда доставить заказ?',
   orderPhoneNumber: 'Как с вами связаться?',
-  orderPhoneNumberInvalid: 'Телефон введен неправильно, попробуйте еще раз!'
+  orderPhoneNumberInvalid: 'Телефон введен неправильно, попробуйте еще раз!',
+  orderCreated: 'Заказ отправлен на кухню!'
 }
 
 module.exports = {
