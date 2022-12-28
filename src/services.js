@@ -1,6 +1,6 @@
 import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
 import {auth, firestore} from './firebase.js';
-import {createOrderMessage, webApp} from './telegramUtils.js';
+import {webApp, TWAMessages} from './telegram.js';
 
 export const createOrder = async (data) => {
   const orderData = {
@@ -27,7 +27,8 @@ export const createOrder = async (data) => {
         type: 'article',
         title: 'Order Created',
         input_message_content: {
-          message_text: `Delivery Order #${order.id}`,
+          message_text: TWAMessages.newOrder(order),
+          parse_mode: 'MarkdownV2'
         },
       })
     })

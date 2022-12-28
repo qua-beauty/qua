@@ -7,11 +7,9 @@ import {useParams} from 'react-router-dom';
 const CatalogProvider = ({children, ...rest}) => {
   const [loaded, setLoaded] = useState(false);
   const [catalog, setCatalog] = useState([]);
-  const [category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState({});
   const {shopId} = useParams();
-
-  console.log(useParams())
 
   const handleFilter = (key, value) => {
     if (filters.hasOwnProperty(key) && filters[key] === value) {
@@ -28,10 +26,10 @@ const CatalogProvider = ({children, ...rest}) => {
 
   const getCatalog = () => {
     const filterKeys = Object.keys(filters);
-    const singleCategory = category.filter(cat => cat.type === 'single').map(cat => cat.id);
+    const singleCategories = categories.filter(cat => cat.type === 'single').map(cat => cat.id);
 
     return catalog.filter((eachObj) => {
-      if (eachObj.category.some(r => singleCategory.includes(r)) && !filters?.category?.includes(eachObj.category)) {
+      if (eachObj.category.some(r => singleCategories.includes(r)) && !filters?.category?.includes(eachObj.category)) {
         return false;
       }
 
@@ -46,19 +44,33 @@ const CatalogProvider = ({children, ...rest}) => {
   };
 
   useEffect(() => {
-    const newCatalog = [];
-    const newCategory = [];
+    const newCategories = [];
 
-    console.log(shopId);
+    getDocs(collection(firestore, 'category')).then(docs => {
+      docs.forEach((doc) => {
+        newCategories.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      setCategories(newCategories);
+    });
+  }, []);
+
+  useEffect(() => {
+    const newCatalog = [];
 
     getDocs(collection(firestore, 'catalog')).then(docs => {
       docs.forEach((doc) => {
         const data = doc.data();
+        const cat = categories.filter(category => category.id === data.category[0])[0];
 
         if(shopId && data.shopId !== shopId) return;
 
         newCatalog.push({
           id: doc.id,
+          icon: cat ? cat.icon : null,
           ...data
         });
       });
@@ -66,25 +78,15 @@ const CatalogProvider = ({children, ...rest}) => {
       setLoaded(true);
       setCatalog(newCatalog);
     });
-
-    getDocs(collection(firestore, 'category')).then(docs => {
-      docs.forEach((doc) => {
-        newCategory.push({
-          id: doc.id,
-          ...doc.data()
-        });
-      });
-
-      setCategory(newCategory);
-    });
-  }, []);
+  }, [categories])
 
   return (
     <CatalogContext.Provider value={{
       catalog: getCatalog(),
       getProduct: (productId) => catalog.filter(product => product.id === productId)[0],
+      getCategory: (categoryId) => categories.filter(category => category.id === categoryId)[0],
       catalogByShop: () => getCatalog(),
-      category,
+      category: categories,
       filters,
       catalogLoaded: loaded,
       filter: handleFilter

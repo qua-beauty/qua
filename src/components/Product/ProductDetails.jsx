@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Box, Chip, styled, Typography} from '@mui/material';
 import {useNavigate, useParams} from 'react-router-dom';
 import CatalogContext from '../Catalog/CatalogContext.jsx';
-import {webApp} from '../../telegramUtils.js';
+import {webApp} from '../../telegram.js';
 import {getCurrencyTitle} from '../../utils.js';
 import BasketContext from '../Basket/BasketContext.jsx';
 

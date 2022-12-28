@@ -7,22 +7,13 @@ const {keyboards} = require('../keyboards.js');
 
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
   async (ctx) => {
-
-    // move to react
-    const {message_id: uMessageId, text, chat: {id: chatId}} = ctx.update.message;
+    const {text} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
-    const order = await getOrder(orderId);
-
-    await ctx.reply(messages.orderDraftCreated(order), {
-      parse_mode: 'MarkdownV2'
-    });
 
     const {message_id: messageId} = await ctx.reply(
       messages.orderWhereToDelivery,
       keyboards.orderDeliveryAddress
     );
-
-    await ctx.telegram.deleteMessage(chatId, uMessageId);
 
     ctx.scene.state = {
       orderId,

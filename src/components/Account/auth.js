@@ -1,4 +1,4 @@
-import {webApp} from '../../telegramUtils.js';
+import {webApp} from '../../telegram.js';
 import {signInWithCustomToken, signInAnonymously} from 'firebase/auth';
 import {auth, siteUrl} from '../../firebase.js';
 import {useAuthState} from 'react-firebase-hooks/auth';

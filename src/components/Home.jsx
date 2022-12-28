@@ -2,7 +2,7 @@ import React from 'react';
 import {styled} from '@mui/material';
 import Catalog from './Catalog/Catalog.jsx';
 import Filters from './Filters/Filters.jsx';
-import {webApp} from '../telegramUtils.js';
+import {webApp} from '../telegram.js';
 import {useParams} from 'react-router-dom';
 
 const Base = styled('div')`

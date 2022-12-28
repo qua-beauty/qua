@@ -3,7 +3,7 @@ import {Button, InputBase, styled, Typography} from '@mui/material';
 import ProductInline from '../Product/ProductInline.jsx';
 import BasketContext from './BasketContext.jsx';
 import {getCurrencyTitle} from '../../utils.js';
-import {webApp} from '../../telegramUtils.js';
+import {webApp} from '../../telegram.js';
 import {Link, useNavigate} from 'react-router-dom';
 
 const Base = styled('div')`
@@ -63,16 +63,16 @@ const BasketDetails = () => {
   const handleMakeOrder = () => {
     webApp.MainButton.disable();
     webApp.MainButton.showProgress();
+    webApp.disableClosingConfirmation();
 
     makeOrder({comment}).then(() => {
-      webApp.disableClosingConfirmation();
       webApp.MainButton.hideProgress();
       webApp.close();
     });
   };
 
   if (webApp) {
-    webApp.MainButton.text = `Оформить заказ 🎛 ${price} ${getCurrencyTitle(currency)}`;
+    webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
     webApp.MainButton.color = '#66bb6a';
     webApp.MainButton.enable();
     webApp.MainButton.onClick(handleMakeOrder);

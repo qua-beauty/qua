@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {webApp} from './telegramUtils.js';
+import {webApp} from './telegram.js';
 import useAuth from './components/Account/auth.js';
 import {Outlet, useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material';

@@ -4,7 +4,7 @@ import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from '@mui/materi
 import {RouterProvider} from 'react-router-dom';
 import BasketProvider from './components/Basket/BasketProvider.jsx';
 import CatalogProvider from './components/Catalog/CatalogProvider.jsx';
-import {webApp} from './telegramUtils.js';
+import {webApp} from './telegram.js';
 import {router} from './router.jsx';
 
 const theme = createTheme({
