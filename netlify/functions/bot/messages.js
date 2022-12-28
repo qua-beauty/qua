@@ -9,7 +9,7 @@ const getStatusTitle = (status) => {
   return statuses.hasOwnProperty(status) ? statuses[status] : status;
 }
 
-const Messages = {
+const messages = {
   start: `С Вами Маркет! Привет!\n\nЯ помогу вам оформить заказ на доставку блюда или продуктов!\n\nВы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!`,
   orderCreated: (data) => {
     if(!data) {
@@ -28,9 +28,8 @@ const Messages = {
   orderWhereToDelivery: 'Куда доставить заказ?',
   orderPhoneNumber: 'Как с вами связаться?',
   orderPhoneNumberInvalid: 'Телефон введен неправильно, попробуйте еще раз!'
-
 }
 
 module.exports = {
-  Message: Messages
+  messages
 };

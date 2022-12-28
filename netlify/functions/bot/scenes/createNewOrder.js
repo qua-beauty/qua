@@ -1,9 +1,9 @@
 const {Scenes} = require('telegraf');
 const {getOrder} = require('../services.js');
 const {masks} = require('../utils.js');
-const {Message} = require('../messages.js');
+const {messages} = require('../messages.js');
 const {sceneNames} = require('../constants.js');
-const {Keyboard} = require('../keyboards.js');
+const {keyboards} = require('../keyboards.js');
 
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
   async (ctx) => {
@@ -12,11 +12,11 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     const order = await getOrder(orderId);
 
     await ctx.telegram.deleteMessage(chatId, messageId);
-    await ctx.reply(Message.orderCreated(order), {
+    await ctx.reply(messages.orderCreated(order), {
       parse_mode: 'MarkdownV2'
     });
 
-    await ctx.reply(Message.orderWhereToDelivery, Keyboard.orderDeliveryAddress);
+    await ctx.reply(messages.orderWhereToDelivery, keyboards.orderDeliveryAddress);
 
     return ctx.wizard.next();
   },
@@ -25,7 +25,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     ctx.scene.state.location = location ? location : text;
 
-    await ctx.reply(Message.orderPhoneNumber, Keyboard.orderPhoneNumber);
+    await ctx.reply(messages.orderPhoneNumber, keyboards.orderPhoneNumber);
 
   },
   async (ctx) => {
@@ -38,7 +38,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       ctx.scene.state.phoneNumber = text;
       return ctx.scene.leave();
     } else {
-      await ctx.reply(Message.orderPhoneNumberInvalid);
+      await ctx.reply(messages.orderPhoneNumberInvalid);
     }
   }
 );

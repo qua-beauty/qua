@@ -1,6 +1,6 @@
 const {Telegraf, Scenes, session} = require('telegraf');
-const {startScene} = require('./scenes/startScene.js');
-const {orderScene} = require('./scenes/orderScene.js');
+const {startScene} = require('./scenes/start.js');
+const {orderScene} = require('./scenes/createNewOrder.js');
 const {masks} = require('./utils.js');
 const {sceneNames} = require('./constants.js');
 
