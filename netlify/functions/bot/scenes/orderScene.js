@@ -5,21 +5,15 @@ const {Message} = require('../messages.js');
 
 const orderScene = new Scenes.WizardScene('ORDER_SCENE',
   async (ctx) => {
-    const {text} = ctx.update.message;
-    const match = text.match(masks.order);
+    const {message_id:messageId, text, chat: {id:chatId}} = ctx.update.message;
+    const orderId = text.match(masks.order)[0].replace('#', '');
+    const order = await getOrder(orderId);
 
-    console.log(text);
-
-    if (match) {
-      const orderId = match[0].replace('#', '');
-      const order = await getOrder(orderId);
-
-      await ctx.reply(Message.orderCreated(order), {
-        parse_mode: 'MarkdownV2'
-      });
-    } else {
-      return ctx.scene.leave();
-    }
+    await ctx.telegram.deleteMessage(chatId, messageId);
+    await ctx.reply(Message.orderCreated(order), {
+      parse_mode: 'MarkdownV2'
+    });
+    await ctx.reply('Куда доставить заказ?');
 
     return ctx.wizard.next();
   },
