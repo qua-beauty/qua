@@ -9,12 +9,12 @@ const stage = new Scenes.Stage([startScene, orderScene]);
 bot.use(session());
 bot.use(stage.middleware());
 
-bot.start((ctx) => {
-  ctx.scene.enter('WELCOME_SCENE');
+bot.start(async (ctx) => {
+  await ctx.scene.enter('WELCOME_SCENE');
 });
 
-bot.hears(masks.order, (ctx) => {
-  ctx.scene.enter('ORDER_SCENE');
+bot.hears(masks.order, async (ctx) => {
+  await ctx.scene.enter('ORDER_SCENE');
 });
 
 const handler = async (event) => {
