@@ -5,16 +5,15 @@ const {Message} = require('../messages.js');
 
 const orderScene = new Scenes.WizardScene('ORDER_SCENE',
   async (ctx) => {
+    const {text} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
     const order = await getOrder(orderId);
-
-    console.log(order)
 
     await ctx.reply(Message.orderCreated(order), {
       parse_mode: 'MarkdownV2'
     });
 
-    return ctx.wizard.next();
+    return await ctx.wizard.next();
   },
   async (ctx) => {
     await ctx.reply('I got your location thanks');
