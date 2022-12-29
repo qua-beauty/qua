@@ -111,7 +111,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     };
   },
   (ctx) => {
-
+    return ctx.scene.leave();
   }
 );
 
