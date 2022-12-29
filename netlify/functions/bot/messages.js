@@ -24,7 +24,7 @@ const messages = {
     const productsText = products.reduce((acc, product) => {
       return acc + `${product.icon} ${product.title} \\(${product.count} x ${product.price}\\)\n`;
     }, '') + '\n';
-    const idText = `*ID*: #${id}\n`;
+    const idText = `*ID*: \\#${id}\n`;
     const sumText = `*Общая сумма*: ${sum}\n`;
     const commentText = comment ? `*Комментарий:* ${comment}\n` : '';
     const locationText = location ? `*Координаты:* ${location.latitude.toString()
