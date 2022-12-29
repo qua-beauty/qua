@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     if(!webApp) return;
 
-    if(basket) {
+    if(basket && basket.products.length > 0) {
       webApp.MainButton.text = 'Корзина 🧺';
       webApp.MainButton.color = theme.palette.primary.main;
       webApp.MainButton.textColor = theme.palette.common.white;
