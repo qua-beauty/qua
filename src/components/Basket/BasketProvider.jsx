@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasketContext from './BasketContext.jsx';
-import {createOrder} from '../../services.js';
+import {createNewOrder, fetchAnswerWebQuery} from '../../services.js';
+import {webApp} from '../../telegram.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [order, setOrder] = useState(null);
@@ -39,15 +40,19 @@ const BasketProvider = ({children, ...rest}) => {
   const handleMakeOrder = async (data) => {
     const {products} = basket;
 
-    return createOrder({
+    const order = await createNewOrder({
       products,
       created: new Date(),
       status: 'pending',
       ...data
-    }).then((order) => {
-      setOrder(order);
-      setBasket(null);
     });
+
+    if (webApp) {
+      await fetchAnswerWebQuery(`\#${order.id}`);
+    }
+
+    setOrder(order);
+    setBasket(null);
   };
 
   const getTimeForCook = () => {

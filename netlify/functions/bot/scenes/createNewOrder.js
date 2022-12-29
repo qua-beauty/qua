@@ -5,42 +5,63 @@ const {messages} = require('../messages.js');
 const {sceneNames} = require('../constants.js');
 const {keyboards} = require('../keyboards.js');
 
+const checkForLeave = (ctx, text) => {
+  if (text && text.match(masks.order)) {
+    return ctx.scene.leave();
+  }
+};
+
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
   async (ctx) => {
-    const {text} = ctx.update.message;
+    const {message_id: updateMessageId, chat: {id: chatId}, text} = ctx.update.message;
     const orderId = text.match(masks.order)[0].replace('#', '');
+    const order = await getOrder(orderId);
 
-    const {message_id: messageId} = await ctx.reply(
+    // Delete inline message from user
+    await ctx.telegram.deleteMessage(chatId, updateMessageId);
+
+    // Send Order Card
+    const {message_id: orderMessageId} = await ctx.reply(messages.orderCard(order), {
+      parse_mode: 'MarkdownV2'
+    });
+
+    // Ask user about delivery address
+    const {message_id: locationMessageId} = await ctx.reply(
       messages.orderWhereToDelivery,
       keyboards.orderDeliveryAddress
     );
 
     ctx.scene.state = {
-      orderId,
-      messageId
+      orderMessageId,
+      locationMessageId,
+      order
     };
+
     return ctx.wizard.next();
   },
   async (ctx) => {
-    const {message_id: uMessageId, chat: {id: chatId}, text, location} = ctx.update.message;
+    checkForLeave();
 
-    const {message_id: messageId} = await ctx.reply(
+    const {message_id: userLocationMessageId, text, location} = ctx.update.message;
+
+    const {message_id: phoneMessageId} = await ctx.reply(
       messages.orderPhoneNumber,
       keyboards.orderPhoneNumber
     );
-    await ctx.deleteMessage(ctx.scene.state.messageId);
-    await ctx.telegram.deleteMessage(chatId, uMessageId);
 
     ctx.scene.state = {
       ...ctx.scene.state,
-      messageId,
+      phoneMessageId,
+      userLocationMessageId,
       location: location ? location : text
     };
     return ctx.wizard.next();
 
   },
   async (ctx) => {
-    const {message_id: uMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
+    checkForLeave();
+
+    const {message_id: userPhoneMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
 
     if (contact) {
       ctx.scene.state.phoneNumber = contact.phone_number;
@@ -50,18 +71,27 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       return await ctx.reply(messages.orderPhoneNumberInvalid);
     }
 
-    await updateOrder(ctx.wizard.state.orderId, {
-      location: ctx.wizard.state.location,
-      phoneNumber: ctx.wizard.state.phoneNumber
+    const newOrderProps = {
+      location: ctx.scene.state.location,
+      phoneNumber: ctx.scene.state.phoneNumber,
+      status: 'moderate'
+    };
+
+    await updateOrder(ctx.scene.state.order.id, newOrderProps);
+
+    await ctx.deleteMessage(ctx.scene.state.orderMessageId);
+    await ctx.deleteMessage(ctx.scene.state.locationMessageId);
+    await ctx.deleteMessage(ctx.scene.state.phoneMessageId);
+    await ctx.deleteMessage(ctx.scene.state.userLocationMessageId);
+    await ctx.deleteMessage(userPhoneMessageId);
+
+    await ctx.reply(messages.orderCreated);
+    await ctx.reply(messages.orderCard({
+      ...ctx.wizard.state.order,
+      ...newOrderProps
+    }), {
+      parse_mode: 'MarkdownV2'
     });
-
-    await ctx.reply(
-      messages.orderCreated,
-      keyboards.removeKeyboard
-    );
-
-    await ctx.deleteMessage(ctx.scene.state.messageId);
-    await ctx.telegram.deleteMessage(chatId, uMessageId);
 
     return await ctx.scene.leave();
   },

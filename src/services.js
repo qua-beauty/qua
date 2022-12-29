@@ -1,8 +1,26 @@
 import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
 import {auth, firestore} from './firebase.js';
-import {webApp, TWAMessages} from './telegram.js';
+import {webApp} from './telegram.js';
 
-export const createOrder = async (data) => {
+export const fetchAnswerWebQuery = async (messageText) => {
+  await fetch('/api/answerWebAppQuery', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      queryId: webApp.initDataUnsafe.query_id,
+      id: webApp.initDataUnsafe.query_id,
+      type: 'article',
+      title: 'Order Created',
+      input_message_content: {
+        message_text: messageText,
+      },
+    })
+  })
+}
+
+export const createNewOrder = async (data) => {
   const orderData = {
     ...data,
     user: auth.currentUser ? auth.currentUser.uid : null,
@@ -10,31 +28,11 @@ export const createOrder = async (data) => {
   };
   const ordersRef = collection(firestore, 'orders');
   const orderSnap = await addDoc(ordersRef, orderData);
-  const order = {
+
+  return {
     ...orderData,
     id: orderSnap.id
   };
-
-  if (webApp) {
-    await fetch('/api/answerWebAppQuery', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        queryId: webApp.initDataUnsafe.query_id,
-        id: webApp.initDataUnsafe.query_id,
-        type: 'article',
-        title: 'Order Created',
-        input_message_content: {
-          message_text: TWAMessages.newOrder(order),
-          parse_mode: 'MarkdownV2'
-        },
-      })
-    })
-  }
-
-  return order;
 };
 
 export const fetchShops = async () => {
