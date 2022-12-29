@@ -10,7 +10,7 @@ const statuses = {
 }
 
 export const getCurrencyTitle = (currency) => {
-  return currencies.hasOwnProperty(currency) ? currencies[currency] : currency;
+  return currencies.hasOwnProperty(currency) ? currencies[currency] : currencies['LKR'];
 }
 
 export const getStatusTitle = (status) => {
