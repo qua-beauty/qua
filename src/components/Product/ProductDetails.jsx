@@ -78,18 +78,18 @@ const ChipPrice = styled(Chip)`
 `;
 
 const ChipButton = styled(IconButton)`
-  
+
 `;
 
 const ShopTitle = styled(Typography)`
   background: #222;
   color: #fff;
   border-radius: 8px;
-  
+
   margin-top: 8px;
   margin-bottom: 8px;
   padding: 2px 6px;
-  
+
   font-size: 13px;
   font-weight: 500;
 `;
@@ -130,7 +130,7 @@ const ProductDetails = () => {
 
       setAdded(count);
     }
-  }, [basket])
+  }, [basket]);
 
   useEffect(() => {
     if (webApp) {
@@ -147,16 +147,18 @@ const ProductDetails = () => {
         <Photo src={photo} alt=""/>
       </Image>
       <Content>
-        <ShopTitle>{shopTitle}</ShopTitle>
+        <ShopTitle sx={{
+          borderColor: shopColor !== '' ? shopColor : 'inherit'
+        }}>{shopTitle}</ShopTitle>
         <Title>{title}</Title>
         <Price>{price} {getCurrencyTitle(currency)}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
-                              label={`Добавить в корзину`}></ChipPrice>}
+                                   label={`Добавить в корзину`}></ChipPrice>}
 
         {added > 0 && <PlusMinus>
-          <ChipButton color="primary" size="small" onClick={handleMinus}><Remove /></ChipButton>
+          <ChipButton color="primary" size="small" onClick={handleMinus}><Remove/></ChipButton>
           <span>{added}</span>
-          <ChipButton color="primary" size="small" onClick={handlePlus}><Add /></ChipButton>
+          <ChipButton color="primary" size="small" onClick={handlePlus}><Add/></ChipButton>
         </PlusMinus>}
 
         {description && <Description>{description}</Description>}

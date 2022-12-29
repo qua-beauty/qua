@@ -1,4 +1,4 @@
-import {collection, addDoc, updateDoc, query, where, getDocs} from 'firebase/firestore';
+import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
 import {auth, firestore} from './firebase.js';
 import {webApp, TWAMessages} from './telegram.js';
 
@@ -16,7 +16,7 @@ export const createOrder = async (data) => {
   };
 
   if (webApp) {
-    const {inline_message_id: inlineMessageId} = await fetch('/api/answerWebAppQuery', {
+    await fetch('/api/answerWebAppQuery', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -31,12 +31,6 @@ export const createOrder = async (data) => {
           parse_mode: 'MarkdownV2'
         },
       })
-    })
-
-    console.log(inlineMessageId);
-
-    await updateDoc(orderSnap, {
-      inlineMessageId
     })
   }
 
@@ -84,9 +78,9 @@ export const fetchCatalog = async (shops, categories) => {
 
       catalog.push({
         id: doc.id,
-        icon: cat ? cat.icon : null,
-        shopTitle: shop ? shop.title : null,
-        shopColor: shop ? shop.color : null,
+        icon: cat ? cat.icon : '',
+        shopTitle: shop ? shop.title : '',
+        shopColor: shop ? shop.color : '',
         ...data
       });
     });

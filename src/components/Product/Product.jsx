@@ -113,7 +113,7 @@ const Product = (product) => {
         <img src={photo} alt=""/>
       </Image>
       <ShopTitle sx={{
-        borderColor: shopColor ? shopColor : 'inherit'
+        borderColor: shopColor !== '' ? shopColor : 'inherit'
       }}>{shopTitle}</ShopTitle>
       <Title>{title}</Title>
 
