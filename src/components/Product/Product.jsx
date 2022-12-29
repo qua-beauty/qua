@@ -1,8 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Chip, styled, Typography} from '@mui/material';
+import {Chip, IconButton, styled, Typography} from '@mui/material';
 import BasketContext from '../Basket/BasketContext.jsx';
 import {getCurrencyTitle} from '../../utils.js';
 import {Link} from 'react-router-dom';
+import {Add, Remove} from '@mui/icons-material';
 
 const Base = styled('div')`
   background: ${({ theme }) => theme.palette.background.paper};
@@ -53,10 +54,8 @@ const PlusMinus = styled('div')`
   }
 `;
 
-const ChipButton = styled(Chip)`
+const ChipButton = styled(IconButton)`
   background: ${({ theme }) => theme.palette.background.paper};
-  width: 40px;
-  height: 32px;
 `;
 
 const Title = styled(Typography)`
@@ -118,12 +117,12 @@ const Product = (product) => {
       }}>{shopTitle}</ShopTitle>
       <Title>{title}</Title>
 
-      {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
+      {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}`}></Chip>}
 
       {added > 0 && <PlusMinus>
-        <ChipButton label="➖" onClick={handleMinus}></ChipButton>
+        <ChipButton color="primary" size="small" onClick={handleMinus}><Remove /></ChipButton>
         <span>{added}</span>
-        <ChipButton label="➕" onClick={handlePlus}></ChipButton>
+        <ChipButton color="primary" size="small" onClick={handlePlus}><Add /></ChipButton>
       </PlusMinus>}
     </Base>
   );

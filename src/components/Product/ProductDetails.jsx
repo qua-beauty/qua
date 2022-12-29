@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Box, Chip, styled, Typography} from '@mui/material';
+import {Box, Chip, IconButton, styled, Typography} from '@mui/material';
 import {useNavigate, useParams} from 'react-router-dom';
 import CatalogContext from '../Catalog/CatalogContext.jsx';
 import {webApp} from '../../telegram.js';
 import {getCurrencyTitle} from '../../utils.js';
 import BasketContext from '../Basket/BasketContext.jsx';
+import {Add, Remove} from '@mui/icons-material';
 
 const Base = styled('div')`
   flex: 1;
@@ -34,6 +35,7 @@ const Photo = styled('img')`
   position: relative;
   z-index: 1;
   height: auto;
+  max-width: 100%;
 `;
 
 const Content = styled('div')`
@@ -75,10 +77,8 @@ const ChipPrice = styled(Chip)`
   font-size: 1rem;
 `;
 
-const ChipButton = styled(Chip)`
-  background: ${({ theme }) => theme.palette.background.paper};
-  width: 40px;
-  height: 32px;
+const ChipButton = styled(IconButton)`
+  
 `;
 
 const ShopTitle = styled(Typography)`
@@ -149,14 +149,14 @@ const ProductDetails = () => {
       <Content>
         <ShopTitle>{shopTitle}</ShopTitle>
         <Title>{title}</Title>
-        <Price>{price} {getCurrencyTitle(currency)}{time ? (' 􀐱' + time) : ''}</Price>
+        <Price>{price} {getCurrencyTitle(currency)}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
                               label={`Добавить в корзину`}></ChipPrice>}
 
         {added > 0 && <PlusMinus>
-          <ChipButton label="➖" onClick={handleMinus}></ChipButton>
+          <ChipButton color="primary" size="small" onClick={handleMinus}><Remove /></ChipButton>
           <span>{added}</span>
-          <ChipButton label="➕" onClick={handlePlus}></ChipButton>
+          <ChipButton color="primary" size="small" onClick={handlePlus}><Add /></ChipButton>
         </PlusMinus>}
 
         {description && <Description>{description}</Description>}

@@ -43,8 +43,6 @@ const CatalogProvider = ({children, ...rest}) => {
 
   useEffect(() => {
     Promise.all([fetchShops(), fetchCategories()]).then(([shops, categories]) => {
-      console.log(shops, categories)
-
       fetchCatalog(shops, categories).then((catalog) => {
         setCatalog(catalog);
         setShops(shops);
