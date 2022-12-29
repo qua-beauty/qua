@@ -20,11 +20,11 @@ const Base = styled('div')`
 `;
 
 const Image = styled(Box)`
-  padding: 20px;
   width: 100%;
   height: 300px;
   display: flex;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
 
   position: relative;
@@ -33,14 +33,7 @@ const Image = styled(Box)`
 const Photo = styled('img')`
   position: relative;
   z-index: 1;
-`;
-
-const Backdrop = styled('img')`
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 300px;
-  filter: blur(40px)
+  height: auto;
 `;
 
 const Content = styled('div')`
@@ -152,7 +145,6 @@ const ProductDetails = () => {
     <Base component="div">
       <Image>
         <Photo src={photo} alt=""/>
-        <Backdrop src={photo} alt=""/>
       </Image>
       <Content>
         <ShopTitle>{shopTitle}</ShopTitle>
