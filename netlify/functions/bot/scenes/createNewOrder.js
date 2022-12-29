@@ -5,10 +5,22 @@ const {messages} = require('../messages.js');
 const {sceneNames} = require('../constants.js');
 const {keyboards} = require('../keyboards.js');
 
-const checkForLeave = (ctx, text) => {
-  if (text && text.match(masks.order)) {
-    return ctx.scene.leave();
-  }
+const clearMessages = (ctx) => {
+  const {
+    orderMessageId,
+    locationMessageId,
+    phoneMessageId,
+    userLocationMessageId,
+    userPhoneMessageId,
+    orderPhoneInvalidMessageId
+  } = ctx.scene.state;
+
+  if (orderMessageId) ctx.deleteMessage(orderMessageId);
+  if (locationMessageId) ctx.deleteMessage(locationMessageId);
+  if (phoneMessageId) ctx.deleteMessage(phoneMessageId);
+  if (userLocationMessageId) ctx.deleteMessage(userLocationMessageId);
+  if (userPhoneMessageId) ctx.deleteMessage(userPhoneMessageId);
+  if (orderPhoneInvalidMessageId) ctx.deleteMessage(orderPhoneInvalidMessageId);
 };
 
 const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
@@ -40,9 +52,13 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     return ctx.wizard.next();
   },
   async (ctx) => {
-    checkForLeave();
-
     const {message_id: userLocationMessageId, text, location} = ctx.update.message;
+
+    if (location) {
+      ctx.scene.state.newOrderFields = {location};
+    } else {
+      ctx.scene.state.newOrderFields = {locationAddress: text};
+    }
 
     const {message_id: phoneMessageId} = await ctx.reply(
       messages.orderPhoneNumber,
@@ -52,50 +68,70 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     ctx.scene.state = {
       ...ctx.scene.state,
       phoneMessageId,
-      userLocationMessageId,
-      location: location ? location : text
+      userLocationMessageId
     };
+
     return ctx.wizard.next();
 
   },
   async (ctx) => {
-    checkForLeave();
-
-    const {message_id: userPhoneMessageId, chat: {id: chatId}, text, contact} = ctx.update.message;
+    const {message_id: userPhoneMessageId, text, contact} = ctx.update.message;
 
     if (contact) {
-      ctx.scene.state.phoneNumber = contact.phone_number;
+      ctx.scene.state.newOrderFields.phoneNumber = contact.phone_number;
     } else if (text.match(masks.phoneNumber)) {
-      ctx.scene.state.phoneNumber = text;
+      ctx.scene.state.newOrderFields.phoneNumber = text;
     } else {
-      return await ctx.reply(messages.orderPhoneNumberInvalid);
+      const {message_id: orderPhoneInvalidMessageId} = await ctx.reply(messages.orderPhoneNumberInvalid);
+      ctx.scene.state.orderPhoneInvalidMessageId = orderPhoneInvalidMessageId;
     }
 
-    const newOrderProps = {
-      location: ctx.scene.state.location,
-      phoneNumber: ctx.scene.state.phoneNumber,
-      status: 'moderate'
-    };
+    ctx.scene.state.newOrderFields.status = 'moderate';
 
-    await updateOrder(ctx.scene.state.order.id, newOrderProps);
-
-    await ctx.deleteMessage(ctx.scene.state.orderMessageId);
-    await ctx.deleteMessage(ctx.scene.state.locationMessageId);
-    await ctx.deleteMessage(ctx.scene.state.phoneMessageId);
-    await ctx.deleteMessage(ctx.scene.state.userLocationMessageId);
-    await ctx.deleteMessage(userPhoneMessageId);
-
-    await ctx.reply(messages.orderCreated);
-    await ctx.reply(messages.orderCard({
-      ...ctx.wizard.state.order,
-      ...newOrderProps
-    }), {
-      parse_mode: 'MarkdownV2'
+    await updateOrder(ctx.scene.state.order.id, {
+      ...ctx.scene.state.newOrderFields
     });
 
-    return await ctx.scene.leave();
+    clearMessages(ctx);
+
+    const {message_id: orderCreatedMessageId} = await ctx.reply(messages.orderCreated);
+    const {message_id: orderMessageId} = await ctx.reply(messages.orderCard({
+      ...ctx.scene.state.order,
+      ...ctx.scene.state.newOrderFields
+    }), {
+      parse_mode: 'MarkdownV2',
+      ...keyboards.orderUserActions
+    });
+
+    ctx.scene.state = {
+      ...ctx.scene.state,
+      orderCreatedMessageId,
+      orderMessageId,
+      userPhoneMessageId
+    };
   },
+  (ctx) => {
+
+  }
 );
+
+createNewOrderScene.action('cancelOrder', async (ctx, next) => {
+  await updateOrder(ctx.scene.state.order.id, {
+    status: 'cancelled'
+  });
+
+  if (ctx.scene.state.orderMessageId) ctx.deleteMessage(ctx.scene.state.orderMessageId);
+  if (ctx.scene.state.orderCreatedMessageId) ctx.deleteMessage(ctx.scene.state.orderMessageId);
+
+  await ctx.reply(messages.orderCard({
+    ...ctx.scene.state.order,
+    status: 'cancelled'
+  }), {
+    parse_mode: 'MarkdownV2',
+  });
+
+  return await ctx.scene.leave();
+});
 
 module.exports = {
   createNewOrderScene

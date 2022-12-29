@@ -3,7 +3,8 @@ const statuses = {
   moderate: 'Отправлен в ресторан',
   cooking: 'Готовится',
   complete: 'Выполнен',
-  decline: 'Отклонен'
+  decline: 'Отклонен',
+  cancelled: 'Отменен'
 };
 
 const getStatusTitle = (status) => {
@@ -17,19 +18,22 @@ const messages = {
       return 'Произошло что-то странное, я не могу найти заказ. Отправил ошибку людям, скоро с вами свяжутся.';
     }
 
-    const {products, comment, status, location, phoneNumber} = data;
+    const {id, products, comment, status, location, locationAddress, phoneNumber} = data;
     const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
 
     const productsText = products.reduce((acc, product) => {
       return acc + `${product.icon} ${product.title} \\(${product.count} x ${product.price}\\)\n`;
     }, '') + '\n';
+    const idText = `*ID*: #${id}\n`;
     const sumText = `*Общая сумма*: ${sum}\n`;
     const commentText = comment ? `*Комментарий:* ${comment}\n` : '';
-    const locationText = location ? `*Координаты:* ${location.latitude.toString().replace('.', '\\.')}\\,${location.longitude.toString().replace('.', '\\.')}\n` : '';
+    const locationText = location ? `*Координаты:* ${location.latitude.toString()
+      .replace('.', '\\.')}\\,${location.longitude.toString().replace('.', '\\.')}\n` : '';
+    const locationAddressText = locationAddress ? `*Адрес для доставки:* ${locationAddress}\n` : '';
     const phoneNumberText = phoneNumber ? `*Телефон для связи:* ${phoneNumber}\n` : '';
     const statusText = `*Статус*: ${getStatusTitle(status)}`;
 
-    return `*Ваш заказ:*\n\n${productsText}${sumText}${commentText}${locationText}${phoneNumberText}${statusText}`;
+    return `*Ваш заказ:*\n\n${productsText}${idText}${sumText}${commentText}${locationText}${locationAddressText}${phoneNumberText}${statusText}`;
   },
   orderWhereToDelivery: 'Куда доставить заказ?',
   orderPhoneNumber: 'Как с вами связаться?',

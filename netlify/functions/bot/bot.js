@@ -15,6 +15,7 @@ bot.start(async (ctx) => {
 });
 
 bot.hears(masks.order, async (ctx) => {
+  ctx.scene.reset();
   await ctx.scene.enter(sceneNames.CREATE_NEW_ORDER);
 });
 
