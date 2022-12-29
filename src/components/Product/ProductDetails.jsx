@@ -101,6 +101,10 @@ const ShopTitle = styled(Typography)`
   font-weight: 500;
 `;
 
+const Price = styled('div')`
+  margin-bottom: 16px;
+`;
+
 const ProductDetails = () => {
   const {getProduct} = useContext(CatalogContext);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
@@ -153,13 +157,14 @@ const ProductDetails = () => {
       <Content>
         <ShopTitle>{shopTitle}</ShopTitle>
         <Title>{title}</Title>
+        <Price>{price} {getCurrencyTitle(currency)}{time ? (' 􀐱' + time) : ''}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
-                              label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></ChipPrice>}
+                              label={`Добавить в корзину`}></ChipPrice>}
 
         {added > 0 && <PlusMinus>
-          <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
+          <ChipButton label="➖" onClick={handleMinus}></ChipButton>
           <span>{added}</span>
-          <ChipButton label="􀅼" onClick={handlePlus}></ChipButton>
+          <ChipButton label="➕" onClick={handlePlus}></ChipButton>
         </PlusMinus>}
 
         {description && <Description>{description}</Description>}

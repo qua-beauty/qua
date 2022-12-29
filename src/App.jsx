@@ -15,7 +15,7 @@ function App() {
     if(!webApp) return;
 
     if(basket) {
-      webApp.MainButton.text = 'В корзину 🧺';
+      webApp.MainButton.text = 'Корзина 🧺';
       webApp.MainButton.color = theme.palette.primary.main;
       webApp.MainButton.textColor = theme.palette.common.white;
       webApp.MainButton.onClick(() => {

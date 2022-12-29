@@ -121,9 +121,9 @@ const Product = (product) => {
       {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
 
       {added > 0 && <PlusMinus>
-        <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>
+        <ChipButton label="➖" onClick={handleMinus}></ChipButton>
         <span>{added}</span>
-        <ChipButton label="􀅼" onClick={handlePlus}></ChipButton>
+        <ChipButton label="➕" onClick={handlePlus}></ChipButton>
       </PlusMinus>}
     </Base>
   );
