@@ -30,7 +30,7 @@ const messages = {
     const locationText = location ? `*Координаты:* ${location.latitude.toString()
       .replace('.', '\\.')}\\,${location.longitude.toString().replace('.', '\\.')}\n` : '';
     const locationAddressText = locationAddress ? `*Адрес для доставки:* ${locationAddress}\n` : '';
-    const phoneNumberText = phoneNumber ? `*Телефон для связи:* ${phoneNumber}\n` : '';
+    const phoneNumberText = phoneNumber ? `*Телефон для связи:* ${phoneNumber.replace('+', '\\+')}\n` : '';
     const statusText = `*Статус*: ${getStatusTitle(status)}`;
 
     return `*Ваш заказ:*\n\n${productsText}${idText}${sumText}${commentText}${locationText}${locationAddressText}${phoneNumberText}${statusText}`;
