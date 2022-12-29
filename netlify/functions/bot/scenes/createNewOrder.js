@@ -109,6 +109,8 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       orderMessageId,
       userPhoneMessageId
     };
+
+    return ctx.wizard.next();
   },
   (ctx) => {
     return ctx.scene.leave();
