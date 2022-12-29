@@ -22,18 +22,22 @@ const messages = {
     const sum = products.reduce((acc, product) => acc + parseInt(product.count) * parseInt(product.price), 0);
 
     const productsText = products.reduce((acc, product) => {
-      return acc + `${product.icon} ${product.title} \\(${product.count} x ${product.price}\\)\n`;
+      return acc + `${product.icon} ${product.title} (${product.count} x ${product.price})\n`;
     }, '') + '\n';
-    const idText = `*ID*: \\#${id}\n`;
-    const sumText = `*Общая сумма*: ${sum}\n`;
-    const commentText = comment ? `*Комментарий:* ${comment}\n` : '';
-    const locationText = location ? `*Координаты:* ${location.latitude.toString()
-      .replace('.', '\\.')}\\,${location.longitude.toString().replace('.', '\\.')}\n` : '';
-    const locationAddressText = locationAddress ? `*Адрес для доставки:* ${locationAddress}\n` : '';
-    const phoneNumberText = phoneNumber ? `*Телефон для связи:* ${phoneNumber.replace('+', '\\+')}\n` : '';
-    const statusText = `*Статус*: ${getStatusTitle(status)}`;
 
-    return `*Ваш заказ:*\n\n${productsText}${idText}${sumText}${commentText}${locationText}${locationAddressText}${phoneNumberText}${statusText}`;
+    return [
+      '*Ваш заказ:*\n\n',
+      productsText,
+      `*ID*: #${id}\n`,
+      `*Общая сумма*: ${sum}\n`,
+      comment ? `*Комментарий:* ${comment}\n` : '',
+      location ? `*Координаты:* ${location.latitude},${location.longitude}\n` : '',
+      locationAddress ? `*Адрес для доставки:* ${locationAddress}\n` : '',
+      phoneNumber ? `*Телефон для связи:* ${phoneNumber}\n` : '',
+      `*Статус*: ${getStatusTitle(status)}`,
+    ]
+      .join('')
+      .replace(/[.#+?^${}()|[\]\\]/g, '\\$&');
   },
   orderWhereToDelivery: 'Куда доставить заказ?',
   orderPhoneNumber: 'Как с вами связаться?',
