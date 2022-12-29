@@ -37,6 +37,58 @@ export const createOrder = async (data) => {
   return order;
 };
 
+export const fetchShops = async () => {
+  const shops = [];
+
+  await getDocs(collection(firestore, 'shops')).then(docs => {
+    docs.forEach((doc) => {
+      shops.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+  });
+
+  return shops;
+}
+
+export const fetchCategories = async () => {
+  const categories = [];
+
+  await getDocs(collection(firestore, 'category')).then(docs => {
+    docs.forEach((doc) => {
+      categories.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+  });
+
+  return categories;
+}
+
+export const fetchCatalog = async (shops, categories) => {
+  const catalog = [];
+
+  await getDocs(collection(firestore, 'catalog')).then(docs => {
+    docs.forEach((doc) => {
+      const data = doc.data();
+      const cat = categories.filter(category => category.id === data.category[0])[0];
+      const shop = shops.filter(shop => shop.id === data.shopId)[0];
+
+      catalog.push({
+        id: doc.id,
+        icon: cat ? cat.icon : null,
+        shopTitle: shop ? shop.title : null,
+        shopColor: shop ? shop.color : null,
+        ...data
+      });
+    });
+  });
+
+  return catalog;
+}
+
 export const getUserOrders = async (user) => {
   const basket = collection(firestore, 'orders');
   const q = query(basket, where('user', '==', user.uid));

@@ -18,7 +18,7 @@ const Base = styled('div')`
   overflow: hidden;
   margin: 5px;
   box-sizing: border-box;
-  height: 208px;
+  min-height: 240px;
   
   text-align: center;
 
@@ -60,13 +60,25 @@ const ChipButton = styled(Chip)`
 `;
 
 const Title = styled(Typography)`
-  margin: 8px 0;
+  margin: 4px 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+`;
+
+
+const ShopTitle = styled(Typography)`
+  border: 1px solid #222;
+  border-radius: 8px;
+  
+  margin-top: 8px;
+  padding: 2px 6px;
+  
   font-size: 13px;
   font-weight: 500;
 `;
 
 const Product = (product) => {
-  const {title, photo, price, currency, time, id} = product;
+  const {title, photo, price, currency, time, shopTitle, shopColor, id} = product;
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const [added, setAdded] = useState(0);
 
@@ -101,9 +113,12 @@ const Product = (product) => {
       <Image to={`/product/${id}`}>
         <img src={photo} alt=""/>
       </Image>
+      <ShopTitle sx={{
+        borderColor: shopColor ? shopColor : 'inherit'
+      }}>{shopTitle}</ShopTitle>
       <Title>{title}</Title>
 
-      {added === 0 && <Chip color="secondary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
+      {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></Chip>}
 
       {added > 0 && <PlusMinus>
         <ChipButton label="􀅽" onClick={handleMinus}></ChipButton>

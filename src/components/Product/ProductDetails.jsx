@@ -88,13 +88,25 @@ const ChipButton = styled(Chip)`
   height: 32px;
 `;
 
+const ShopTitle = styled(Typography)`
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+  
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 2px 6px;
+  
+  font-size: 13px;
+  font-weight: 500;
+`;
 
 const ProductDetails = () => {
   const {getProduct} = useContext(CatalogContext);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const {productId} = useParams();
   const product = getProduct(productId);
-  const {title, photo, description, price, currency, time, id} = product || {};
+  const {title, photo, description, price, currency, time, id, shopTitle} = product || {};
   const navigate = useNavigate();
 
   const [added, setAdded] = useState(0);
@@ -139,8 +151,9 @@ const ProductDetails = () => {
         <Backdrop src={photo} alt=""/>
       </Image>
       <Content>
+        <ShopTitle>{shopTitle}</ShopTitle>
         <Title>{title}</Title>
-        {added === 0 && <ChipPrice color="secondary" onClick={handleClick}
+        {added === 0 && <ChipPrice color="primary" onClick={handleClick}
                               label={`${price} ${getCurrencyTitle(currency)}${time ? (' 􀐱' + time) : ''}`}></ChipPrice>}
 
         {added > 0 && <PlusMinus>
@@ -149,7 +162,7 @@ const ProductDetails = () => {
           <ChipButton label="􀅼" onClick={handlePlus}></ChipButton>
         </PlusMinus>}
 
-        <Description>{description}</Description>
+        {description && <Description>{description}</Description>}
       </Content>
     </Base>
   );
