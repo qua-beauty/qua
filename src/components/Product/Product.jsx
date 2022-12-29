@@ -77,7 +77,7 @@ const ShopTitle = styled(Typography)`
 `;
 
 const Product = (product) => {
-  const {title, photo, price, currency, time, shopTitle, shopColor, id} = product;
+  const {title, photo, price, currency, shopTitle, shopColor, id} = product;
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const [added, setAdded] = useState(0);
 

@@ -103,7 +103,7 @@ const ProductDetails = () => {
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const {productId} = useParams();
   const product = getProduct(productId);
-  const {title, photo, description, price, currency, time, id, shopTitle} = product || {};
+  const {title, photo, description, price, currency, id, shopTitle, shopColor} = product || {};
   const navigate = useNavigate();
 
   const [added, setAdded] = useState(0);
