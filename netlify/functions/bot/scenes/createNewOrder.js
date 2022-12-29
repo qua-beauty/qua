@@ -87,6 +87,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     }
 
     ctx.scene.state.newOrderFields.status = 'moderate';
+    ctx.scene.state.userPhoneMessageId = userPhoneMessageId;
 
     await updateOrder(ctx.scene.state.order.id, {
       ...ctx.scene.state.newOrderFields
@@ -106,8 +107,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     ctx.scene.state = {
       ...ctx.scene.state,
       orderCreatedMessageId,
-      orderMessageId,
-      userPhoneMessageId
+      orderMessageId
     };
 
     return ctx.wizard.next();
