@@ -46,7 +46,10 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     ctx.scene.state = {
       orderMessageId,
       locationMessageId,
-      order
+      order,
+      telegram: {
+        chatId
+      }
     };
 
     return ctx.wizard.next();
@@ -86,29 +89,25 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       ctx.scene.state.orderPhoneInvalidMessageId = orderPhoneInvalidMessageId;
     }
 
-    ctx.scene.state.newOrderFields.status = 'moderate';
     ctx.scene.state.userPhoneMessageId = userPhoneMessageId;
-
-    await updateOrder(ctx.scene.state.order.id, {
-      ...ctx.scene.state.newOrderFields
-    });
+    ctx.scene.state.newOrderFields.status = 'moderate';
 
     clearMessages(ctx);
 
-    const {message_id: orderCreatedMessageId} = await ctx.reply(messages.orderCreated);
+    await ctx.reply(messages.orderCreated);
     const {message_id: orderMessageId} = await ctx.reply(messages.orderCard({
       ...ctx.scene.state.order,
       ...ctx.scene.state.newOrderFields
     }), {
       parse_mode: 'MarkdownV2',
-      ...keyboards.orderUserActions
+      ...keyboards.orderUserActions(ctx.scene.state.order.id)
     });
 
-    ctx.scene.state = {
-      ...ctx.scene.state,
-      orderCreatedMessageId,
-      orderMessageId
-    };
+    ctx.scene.state.newOrderFields.telegram.userMessageId = orderMessageId;
+
+    await updateOrder(ctx.scene.state.order.id, {
+      ...ctx.scene.state.newOrderFields
+    });
 
     return ctx.wizard.next();
   },
@@ -116,24 +115,6 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     return ctx.scene.leave();
   }
 );
-
-createNewOrderScene.action('cancelOrder', async (ctx, next) => {
-  await updateOrder(ctx.scene.state.order.id, {
-    status: 'cancelled'
-  });
-
-  if (ctx.scene.state.orderMessageId) ctx.deleteMessage(ctx.scene.state.orderMessageId);
-  if (ctx.scene.state.orderCreatedMessageId) ctx.deleteMessage(ctx.scene.state.orderMessageId);
-
-  await ctx.reply(messages.orderCard({
-    ...ctx.scene.state.order,
-    status: 'cancelled'
-  }), {
-    parse_mode: 'MarkdownV2',
-  });
-
-  return await ctx.scene.leave();
-});
 
 module.exports = {
   createNewOrderScene

@@ -3,6 +3,11 @@ const sceneNames = {
   START: 'START'
 }
 
+const actionNames = {
+  CANCEL_ORDER: 'CANCEL_ORDER'
+}
+
 module.exports = {
-  sceneNames
+  sceneNames,
+  actionNames
 }
