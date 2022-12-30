@@ -22,10 +22,10 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
 const cancelOrder = (ctx) => updateOrderAction(ctx, 'cancelled', true);
 const shopDeclineOrder = (ctx) => updateOrderAction(ctx, 'declined');
-const shopApproveOrder = (ctx) => updateOrderAction(ctx, 'approved');
+const shopAcceptOrder = (ctx) => updateOrderAction(ctx, 'cooking');
 
 module.exports = {
   cancelOrder,
   shopDeclineOrder,
-  shopApproveOrder
+  shopAcceptOrder
 };
