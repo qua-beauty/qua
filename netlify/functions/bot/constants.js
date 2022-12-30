@@ -4,7 +4,9 @@ const sceneNames = {
 }
 
 const actionNames = {
-  CANCEL_ORDER: 'CANCEL_ORDER'
+  CANCEL_ORDER: 'CANCEL_ORDER',
+  SHOP_DECLINE_ORDER: 'SHOP_DECLINE_ORDER',
+  SHOP_ACCEPT_ORDER: 'SHOP_ACCEPT_ORDER',
 }
 
 module.exports = {

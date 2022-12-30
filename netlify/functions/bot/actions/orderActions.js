@@ -1,22 +1,31 @@
 const {updateOrder, getOrder} = require('../services.js');
 const {messages} = require('../messages.js');
+const {parseMode} = require('../utils.js');
 
-const cancelOrder = async (ctx) => {
+const updateOrderAction = async (ctx, status, isUser) => {
   const orderId = ctx.callbackQuery.data.split(' ')[1];
   const order = await getOrder(orderId);
-
-  await updateOrder(orderId, {
-    status: 'cancelled'
-  });
-
-  await ctx.editMessageText(messages.orderCard({
+  const newOrder = {
     ...order,
-    status: 'cancelled'
-  }), {
-    parse_mode: 'MarkdownV2',
-  });
+    status
+  };
+  const message = messages.orderCard(newOrder);
+
+  await updateOrder(orderId, {status});
+  await ctx.editMessageText(message, parseMode);
+
+  if(!isUser){
+    const {chatId, userMessageId} = order.telegram;
+    await ctx.telegram.editMessageText(chatId, userMessageId, null, message, parseMode);
+  }
 };
 
+const cancelOrder = (ctx) => updateOrderAction(ctx, 'cancelled', true);
+const shopDeclineOrder = (ctx) => updateOrderAction(ctx, 'declined');
+const shopApproveOrder = (ctx) => updateOrderAction(ctx, 'approved');
+
 module.exports = {
-  cancelOrder
+  cancelOrder,
+  shopDeclineOrder,
+  shopApproveOrder
 };

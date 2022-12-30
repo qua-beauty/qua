@@ -42,6 +42,8 @@ const BasketProvider = ({children, ...rest}) => {
 
     const order = await createNewOrder({
       products,
+      shopId: products[0].shopId,
+      telegramGroupId: products[0].shop.telegramGroupId,
       created: new Date(),
       status: 'pending',
       ...data

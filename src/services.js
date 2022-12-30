@@ -77,6 +77,7 @@ export const fetchCatalog = async (shops, categories) => {
       catalog.push({
         id: doc.id,
         icon: cat ? cat.icon : '',
+        shop, // TODO: rewrite it
         shopTitle: shop ? shop.title : '',
         shopColor: shop ? shop.color : '',
         ...data

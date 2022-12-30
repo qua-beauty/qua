@@ -1,9 +1,9 @@
 const statuses = {
   pending: 'В обработке',
-  moderate: 'Отправлен в ресторан',
+  moderate: 'Ожидаем ответа от Ресторана',
   cooking: 'Готовится',
   complete: 'Выполнен',
-  decline: 'Отклонен',
+  declined: 'Отклонен Рестораном',
   cancelled: 'Отменен'
 };
 
@@ -13,7 +13,7 @@ const getStatusTitle = (status) => {
 
 const messages = {
   start: `С Вами Маркет! Привет!\n\nЯ помогу вам оформить заказ на доставку блюда или продуктов!\n\nВы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!`,
-  orderCard: (data) => {
+  orderCard: (data, type = 'user') => {
     if (!data) {
       return 'Произошло что-то странное, я не могу найти заказ. Отправил ошибку людям, скоро с вами свяжутся.';
     }
@@ -26,7 +26,7 @@ const messages = {
     }, '') + '\n';
 
     return [
-      '*Ваш заказ:*\n\n',
+      type === 'shop' ? '*Новый заказ!*\n\n' : '*Ваш заказ:*\n\n',
       productsText,
       `*ID*: #${id}\n`,
       `*Общая сумма*: ${sum}\n`,
@@ -37,7 +37,7 @@ const messages = {
       `*Статус*: ${getStatusTitle(status)}`,
     ]
       .join('')
-      .replace(/[.#+?^${}()|[\]\\]/g, '\\$&');
+      .replace(/[.#+?!^${}()|[\]\\]/g, '\\$&');
   },
   orderWhereToDelivery: 'Куда доставить заказ?',
   orderPhoneNumber: 'Как с вами связаться?',

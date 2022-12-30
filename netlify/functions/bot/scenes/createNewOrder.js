@@ -103,10 +103,28 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       ...keyboards.orderUserActions(ctx.scene.state.order.id)
     });
 
-    ctx.scene.state.newOrderFields.telegram.userMessageId = orderMessageId;
+    ctx.scene.state.telegram.userMessageId = orderMessageId;
+
+    console.log(ctx.scene.state.order);
+
+    if (ctx.scene.state.order.telegramGroupId) {
+      await ctx.telegram.sendMessage(ctx.scene.state.order.telegramGroupId, messages.orderCard({
+        ...ctx.scene.state.order,
+        ...ctx.scene.state.newOrderFields
+      }, 'shop'), {
+        parse_mode: 'MarkdownV2',
+        ...keyboards.orderShopActions(ctx.scene.state.order.id)
+      });
+    }
+
+    ctx.scene.state = {
+      ...ctx.scene.state,
+      orderMessageId
+    };
 
     await updateOrder(ctx.scene.state.order.id, {
-      ...ctx.scene.state.newOrderFields
+      ...ctx.scene.state.newOrderFields,
+      telegram: ctx.scene.state.telegram
     });
 
     return ctx.wizard.next();
