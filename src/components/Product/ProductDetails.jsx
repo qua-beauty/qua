@@ -21,6 +21,7 @@ const Base = styled('div')`
 `;
 
 const Image = styled(Box)`
+  background: ${({ theme }) => theme.palette.background.default};
   width: 100%;
   height: 300px;
   display: flex;
@@ -36,6 +37,11 @@ const Photo = styled('img')`
   z-index: 1;
   height: auto;
   max-width: 100%;
+`;
+
+const NoImage = styled('div')`
+  filter: brightness(120%) grayscale(100%) ;
+  font-size: 80px;
 `;
 
 const Content = styled('div')`
@@ -103,7 +109,7 @@ const ProductDetails = () => {
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const {productId} = useParams();
   const product = getProduct(productId);
-  const {title, photo, description, price, currency, id, shopTitle, shopColor} = product || {};
+  const {title, photo, description, price, currency, id, shopTitle, shopColor, icon} = product || {};
   const navigate = useNavigate();
 
   const [added, setAdded] = useState(0);
@@ -144,7 +150,8 @@ const ProductDetails = () => {
   return (
     <Base component="div">
       <Image>
-        <Photo src={photo} alt=""/>
+        {photo && <Photo src={photo} alt=""/>}
+        {!photo && <NoImage>{icon}</NoImage>}
       </Image>
       <Content>
         <ShopTitle sx={{

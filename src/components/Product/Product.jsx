@@ -30,17 +30,25 @@ const Base = styled('div')`
 `;
 
 const Image = styled(Link)`
+  background: ${({ theme }) => theme.palette.background.default};
+  width: 120px;
   height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   border-radius: 50%;
+  text-decoration: none;
 
   img {
     margin-top: 0;
     width: 120px;
   }
+`;
+
+const NoImage = styled('div')`
+  filter: brightness(120%) grayscale(100%) ;
+  font-size: 56px;
 `;
 
 const PlusMinus = styled('div')`
@@ -77,7 +85,7 @@ const ShopTitle = styled(Typography)`
 `;
 
 const Product = (product) => {
-  const {title, photo, price, currency, shopTitle, shopColor, id} = product;
+  const {title, photo, price, currency, shopTitle, shopColor, id, icon} = product;
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const [added, setAdded] = useState(0);
 
@@ -110,7 +118,8 @@ const Product = (product) => {
       background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
       <Image to={`/product/${id}`}>
-        <img src={photo} alt=""/>
+        {photo && <img src={photo} alt=""/>}
+        {!photo && <NoImage>{icon}</NoImage>}
       </Image>
       <ShopTitle sx={{
         borderColor: shopColor !== '' ? shopColor : 'inherit'
