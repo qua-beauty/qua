@@ -40,10 +40,13 @@ export const fetchShops = async () => {
 
   await getDocs(collection(firestore, 'shops')).then(docs => {
     docs.forEach((doc) => {
-      shops.push({
-        id: doc.id,
-        ...doc.data()
-      });
+      const data = doc.data();
+      if(!data.disabled) {
+        shops.push({
+          id: doc.id,
+          ...data
+        });
+      }
     });
   });
 
@@ -74,14 +77,16 @@ export const fetchCatalog = async (shops, categories) => {
       const cat = categories.filter(category => category.id === data.category[0])[0];
       const shop = shops.filter(shop => shop.id === data.shopId)[0];
 
-      catalog.push({
-        id: doc.id,
-        icon: cat ? cat.icon : '',
-        shop, // TODO: rewrite it
-        shopTitle: shop ? shop.title : '',
-        shopColor: shop ? shop.color : '',
-        ...data
-      });
+      if(shop) {
+        catalog.push({
+          id: doc.id,
+          icon: cat ? cat.icon : '',
+          shop, // TODO: rewrite it
+          shopTitle: shop ? shop.title : '',
+          shopColor: shop ? shop.color : '',
+          ...data
+        });
+      }
     });
   });
 

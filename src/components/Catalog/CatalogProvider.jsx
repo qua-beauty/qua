@@ -36,7 +36,7 @@ const CatalogProvider = ({children, ...rest}) => {
           return true;
         }
 
-        return filters[eachKey].includes(eachObj[eachKey]);
+        return eachObj[eachKey].includes(filters[eachKey]);
       });
     });
   };
@@ -44,9 +44,16 @@ const CatalogProvider = ({children, ...rest}) => {
   useEffect(() => {
     Promise.all([fetchShops(), fetchCategories()]).then(([shops, categories]) => {
       fetchCatalog(shops, categories).then((catalog) => {
+
+        const mergedCategories = categories.filter(category => {
+          return catalog.some(item => {
+            return item.category.some(cat => cat === category.id)
+          });
+        })
+
         setCatalog(catalog);
         setShops(shops);
-        setCategories(categories);
+        setCategories(mergedCategories);
         setLoaded(true);
       })
     })
