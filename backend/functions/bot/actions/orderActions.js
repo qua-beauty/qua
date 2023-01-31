@@ -9,6 +9,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     ...order,
     status
   };
+
   const message = messages.orderCard(newOrder);
 
   await updateOrder(orderId, {status});

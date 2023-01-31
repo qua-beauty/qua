@@ -6,7 +6,6 @@ const {sceneNames, actionNames} = require('./constants.js');
 const {cancelOrder, shopDeclineOrder, shopAcceptOrder} = require('./actions/orderActions.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-
 const stage = new Scenes.Stage([startScene, createNewOrderScene]);
 bot.use(session());
 bot.use(stage.middleware());
@@ -26,6 +25,7 @@ bot.action(new RegExp(actionNames.SHOP_ACCEPT_ORDER, 'gi'), shopAcceptOrder);
 
 const handler = async (event) => {
   try {
+    console.log(event)
     await bot.handleUpdate(JSON.parse(event.body)).then(() => {
       console.log('Received an update from Telegram!', event.body);
     });

@@ -57,9 +57,9 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     const {message_id: userLocationMessageId, text, contact} = ctx.update.message;
 
     if (contact) {
-      ctx.scene.state.newOrderFields.phoneNumber = contact.phone_number;
+      ctx.scene.state.newOrderFields = {phoneNumber: contact.phone_number};
     } else if (text.match(masks.phoneNumber)) {
-      ctx.scene.state.newOrderFields.phoneNumber = text;
+      ctx.scene.state.newOrderFields = {phoneNumber: text};
     } else {
       const {message_id: orderPhoneInvalidMessageId} = await ctx.reply(messages.authInvalid);
       ctx.scene.state.orderPhoneInvalidMessageId = orderPhoneInvalidMessageId;
@@ -89,9 +89,9 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     const {message_id: userPhoneMessageId, text, location} = ctx.update.message;
 
     if (location) {
-      ctx.scene.state.newOrderFields = {location};
+      ctx.scene.state.newOrderFields.location = location;
     } else {
-      ctx.scene.state.newOrderFields = {locationAddress: text};
+      ctx.scene.state.newOrderFields.locationAddress = text;
     }
 
     ctx.scene.state.userPhoneMessageId = userPhoneMessageId;
