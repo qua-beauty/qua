@@ -53,6 +53,24 @@ export const fetchShops = async () => {
   return shops;
 }
 
+export const fetchDeliveryTeams = async () => {
+  const deliveryTeams = [];
+
+  await getDocs(collection(firestore, 'deliveryTeams')).then(docs => {
+    docs.forEach((doc) => {
+      const data = doc.data();
+      if(!data.disabled) {
+        deliveryTeams.push({
+          id: doc.id,
+          ...data
+        });
+      }
+    });
+  });
+
+  return deliveryTeams;
+}
+
 export const fetchCategories = async () => {
   const categories = [];
 

@@ -3,7 +3,7 @@ const {startScene} = require('./scenes/start.js');
 const {createNewOrderScene} = require('./scenes/createNewOrder.js');
 const {masks} = require('./utils.js');
 const {sceneNames, actionNames} = require('./constants.js');
-const {cancelOrder, shopDeclineOrder, shopAcceptOrder} = require('./actions/orderActions.js');
+const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./actions/orderActions.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 const stage = new Scenes.Stage([startScene, createNewOrderScene]);
@@ -22,6 +22,7 @@ bot.hears(masks.order, async (ctx) => {
 bot.action(new RegExp(actionNames.CANCEL_ORDER, 'gi'), cancelOrder);
 bot.action(new RegExp(actionNames.SHOP_DECLINE_ORDER, 'gi'), shopDeclineOrder);
 bot.action(new RegExp(actionNames.SHOP_ACCEPT_ORDER, 'gi'), shopAcceptOrder);
+bot.action(new RegExp(actionNames.BACK_TO_HOME, 'gi'), backToHome);
 
 const handler = async (event) => {
   try {

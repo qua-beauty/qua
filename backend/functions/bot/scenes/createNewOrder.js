@@ -57,7 +57,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     const {message_id: userLocationMessageId, text, contact} = ctx.update.message;
 
     if (contact) {
-      ctx.scene.state.newOrderFields = {phoneNumber: contact.phone_number};
+      ctx.scene.state.newOrderFields = {phoneNumber: contact.phone_number, name: contact.first_name};
     } else if (text.match(masks.phoneNumber)) {
       ctx.scene.state.newOrderFields = {phoneNumber: text};
     } else {
@@ -67,7 +67,7 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     // Ask user about delivery address
     const {message_id: locationMessageId} = await ctx.reply(
-      messages.saveAddress,
+      messages.saveAddress(ctx.scene.state.newOrderFields.name),
       keyboards.saveAddress
     );
 
@@ -111,13 +111,23 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     ctx.scene.state.telegram.userMessageId = orderMessageId;
 
-    if (ctx.scene.state.order.telegramGroupId) {
-      await ctx.telegram.sendMessage(ctx.scene.state.order.telegramGroupId, messages.orderCard({
+    if (ctx.scene.state.order.shopGroupId) {
+      await ctx.telegram.sendMessage(ctx.scene.state.order.shopGroupId, messages.orderCard({
         ...ctx.scene.state.order,
         ...ctx.scene.state.newOrderFields
       }, 'shop'), {
         parse_mode: 'MarkdownV2',
         ...keyboards.orderShopActions(ctx.scene.state.order.id)
+      });
+    }
+
+    if (ctx.scene.state.order.deliveryGroupId) {
+      await ctx.telegram.sendMessage(ctx.scene.state.order.deliveryGroupId, messages.orderCard({
+        ...ctx.scene.state.order,
+        ...ctx.scene.state.newOrderFields
+      }, 'delivery'), {
+        parse_mode: 'MarkdownV2',
+        ...keyboards.orderDeliveryActions(ctx.scene.state.order.id)
       });
     }
 

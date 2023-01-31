@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
 import CatalogContext from './CatalogContext.jsx';
-import {fetchCatalog, fetchCategories, fetchShops} from '../../services.js';
+import {fetchCatalog, fetchCategories, fetchDeliveryTeams, fetchShops} from '../../services.js';
 
 const CatalogProvider = ({children, ...rest}) => {
   const [loaded, setLoaded] = useState(false);
   const [catalog, setCatalog] = useState([]);
+  const [deliveryTeams, setDeliveryTeams] = useState([]);
   const [categories, setCategories] = useState([]);
   const [shops, setShops] = useState([]);
   const [filters, setFilters] = useState({});
@@ -42,6 +43,11 @@ const CatalogProvider = ({children, ...rest}) => {
   };
 
   useEffect(() => {
+
+    fetchDeliveryTeams().then((deliveryTeams) => {
+      setDeliveryTeams(deliveryTeams);
+    });
+
     Promise.all([fetchShops(), fetchCategories()]).then(([shops, categories]) => {
       fetchCatalog(shops, categories).then((catalog) => {
 
@@ -68,6 +74,7 @@ const CatalogProvider = ({children, ...rest}) => {
       catalogByShop: () => getCatalog(),
       category: categories,
       shops: shops,
+      deliveryTeams,
       filters,
       catalogLoaded: loaded,
       filter: handleFilter
