@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Chip, IconButton, styled, Typography} from '@mui/material';
 import BasketContext from '../Basket/BasketContext.jsx';
 import {getCurrencyTitle} from '../../utils.js';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {Add, Remove} from '@mui/icons-material';
 
 const Base = styled('div')`
@@ -40,6 +40,9 @@ const Image = styled(Link)`
   border-radius: 50%;
   text-decoration: none;
 
+  position: relative;
+  z-index: 1;
+
   img {
     margin-top: 0;
     width: 120px;
@@ -47,8 +50,19 @@ const Image = styled(Link)`
 `;
 
 const NoImage = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   filter: brightness(120%) grayscale(100%) ;
   font-size: 56px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  z-index: -1;
 `;
 
 const PlusMinus = styled('div')`
@@ -85,7 +99,7 @@ const ShopTitle = styled(Typography)`
 `;
 
 const Product = (product) => {
-  const {title, photo, price, currency, shopTitle, shopColor, id, icon} = product;
+  const {title, photo, price, currency, shopTitle, shopColor, id, icon, shop} = product;
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const [added, setAdded] = useState(0);
 
@@ -117,9 +131,9 @@ const Product = (product) => {
     <Base component="div" sx={{
       background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
-      <Image to={`/product/${id}`}>
+      <Image to={`product/${id}`}>
         {photo && <img src={photo} alt=""/>}
-        {!photo && <NoImage>{icon}</NoImage>}
+        <NoImage>{icon}</NoImage>
       </Image>
       <ShopTitle sx={{
         borderColor: shopColor !== '' ? shopColor : 'inherit'

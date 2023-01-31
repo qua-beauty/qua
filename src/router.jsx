@@ -1,10 +1,10 @@
 import React from 'react';
 import {createBrowserRouter} from 'react-router-dom';
 import BasketDetails from './components/Basket/BasketDetails.jsx';
-import ProductDetails from './components/Product/ProductDetails.jsx';
-import Home from './components/Home.jsx';
+import ProductDetails from './pages/ProductDetails.jsx';
 import App from './App.jsx';
-import Shop from './components/Shop/Shop.jsx';
+import Shops from './pages/Shops.jsx';
+import ShopCatalog from './pages/ShopCatalog.jsx';
 
 const router = createBrowserRouter([
   {
@@ -13,20 +13,20 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: (<Home/>),
+        element: (<Shops/>),
+      },
+      {
+        path: 'shop/:shopId',
+        element: (<ShopCatalog/>),
       },
       {
         path: 'basket',
         element: (<BasketDetails/>)
       },
       {
-        path: 'product/:productId',
+        path: 'shop/:shopId/product/:productId',
         element: (<ProductDetails/>)
       },
-      {
-        path: 'shop/:shopId',
-        element: (<Shop />)
-      }
     ]
   },
 ]);

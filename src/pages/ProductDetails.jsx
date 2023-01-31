@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Box, Chip, IconButton, styled, Typography} from '@mui/material';
 import {useNavigate, useParams} from 'react-router-dom';
-import {webApp} from '../../telegram.js';
-import {getCurrencyTitle} from '../../utils.js';
-import BasketContext from '../Basket/BasketContext.jsx';
+import {webApp} from '../telegram.js';
+import {getCurrencyTitle} from '../utils.js';
+import BasketContext from '../components/Basket/BasketContext.jsx';
 import {Add, Remove} from '@mui/icons-material';
-import {useCatalogStore} from '../../store/catalogStore.js';
+import {useCatalogStore} from '../store/catalogStore.js';
 
 const Base = styled('div')`
   flex: 1;
@@ -105,11 +105,11 @@ const Price = styled('div')`
 `;
 
 const ProductDetails = () => {
-  const {getProduct} = useCatalogStore();
+  const {shopId} = useParams();
+  const {catalog, getProduct} = useCatalogStore();
+  const [product, setProduct] = useState(null);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const {productId} = useParams();
-  const product = getProduct(productId);
-  const {title, photo, description, price, currency, id, shopTitle, shopColor, icon} = product || {};
   const navigate = useNavigate();
 
   const [added, setAdded] = useState(0);
@@ -128,37 +128,46 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    if (!basket) {
-      setAdded(0);
-    } else if (basket.products && basket.products.length > 0) {
-      const product = basket.products.find(p => p.id === id);
-      const count = product ? product.count : 0;
-
-      setAdded(count);
+    if(catalog) {
+      const product = getProduct(productId);
+      setProduct(product);
     }
-  }, [basket]);
+  }, [catalog])
+
+  useEffect(() => {
+    if(product) {
+      if (!basket) {
+        setAdded(0);
+      } else if (basket.products && basket.products.length > 0) {
+        const product = basket.products.find(p => p.id === productId);
+        const count = product ? product.count : 0;
+
+        setAdded(count);
+      }
+    }
+  }, [basket, product]);
 
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate('/');
+        navigate(`shop/${shopId}`);
       });
     }
   }, []);
 
-  return (
+  return product ? (
     <Base component="div">
       <Image>
-        {photo && <Photo src={photo} alt=""/>}
-        {!photo && <NoImage>{icon}</NoImage>}
+        {product.photo && <Photo src={product.photo} alt=""/>}
+        {!product.photo && <NoImage>{product.icon}</NoImage>}
       </Image>
       <Content>
         <ShopTitle sx={{
-          borderColor: shopColor !== '' ? shopColor : 'inherit'
-        }}>{shopTitle}</ShopTitle>
-        <Title>{title}</Title>
-        <Price>{price} {getCurrencyTitle(currency)}</Price>
+          borderColor: product.shopColor !== '' ? product.shopColor : 'inherit'
+        }}>{product.shopTitle}</ShopTitle>
+        <Title>{product.title}</Title>
+        <Price>{product.price} {getCurrencyTitle(product.currency)}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
                                    label={`Добавить в корзину`}></ChipPrice>}
 
@@ -168,10 +177,10 @@ const ProductDetails = () => {
           <ChipButton color="primary" size="small" onClick={handlePlus}><Add/></ChipButton>
         </PlusMinus>}
 
-        {description && <Description>{description}</Description>}
+        {product.description && <Description>{product.description}</Description>}
       </Content>
     </Base>
-  );
+  ) : <></>
 };
 
 export default ProductDetails;

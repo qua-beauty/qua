@@ -6,20 +6,28 @@ import {useTheme} from '@mui/material';
 import BasketContext from './components/Basket/BasketContext.jsx';
 import {useDeliveryStore} from './store/deliveryStore.js';
 import {useCatalogStore} from './store/catalogStore.js';
+import {useShopStore} from './store/shopStore.js';
 
 function App() {
   useAuth();
   const theme = useTheme();
   const navigate = useNavigate();
   const {basket} = useContext(BasketContext);
-  const deliveryStore = useDeliveryStore();
-  const catalogStore = useCatalogStore();
+  const {fetchDeliveryTeams} = useDeliveryStore();
+  const {categories, fetchCategories, fetchCatalog} = useCatalogStore();
+  const {shops, fetchShops} = useShopStore();
 
   useEffect(() => {
-    deliveryStore.fetchDeliveryTeams();
-    catalogStore.fetchShops();
-    catalogStore.fetchCategories();
+    fetchDeliveryTeams();
+    fetchShops();
+    fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if(categories && shops) {
+      fetchCatalog(shops, categories);
+    }
+  }, [categories, shops]);
 
   useEffect(() => {
     if (!webApp) return;

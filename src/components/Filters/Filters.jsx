@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Chip, styled} from '@mui/material';
 import FiltersSkeleton from './FiltersSkeleton.jsx';
 import {useCatalogStore} from '../../store/catalogStore.js';
-import {useFilterStore} from '../../store/filtersStore.js';
+import {useFilterStore} from '../../store/filterStore.js';
 
 const Base = styled('div')`
   display: flex;
@@ -22,6 +22,7 @@ const Base = styled('div')`
 `;
 
 const Filters = () => {
+  const [actualCategories, setActualCategories] = useState(null);
   const {catalog, categories} = useCatalogStore();
   const {filters, toggleFilter} = useFilterStore();
 
@@ -29,11 +30,17 @@ const Filters = () => {
     toggleFilter('category', `${categoryId}`);
   };
 
-  const actualCategories = categories.filter(category => {
-    return catalog.some(item => {
-      return item.category.some(cat => cat === category.id)
-    });
-  })
+  useEffect(() => {
+    if(categories && catalog) {
+      const actualCategories = categories.filter(category => {
+        return catalog.some(item => {
+          return item.category.some(cat => cat === category.id)
+        });
+      })
+
+      setActualCategories(actualCategories);
+    }
+  }, [categories, catalog])
 
   return !actualCategories ? <FiltersSkeleton /> : (
     <Box sx={{

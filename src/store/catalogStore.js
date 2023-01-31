@@ -3,19 +3,19 @@ import {firestore} from '../firebase.js';
 import {create} from 'zustand';
 
 export const useCatalogStore = create((set, get) => ({
-  catalog: [],
-  shops: [],
-  categories: [],
+  catalog: null,
+  categories: null,
   getProduct: (productId) => get().catalog.filter(product => product.id === productId)[0],
   getCategory: (categoryId) => get().categories.filter(category => category.id === categoryId)[0],
-  getFilteredCatalog: (filters) => {
+  getFilteredCatalog: (filters, shopId) => {
     const filterKeys = Object.keys(filters);
-    const singleCategories = get().categories.filter(cat => cat.type === 'single').map(cat => cat.id);
-    return get().catalog.filter((eachObj) => {
-      if (eachObj.category.some(r => singleCategories.includes(r)) && !filters?.category?.includes(eachObj.category)) {
-        return false;
-      }
+    let targetCatalog = get().catalog;
 
+    if(shopId) {
+      targetCatalog = targetCatalog.filter(product => product.shopId === shopId);
+    }
+
+    return targetCatalog.filter((eachObj) => {
       return filterKeys.every((eachKey) => {
         if (!filters[eachKey].length) {
           return true;
@@ -40,24 +40,7 @@ export const useCatalogStore = create((set, get) => ({
 
     set({ categories });
   },
-  fetchShops: async () => {
-    const shops = [];
-
-    await getDocs(collection(firestore, 'shops')).then(docs => {
-      docs.forEach((doc) => {
-        const data = doc.data();
-        if(!data.disabled) {
-          shops.push({
-            id: doc.id,
-            ...data
-          });
-        }
-      });
-    });
-
-    set({ shops });
-  },
-  fetchCatalog: async (shops, categories, shopId) => {
+  fetchCatalog: async (shops, categories) => {
     const catalog = [];
 
     await getDocs(collection(firestore, 'catalog')).then(docs => {
@@ -66,7 +49,7 @@ export const useCatalogStore = create((set, get) => ({
         const cat = categories.filter(category => category.id === data.category[0])[0];
         const shop = shops.filter(shop => shop.id === data.shopId)[0];
 
-        if(shop && (shopId ? shopId === shop.id : true)) {
+        if(shop) {
           catalog.push({
             id: doc.id,
             icon: cat ? cat.icon : '',
