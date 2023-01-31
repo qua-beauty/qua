@@ -150,7 +150,7 @@ const ProductDetails = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`shop/${product.shop.id}`);
+        navigate(`/shop/${product.shop.id}`);
       });
     }
   }, []);
