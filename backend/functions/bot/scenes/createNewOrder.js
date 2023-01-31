@@ -95,16 +95,17 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     }
 
     ctx.scene.state.userPhoneMessageId = userPhoneMessageId;
-    ctx.scene.state.newOrderFields.status = 'moderate';
+    ctx.scene.state.newOrderFields.status = 'preorder';
 
     clearMessages(ctx);
+
+    console.log(ctx.scene.state);
 
     const {message_id: orderMessageId} = await ctx.reply(messages.orderCard({
       ...ctx.scene.state.order,
       ...ctx.scene.state.newOrderFields
     }), {
-      parse_mode: 'MarkdownV2',
-      ...keyboards.orderUserActions(ctx.scene.state.order.id)
+      parse_mode: 'MarkdownV2'
     });
 
     await ctx.reply(messages.saveOrder);
