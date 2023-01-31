@@ -37,15 +37,14 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       parse_mode: 'MarkdownV2'
     });
 
-    // Ask user about delivery address
-    const {message_id: locationMessageId} = await ctx.reply(
-      messages.orderWhereToDelivery,
-      keyboards.orderDeliveryAddress
+    const {message_id: phoneMessageId} = await ctx.reply(
+      messages.auth,
+      keyboards.auth
     );
 
     ctx.scene.state = {
       orderMessageId,
-      locationMessageId,
+      phoneMessageId,
       order,
       telegram: {
         chatId
@@ -55,7 +54,39 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
     return ctx.wizard.next();
   },
   async (ctx) => {
-    const {message_id: userLocationMessageId, text, location} = ctx.update.message;
+    const {message_id: userLocationMessageId, text, contact} = ctx.update.message;
+
+    if (contact) {
+      ctx.scene.state.newOrderFields.phoneNumber = contact.phone_number;
+    } else if (text.match(masks.phoneNumber)) {
+      ctx.scene.state.newOrderFields.phoneNumber = text;
+    } else {
+      const {message_id: orderPhoneInvalidMessageId} = await ctx.reply(messages.authInvalid);
+      ctx.scene.state.orderPhoneInvalidMessageId = orderPhoneInvalidMessageId;
+    }
+
+    // Ask user about delivery address
+    const {message_id: locationMessageId} = await ctx.reply(
+      messages.saveAddress,
+      keyboards.saveAddress
+    );
+
+    ctx.scene.state = {
+      ...ctx.scene.state,
+      locationMessageId,
+      userLocationMessageId
+    };
+
+    await updateOrder(ctx.scene.state.order.id, {
+      ...ctx.scene.state.newOrderFields,
+      telegram: ctx.scene.state.telegram
+    });
+
+    return ctx.wizard.next();
+
+  },
+  async (ctx) => {
+    const {message_id: userPhoneMessageId, text, location} = ctx.update.message;
 
     if (location) {
       ctx.scene.state.newOrderFields = {location};
@@ -63,38 +94,11 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       ctx.scene.state.newOrderFields = {locationAddress: text};
     }
 
-    const {message_id: phoneMessageId} = await ctx.reply(
-      messages.orderPhoneNumber,
-      keyboards.orderPhoneNumber
-    );
-
-    ctx.scene.state = {
-      ...ctx.scene.state,
-      phoneMessageId,
-      userLocationMessageId
-    };
-
-    return ctx.wizard.next();
-
-  },
-  async (ctx) => {
-    const {message_id: userPhoneMessageId, text, contact} = ctx.update.message;
-
-    if (contact) {
-      ctx.scene.state.newOrderFields.phoneNumber = contact.phone_number;
-    } else if (text.match(masks.phoneNumber)) {
-      ctx.scene.state.newOrderFields.phoneNumber = text;
-    } else {
-      const {message_id: orderPhoneInvalidMessageId} = await ctx.reply(messages.orderPhoneNumberInvalid);
-      ctx.scene.state.orderPhoneInvalidMessageId = orderPhoneInvalidMessageId;
-    }
-
     ctx.scene.state.userPhoneMessageId = userPhoneMessageId;
     ctx.scene.state.newOrderFields.status = 'moderate';
 
     clearMessages(ctx);
 
-    await ctx.reply(messages.orderCreated);
     const {message_id: orderMessageId} = await ctx.reply(messages.orderCard({
       ...ctx.scene.state.order,
       ...ctx.scene.state.newOrderFields
@@ -103,9 +107,9 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
       ...keyboards.orderUserActions(ctx.scene.state.order.id)
     });
 
-    ctx.scene.state.telegram.userMessageId = orderMessageId;
+    await ctx.reply(messages.saveOrder);
 
-    console.log(ctx.scene.state.order);
+    ctx.scene.state.telegram.userMessageId = orderMessageId;
 
     if (ctx.scene.state.order.telegramGroupId) {
       await ctx.telegram.sendMessage(ctx.scene.state.order.telegramGroupId, messages.orderCard({
