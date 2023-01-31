@@ -1,8 +1,11 @@
-import React, {useContext} from 'react';
 import {styled} from '@mui/material';
 import Product from '../Product/Product.jsx';
 import CatalogSkeleton from '../Catalog/CatalogSkeleton.jsx';
-import CatalogContext from '../Catalog/CatalogContext.jsx';
+import {useCatalogStore} from '../../store/catalogStore.js';
+import {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import {useFilterStore} from '../../store/filtersStore.js';
+import Filters from '../Filters/Filters.jsx';
 
 const Base = styled('div')`
   padding: 16px 4px 96px;
@@ -24,14 +27,27 @@ const Base = styled('div')`
 `;
 
 const Shop = () => {
-  const {catalog, catalogLoaded} = useContext(CatalogContext);
+  const {shopId} = useParams();
+  const {filters} = useFilterStore();
+  const {categories, shops, getFilteredCatalog, fetchCatalog} = useCatalogStore();
 
-  return !catalogLoaded ? <CatalogSkeleton /> : (
-    <Base>
+  useEffect(() => {
+    if (categories && shops && shopId) {
+      fetchCatalog(shops, categories, shopId);
+    }
+  }, [categories, shops]);
+
+  const catalog = getFilteredCatalog(filters);
+
+  return !catalog ? <CatalogSkeleton/> : (
+    <>
+      <Filters/>
+      <Base>
       {catalog.map(product => {
         return <Product key={product.id} {...product} />;
       })}
     </Base>
+    </>
   );
 };
 

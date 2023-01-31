@@ -4,17 +4,27 @@ import useAuth from './components/Account/auth.js';
 import {Outlet, useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material';
 import BasketContext from './components/Basket/BasketContext.jsx';
+import {useDeliveryStore} from './store/deliveryStore.js';
+import {useCatalogStore} from './store/catalogStore.js';
 
 function App() {
   useAuth();
   const theme = useTheme();
   const navigate = useNavigate();
   const {basket} = useContext(BasketContext);
+  const deliveryStore = useDeliveryStore();
+  const catalogStore = useCatalogStore();
 
   useEffect(() => {
-    if(!webApp) return;
+    deliveryStore.fetchDeliveryTeams();
+    catalogStore.fetchShops();
+    catalogStore.fetchCategories();
+  }, []);
 
-    if(basket && basket.products.length > 0) {
+  useEffect(() => {
+    if (!webApp) return;
+
+    if (basket && basket.products.length > 0) {
       webApp.MainButton.text = 'Корзина 🧺';
       webApp.MainButton.color = theme.palette.primary.main;
       webApp.MainButton.textColor = theme.palette.common.white;

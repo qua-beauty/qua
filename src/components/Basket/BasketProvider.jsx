@@ -1,14 +1,14 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import BasketContext from './BasketContext.jsx';
 import {createNewOrder, fetchAnswerWebQuery} from '../../services.js';
 import {webApp} from '../../telegram.js';
-import CatalogContext from '../Catalog/CatalogContext.jsx';
+import {useDeliveryStore} from '../../store/deliveryStore.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
   const [currency,] = useState('LKR');
-  const {deliveryTeams} = useContext(CatalogContext);
+  const deliveryTeams = useDeliveryStore((state) => state.deliveryTeams);
 
   const handleProductAdd = (product) => {
     const products = basket ? [...basket.products] : [];
@@ -46,7 +46,7 @@ const BasketProvider = ({children, ...rest}) => {
       products,
       shopId: products[0].shopId,
       shopGroupId: products[0].shop.telegramGroupId,
-      deliveryGroupId: deliveryTeams[0].telegramGroupId,
+      deliveryGroupId: deliveryTeams[0]?.telegramGroupId,
       created: new Date(),
       status: 'pending',
       ...data

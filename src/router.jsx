@@ -4,6 +4,7 @@ import BasketDetails from './components/Basket/BasketDetails.jsx';
 import ProductDetails from './components/Product/ProductDetails.jsx';
 import Home from './components/Home.jsx';
 import App from './App.jsx';
+import Shop from './components/Shop/Shop.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'shop/:shopId',
-        element: (<Home />)
+        element: (<Shop />)
       }
     ]
   },

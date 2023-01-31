@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Box, Chip, IconButton, styled, Typography} from '@mui/material';
 import {useNavigate, useParams} from 'react-router-dom';
-import CatalogContext from '../Catalog/CatalogContext.jsx';
 import {webApp} from '../../telegram.js';
 import {getCurrencyTitle} from '../../utils.js';
 import BasketContext from '../Basket/BasketContext.jsx';
 import {Add, Remove} from '@mui/icons-material';
+import {useCatalogStore} from '../../store/catalogStore.js';
 
 const Base = styled('div')`
   flex: 1;
@@ -105,7 +105,7 @@ const Price = styled('div')`
 `;
 
 const ProductDetails = () => {
-  const {getProduct} = useContext(CatalogContext);
+  const {getProduct} = useCatalogStore();
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
   const {productId} = useParams();
   const product = getProduct(productId);

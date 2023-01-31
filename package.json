@@ -29,7 +29,8 @@
     "react-router-dom": "^6.5.0",
     "react-timer-hook": "^3.0.5",
     "serverless-http": "^3.1.0",
-    "telegraf": "^4.11.2"
+    "telegraf": "^4.11.2",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.2.0",

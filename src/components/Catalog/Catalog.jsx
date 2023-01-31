@@ -1,8 +1,9 @@
-import React, {useContext} from 'react';
 import {styled} from '@mui/material';
 import Product from '../Product/Product.jsx';
-import CatalogContext from './CatalogContext.jsx';
 import CatalogSkeleton from './CatalogSkeleton.jsx';
+import {useEffect} from 'react';
+import {useCatalogStore} from '../../store/catalogStore.js';
+import {useFilterStore} from '../../store/filtersStore.js';
 
 const Base = styled('div')`
   padding: 16px 4px 96px;
@@ -24,9 +25,18 @@ const Base = styled('div')`
 `;
 
 const Catalog = () => {
-  const {catalog, catalogLoaded} = useContext(CatalogContext);
+  const {categories, shops, getFilteredCatalog, fetchCatalog} = useCatalogStore();
+  const {filters} = useFilterStore();
 
-  return !catalogLoaded ? <CatalogSkeleton /> : (
+  useEffect(() => {
+    if(categories && shops) {
+      fetchCatalog(shops, categories);
+    }
+  }, [categories, shops]);
+
+  const catalog = getFilteredCatalog(filters);
+
+  return catalog.length === 0 ? <CatalogSkeleton /> : (
     <Base>
       {catalog.map(product => {
         return <Product key={product.id} {...product} />;
