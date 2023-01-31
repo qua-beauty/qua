@@ -105,7 +105,6 @@ const Price = styled('div')`
 `;
 
 const ProductDetails = () => {
-  const {shopId} = useParams();
   const {catalog, getProduct} = useCatalogStore();
   const [product, setProduct] = useState(null);
   const {addProduct, deleteProduct, basket} = useContext(BasketContext);
@@ -151,7 +150,7 @@ const ProductDetails = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`shop/${shopId}`);
+        navigate(`shop/${product.shop.id}`);
       });
     }
   }, []);
