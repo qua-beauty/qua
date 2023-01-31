@@ -2,7 +2,8 @@ import {createContext} from 'react';
 
 const initialValue = {
   catalog: [],
-  category: []
+  category: [],
+  deliveryTeams: []
 };
 
 const CatalogContext = createContext(initialValue);
