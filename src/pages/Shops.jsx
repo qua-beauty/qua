@@ -1,5 +1,5 @@
 import {useShopStore} from '../store/shopStore.js';
-import Shop from '../components/Shops/Shop.jsx';
+import Shop from '../components/Shop.jsx';
 import {styled, Typography} from '@mui/material';
 import {webApp} from '../telegram.js';
 

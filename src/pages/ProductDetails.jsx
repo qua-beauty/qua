@@ -153,7 +153,7 @@ const ProductDetails = () => {
         navigate(`/shop/${product.shop.id}`);
       });
     }
-  }, []);
+  }, [product]);
 
   return product ? (
     <Base component="div">
