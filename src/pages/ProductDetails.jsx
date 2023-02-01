@@ -40,8 +40,9 @@ const Photo = styled('img')`
 `;
 
 const NoImage = styled('div')`
-  filter: brightness(120%) grayscale(100%) ;
-  font-size: 80px;
+  opacity: 0.85;
+  filter: grayscale(100%);
+  font-size: 100px;
 `;
 
 const Content = styled('div')`
@@ -88,8 +89,7 @@ const ChipButton = styled(IconButton)`
 `;
 
 const ShopTitle = styled(Typography)`
-  background: #222;
-  color: #fff;
+  border: 1px solid #222;
   border-radius: 8px;
 
   margin-top: 8px;

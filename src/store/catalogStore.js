@@ -52,7 +52,7 @@ export const useCatalogStore = create((set, get) => ({
         if(shop) {
           catalog.push({
             id: doc.id,
-            icon: cat ? cat.icon : '',
+            icon: data.icon ? data.icon : cat.icon,
             shop, // TODO: rewrite it
             shopTitle: shop ? shop.title : '',
             shopColor: shop ? shop.color : '',

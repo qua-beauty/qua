@@ -54,8 +54,9 @@ const NoImage = styled('div')`
   align-items: center;
   justify-content: center;
   
-  filter: brightness(120%) grayscale(100%) ;
-  font-size: 56px;
+  opacity: 0.6;
+  filter: grayscale(100%) ;
+  font-size: 48px;
   position: absolute;
   top: 0;
   left: 0;
@@ -87,16 +88,16 @@ const Title = styled(Typography)`
 `;
 
 
-const ShopTitle = styled(Typography)`
-  border: 1px solid #222;
-  border-radius: 8px;
-  
-  margin-top: 8px;
-  padding: 2px 6px;
-  
-  font-size: 13px;
-  font-weight: 500;
-`;
+// const ShopTitle = styled(Typography)`
+//   border: 1px solid #222;
+//   border-radius: 8px;
+//
+//   margin-top: 8px;
+//   padding: 2px 6px;
+//
+//   font-size: 13px;
+//   font-weight: 500;
+// `;
 
 const Product = (product) => {
   const {title, photo, price, currency, shopTitle, shopColor, id, icon, shop} = product;
@@ -135,9 +136,9 @@ const Product = (product) => {
         {photo && <img src={photo} alt=""/>}
         <NoImage>{icon}</NoImage>
       </Image>
-      <ShopTitle sx={{
-        borderColor: shopColor !== '' ? shopColor : 'inherit'
-      }}>{shopTitle}</ShopTitle>
+      {/*<ShopTitle sx={{*/}
+      {/*  borderColor: shopColor !== '' ? shopColor : 'inherit'*/}
+      {/*}}>{shopTitle}</ShopTitle>*/}
       <Title>{title}</Title>
 
       {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}`}></Chip>}
