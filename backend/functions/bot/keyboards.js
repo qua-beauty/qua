@@ -3,6 +3,7 @@ const {actionNames} = require('./constants.js');
 
 const keyboards = {
   start: Markup.inlineKeyboard([Markup.button.webApp(`Маркет`, process.env.TWA_URL)]).resize(true),
+  startShop: (shopId) => Markup.inlineKeyboard([Markup.button.webApp(`Маркет`, `${process.env.TWA_URL}shop/${shopId}`)]).resize(true),
   saveAddress: Markup.keyboard([
     Markup.button.locationRequest('Сохранить локацию 📍'),
     Markup.button.callback('Вернуться на главную 🏠', actionNames.BACK_TO_HOME)

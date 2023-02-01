@@ -1,3 +1,5 @@
+import {siteUrl} from './firebase.js';
+
 const currencies = {
   LKR: 'рупий'
 }
@@ -15,4 +17,8 @@ export const getCurrencyTitle = (currency) => {
 
 export const getStatusTitle = (status) => {
   return statuses.hasOwnProperty(status) ? statuses[status] : status;
+}
+
+export const getShopUrl = (shopId) => {
+  return `https://t.me/swamimarketbot?start=openShop-${shopId}`;
 }

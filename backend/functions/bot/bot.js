@@ -1,17 +1,25 @@
 const {Telegraf, Scenes, session} = require('telegraf');
-const {startScene} = require('./scenes/start.js');
 const {createNewOrderScene} = require('./scenes/createNewOrder.js');
 const {masks} = require('./utils.js');
 const {sceneNames, actionNames} = require('./constants.js');
 const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./actions/orderActions.js');
+const {messages} = require('./messages.js');
+const {keyboards} = require('./keyboards.js');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-const stage = new Scenes.Stage([startScene, createNewOrderScene]);
+const stage = new Scenes.Stage([createNewOrderScene]);
 bot.use(session());
 bot.use(stage.middleware());
 
 bot.start(async (ctx) => {
-  await ctx.scene.enter(sceneNames.START);
+  const openShopRegExp = new RegExp('openShop', 'gi');
+  const payload = ctx.startPayload;
+  if(openShopRegExp.test(payload)) {
+    const shopId = payload.split('-')[1];
+    await ctx.reply(messages.startShop(shopId), keyboards.startShop(shopId));
+  } else {
+    await ctx.reply(messages.start, keyboards.start);
+  }
 });
 
 bot.hears(masks.order, async (ctx) => {

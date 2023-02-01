@@ -7,6 +7,8 @@ import {useFilterStore} from '../store/filterStore.js';
 import {webApp} from '../telegram.js';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useShopStore} from '../store/shopStore.js';
+import ShareButton from '../components/ShareButton.jsx';
+import {getShopUrl} from '../utils.js';
 
 const Base = styled('div')`
 
@@ -19,6 +21,8 @@ const Header = styled('header')`
   padding: 8px 16px;
   text-align: left;
   width: 100%;
+
+  position: relative;
 `;
 
 const Thumbnail = styled('div')`
@@ -34,6 +38,12 @@ const Image = styled('img')`
 
 const Info = styled('div')`
   margin-left: 16px;
+`;
+
+const Share = styled('div')`
+  position: absolute;
+  top: 16px;
+  right: 2px;
 `;
 
 const Title = styled(Typography)``;
@@ -82,6 +92,9 @@ function ShopCatalog() {
           <Address variant="subtitle2">{shop.address}, {shop.workTime}</Address>
           <Instagram href={shop.instagram}></Instagram>
         </Info>
+        <Share>
+          <ShareButton title={shop.title} url={getShopUrl(shop.id)} />
+        </Share>
       </Header>
       <Filters/>
       <Catalog catalog={filteredCatalog}/>
