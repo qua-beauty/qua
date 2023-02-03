@@ -1,10 +1,11 @@
 const {Telegraf, Scenes, session} = require('telegraf');
-const {createNewOrderScene} = require('./scenes/createNewOrder.js');
-const {masks} = require('./utils.js');
-const {sceneNames, actionNames} = require('./constants.js');
-const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./actions/orderActions.js');
-const {messages} = require('./messages.js');
-const {keyboards} = require('./keyboards.js');
+const {createNewOrderScene} = require('./bot/scenes/createNewOrder.js');
+const {masks} = require('./bot/utils.js');
+const {sceneNames, actionNames} = require('./bot/constants.js');
+const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./bot/actions/orderActions.js');
+const {messages} = require('./bot/messages.js');
+const {keyboards} = require('./bot/keyboards.js');
+const functions = require('firebase-functions');
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 const stage = new Scenes.Stage([createNewOrderScene]);
@@ -32,20 +33,20 @@ bot.action(new RegExp(actionNames.SHOP_DECLINE_ORDER, 'gi'), shopDeclineOrder);
 bot.action(new RegExp(actionNames.SHOP_ACCEPT_ORDER, 'gi'), shopAcceptOrder);
 bot.action(new RegExp(actionNames.BACK_TO_HOME, 'gi'), backToHome);
 
-const handler = async (event) => {
+exports.bot = functions.https.onRequest(async (request, response) => {
+  functions.logger.log('Incoming message', request.body);
+  const payload = request.body;
+
   try {
-    console.log(event)
-    await bot.handleUpdate(JSON.parse(event.body)).then(() => {
-      console.log('Received an update from Telegram!', event.body);
-    });
-    return {statusCode: 200};
+    return await bot.handleUpdate(payload).then((rv) => {
+      !rv && response.set('Cache-Control', 'public, max-age=300, s-maxage=600').sendStatus(200);
+    })
   } catch (e) {
     console.log(e);
-    return {statusCode: 400, body: 'This endpoint is meant for bot and telegram communication'};
-  }
-};
+    return response.send({
+      statusCode: 400,
+      body: 'This endpoint is meant for bot and telegram communication'
+    });
 
-module.exports = {
-  handler,
-  bot
-};
+  }
+});

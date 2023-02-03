@@ -3,6 +3,7 @@ import {collection, getDocs} from 'firebase/firestore';
 import {firestore} from '../firebase.js';
 
 export const useShopStore = create((set, get) => ({
+  loaded: false,
   shops: null,
   getShop: (shopId) => {
     const shops = get().shops;
@@ -26,6 +27,6 @@ export const useShopStore = create((set, get) => ({
       });
     });
 
-    set({shops});
+    set({shops, loaded: true});
   },
 }));

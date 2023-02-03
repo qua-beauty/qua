@@ -3,6 +3,9 @@ import {firestore} from '../firebase.js';
 import {create} from 'zustand';
 
 export const useCatalogStore = create((set, get) => ({
+  loaded: {
+    catalog: false
+  },
   catalog: null,
   categories: null,
   getProduct: (productId) => get().catalog.filter(product => product.id === productId)[0],
@@ -62,6 +65,7 @@ export const useCatalogStore = create((set, get) => ({
       });
     });
 
-    set({ catalog });
+
+    set({ catalog, loaded: { catalog: true } });
   }
 }))

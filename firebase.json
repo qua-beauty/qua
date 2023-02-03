@@ -5,6 +5,28 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "headers": [ {
+      "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "public, max-age=600, s-maxage=1200"
+      } ]
+    }, {
+      "source": "**/*.@(jpg|jpeg|gif|png)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "public, max-age=600, s-maxage=1200"
+      } ]
+    }, {
+      "source": "404.html",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "public, max-age=600, s-maxage=1200"
+      } ]
+    } ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }

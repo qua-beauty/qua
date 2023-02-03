@@ -7,6 +7,7 @@ import BasketContext from './components/Basket/BasketContext.jsx';
 import {useDeliveryStore} from './store/deliveryStore.js';
 import {useCatalogStore} from './store/catalogStore.js';
 import {useShopStore} from './store/shopStore.js';
+import AppLoader from './components/AppLoader.jsx';
 
 function App() {
   useAuth();
@@ -15,7 +16,7 @@ function App() {
   const {basket} = useContext(BasketContext);
   const {fetchDeliveryTeams} = useDeliveryStore();
   const {categories, fetchCategories, fetchCatalog} = useCatalogStore();
-  const {shops, fetchShops} = useShopStore();
+  const {shops, fetchShops, loaded} = useShopStore();
 
   useEffect(() => {
     fetchDeliveryTeams();
@@ -47,7 +48,12 @@ function App() {
     }
   }, [basket]);
 
-  return (<Outlet />);
+  return (
+    <>
+      {!loaded && <AppLoader />}
+      <Outlet />
+    </>
+  );
 }
 
 export default App;
