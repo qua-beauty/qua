@@ -21,7 +21,7 @@ const Base = styled('div')`
   }
 `;
 
-const Filters = () => {
+const Filters = ({shopId}) => {
   const [actualCategories, setActualCategories] = useState(null);
   const {catalog, categories} = useCatalogStore();
   const {filters, toggleFilter} = useFilterStore();
@@ -34,11 +34,11 @@ const Filters = () => {
     if(categories && catalog) {
       const actualCategories = categories.filter(category => {
         return catalog.some(item => {
-          return item.category.some(cat => cat === category.id)
+          return item.shopId === shopId && item.category.some(cat => cat === category.id)
         });
       })
 
-      setActualCategories(actualCategories);
+      setActualCategories(actualCategories.length === 1 ? [] : actualCategories);
     }
   }, [categories, catalog])
 

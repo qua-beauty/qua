@@ -1,7 +1,6 @@
 import {styled} from '@mui/material';
 import Product from '../Product/Product.jsx';
 import CatalogSkeleton from './CatalogSkeleton.jsx';
-import {useParams} from 'react-router-dom';
 
 const Base = styled('div')`
   padding: 16px 4px 96px;

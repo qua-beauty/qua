@@ -57,13 +57,20 @@ function ShopCatalog() {
   const [filteredCatalog, setFilteredCatalog] = useState(null);
   const {catalog, getFilteredCatalog} = useCatalogStore();
   const {filters} = useFilterStore();
-  const {shops, getShop} = useShopStore();
+  const {shops, getShop, setCurrentShopId} = useShopStore();
 
   useEffect(() => {
     if(catalog && filters) {
       setFilteredCatalog(getFilteredCatalog(filters, shopId));
     }
   }, [catalog, filters]);
+
+  useEffect(() => {
+    if(shops) {
+      const shop = getShop(shopId);
+      setShop(shop);
+    }
+  }, [shops]);
 
   useEffect(() => {
     if (webApp) {
@@ -73,13 +80,6 @@ function ShopCatalog() {
       });
     }
   }, []);
-
-  useEffect(() => {
-    if(shops) {
-      const shop = getShop(shopId);
-      setShop(shop);
-    }
-  }, [shops]);
 
   return shop ? (
     <Base>
@@ -96,7 +96,7 @@ function ShopCatalog() {
           <ShareButton title={shop.title} url={getShopUrl(shop.id)} />
         </Share>
       </Header>
-      <Filters/>
+      <Filters shopId={shop.id}/>
       <Catalog catalog={filteredCatalog}/>
     </Base>
   ) : <></>;

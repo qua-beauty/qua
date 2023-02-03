@@ -155,6 +155,7 @@ const ProductDetails = () => {
     }
   }, [product]);
 
+
   return product ? (
     <Base component="div">
       <Image>
