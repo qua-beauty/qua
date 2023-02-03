@@ -1,6 +1,12 @@
 {
   "hosting": {
     "public": "dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -18,13 +24,7 @@
         "key": "Cache-Control",
         "value": "public, max-age=600, s-maxage=1200"
       } ]
-    }, {
-      "source": "404.html",
-      "headers": [ {
-        "key": "Cache-Control",
-        "value": "public, max-age=600, s-maxage=1200"
-      } ]
-    } ]
+    }]
   },
   "functions": {
     "source": "functions"
