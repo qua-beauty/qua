@@ -3,6 +3,18 @@
     "public": "dist",
     "rewrites": [
       {
+        "source": "/api/bot",
+        "function": "bot"
+      },
+      {
+        "source": "/api/createCustomToken",
+        "function": "createCustomToken"
+      },
+      {
+        "source": "/api/answerWebAppQuery",
+        "function": "answerWebAppQuery"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

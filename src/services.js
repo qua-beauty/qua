@@ -1,12 +1,13 @@
 import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
-import {auth, firestore} from './firebase.js';
+import {apiUrl, firestore} from './firebase.js';
 import {webApp} from './telegram.js';
 
-export const fetchAnswerWebQuery = async (messageText) => {
-  await fetch('/api/answerWebAppQuery', {
+export const fetchAnswerWebQuery = async ({messageText, user}) => {
+  await fetch(`${apiUrl}/api/answerWebAppQuery`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + user.accessToken,
     },
     body: JSON.stringify({
       queryId: webApp.initDataUnsafe.query_id,
@@ -21,14 +22,16 @@ export const fetchAnswerWebQuery = async (messageText) => {
 }
 
 export const createNewOrder = async (data) => {
+  console.log(data);
   const orderData = {
     ...data,
-    user: auth.currentUser ? auth.currentUser.uid : null,
+    user: webApp.initDataUnsafe.user.id,
     created: new Date()
   };
   const ordersRef = collection(firestore, 'orders');
+  console.log(orderData);
   const orderSnap = await addDoc(ordersRef, orderData);
-
+  console.log(orderSnap);
   return {
     ...orderData,
     id: orderSnap.id

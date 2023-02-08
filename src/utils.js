@@ -1,5 +1,3 @@
-import {siteUrl} from './firebase.js';
-
 const currencies = {
   LKR: 'рупий'
 }

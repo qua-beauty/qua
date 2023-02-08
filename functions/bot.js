@@ -6,6 +6,7 @@ const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./
 const {messages} = require('./bot/messages.js');
 const {keyboards} = require('./bot/keyboards.js');
 const functions = require('firebase-functions');
+const cors = require('cors')({origin: true, allowedHeaders: ['POST', 'GET', 'PUT', 'DELETE']});
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 const stage = new Scenes.Stage([createNewOrderScene]);
@@ -33,20 +34,24 @@ bot.action(new RegExp(actionNames.SHOP_DECLINE_ORDER, 'gi'), shopDeclineOrder);
 bot.action(new RegExp(actionNames.SHOP_ACCEPT_ORDER, 'gi'), shopAcceptOrder);
 bot.action(new RegExp(actionNames.BACK_TO_HOME, 'gi'), backToHome);
 
+exports.botApi = bot;
+
 exports.bot = functions.https.onRequest(async (request, response) => {
-  functions.logger.log('Incoming message', request.body);
-  const payload = request.body;
+  cors(request, response, async () => {
+    functions.logger.log('Incoming message', request.body);
+    const payload = request.body;
 
-  try {
-    return await bot.handleUpdate(payload).then((rv) => {
-      !rv && response.set('Cache-Control', 'public, max-age=300, s-maxage=600').sendStatus(200);
-    })
-  } catch (e) {
-    console.log(e);
-    return response.send({
-      statusCode: 400,
-      body: 'This endpoint is meant for bot and telegram communication'
-    });
+    try {
+      return await bot.handleUpdate(payload).then((rv) => {
+        !rv && response.set('Cache-Control', 'public, max-age=300, s-maxage=600').sendStatus(200);
+      })
+    } catch (e) {
+      console.log(e);
+      return response.send({
+        statusCode: 400,
+        body: 'This endpoint is meant for bot and telegram communication'
+      });
 
-  }
+    }
+  });
 });

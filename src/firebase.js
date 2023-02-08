@@ -16,7 +16,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
-export const siteUrl = 'https://lanka-496b2.web.app/';
+export const apiUrl = 'https://lanka-496b2.web.app';
 
 export const firestore = initializeFirestore(app, {
   cacheSizeBytes: CACHE_SIZE_UNLIMITED

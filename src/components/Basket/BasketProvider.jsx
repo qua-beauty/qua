@@ -3,12 +3,15 @@ import BasketContext from './BasketContext.jsx';
 import {createNewOrder, fetchAnswerWebQuery} from '../../services.js';
 import {webApp} from '../../telegram.js';
 import {useDeliveryStore} from '../../store/deliveryStore.js';
+import {useAuthState} from 'react-firebase-hooks/auth';
+import {auth} from '../../firebase.js';
 
 const BasketProvider = ({children, ...rest}) => {
   const [order, setOrder] = useState(null);
   const [basket, setBasket] = useState(null);
   const [currency,] = useState('LKR');
   const deliveryTeams = useDeliveryStore((state) => state.deliveryTeams);
+  const [user] = useAuthState(auth);
 
   const handleProductAdd = (product) => {
     const products = basket ? [...basket.products] : [];
@@ -53,7 +56,7 @@ const BasketProvider = ({children, ...rest}) => {
     });
 
     if (webApp) {
-      await fetchAnswerWebQuery(`\#${order.id}`);
+      await fetchAnswerWebQuery({messageText: `\#${order.id}`, user});
     }
 
     setOrder(order);
