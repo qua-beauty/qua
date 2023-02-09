@@ -1,3 +1,4 @@
+const functions = require('firebase-functions');
 const {updateOrder, getOrder} = require('../services.js');
 const {messages} = require('../messages.js');
 const {parseMode} = require('../utils.js');
@@ -6,6 +7,9 @@ const {keyboards} = require('../keyboards.js');
 const updateOrderAction = async (ctx, status, isUser) => {
   const orderId = ctx.callbackQuery.data.split(' ')[1];
   const order = await getOrder(orderId);
+
+  functions.logger.log('context', ctx);
+
   const newOrder = {
     ...order,
     status
@@ -18,7 +22,8 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   if(!isUser){
     const {chatId, userMessageId} = order.telegram;
-    await ctx.telegram.editMessageText(chatId, userMessageId, null, message, parseMode);
+    ctx.telegram.deleteMessage(userMessageId);
+    await ctx.telegram.sendMessage(chatId, message, parseMode);
   }
 };
 

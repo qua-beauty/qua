@@ -99,8 +99,6 @@ const createNewOrderScene = new Scenes.WizardScene(sceneNames.CREATE_NEW_ORDER,
 
     clearMessages(ctx);
 
-    console.log(ctx.scene.state);
-
     const {message_id: orderMessageId} = await ctx.reply(messages.orderCard({
       ...ctx.scene.state.order,
       ...ctx.scene.state.newOrderFields
