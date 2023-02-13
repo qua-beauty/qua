@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Chip, IconButton, styled, Typography} from '@mui/material';
-import BasketContext from '../Basket/BasketContext.jsx';
-import {getCurrencyTitle} from '../../utils.js';
-import {Link, useParams} from 'react-router-dom';
+import {getCurrencyTitle} from '../utils.js';
 import {Add, Remove} from '@mui/icons-material';
+import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Base = styled('div')`
   background: ${({ theme }) => theme.palette.background.paper};
@@ -29,7 +29,7 @@ const Base = styled('div')`
   }
 `;
 
-const Image = styled(Link)`
+const Image = styled('div')`
   background: ${({ theme }) => theme.palette.background.default};
   width: 120px;
   height: 120px;
@@ -87,41 +87,30 @@ const Title = styled(Typography)`
   font-weight: 500;
 `;
 
-
-// const ShopTitle = styled(Typography)`
-//   border: 1px solid #222;
-//   border-radius: 8px;
-//
-//   margin-top: 8px;
-//   padding: 2px 6px;
-//
-//   font-size: 13px;
-//   font-weight: 500;
-// `;
-
-const Product = (product) => {
-  const {title, photo, price, currency, shopTitle, shopColor, id, icon, shop} = product;
-  const {addProduct, deleteProduct, basket} = useContext(BasketContext);
+const Product = ({ onSelect, ...product }) => {
+  const dispatch = useDispatch();
+  const {title, photo, price, currency, id, icon} = product;
+  const {basket} = useSelector(state => state.basket);
   const [added, setAdded] = useState(0);
 
   const handleClick = () => {
     setAdded(added + 1);
-    addProduct(product);
+    dispatch(addProduct(product));
   };
   const handlePlus = () => {
     setAdded(added + 1);
-    addProduct(product);
+    dispatch(addProduct(product));
   };
   const handleMinus = () => {
-    deleteProduct(product);
+    dispatch(deleteProduct(product));
     setAdded(added - 1);
   };
 
   useEffect(() => {
     if (!basket) {
       setAdded(0);
-    } else if(basket.products && basket.products.length > 0) {
-      const product = basket.products.find(p => p.id === id);
+    } else if(basket.length > 0) {
+      const product = basket.find(p => p.id === id);
       const count = product ? product.count : 0;
 
       setAdded(count);
@@ -132,13 +121,10 @@ const Product = (product) => {
     <Base component="div" sx={{
       background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
-      <Image to={`product/${id}`}>
+      <Image onClick={() => onSelect(product)}>
         {photo && <img src={photo} alt=""/>}
         <NoImage>{icon}</NoImage>
       </Image>
-      {/*<ShopTitle sx={{*/}
-      {/*  borderColor: shopColor !== '' ? shopColor : 'inherit'*/}
-      {/*}}>{shopTitle}</ShopTitle>*/}
       <Title>{title}</Title>
 
       {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}`}></Chip>}

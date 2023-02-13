@@ -1,10 +1,10 @@
 import React from 'react';
 import {createBrowserRouter} from 'react-router-dom';
-import BasketDetails from './components/Basket/BasketDetails.jsx';
-import ProductDetails from './pages/ProductDetails.jsx';
+import BasketDetails from './components/BasketDetails.jsx';
+import ProductDetails from './components/ProductDetails.jsx';
 import App from './App.jsx';
-import Shops from './pages/Shops.jsx';
-import ShopCatalog from './pages/ShopCatalog.jsx';
+import Shops from './components/Shops.jsx';
+import ShopCatalog from './components/ShopCatalog.jsx';
 
 const router = createBrowserRouter([
   {

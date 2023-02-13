@@ -1,39 +1,59 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {webApp} from './telegram.js';
-import useAuth from './components/Account/auth.js';
-import {Outlet, useNavigate} from 'react-router-dom';
-import {useTheme} from '@mui/material';
-import BasketContext from './components/Basket/BasketContext.jsx';
-import {useDeliveryStore} from './store/deliveryStore.js';
-import {useCatalogStore} from './store/catalogStore.js';
-import {useShopStore} from './store/shopStore.js';
+import useAuth from './hooks/useAuth.js';
+import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
+import {BottomNavigation, Button, useTheme} from '@mui/material';
 import AppLoader from './components/AppLoader.jsx';
+import {useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery} from './api/api.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCurrentProduct, setProductsData} from './api/slices/productSlice.js';
+import {setCategoriesData} from './api/slices/categorySlice.js';
+import {setCurrentShop, setShopsData} from './api/slices/shopSlice.js';
 
 function App() {
   useAuth();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
-  const {basket} = useContext(BasketContext);
-  const {fetchDeliveryTeams} = useDeliveryStore();
-  const {categories, fetchCategories, fetchCatalog} = useCatalogStore();
-  const {shops, fetchShops, loaded} = useShopStore();
+  const {productId, shopId} = useParams();
+  const {basket} = useSelector(state => state.basket);
+
+  const {data: shops, isLoading: isShopsLoading} = useGetShopsQuery();
+  const {data: products, isLoading: isProductsLoading} = useGetProductsQuery();
+  const {data: categories, isLoading: isCategoriesLoading} = useGetCategoriesQuery();
 
   useEffect(() => {
-    fetchDeliveryTeams();
-    fetchShops();
-    fetchCategories();
-  }, []);
+    if (shops) {
+      dispatch(setShopsData(shops));
 
-  useEffect(() => {
-    if(categories && shops) {
-      fetchCatalog(shops, categories);
+      if (shopId) {
+        const shop = shops.find(s => s.id === shopId);
+        dispatch(setCurrentShop(shop));
+      }
     }
-  }, [categories, shops]);
+  }, [shops]);
+
+  useEffect(() => {
+    if (categories) {
+      dispatch(setCategoriesData(categories));
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    if (products) {
+      dispatch(setProductsData(products));
+
+      if (productId) {
+        const product = products.find(p => p.id === productId);
+        dispatch(setCurrentProduct(product));
+      }
+    }
+  }, [products]);
 
   useEffect(() => {
     if (!webApp) return;
 
-    if (basket && basket.products.length > 0) {
+    if (basket.length > 0) {
       webApp.MainButton.text = 'Корзина 🧺';
       webApp.MainButton.color = theme.palette.primary.main;
       webApp.MainButton.textColor = theme.palette.common.white;
@@ -48,10 +68,18 @@ function App() {
     }
   }, [basket]);
 
+  const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading;
+
+  if (isLoading) return <AppLoader/>;
+
   return (
     <>
-      {!loaded && <AppLoader />}
-      <Outlet />
+      <Outlet/>
+      {import.meta.env.DEV && (
+        <BottomNavigation>
+          <Button component={Link} to={'/basket'}>Basket</Button>
+        </BottomNavigation>
+      )}
     </>
   );
 }

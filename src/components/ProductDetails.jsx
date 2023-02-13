@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Chip, IconButton, styled, Typography} from '@mui/material';
 import {useNavigate, useParams} from 'react-router-dom';
 import {webApp} from '../telegram.js';
 import {getCurrencyTitle} from '../utils.js';
-import BasketContext from '../components/Basket/BasketContext.jsx';
 import {Add, Remove} from '@mui/icons-material';
-import {useCatalogStore} from '../store/catalogStore.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
 
 const Base = styled('div')`
   flex: 1;
@@ -105,9 +105,10 @@ const Price = styled('div')`
 `;
 
 const ProductDetails = () => {
-  const {catalog, getProduct} = useCatalogStore();
-  const [product, setProduct] = useState(null);
-  const {addProduct, deleteProduct, basket} = useContext(BasketContext);
+  const dispatch = useDispatch();
+  const currentProduct = useSelector(state => state.products.current);
+  const currentShop = useSelector(state => state.shops.current);
+  const {basket} = useSelector(state => state.basket);
   const {productId} = useParams();
   const navigate = useNavigate();
 
@@ -115,59 +116,55 @@ const ProductDetails = () => {
 
   const handleClick = () => {
     setAdded(added + 1);
-    addProduct(product);
+    dispatch(addProduct(currentProduct));
   };
+
   const handlePlus = () => {
     setAdded(added + 1);
-    addProduct(product);
+    dispatch(addProduct(currentProduct));
   };
+
   const handleMinus = () => {
-    deleteProduct(product);
+    dispatch(deleteProduct(currentProduct));
     setAdded(added - 1);
   };
 
   useEffect(() => {
-    if(catalog) {
-      const product = getProduct(productId);
-      setProduct(product);
-    }
-  }, [catalog])
-
-  useEffect(() => {
-    if(product) {
+    if (currentProduct) {
       if (!basket) {
         setAdded(0);
-      } else if (basket.products && basket.products.length > 0) {
-        const product = basket.products.find(p => p.id === productId);
+      } else if (basket.length > 0) {
+        const product = basket.find(p => p.id === productId);
         const count = product ? product.count : 0;
 
         setAdded(count);
       }
     }
-  }, [basket, product]);
+  }, [basket, currentProduct]);
 
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/shop/${product.shop.id}`);
+        navigate(`/shop/${currentProduct.shop.id}`);
       });
     }
-  }, [product]);
+  }, [currentProduct]);
 
+  console.log(currentProduct, currentShop);
 
-  return product ? (
+  return (currentProduct && currentShop) ? (
     <Base component="div">
       <Image>
-        {product.photo && <Photo src={product.photo} alt=""/>}
-        {!product.photo && <NoImage>{product.icon}</NoImage>}
+        {currentProduct.image && <Photo src={currentProduct.image} alt=""/>}
+        {!currentProduct.image && <NoImage>{currentProduct.icon}</NoImage>}
       </Image>
       <Content>
         <ShopTitle sx={{
-          borderColor: product.shopColor !== '' ? product.shopColor : 'inherit'
-        }}>{product.shopTitle}</ShopTitle>
-        <Title>{product.title}</Title>
-        <Price>{product.price} {getCurrencyTitle(product.currency)}</Price>
+          borderColor: currentShop.color !== '' ? currentShop.color : 'inherit'
+        }}>{currentShop.name}</ShopTitle>
+        <Title>{currentProduct.name}</Title>
+        <Price>{currentProduct.price} {getCurrencyTitle(currentProduct.currency)}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
                                    label={`Добавить в корзину`}></ChipPrice>}
 
@@ -177,7 +174,7 @@ const ProductDetails = () => {
           <ChipButton color="primary" size="small" onClick={handlePlus}><Add/></ChipButton>
         </PlusMinus>}
 
-        {product.description && <Description>{product.description}</Description>}
+        {currentProduct.about && <Description>{currentProduct.about}</Description>}
       </Content>
     </Base>
   ) : <></>

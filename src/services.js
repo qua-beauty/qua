@@ -1,6 +1,6 @@
-import {collection, addDoc, query, where, getDocs} from 'firebase/firestore';
-import {apiUrl, firestore} from './firebase.js';
 import {webApp} from './telegram.js';
+
+export const apiUrl = 'https://lanka-496b2.web.app';
 
 export const fetchAnswerWebQuery = async ({messageText, user}) => {
   await fetch(`${apiUrl}/api/answerWebAppQuery`, {
@@ -20,36 +20,3 @@ export const fetchAnswerWebQuery = async ({messageText, user}) => {
     })
   })
 }
-
-export const createNewOrder = async (data) => {
-  console.log(data);
-  const orderData = {
-    ...data,
-    user: webApp.initDataUnsafe.user.id,
-    created: new Date()
-  };
-  const ordersRef = collection(firestore, 'orders');
-  console.log(orderData);
-  const orderSnap = await addDoc(ordersRef, orderData);
-  console.log(orderSnap);
-  return {
-    ...orderData,
-    id: orderSnap.id
-  };
-};
-
-export const getUserOrders = async (user) => {
-  const basket = collection(firestore, 'orders');
-  const q = query(basket, where('user', '==', user.uid));
-
-  getDocs(q).then(docs => {
-    const orders = [];
-    docs.forEach((doc) => {
-      orders.push({
-        ...doc.data(),
-        id: doc.id
-      });
-    });
-    return orders;
-  });
-};

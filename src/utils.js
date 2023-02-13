@@ -9,6 +9,13 @@ const statuses = {
   decline: 'Отклонен'
 }
 
+Object.defineProperty(String.prototype, 'capitalize', {
+  value: function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  },
+  enumerable: false
+});
+
 export const getCurrencyTitle = (currency) => {
   return currencies.hasOwnProperty(currency) ? currencies[currency] : currencies['LKR'];
 }

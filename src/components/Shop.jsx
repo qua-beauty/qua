@@ -13,6 +13,7 @@ const Base = styled(ButtonBase)`
 const Thumbnail = styled('div')`
   width: 56px;
   height: 56px;
+  min-width: 56px;
   overflow: hidden;
   border-radius: 50%;
 `;
@@ -22,22 +23,27 @@ const Image = styled('img')`
 `;
 const Info = styled('div')`
   margin-left: 16px;
+  overflow: hidden;
 `;
 const Title = styled(Typography)``;
-const Address = styled(Typography)``;
+const Address = styled(Typography)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 const WorkTime = styled(Typography)``;
 const Instagram = styled('a')``;
 
-const Shop = ({id, image, title, address, workTime, instagram}) => {
+const Shop = ({onSelect, ...shop}) => {
   return (
-    <Base component={Link} to={`shop/${id}`}>
+    <Base onClick={() => onSelect(shop)}>
       <Thumbnail>
-        <Image src={image}></Image>
+        <Image src={shop.image}></Image>
       </Thumbnail>
       <Info>
-        <Title variant="subtitle1">{title}</Title>
-        <Address  variant="subtitle2">{address}, {workTime}</Address>
-        <Instagram href={instagram}></Instagram>
+        <Title variant="subtitle1">{shop.name}</Title>
+        <Address  variant="subtitle2">{shop.workTime}, {shop.address}</Address>
+        <Instagram href={shop.instagram}></Instagram>
       </Info>
     </Base>
   );

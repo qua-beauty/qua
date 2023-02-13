@@ -1,7 +1,9 @@
-import {useShopStore} from '../store/shopStore.js';
-import Shop from '../components/Shop.jsx';
+import Shop from './Shop.jsx';
 import {styled, Typography} from '@mui/material';
 import {webApp} from '../telegram.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCurrentShop} from '../api/slices/shopSlice.js';
+import {useNavigate} from 'react-router-dom';
 
 const Base = styled('div')`
   padding: 16px;
@@ -16,9 +18,16 @@ const ShopList = styled(Typography)`
 `;
 
 const Shops = () => {
-  const {shops} = useShopStore();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const shops = useSelector(state => state.shops.data);
 
-  if(webApp) {
+  const handleSelect = (shop) => {
+    dispatch(setCurrentShop(shop));
+    navigate(`/shop/${shop.id}`);
+  };
+
+  if (webApp) {
     webApp.BackButton.hide();
   }
 
@@ -27,12 +36,7 @@ const Shops = () => {
       <Title variant="subtitle1">Выберите магазин с продуктами</Title>
       <ShopList>
         {shops.map(shop => (
-          <Shop key={shop.id}
-                id={shop.id}
-                title={shop.title}
-                address={shop.address}
-                image={shop.image}
-                workTime={shop.workTime}/>
+          <Shop onSelect={handleSelect} key={shop.name} {...shop}/>
         ))}
       </ShopList>
     </Base>

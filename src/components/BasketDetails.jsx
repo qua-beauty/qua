@@ -1,10 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, InputBase, styled, Typography} from '@mui/material';
-import ProductInline from '../Product/ProductInline.jsx';
-import BasketContext from './BasketContext.jsx';
-import {getCurrencyTitle} from '../../utils.js';
-import {webApp} from '../../telegram.js';
+import ProductInline from './ProductInline.jsx';
+import {getCurrencyTitle} from '../utils.js';
 import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearBasket} from '../api/slices/basketSlice.js';
+import {useSaveOrderMutation} from '../api/api.js';
+import {webApp} from '../telegram.js';
 
 const Base = styled('div')`
   background: ${({theme}) => theme.palette.background.default};
@@ -57,15 +59,35 @@ const CommentField = styled(InputBase)`
 
 const BasketDetails = () => {
   const [comment, setComment] = useState('');
-  const {basket, price, currency, makeOrder} = useContext(BasketContext);
+  const dispatch = useDispatch();
+  const {basket, price, count, currency} = useSelector(state => state.basket);
+  const currentShop = useSelector(state => state.shops.current);
   const navigate = useNavigate();
+  const [saveOrder] = useSaveOrderMutation();
 
   const handleMakeOrder = () => {
-    webApp.MainButton.disable();
-    webApp.MainButton.showProgress();
-    webApp.disableClosingConfirmation();
+    if (webApp) {
+      webApp.MainButton.disable();
+      webApp.MainButton.showProgress();
+      webApp.disableClosingConfirmation();
+    }
 
-    makeOrder({comment}).then(() => {
+    saveOrder([{
+      products: basket,
+      count,
+      price,
+      currency,
+      user: {
+        id: 'recoYlGL2H6q1jkyv'
+      },
+      shop: currentShop,
+      deliveryPrice: currentShop.deliveryPrice,
+      date: new Date(),
+      status: 'pending',
+      comment
+    }]).then(() => {
+      dispatch(clearBasket());
+
       webApp.MainButton.hideProgress();
       webApp.close();
     });
@@ -76,7 +98,6 @@ const BasketDetails = () => {
     webApp.MainButton.color = '#66bb6a';
     webApp.MainButton.enable();
     webApp.MainButton.onClick(handleMakeOrder);
-
     webApp.BackButton.show();
     webApp.BackButton.onClick(() => {
       navigate('/');
@@ -95,11 +116,11 @@ const BasketDetails = () => {
     <Base>
       <Header>
         <Title color="textPrimary" variant="caption">Ваш заказ</Title>
-        <BackButton component={Link} to="/" size="small">Изменить</BackButton>
+        <BackButton component={Link} to={`/`} size="small">Изменить</BackButton>
       </Header>
 
       <Products>
-        {basket && basket.products.map(product => <ProductInline key={product.id} {...product} />)}
+        {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
       </Products>
 
       <Comment>
@@ -110,6 +131,9 @@ const BasketDetails = () => {
                       onChange={event => setComment(event.target.value)}
                       placeholder="Комментарий к заказу"/>
       </Comment>
+      {import.meta.env.DEV && (
+        <Button onClick={handleMakeOrder}>Make Order</Button>
+      )}
     </Base>
   );
 };
