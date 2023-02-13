@@ -1,13 +1,12 @@
 import {webApp} from './telegram.js';
 
-export const apiUrl = 'https://lanka-496b2.web.app';
+export const apiUrl = 'https://swamimarket.netlify.app/';
 
-export const fetchAnswerWebQuery = async ({messageText, user}) => {
+export const fetchAnswerWebQuery = async ({messageText}) => {
   await fetch(`${apiUrl}/api/answerWebAppQuery`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + user.accessToken,
     },
     body: JSON.stringify({
       queryId: webApp.initDataUnsafe.query_id,

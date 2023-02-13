@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {clearBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
+import {fetchAnswerWebQuery} from '../services.js';
 
 const Base = styled('div')`
   background: ${({theme}) => theme.palette.background.default};
@@ -73,25 +74,31 @@ const BasketDetails = () => {
       webApp.disableClosingConfirmation();
     }
 
-    saveOrder([{
-      products: basket,
-      count,
-      price,
-      currency,
-      user,
-      shop: currentShop,
-      deliveryPrice: currentShop.deliveryPrice,
-      date: new Date(),
-      status: 'pending',
-      comment
-    }]).then(() => {
+    try {
+      saveOrder([{
+        products: basket,
+        count,
+        price,
+        currency,
+        user,
+        shop: currentShop,
+        deliveryPrice: currentShop.deliveryPrice,
+        date: new Date(),
+        status: 'pending',
+        comment
+      }]).then(async (order) => {
+        await fetchAnswerWebQuery({messageText: `\#${order.id}`});
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
       dispatch(clearBasket());
 
       if (webApp) {
         webApp.MainButton.hideProgress();
         webApp.close();
       }
-    });
+    }
   };
 
   if (webApp) {
