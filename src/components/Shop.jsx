@@ -1,5 +1,4 @@
 import {ButtonBase, styled, Typography} from '@mui/material';
-import {Link} from 'react-router-dom';
 
 const Base = styled(ButtonBase)`
   display: flex;
