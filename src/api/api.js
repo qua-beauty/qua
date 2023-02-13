@@ -1,7 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
-import {airtableBaseQuery} from './airtable.js';
-import {categoryMapper, productMapper, shopMapper} from './mappers.js';
-import {serializeOrder} from './serializers.js';
+import {airtableBaseQuery} from './airtableBaseQuery.js';
+import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper} from './mappers.js';
+import {serializeOrder, serializeUser} from './serializers.js';
 
 export const AirtableApi = createApi({
   reducerPath: 'AirtableApi',
@@ -40,8 +40,42 @@ export const AirtableApi = createApi({
         method: 'create',
         data: serializeOrder(order)
       }),
+      transformResponse(result, meta, arg) {
+        return result.length > 0 ? orderMapper(result[0]) : null;
+      }
+    }),
+    saveUser: builder.mutation({
+      query: (user) => ({
+        tableName: 'Users',
+        method: 'create',
+        data: serializeUser(user)
+      }),
+      transformResponse(result, meta, arg) {
+        console.log(result);
+        return result.length > 0 ? userMapper(result[0]) : null;
+      }
+    }),
+    getUser: builder.mutation({
+      query: (user) => ({
+        tableName: 'Users',
+        method: 'retrieve',
+        data: {
+          key: 'TelegramId',
+          value: user.id
+        }
+      }),
+      transformResponse(result, meta, arg) {
+        return result.length > 0 ? userMapper(result[0]) : null;
+      }
     }),
   }),
 });
 
-export const {useGetShopsQuery, useGetProductsQuery, useGetCategoriesQuery, useSaveOrderMutation} = AirtableApi;
+export const {
+  useGetShopsQuery,
+  useGetProductsQuery,
+  useGetCategoriesQuery,
+  useGetUserMutation,
+  useSaveOrderMutation,
+  useSaveUserMutation
+} = AirtableApi;

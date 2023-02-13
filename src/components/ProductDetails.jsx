@@ -151,8 +151,6 @@ const ProductDetails = () => {
     }
   }, [currentProduct]);
 
-  console.log(currentProduct, currentShop);
-
   return (currentProduct && currentShop) ? (
     <Base component="div">
       <Image>

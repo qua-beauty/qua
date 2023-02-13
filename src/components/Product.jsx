@@ -31,13 +31,13 @@ const Base = styled('div')`
 
 const Image = styled('div')`
   background: ${({ theme }) => theme.palette.background.default};
+  border-radius: 50%;
   width: 120px;
   height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 50%;
   text-decoration: none;
 
   position: relative;
@@ -89,7 +89,7 @@ const Title = styled(Typography)`
 
 const Product = ({ onSelect, ...product }) => {
   const dispatch = useDispatch();
-  const {title, photo, price, currency, id, icon} = product;
+  const {title, image, price, currency, id, icon} = product;
   const {basket} = useSelector(state => state.basket);
   const [added, setAdded] = useState(0);
 
@@ -122,7 +122,7 @@ const Product = ({ onSelect, ...product }) => {
       background: added ? 'rgba(207,158,255,0.2)' : 'inherit'
     }}>
       <Image onClick={() => onSelect(product)}>
-        {photo && <img src={photo} alt=""/>}
+        {image && <img src={image} alt=""/>}
         <NoImage>{icon}</NoImage>
       </Image>
       <Title>{title}</Title>

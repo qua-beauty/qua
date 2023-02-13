@@ -7,7 +7,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import ShareButton from './ShareButton.jsx';
 import {getCurrencyTitle, getShopUrl} from '../utils.js';
 import {useSelector} from 'react-redux';
-import {selectProductsByShopId} from '../api/slices/productSlice.js';
+import {selectProductsByShop} from '../api/slices/productSlice.js';
 
 const Base = styled('div')`
 
@@ -80,7 +80,7 @@ function ShopCatalog() {
   const navigate = useNavigate();
   const currentShop = useSelector((state) => state.shops.current);
   const filters = useSelector((state) => state.filters.filters);
-  const catalog = useSelector(selectProductsByShopId(shopId, filters));
+  const catalog = useSelector(selectProductsByShop(shopId, filters));
 
   useEffect(() => {
     if (webApp) {

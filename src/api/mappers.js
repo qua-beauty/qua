@@ -31,7 +31,7 @@ export const productMapper = (product) => {
     isGF: product.fields['isGF'],
     isVegetarian: product.fields['isVegetarian'],
     isAvailable: product.fields['isAvailable'],
-    shopId: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
+    shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
   };
 }
 
@@ -42,5 +42,32 @@ export const categoryMapper = (category) => {
     icon: category.fields['Icon'],
     shops: category.fields['Shops'],
     products: category.fields['Products']
+  };
+}
+
+export const orderMapper = (order) => {
+  return {
+    id: order.id,
+    date: order.fields['Date'],
+    status: order.fields['Status'].toLowerCase(),
+    user: order.fields['User'] ?  order.fields['User'][0] : undefined,
+    products: order.fields['Products'],
+    address: order.fields['Address'],
+    shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
+    count: order.fields['Count'],
+    price: order.fields['Price'],
+    deliveryPrice: order.fields['Delivery Price'],
+    comment: order.fields['Comment']
+  }
+}
+
+export const userMapper = (user) => {
+  return {
+    id: user.id,
+    name: user.fields['Name'],
+    phone: user.fields['Phone'],
+    address: user.fields['Address'],
+    username: user.fields['Telegram'],
+    telegramId: user.fields['TelegramId'],
   };
 }

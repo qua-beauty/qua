@@ -62,6 +62,7 @@ const BasketDetails = () => {
   const dispatch = useDispatch();
   const {basket, price, count, currency} = useSelector(state => state.basket);
   const currentShop = useSelector(state => state.shops.current);
+  const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
 
@@ -77,9 +78,7 @@ const BasketDetails = () => {
       count,
       price,
       currency,
-      user: {
-        id: 'recoYlGL2H6q1jkyv'
-      },
+      user,
       shop: currentShop,
       deliveryPrice: currentShop.deliveryPrice,
       date: new Date(),
@@ -88,8 +87,10 @@ const BasketDetails = () => {
     }]).then(() => {
       dispatch(clearBasket());
 
-      webApp.MainButton.hideProgress();
-      webApp.close();
+      if (webApp) {
+        webApp.MainButton.hideProgress();
+        webApp.close();
+      }
     });
   };
 

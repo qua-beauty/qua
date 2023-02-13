@@ -62,26 +62,9 @@ const basketSlice = createSlice({
       state.count = params[0];
       state.price = params[1];
     },
-    makeOrder: (state, action) => {
-      const {comment, shop} = action.payload;
-
-      state.order = {
-        products: state.basket,
-        count: state.count,
-        price: state.price,
-        shopId: shop.shopId,
-        shopGroupId: shop.telegramGroupId,
-        deliveryPrice: shop.deliveryPrice,
-        created: new Date(),
-        status: 'pending',
-        comment
-      };
-
-
-    },
   },
 });
 
-export const {addProduct, deleteProduct, makeOrder, clearBasket} = basketSlice.actions;
+export const {addProduct, deleteProduct, clearBasket} = basketSlice.actions;
 
-export default basketSlice.reducer;
+export const basketReducer = basketSlice.reducer;

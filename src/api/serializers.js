@@ -13,3 +13,13 @@ export const serializeOrder = (orderData) => {
     }
   }));
 }
+
+export const serializeUser = (userData) => {
+  return userData.map(user => ({
+    fields: {
+      'Name': `${user.first_name} ${user.last_name}`,
+      'TelegramId': user.id,
+      'Telegram': `${user.username}`
+    }
+  }));
+}

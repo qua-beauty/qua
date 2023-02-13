@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {webApp} from './telegram.js';
 import useAuth from './hooks/useAuth.js';
 import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
-import {BottomNavigation, Button, useTheme} from '@mui/material';
+import {Button, useTheme} from '@mui/material';
 import AppLoader from './components/AppLoader.jsx';
 import {useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery} from './api/api.js';
 import {useDispatch, useSelector} from 'react-redux';
@@ -76,9 +76,7 @@ function App() {
     <>
       <Outlet/>
       {import.meta.env.DEV && (
-        <BottomNavigation>
-          <Button component={Link} to={'/basket'}>Basket</Button>
-        </BottomNavigation>
+        <Button component={Link} to={'/basket'}>Basket</Button>
       )}
     </>
   );
