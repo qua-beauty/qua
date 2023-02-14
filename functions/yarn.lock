@@ -7,6 +7,19 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.15.tgz#eec9f36d8eaf0948bb88c87a46784b5ee9fd0c89"
   integrity sha512-DI4a1oZuf8wC+oAJA9RW6ga3Zbe8RZFt7kD9i4qAspz3I/yHet1VvC3DiSy/fsUvv5pvJuNPh0LPOdCcqinDPg==
 
+"@deno/shim-deno-test@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno-test/-/shim-deno-test-0.4.0.tgz#2ff56821854c51323c0cd08a4a56d668f84367ba"
+  integrity sha512-oYWcD7CpERZy/TXMTM9Tgh1HD/POHlbY9WpzmAk+5H8DohcxG415Qws8yLGlim3EaKBT2v3lJv01x4G0BosnaQ==
+
+"@deno/shim-deno@~0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno/-/shim-deno-0.11.0.tgz#02b3e56feb8ecca8caf8498ad3de48f0d91e23e9"
+  integrity sha512-z5FRYleehfz1Z0Wp9jilB98cJRGV2HYiLN0FZu1/xwLrQk+hk5VaNKp1nEoyGrUM4MLruTlnhEbqHJwxfnbPLw==
+  dependencies:
+    "@deno/shim-deno-test" "^0.4.0"
+    which "^2.0.2"
+
 "@fastify/busboy@^1.1.0":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-1.2.1.tgz#9c6db24a55f8b803b5222753b24fe3aea2ba9ca3"
@@ -129,6 +142,27 @@
     teeny-request "^8.0.0"
     uuid "^8.0.0"
 
+"@grammyjs/conversations@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@grammyjs/conversations/-/conversations-1.1.1.tgz#2a0ea2fb1379fe97967864163d5bc619fbd92787"
+  integrity sha512-cgNvxIXaZT1eVw1ygdjCMvOY9m2Hk5iAwVjpjKSYpBSOyTBUV30/c0SEvCl+wVgTQpmd5m5E8WLfGMT4k4bdug==
+  dependencies:
+    "@grammyjs/types" "^2.8.2"
+    debug "^4.3.4"
+    o-son "^1.0.0"
+
+"@grammyjs/runner@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@grammyjs/runner/-/runner-1.0.4.tgz#b305c2cac02bd86ff8ef2116446af9faa8d95d72"
+  integrity sha512-77IE+2Gg0UHa9MNZ8wsculxJpzUDcHTrMg7OLbKoQ8jWKFxX78sdxRBwL+FK3NvHZ15YnXsnxesV43xgbOhteA==
+  dependencies:
+    abort-controller "^3.0.0"
+
+"@grammyjs/types@^2.12.1", "@grammyjs/types@^2.8.2":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@grammyjs/types/-/types-2.12.1.tgz#18d021e00928d75c6ee15c520231fd209cdf00b4"
+  integrity sha512-1hO6esfdo42mSvyArPHrlgSY/fgerTuVNAbSD5ZKHS/w5ZyrkA4pRp3VHK2XE3fm9/uMBT/39i8pPvx0+Kbxjg==
+
 "@grpc/grpc-js@~1.8.0":
   version "1.8.7"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.7.tgz#2154fc0134462ad45f4134e8b54682a25ed05956"
@@ -154,6 +188,13 @@
   integrity sha512-bbtCxCkxcnWhi50I+4Lj6mdz9w3pOXOgEQrID8TCZ/DF51fW7M9GCQW2y45SpBDdHd1Eirm1X/Cf6CkAAe8HPg==
   dependencies:
     lodash "^4.17.21"
+
+"@netlify/functions@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@netlify/functions/-/functions-1.4.0.tgz#027a2e5d54df5519ccbd14cf450231e97bbbf93a"
+  integrity sha512-gy7ULTIRroc2/jyFVGx1djCmmBMVisIwrvkqggq5B6iDcInRSy2Tpkm+V5C63hKJVkNRskKWtLQKm9ecCaQTjA==
+  dependencies:
+    is-promise "^4.0.0"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -321,6 +362,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
+"@types/node@>=8.0.0 <15":
+  version "14.18.36"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.36.tgz#c414052cb9d43fab67d679d5f3c641be911f5835"
+  integrity sha512-FXKWbsJ6a1hIrRxv+FoukuHnGTgEzKYGi7kilfMae96AL9UNkPFNWJEEYWzdRI9ooIkbr4AKldyuSTLql06vLQ==
+
 "@types/qs@*":
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
@@ -354,6 +400,11 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
+abortcontroller-polyfill@^1.4.0:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/abortcontroller-polyfill/-/abortcontroller-polyfill-1.7.5.tgz#6738495f4e901fbb57b6c0611d0c75f76c485bed"
+  integrity sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==
+
 accepts@~1.3.8:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.8.tgz#0bf0be125b67014adcb0b0921e62db7bffe16b2e"
@@ -378,6 +429,17 @@ agent-base@6:
   integrity sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
   dependencies:
     debug "4"
+
+airtable@^0.11.6:
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.6.tgz#3b90f9c671ee93c4ad647eb131d630dea9f1f84a"
+  integrity sha512-Na67L2TO1DflIJ1yOGhQG5ilMfL2beHpsR+NW/jhaYOa4QcoxZOtDFs08cpSd1tBMsLpz5/rrz/VMX/pGL/now==
+  dependencies:
+    "@types/node" ">=8.0.0 <15"
+    abort-controller "^3.0.0"
+    abortcontroller-polyfill "^1.4.0"
+    lodash "^4.17.21"
+    node-fetch "^2.6.7"
 
 ansi-regex@^5.0.1:
   version "5.0.1"
@@ -608,6 +670,11 @@ destroy@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.2.0.tgz#4803735509ad8be552934c67df614f94e66fa015"
   integrity sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 duplexify@^4.0.0:
   version "4.1.2"
@@ -975,6 +1042,16 @@ graceful-fs@^4.1.9:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
+grammy@^1.14.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/grammy/-/grammy-1.14.1.tgz#63ce9ede80379579415472dae870fcf762fc006d"
+  integrity sha512-hFIW2DE2xF5yuYL5a65i/0lvqsAwQsIaJO64Fk0N7v696nTSu7g0LqnQnHapmydRkNMoZVbwn25M80LKZzUkxw==
+  dependencies:
+    "@grammyjs/types" "^2.12.1"
+    abort-controller "^3.0.0"
+    debug "^4.3.4"
+    node-fetch "^2.6.7"
+
 gtoken@^6.1.0:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-6.1.2.tgz#aeb7bdb019ff4c3ba3ac100bbe7b6e74dce0e8bc"
@@ -1064,6 +1141,11 @@ is-fullwidth-code-point@^3.0.0:
   resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz#f116f8064fe90b3f7844a38997c0b75051269f1d"
   integrity sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==
 
+is-promise@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-4.0.0.tgz#42ff9f84206c1991d26debf520dd5c01042dd2f3"
+  integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
+
 is-stream-ended@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/is-stream-ended/-/is-stream-ended-0.1.4.tgz#f50224e95e06bce0e356d440a4827cd35b267eda"
@@ -1073,6 +1155,11 @@ is-stream@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-2.0.1.tgz#fac1e3d53b97ad5a9d0ae9cef2389f5810a5c077"
   integrity sha512-hFoiJiTl63nn+kstHGBtewWSKnQLpyb155KHheA1l39uvtO9nWIop1p3udqPcUd/xbF1VLMO4n7OI6p7RbngDg==
+
+isexe@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
+  integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 jose@^4.10.4:
   version "4.11.2"
@@ -1368,6 +1455,13 @@ node-forge@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.1.tgz#be8da2af243b2417d5f646a770663a92b7e9ded3"
   integrity sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==
+
+o-son@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/o-son/-/o-son-1.0.1.tgz#0e4f575a5c232fb542ab4e73e897b1c0d131b4c3"
+  integrity sha512-u3X+gVI4BalcHsFe75miy3UxG3pNcJzXDCS8N5eJLlYY1EdiUC8amUsbXMWlAqJUKJgGTM9OBqAuxvTUACKs2g==
+  dependencies:
+    "@deno/shim-deno" "~0.11.0"
 
 object-assign@^4:
   version "4.1.1"
@@ -1836,6 +1930,13 @@ whatwg-url@^5.0.0:
   dependencies:
     tr46 "~0.0.3"
     webidl-conversions "^3.0.0"
+
+which@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/which/-/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"
+  integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
+  dependencies:
+    isexe "^2.0.0"
 
 word-wrap@~1.2.3:
   version "1.2.3"

@@ -1,6 +1,6 @@
 [build]
   command = "vite build"
-  functions = "backend/functions"
+  functions = "functions"
   publish = "dist"
 [[redirects]]
   from = "/api/*"

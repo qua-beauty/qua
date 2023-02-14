@@ -1,57 +1,84 @@
-const {Telegraf, Scenes, session} = require('telegraf');
-const {createNewOrderScene} = require('./bot/scenes/createNewOrder.js');
+const {Bot, session, webhookCallback} = require('grammy');
+const {conversations, createConversation} = require('@grammyjs/conversations');
 const {masks} = require('./bot/utils.js');
-const {sceneNames, actionNames} = require('./bot/constants.js');
-const {cancelOrder, shopDeclineOrder, shopAcceptOrder, backToHome} = require('./bot/actions/orderActions.js');
 const {messages} = require('./bot/messages.js');
-const {keyboards} = require('./bot/keyboards.js');
-const functions = require('firebase-functions');
-const cors = require('cors')({origin: true, allowedHeaders: ['POST', 'GET', 'PUT', 'DELETE']});
+const {startKeyboard, startShopKeyboard} = require('./bot/keyboards');
+const {orderConversation} = require('./bot/conversations/orderConversation');
+const {actions} = require('./bot/utils');
+const {
+  cancelOrder,
+  shopDeclineOrder,
+  shopAcceptOrder,
+  deliveryAcceptOrder,
+  shopDoneOrder,
+  backToHome
+} = require('./bot/actions/orderActions');
 
-const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-const stage = new Scenes.Stage([createNewOrderScene]);
-bot.use(session());
-bot.use(stage.middleware());
+const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN);
 
-bot.start(async (ctx) => {
-  const openShopRegExp = new RegExp('openShop', 'gi');
-  const payload = ctx.startPayload;
-  if(openShopRegExp.test(payload)) {
-    const shopId = payload.split('-')[1];
-    await ctx.reply(messages.startShop(shopId), keyboards.startShop(shopId));
+bot.use(session({
+  initial() {
+    return {
+      newOrder: {
+        products: [],
+        price: null,
+        count: null,
+        address: null,
+        phone: null,
+        user: null,
+        orderCardMessage: null,
+        getPhoneMessage: null,
+        getAddressMessage: null,
+        phoneMessage: null,
+        addressMessage: null,
+        orderCreatedMessage: null
+      }
+    };
+  },
+}));
+
+bot.use(conversations());
+bot.use(createConversation(orderConversation, 'newOrder'));
+
+bot.catch((error) => {
+  console.log(error);
+  error.ctx.reply(messages.botError);
+});
+
+bot.command('start', async (ctx) => {
+  const {text} = ctx.update.message;
+
+  if (masks.shop.test(text)) {
+    const shopId = text.split('-')[1];
+    await ctx.reply(messages.startShop(shopId), {
+      reply_markup: startShopKeyboard(shopId)
+    });
   } else {
-    await ctx.reply(messages.start, keyboards.start);
+    await ctx.reply(messages.start, {
+      reply_markup: startKeyboard
+    });
   }
 });
 
 bot.hears(masks.order, async (ctx) => {
-  ctx.scene.reset();
-  await ctx.scene.enter(sceneNames.CREATE_NEW_ORDER);
+  await ctx.conversation.enter('newOrder');
 });
 
-bot.action(new RegExp(actionNames.CANCEL_ORDER, 'gi'), cancelOrder);
-bot.action(new RegExp(actionNames.SHOP_DECLINE_ORDER, 'gi'), shopDeclineOrder);
-bot.action(new RegExp(actionNames.SHOP_ACCEPT_ORDER, 'gi'), shopAcceptOrder);
-bot.action(new RegExp(actionNames.BACK_TO_HOME, 'gi'), backToHome);
+bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), cancelOrder);
+bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
+bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), shopAcceptOrder);
+bot.callbackQuery(new RegExp(actions.DELIVERY_ACCEPT_ORDER), deliveryAcceptOrder);
+bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
+bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
 
-exports.botApi = bot;
+const handleUpdate = webhookCallback(bot, "std/http");
 
-exports.bot = functions.https.onRequest(async (request, response) => {
-  cors(request, response, async () => {
-    functions.logger.log('Incoming message', request.body);
-    const payload = request.body;
-
-    try {
-      return await bot.handleUpdate(payload).then((rv) => {
-        !rv && response.set('Cache-Control', 'public, max-age=300, s-maxage=600').sendStatus(200);
-      })
-    } catch (e) {
-      console.log(e);
-      return response.send({
-        statusCode: 400,
-        body: 'This endpoint is meant for bot and telegram communication'
-      });
-
-    }
-  });
-});
+exports.handler = async event => {
+  try {
+    console.log(JSON.parse(event.body));
+    return await handleUpdate(JSON.parse(event.body));
+  } catch (e) {
+    console.log(e)
+    return { statusCode: 400, body: 'This endpoint is meant for bot and telegram communication' };
+  }
+}

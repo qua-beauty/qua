@@ -1,14 +1,14 @@
-const functions = require('firebase-functions');
 const {updateOrder, getOrder} = require('../services.js');
 const {messages} = require('../messages.js');
 const {parseMode} = require('../utils.js');
 const {keyboards} = require('../keyboards.js');
 
 const updateOrderAction = async (ctx, status, isUser) => {
-  const orderId = ctx.callbackQuery.data.split(' ')[1];
-  const order = await getOrder(orderId);
+  console.log(ctx);
+  const {message: {message_id: messageId, chat}, data} = ctx.update.callback_query;
 
-  functions.logger.log('context', ctx);
+  const orderId = data.split(' ')[1];
+  const order = await getOrder(orderId);
 
   const newOrder = {
     ...order,
@@ -16,20 +16,34 @@ const updateOrderAction = async (ctx, status, isUser) => {
   };
 
   const message = messages.orderCard(newOrder);
+  await ctx.api.deleteMessage(chat.id, messageId);
 
-  await updateOrder(orderId, {status});
-  await ctx.editMessageText(message, parseMode);
+  await ctx.reply(message, {
+    ...parseMode
+  });
 
   if(!isUser){
     const {chatId, userMessageId} = order.telegram;
-    ctx.telegram.deleteMessage(userMessageId);
-    await ctx.telegram.sendMessage(chatId, message, parseMode);
+    await ctx.api.deleteMessage(chatId, userMessageId);
+    await ctx.api.sendMessage(chatId, message, parseMode);
+
+    if(status === 'cooking') {
+      await ctx.api.sendMessage(chatId, messages.approveOrder, parseMode);
+    }
+
+    if(status === 'cooked') {
+      await ctx.api.sendMessage(chatId, messages.doneOrder, parseMode);
+    }
   }
+
+  await updateOrder(orderId, {status});
 };
 
 const cancelOrder = (ctx) => updateOrderAction(ctx, 'cancelled', true);
 const shopDeclineOrder = (ctx) => updateOrderAction(ctx, 'declined');
 const shopAcceptOrder = (ctx) => updateOrderAction(ctx, 'cooking');
+const shopDoneOrder = (ctx) => updateOrderAction(ctx, 'cooked');
+const deliveryAcceptOrder = (ctx) => updateOrderAction(ctx, 'delivery');
 
 const backToHome = async (ctx) => {
   await ctx.reply(messages.start, keyboards.start);
@@ -39,5 +53,7 @@ module.exports = {
   cancelOrder,
   shopDeclineOrder,
   shopAcceptOrder,
-  backToHome
+  backToHome,
+  shopDoneOrder,
+  deliveryAcceptOrder
 };

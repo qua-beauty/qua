@@ -7,9 +7,6 @@ export const airtableBase = new Airtable({
 export const airtableBaseQuery = async ({tableName, method, data}) => {
   try {
     let result;
-
-    console.log(tableName, method, data);
-
     if (method === 'select') {
       result = await selectRecords(tableName);
     }

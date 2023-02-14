@@ -1,25 +1,20 @@
-const {botApi: bot} = require('./bot.js');
-const functions = require('firebase-functions');
-const cors = require('cors')({origin: true});
+const {bot} = require('./bot.js');
 
-exports.answerWebAppQuery = functions.https.onRequest(async (request, response) => {
-  cors(request, response, async () => {
-    const payload = request.body;
+exports.handler = async event => {
+  const payload = JSON.parse(event.body);
 
-    try {
-      await bot.telegram.answerWebAppQuery(payload.queryId, {
-        ...payload
-      });
+  try {
+    await bot.api.answerWebAppQuery(payload.queryId, {
+      ...payload
+    }).catch(e => console.log(e));
 
-      return response
-        .set('Cache-Control', 'public, max-age=300, s-maxage=600')
-        .send({
-          statusCode: 200,
-          body: `OK`
-        });
+    return {
+      statusCode: 200,
+      body: `OK`
+    };
 
-    } catch (e) {
-      return response.send({statusCode: 400, body: 'something wrong'});
-    }
-  });
-});
+  } catch (e) {
+    console.log(e);
+    return {statusCode: 400, body: 'something wrong'};
+  }
+};

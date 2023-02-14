@@ -84,10 +84,10 @@ const BasketDetails = () => {
         shop: currentShop,
         deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
-        status: 'pending',
+        status: 'draft',
         comment
       }]).then(async (order) => {
-        await fetchAnswerWebQuery({messageText: `\#${order.id}`});
+        await fetchAnswerWebQuery({messageText: `order-${order.id}`});
       });
     } catch (e) {
       console.log(e);

@@ -1,27 +1,37 @@
-const {firestore} = require('./firebase.js');
-const firebase = require('firebase-admin');
+const Airtable = require("airtable");
+const {orderMapper} = require('./mappers');
 
-const createUserToken = async (userId) => {
-  return await firebase.auth().createCustomToken(userId);
-};
+const airtableBase = new Airtable({
+  apiKey: process.env.AIRTABLE_API_KEY
+}).base(process.env.AIRTABLE_BASE);
+
+const ordersTable = 'Orders';
 
 const getOrder = async (orderId) => {
-  const orderRef = firestore.collection('orders').doc(orderId);
-  const order = await orderRef.get().catch(e => console.log(e));
+  if(orderId) {
+    const order = await airtableBase(ordersTable).find(orderId);
+    return orderMapper(order);
+  }
 
-  return order.exists ? {
-    ...order.data(),
-    id: order.id
-  } : null;
+  throw Error('No Order ID');
 };
 
 const updateOrder = async (orderId, data) => {
-  const orderRef = firestore.collection('orders').doc(orderId);
-  return await orderRef.update(data);
+  console.log(data);
+  const order = await airtableBase(ordersTable).update([{
+    id: orderId,
+    fields: {
+      'Phone': data.phone,
+      'Address': data.address,
+      'Status': data.status.capitalize()
+    }
+  }]);
+
+  console.log(order);
+  return order;
 };
 
 module.exports = {
   getOrder,
-  createUserToken,
   updateOrder
 };
