@@ -21,8 +21,14 @@ router.post('/answerWebAppQuery', async (context) => {
 });
 
 app.use(oakCors({
-  origin: 'https://swamimarket.netlify.app/',
+  origin: false,
+  optionsSuccessStatus: 200,
 }));
+app.use(async (context) => {
+  context.response.headers.set("Access-Control-Allow-Origin", "*");
+  context.response.headers.set("Access-Control-Allow-Headers", "Content-Type");
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 
