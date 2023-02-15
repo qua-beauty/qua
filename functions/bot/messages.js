@@ -61,6 +61,6 @@ const messages = {
   botError: 'От вашего сообщения бот упал, мы скоро исправим это!'
 };
 
-module.exports = {
+export {
   messages
 };

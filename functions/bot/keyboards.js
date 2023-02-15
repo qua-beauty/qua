@@ -1,11 +1,14 @@
-const {InlineKeyboard, Keyboard} = require('grammy');
-const {actions} = require('./utils');
+import {InlineKeyboard, Keyboard} from 'https://deno.land/x/grammy/mod.ts';
+import { load } from "https://deno.land/std/dotenv/mod.ts";
+import {actions} from './utils.js';
+
+const env = await load();
 
 const startKeyboard = new InlineKeyboard()
-  .webApp('Маркет', process.env.TWA_URL);
+  .webApp('Маркет', env['TWA_URL']);
 
 const startShopKeyboard = (shopId) => new InlineKeyboard()
-  .webApp(`Маркет`, `${process.env.TWA_URL}shop/${shopId}`);
+  .webApp(`Маркет`, `${env['TWA_URL']}shop/${shopId}`);
 
 const shareAddressKeyboard = new Keyboard()
   .requestLocation(`Поделиться локацией 📍`)
@@ -29,7 +32,7 @@ const orderDeliveryKeyboard = (orderId) => new InlineKeyboard()
 const orderUserKeyboard = (orderId) => new InlineKeyboard()
   .text('Отменить заказ', `${actions.CANCEL_ORDER} ${orderId}`);
 
-module.exports = {
+export {
   startKeyboard,
   startShopKeyboard,
   sharePhoneKeyboard,

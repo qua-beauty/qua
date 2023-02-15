@@ -1,7 +1,7 @@
-const {masks, parseMode} = require('../utils');
-const {getOrder, updateOrder} = require('../services');
-const {messages} = require('../messages');
-const {sharePhoneKeyboard, shareAddressKeyboard, orderUserKeyboard} = require('../keyboards');
+import {masks, parseMode} from '../utils.js';
+import {getOrder, updateOrder} from '../services.js';
+import {messages} from '../messages.js';
+import {sharePhoneKeyboard, shareAddressKeyboard, orderUserKeyboard} from '../keyboards.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -78,6 +78,6 @@ async function orderConversation(conversation, ctx) {
   await ctx.reply(messages.saveOrder);
 }
 
-module.exports = {
+export {
   orderConversation
 };

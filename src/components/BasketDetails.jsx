@@ -86,18 +86,18 @@ const BasketDetails = () => {
         date: new Date(),
         status: 'draft',
         comment
-      }]).then(async (order) => {
+      }]).unwrap().then(async (order) => {
+        console.log(order);
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
+        dispatch(clearBasket());
+
+        if (webApp) {
+          webApp.MainButton.hideProgress();
+          webApp.close();
+        }
       });
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(clearBasket());
-
-      if (webApp) {
-        webApp.MainButton.hideProgress();
-        webApp.close();
-      }
     }
   };
 

@@ -18,7 +18,7 @@ export const serializeUser = (userData) => {
   return userData.map(user => ({
     fields: {
       'Name': `${user.first_name} ${user.last_name}`,
-      'TelegramId': user.id,
+      'TelegramId': user.id.toString(),
       'Telegram': `${user.username}`
     }
   }));

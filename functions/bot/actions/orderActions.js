@@ -1,7 +1,7 @@
-const {updateOrder, getOrder} = require('../services.js');
-const {messages} = require('../messages.js');
-const {parseMode} = require('../utils.js');
-const {keyboards} = require('../keyboards.js');
+import {updateOrder, getOrder} from '../services.js';
+import {messages} from '../messages.js';
+import {parseMode} from '../utils.js';
+import {startKeyboard} from '../keyboards.js';
 
 const updateOrderAction = async (ctx, status, isUser) => {
   console.log(ctx);
@@ -46,10 +46,10 @@ const shopDoneOrder = (ctx) => updateOrderAction(ctx, 'cooked');
 const deliveryAcceptOrder = (ctx) => updateOrderAction(ctx, 'delivery');
 
 const backToHome = async (ctx) => {
-  await ctx.reply(messages.start, keyboards.start);
+  await ctx.reply(messages.start, startKeyboard);
 };
 
-module.exports = {
+export {
   cancelOrder,
   shopDeclineOrder,
   shopAcceptOrder,

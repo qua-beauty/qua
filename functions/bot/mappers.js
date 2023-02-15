@@ -15,6 +15,6 @@ const orderMapper = (order) => {
   }
 }
 
-module.exports = {
+export {
   orderMapper
 }
