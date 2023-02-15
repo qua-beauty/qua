@@ -1,9 +1,7 @@
 import {webApp} from './telegram.js';
 
-export const apiUrl = 'https://swamimarket.netlify.app/';
-
 export const fetchAnswerWebQuery = async ({messageText}) => {
-  await fetch(`${apiUrl}/api/answerWebAppQuery`, {
+  await fetch(`${import.meta.env.VITE_SERVER_URL}/api/answerWebAppQuery`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

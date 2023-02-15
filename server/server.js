@@ -1,4 +1,5 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
+import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import {runBot} from './bot/bot.js';
 
 const app = new Application();
@@ -19,6 +20,9 @@ router.post('/answerWebAppQuery', async (context) => {
   }
 });
 
+app.use(oakCors({
+  origin: 'https://swamimarket.netlify.app/',
+}));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
