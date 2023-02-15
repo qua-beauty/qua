@@ -1,8 +1,8 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
-import "https://deno.land/x/dotenv/load.ts";
+import 'https://deno.land/x/dotenv/load.ts';
 
-import {runBot, bot} from './bot/bot.js';
+import {bot, runBot} from './bot/bot.js';
 
 const app = new Application();
 const router = new Router();
