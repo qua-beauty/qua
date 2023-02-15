@@ -1,7 +1,7 @@
 import {Bot, session} from 'https://deno.land/x/grammy/mod.ts';
 import {conversations, createConversation} from 'https://deno.land/x/grammy_conversations@v1.1.0/mod.ts';
 import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
-import {load} from 'https://deno.land/std/dotenv/mod.ts';
+import "https://deno.land/x/dotenv/load.ts";
 import {actions, masks} from './utils.js';
 import {messages} from './messages.js';
 import {startKeyboard, startShopKeyboard} from './keyboards.js';
@@ -15,9 +15,7 @@ import {
   shopDoneOrder
 } from './actions/orderActions.js';
 
-const env = await load();
-
-const bot = new Bot(env['TELEGRAM_BOT_TOKEN']);
+export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
 bot.use(session({
   initial() {

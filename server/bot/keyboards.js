@@ -1,14 +1,11 @@
 import {InlineKeyboard, Keyboard} from 'https://deno.land/x/grammy/mod.ts';
-import { load } from "https://deno.land/std/dotenv/mod.ts";
 import {actions} from './utils.js';
 
-const env = await load();
-
 const startKeyboard = new InlineKeyboard()
-  .webApp('Маркет', env['TWA_URL']);
+  .webApp('Маркет', Deno.env.get('TWA_URL'));
 
 const startShopKeyboard = (shopId) => new InlineKeyboard()
-  .webApp(`Маркет`, `${env['TWA_URL']}shop/${shopId}`);
+  .webApp(`Маркет`, `${Deno.env.get('TWA_URL')}shop/${shopId}`);
 
 const shareAddressKeyboard = new Keyboard()
   .requestLocation(`Поделиться локацией 📍`)
