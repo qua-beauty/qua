@@ -2,10 +2,10 @@ import {Bot, session} from 'https://deno.land/x/grammy/mod.ts';
 import {conversations, createConversation} from 'https://deno.land/x/grammy_conversations@v1.1.0/mod.ts';
 import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import {load} from 'https://deno.land/std/dotenv/mod.ts';
-import {actions, masks} from './bot/utils.js';
-import {messages} from './bot/messages.js';
-import {startKeyboard, startShopKeyboard} from './bot/keyboards.js';
-import {orderConversation} from './bot/conversations/orderConversation.js';
+import {actions, masks} from './utils.js';
+import {messages} from './messages.js';
+import {startKeyboard, startShopKeyboard} from './keyboards.js';
+import {orderConversation} from './conversations/orderConversation.js';
 import {
   backToHome,
   cancelOrder,
@@ -13,7 +13,7 @@ import {
   shopAcceptOrder,
   shopDeclineOrder,
   shopDoneOrder
-} from './bot/actions/orderActions.js';
+} from './actions/orderActions.js';
 
 const env = await load();
 
@@ -74,4 +74,6 @@ bot.callbackQuery(new RegExp(actions.DELIVERY_ACCEPT_ORDER), deliveryAcceptOrder
 bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
 
-run(bot);
+export function runBot(){
+  run(bot);
+}
