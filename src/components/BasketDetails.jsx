@@ -71,15 +71,16 @@ const BasketDetails = () => {
     setComment(event.target.value);
   }, []);
 
-  const handleMakeOrder = () => {
+  const handleMakeOrder = useCallback(() => {
     if (webApp) {
       webApp.MainButton.disable();
       webApp.MainButton.showProgress();
-      webApp.disableClosingConfirmation();
+      webApp.enableClosingConfirmation()
     }
 
     try {
       console.log(comment);
+      
       saveOrder([{
         products: basket,
         count,
@@ -90,20 +91,21 @@ const BasketDetails = () => {
         deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
         status: 'draft',
-        comment
+        comment: comment
       }]).unwrap().then(async (order) => {
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
-        // dispatch(clearBasket());
+        dispatch(clearBasket());
 
-        // if (webApp) {
-        //   webApp.MainButton.hideProgress();
-        //   webApp.close();
-        // }
+        if (webApp) {
+          webApp.MainButton.hideProgress();
+          webApp.disableClosingConfirmation()
+          webApp.close();
+        }
       });
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [comment, basket, currentShop])
 
   if (webApp) {
     webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
