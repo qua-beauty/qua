@@ -7,9 +7,9 @@ export const serializeOrder = (orderData) => {
       'Shop': [order.shop.id],
       'Count': order.count,
       'Price': order.price,
+      'Comment': order.comment,
       'Delivery Price': order.deliveryPrice,
       'Status': order.status.capitalize(),
-      'Comment': order.comment
     }
   }));
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Button, InputBase, styled, Typography} from '@mui/material';
 import ProductInline from './ProductInline.jsx';
 import {getCurrencyTitle} from '../utils.js';
@@ -67,6 +67,10 @@ const BasketDetails = () => {
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
 
+  const handleCommentChange = useCallback(event => {
+    setComment(event.target.value);
+  }, []);
+
   const handleMakeOrder = () => {
     if (webApp) {
       webApp.MainButton.disable();
@@ -75,6 +79,7 @@ const BasketDetails = () => {
     }
 
     try {
+      console.log(comment);
       saveOrder([{
         products: basket,
         count,
@@ -87,14 +92,13 @@ const BasketDetails = () => {
         status: 'draft',
         comment
       }]).unwrap().then(async (order) => {
-        console.log(order);
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
-        dispatch(clearBasket());
+        // dispatch(clearBasket());
 
-        if (webApp) {
-          webApp.MainButton.hideProgress();
-          webApp.close();
-        }
+        // if (webApp) {
+        //   webApp.MainButton.hideProgress();
+        //   webApp.close();
+        // }
       });
     } catch (e) {
       console.log(e);
@@ -136,7 +140,7 @@ const BasketDetails = () => {
                       multiline={true}
                       rows={2}
                       value={comment}
-                      onChange={event => setComment(event.target.value)}
+                      onChange={handleCommentChange}
                       placeholder="Комментарий к заказу"/>
       </Comment>
       {import.meta.env.DEV && (
