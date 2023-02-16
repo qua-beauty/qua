@@ -10,14 +10,15 @@ const router = new Router();
 runBot();
 
 router.get('/', async (context) => {
-  context.response.body = "Hello, oak!";
-})
+  context.response.body = 'Hello, oak!';
+});
 
 router.post('/answerWebAppQuery', async (context) => {
-  const payload = await context.request.body().value;
-  console.log(payload);
+  const {queryId, ...data} = await context.request.body().value;
+  console.log(queryId, data);
+  
   try {
-    context.response.body = await bot.api.answerWebAppQuery(payload);
+    context.response.body = await bot.api.answerWebAppQuery(queryId, data);
   } catch (error) {
     console.error(error);
     context.response.status = 500;
