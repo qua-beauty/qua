@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Button, InputBase, styled, Typography} from '@mui/material';
 import ProductInline from './ProductInline.jsx';
 import {getCurrencyTitle} from '../utils.js';
@@ -59,17 +59,12 @@ const CommentField = styled(InputBase)`
 `;
 
 const BasketDetails = () => {
-  const [comment, setComment] = useState('');
   const dispatch = useDispatch();
   const {basket, price, count, currency} = useSelector(state => state.basket);
   const currentShop = useSelector(state => state.shops.current);
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
-
-  const handleCommentChange = useCallback(event => {
-    setComment(event.target.value);
-  }, []);
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -79,8 +74,6 @@ const BasketDetails = () => {
     }
 
     try {
-      console.log(comment);
-      
       saveOrder([{
         products: basket,
         count,
@@ -91,7 +84,6 @@ const BasketDetails = () => {
         deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
         status: 'draft',
-        comment: comment
       }]).unwrap().then(async (order) => {
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
         dispatch(clearBasket());
@@ -105,7 +97,7 @@ const BasketDetails = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [comment, basket, currentShop])
+  }, [basket, currentShop])
 
   if (webApp) {
     webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
@@ -137,14 +129,6 @@ const BasketDetails = () => {
         {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
       </Products>
 
-      <Comment>
-        <CommentField fullWidth={true}
-                      multiline={true}
-                      rows={2}
-                      value={comment}
-                      onChange={handleCommentChange}
-                      placeholder="Комментарий к заказу"/>
-      </Comment>
       {import.meta.env.DEV && (
         <Button onClick={handleMakeOrder}>Make Order</Button>
       )}
