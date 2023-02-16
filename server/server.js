@@ -26,8 +26,8 @@ router.post('/answerWebAppQuery', async (context) => {
 });
 
 app.use(oakCors({
-  origin: "http://localhost:5137",
-  methods: ['GET', 'PUT', 'POST'],
+  origin: "*",
+  methods: ['GET', 'PUT', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin']
 }));
 
