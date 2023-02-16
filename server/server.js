@@ -26,8 +26,8 @@ router.post('/answerWebAppQuery', async (context) => {
 });
 
 app.use(oakCors({
-  origin: ["http://localhost:5137", "https://swamimarket.netlify.app", "https://swamimarket.deno.dev"],
-  methods: ['GET', 'PUT', 'POST', 'OPTIONS'],
+  origin: "http://localhost:5137",
+  methods: ['GET', 'PUT', 'POST'],
   allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin']
 }));
 
