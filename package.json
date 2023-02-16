@@ -11,17 +11,18 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@grammyjs/conversations": "^1.1.1",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@reduxjs/toolkit": "^1.9.2",
     "airtable": "^0.11.6",
+    "axios": "^1.3.3",
+    "grammy": "^1.14.1",
     "netlify-lambda": "^2.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.5.0",
-    "@grammyjs/conversations": "^1.1.1",
-    "grammy": "^1.14.1"
+    "react-router-dom": "^6.5.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.2.0",

@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {clearBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
-import {fetchAnswerWebQuery} from '../services.js';
+import {fetchAnswerWebQuery} from '../api/services.js';
 
 const Base = styled('div')`
   background: ${({theme}) => theme.palette.background.default};

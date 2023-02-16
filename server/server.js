@@ -1,7 +1,6 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
-
 import {bot, runBot} from './bot/bot.js';
 
 const app = new Application();
@@ -15,8 +14,7 @@ router.get('/', async (context) => {
 
 router.post('/answerWebAppQuery', async (context) => {
   const {queryId, ...data} = await context.request.body().value;
-  console.log(queryId, data);
-  
+
   try {
     context.response.body = await bot.api.answerWebAppQuery(queryId, data);
   } catch (error) {
