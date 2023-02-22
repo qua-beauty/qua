@@ -30,7 +30,7 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    phone: contact ? contact.phone_number : phoneMessageText
+    phone: ctx.message.contact ? ctx.message.contact.phone_number : phoneMessageText
   };
 
   do {
