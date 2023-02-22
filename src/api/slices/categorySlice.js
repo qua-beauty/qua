@@ -16,7 +16,7 @@ const categorySelector = (state) => state.categories;
 
 export const selectCategoriesByShopId = (shopId) => (
   createSelector(categorySelector, (categories) => {
-    return categories.data ? categories.data.filter(c => (c.shops.includes(shopId) && c.products)) : [];
+    return categories.data ? categories.data.filter(c => (c.shops && c.shops.includes(shopId) && c.products)) : [];
   })
 )
 
