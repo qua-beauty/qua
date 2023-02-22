@@ -53,6 +53,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, messages.deliveryOrder);
 
       ctx.session.newOrder = {
+        ...ctx.session.newOrder,
         telegram: {
           ...order.telegram,
           userOrderMessage: userOrderMessageNew,
