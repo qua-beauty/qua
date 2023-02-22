@@ -21,8 +21,7 @@ const orderShopKeyboard = (orderId) => new InlineKeyboard()
   .text('Принять заказ', `${actions.SHOP_ACCEPT_ORDER} ${orderId}`);
 
 const orderShopDoneKeyboard = (orderId) => new InlineKeyboard()
-  .text('Отклонить заказ', `${actions.SHOP_DECLINE_ORDER} ${orderId}`)
-  .text('Принять заказ', `${actions.SHOP_ACCEPT_ORDER} ${orderId}`);
+  .text('Заказ приготовлен', `${actions.SHOP_DONE_ORDER} ${orderId}`);
 
 const orderDeliveryKeyboard = (orderId) => new InlineKeyboard()
   .text('Беру в доставку', `${actions.DELIVERY_ACCEPT_ORDER} ${orderId}`);
