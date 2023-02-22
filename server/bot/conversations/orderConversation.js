@@ -9,6 +9,8 @@ async function orderConversation(conversation, ctx) {
     chat: {id: chatId}, text: userMessageText
   } = ctx.update.message;
 
+  let phoneTitleMessage, addressTitleMessage, phoneUserMessage, addressUserMessage;
+
   console.log('context', ctx);
 
   // if(masks.order.test(userMessageText)) {
@@ -30,8 +32,11 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
-    await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});
+    const {message_id: phoneTitleMessageId} = await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});
     ctx = await conversation.wait();
+
+    phoneTitleMessage = phoneTitleMessageId;
+    phoneUserMessage = ctx.message.message_id;
 
     console.log('phone', ctx);
 
@@ -44,14 +49,18 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    phone: ctx.message.contact ? ctx.message.contact.phone_number : phoneMessageText
+    phone: ctx.message.contact ? ctx.message.contact.phone_number : phoneTitleMessageText
   };
 
   do {
-    await ctx.reply(messages.saveAddress(ctx.session.newOrder.user), {
+    const {message_id: addressTitleMessageId} = await ctx.reply(messages.saveAddress(ctx.session.newOrder.user), {
       reply_markup: shareAddressKeyboard
     });
+
     ctx = await conversation.wait();
+
+    addressTitleMessage = addressTitleMessageId;
+    addressUserMessage = ctx.message.message_id;
 
     console.log('location', ctx);
 
@@ -65,6 +74,11 @@ async function orderConversation(conversation, ctx) {
     ...parseMode,
     reply_markup: orderUserKeyboard(orderId)
   });
+
+  await ctx.api.deleteMessage(chatId, phoneTitleMessage);
+  await ctx.api.deleteMessage(chatId, addressTitleMessage);
+  await ctx.api.deleteMessage(chatId, phoneUserMessage);
+  await ctx.api.deleteMessage(chatId, addressUserMessage);
 
   const {message_id: userTitleMessage} = await ctx.reply(messages.saveOrder);
 
