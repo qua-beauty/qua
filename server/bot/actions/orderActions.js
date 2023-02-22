@@ -8,7 +8,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   const orderId = data.split(' ')[1];
   const order = await getOrder(orderId);
-  const {chatId, userOrderMessage, userTitleMessage} = order.telegram;
+  const {userChat, userOrderMessage, userTitleMessage} = order.telegram;
 
   ctx.session.newOrder = {
     ...order,
@@ -16,8 +16,8 @@ const updateOrderAction = async (ctx, status, isUser) => {
   };
 
   await ctx.api.deleteMessage(chat.id, messageId);
-  await ctx.api.deleteMessage(chat.id, userOrderMessage);
-  await ctx.api.deleteMessage(chat.id, userTitleMessage);
+  await ctx.api.deleteMessage(userChat, userOrderMessage);
+  await ctx.api.deleteMessage(userChat, userTitleMessage);
 
   if(status === 'cook') {
     await ctx.reply(messages.orderCard(ctx.session.newOrder), {
@@ -26,9 +26,9 @@ const updateOrderAction = async (ctx, status, isUser) => {
     });
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder),
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
         parseMode);
-      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(chatId, messages.cookOrder);
+      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, messages.cookOrder);
 
       ctx.session.newOrder = {
         ...ctx.session.newOrder,
@@ -48,10 +48,9 @@ const updateOrderAction = async (ctx, status, isUser) => {
     });
 
     if(!isUser) {
-      const {chatId} = order;
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder),
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
         parseMode);
-      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(chatId, messages.deliveryOrder);
+      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, messages.deliveryOrder);
 
       ctx.session.newOrder = {
         telegram: {
@@ -69,9 +68,8 @@ const updateOrderAction = async (ctx, status, isUser) => {
     });
 
     if (!isUser) {
-      const {chatId} = order;
-      await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder), parseMode);
-      await ctx.api.sendMessage(chatId, messages.doneOrder);
+      await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder), parseMode);
+      await ctx.api.sendMessage(userChat, messages.doneOrder);
     }
   }
 

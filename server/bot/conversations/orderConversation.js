@@ -24,7 +24,9 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...order,
-    chatId: chatId.toString()
+    telegram: {
+      userChat: chatId.toString()
+    }
   };
 
   do {
