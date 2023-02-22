@@ -13,7 +13,7 @@ const orderMapper = (order) => {
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],
     productsJson: order.fields['Products JSON'],
-    chatId: order.fields['Chat Id'],
+    telegram: order.fields['Telegram'] ? JSON.parse(order.fields['Telegram']) : undefined,
   }
 }
 

@@ -32,7 +32,7 @@ const updateOrder = async (orderId, data) => {
       'Phone': data.phone,
       'Address': data.address,
       'Status': data.status.capitalize(),
-      'Chat Id': data.chatId
+      'Telegram': JSON.stringify(data.telegram)
     }
   }]);
 

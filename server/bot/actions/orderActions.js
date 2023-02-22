@@ -1,4 +1,4 @@
-import {updateOrder, getOrder} from '../services.js';
+import {getOrder, updateOrder} from '../services.js';
 import {messages} from '../messages.js';
 import {parseMode} from '../utils.js';
 import {orderShopDeliveryKeyboard, orderShopDoneKeyboard, startKeyboard} from '../keyboards.js';
@@ -8,53 +8,74 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   const orderId = data.split(' ')[1];
   const order = await getOrder(orderId);
+  const {chatId, userOrderMessage, userTitleMessage} = order.telegram;
 
-  const newOrder = {
+  ctx.session.newOrder = {
     ...order,
     status
   };
 
   await ctx.api.deleteMessage(chat.id, messageId);
+  await ctx.api.deleteMessage(chat.id, userOrderMessage);
+  await ctx.api.deleteMessage(chat.id, userTitleMessage);
 
   if(status === 'cook') {
-    await ctx.reply(messages.orderCard(newOrder), {
+    await ctx.reply(messages.orderCard(ctx.session.newOrder), {
       ...parseMode,
       reply_markup: orderShopDeliveryKeyboard(orderId)
     });
 
-    if(!isUser){
-      const {chatId} = order;
-      await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
-      await ctx.api.sendMessage(chatId, messages.cookOrder);
+    if(!isUser) {
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder),
+        parseMode);
+      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(chatId, messages.cookOrder);
+
+      ctx.session.newOrder = {
+        ...ctx.session.newOrder,
+        telegram: {
+          ...order.telegram,
+          userOrderMessage: userOrderMessageNew,
+          userTitleMessage: userTitleMessageNew,
+        }
+      }
     }
   }
 
   if(status === 'delivery') {
-    await ctx.reply(messages.orderCard(newOrder), {
+    await ctx.reply(messages.orderCard(ctx.session.newOrder), {
       ...parseMode,
       reply_markup: orderShopDoneKeyboard(orderId)
     });
 
-    if(!isUser){
+    if(!isUser) {
       const {chatId} = order;
-      await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
-      await ctx.api.sendMessage(chatId, messages.deliveryOrder);
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder),
+        parseMode);
+      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(chatId, messages.deliveryOrder);
+
+      ctx.session.newOrder = {
+        telegram: {
+          ...order.telegram,
+          userOrderMessage: userOrderMessageNew,
+          userTitleMessage: userTitleMessageNew,
+        }
+      }
     }
   }
 
   if(status === 'complete') {
-    await ctx.reply(messages.orderCard(newOrder), {
+    await ctx.reply(messages.orderCard(ctx.session.newOrder), {
       ...parseMode
     });
 
-    if(!isUser){
+    if (!isUser) {
       const {chatId} = order;
-      await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
+      await ctx.api.sendMessage(chatId, messages.orderCard(ctx.session.newOrder), parseMode);
       await ctx.api.sendMessage(chatId, messages.doneOrder);
     }
   }
 
-  await updateOrder(orderId, {status});
+  await updateOrder(orderId, ctx.session.newOrder);
 };
 
 const cancelOrder = (ctx) => updateOrderAction(ctx, 'cancelled', true);

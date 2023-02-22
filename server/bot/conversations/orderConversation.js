@@ -59,20 +59,25 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!ctx.message?.location);
 
-  ctx.session.newOrder = {
-    ...ctx.session.newOrder,
-    address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
-    status: 'pending',
-  }
-
-  await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
-
-  await ctx.reply(messages.orderCard(ctx.session.newOrder), {
+  const {message_id: userOrderMessage} = await ctx.reply(messages.orderCard(ctx.session.newOrder), {
     ...parseMode,
     reply_markup: orderUserKeyboard(orderId)
   });
 
-  await ctx.reply(messages.saveOrder);
+  const {message_id: userTitleMessage} = await ctx.reply(messages.saveOrder);
+
+  ctx.session.newOrder = {
+    ...ctx.session.newOrder,
+    address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
+    status: 'pending',
+    telegram: {
+      userChat: chatId,
+      userOrderMessage,
+      userTitleMessage
+    },
+  }
+
+  await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
 
   if (order.shop.adminGroup) {
     await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({
