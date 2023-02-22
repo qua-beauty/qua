@@ -23,8 +23,8 @@ const orderShopKeyboard = (orderId) => new InlineKeyboard()
 const orderShopDeliveryKeyboard = (orderId) => new InlineKeyboard()
   .text('Заказ готов, в доставку!', `${actions.SHOP_DELIVERY_ORDER} ${orderId}`);
 
-const orderDeliveryKeyboard = (orderId) => new InlineKeyboard()
-  .text('Беру в доставку', `${actions.DELIVERY_ACCEPT_ORDER} ${orderId}`);
+const orderShopDoneKeyboard = (orderId) => new InlineKeyboard()
+  .text('Заказ выполнен!', `${actions.SHOP_DONE_ORDER} ${orderId}`);
 
 const orderUserKeyboard = (orderId) => new InlineKeyboard()
   .text('Отменить заказ', `${actions.CANCEL_ORDER} ${orderId}`);
@@ -36,6 +36,6 @@ export {
   shareAddressKeyboard,
   orderShopKeyboard,
   orderUserKeyboard,
-  orderDeliveryKeyboard,
+  orderShopDoneKeyboard,
   orderShopDeliveryKeyboard
 };
