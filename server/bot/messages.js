@@ -32,7 +32,7 @@ const messages = {
 
     const {id, comment, status, address, price, count, phone, name, deliveryPrice, productsJson} = data;
     const products = JSON.parse(productsJson);
-    const productsText = productsJson.reduce((acc, product) => {
+    const productsText = products.reduce((acc, product) => {
       return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
 
     }, '') + '\n';
