@@ -12,7 +12,7 @@ import {
   deliveryAcceptOrder,
   shopAcceptOrder,
   shopDeclineOrder,
-  shopDoneOrder
+  shopDeliveryOrder
 } from './actions/orderActions.js';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
