@@ -89,7 +89,7 @@ const Title = styled(Typography)`
 
 const Product = ({ onSelect, ...product }) => {
   const dispatch = useDispatch();
-  const {title, image, price, currency, id, icon} = product;
+  const {name, image, price, currency, id, icon} = product;
   const {basket} = useSelector(state => state.basket);
   const [added, setAdded] = useState(0);
 
@@ -125,7 +125,7 @@ const Product = ({ onSelect, ...product }) => {
         {image && <img src={image} alt=""/>}
         <NoImage>{icon}</NoImage>
       </Image>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
 
       {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}`}></Chip>}
 

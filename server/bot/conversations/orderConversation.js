@@ -1,7 +1,7 @@
 import {masks, parseMode} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {messages} from '../messages.js';
-import {sharePhoneKeyboard, shareAddressKeyboard, orderUserKeyboard} from '../keyboards.js';
+import {orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -14,57 +14,40 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  const {
-    message_id: orderCardMessageId
-  } = await ctx.reply(messages.orderCard(order), {
-    ...parseMode
-  });
-
-  const {
-    message_id: phoneMessageId
-  } = await ctx.reply(
-    messages.auth,
-    {
-      reply_markup: sharePhoneKeyboard
-    }
-  );
+  await ctx.reply(messages.orderCard(order), parseMode);
 
   ctx.session.newOrder = order;
 
-  const phoneMessageContext = await conversation.wait();
+  do {
+    await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});
+    ctx = await conversation.wait();
 
-  const {
-    text: phoneMessageText,
-    contact
-  } = phoneMessageContext.message;
-
-  // ctx.api.deleteMessage(chatId, phoneMessageId);
-
-  if(contact || phoneMessageText.match(masks.phone)) {
-    ctx.session.newOrder = {
-      ...ctx.session.newOrder,
-      phone: contact ? contact.phone_number : phoneMessageText
+    if (ctx.message?.text === '/cancel') {
+      await ctx.reply('Cancelled, leaving!');
+      return;
     }
-  }
-
-  const {message_id: locationMessageId} = await ctx.reply(
-    messages.saveAddress(ctx.session.newOrder.user),
-    {
-      reply_markup: shareAddressKeyboard
-    }
-  );
-
-
-  const addressMessageContext = await conversation.wait();
-
-  const {
-    text: addressMessageText,
-    location
-  } = addressMessageContext.message;
+  } while (!(ctx.message?.contact || ctx.message?.text.match(masks.phone)));
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    address: location ? `${location.latitude}, ${location.longitude}` : addressMessageText,
+    phone: contact ? contact.phone_number : phoneMessageText
+  };
+
+  do {
+    await ctx.reply(messages.saveAddress(ctx.session.newOrder.user), {
+      reply_markup: shareAddressKeyboard
+    });
+    ctx = await conversation.wait();
+
+    if (ctx.message?.text === '/cancel') {
+      await ctx.reply('Cancelled, leaving!');
+      return;
+    }
+  } while (!ctx.message?.location);
+
+  ctx.session.newOrder = {
+    ...ctx.session.newOrder,
+    address: ctx.message.location,
     status: 'pending',
   }
 

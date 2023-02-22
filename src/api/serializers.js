@@ -10,6 +10,7 @@ export const serializeOrder = (orderData) => {
       'Comment': order.comment,
       'Delivery Price': order.deliveryPrice,
       'Status': order.status.capitalize(),
+      'Products JSON': order.productsJson
     }
   }));
 }

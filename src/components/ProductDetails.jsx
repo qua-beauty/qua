@@ -142,11 +142,12 @@ const ProductDetails = () => {
     }
   }, [basket, currentProduct]);
 
+
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/shop/${currentProduct.shop.id}`);
+        navigate(`/shop/${currentShop.id}`);
       });
     }
   }, [currentProduct]);

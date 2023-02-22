@@ -1,4 +1,5 @@
 import {InlineKeyboard, Keyboard} from 'https://deno.land/x/grammy/mod.ts';
+import "https://deno.land/x/dotenv/load.ts";
 import {actions} from './utils.js';
 
 const startKeyboard = new InlineKeyboard()

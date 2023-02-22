@@ -83,6 +83,12 @@ const BasketDetails = () => {
         shop: currentShop,
         deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
+        productsJson: JSON.stringify(basket.map(product => ({
+          name: product.name,
+          count: product.count,
+          icon: product.icon,
+          price: product.price
+        }))),
         status: 'draft',
       }]).unwrap().then(async (order) => {
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
@@ -98,6 +104,8 @@ const BasketDetails = () => {
       console.log(e);
     }
   }, [basket, currentShop])
+
+  console.log(basket);
 
   if (webApp) {
     webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;

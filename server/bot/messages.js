@@ -30,10 +30,11 @@ const messages = {
       return 'Произошло что-то странное, я не могу найти заказ. Отправил ошибку людям, скоро с вами свяжутся.';
     }
 
-    const {id, products, comment, status, address, price, count, phone, name, deliveryPrice} = data;
+    const {id, comment, status, address, price, count, phone, name, deliveryPrice, productsJson} = data;
+    const products = JSON.parse(productsJson);
+    const productsText = productsJson.reduce((acc, product) => {
+      return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
 
-    const productsText = products.reduce((acc, product) => {
-      return acc + `${product}\n`;
     }, '') + '\n';
 
     return [

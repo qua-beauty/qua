@@ -72,6 +72,13 @@ bot.callbackQuery(new RegExp(actions.DELIVERY_ACCEPT_ORDER), deliveryAcceptOrder
 bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
 
+let runner;
 export function runBot(){
-  run(bot);
+  runner = run(bot);
 }
+
+// Stopping the bot when the Node process
+// is about to be terminated
+const stopRunner = () => runner.isRunning() && runner.stop();
+Deno.addSignalListener("SIGINT", stopRunner);
+Deno.addSignalListener("SIGTERM", stopRunner);
