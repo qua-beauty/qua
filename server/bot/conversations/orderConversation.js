@@ -22,7 +22,7 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  await ctx.reply(messages.orderCard(order), parseMode);
+  const {message_id: orderMessage} = await ctx.reply(messages.orderCard(order), parseMode);
 
   ctx.session.newOrder = {
     ...order,
@@ -75,6 +75,7 @@ async function orderConversation(conversation, ctx) {
     reply_markup: orderUserKeyboard(orderId)
   });
 
+  await ctx.api.deleteMessage(chatId, orderMessage);
   await ctx.api.deleteMessage(chatId, phoneTitleMessage);
   await ctx.api.deleteMessage(chatId, addressTitleMessage);
   await ctx.api.deleteMessage(chatId, phoneUserMessage);
