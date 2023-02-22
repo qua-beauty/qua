@@ -1,9 +1,8 @@
 const statuses = {
   draft: null,
-  pending: null,
-  moderate: 'Ожидаем ответа от Ресторана',
-  preorder: 'Добавлен в предзаказ',
-  cooking: 'Готовится',
+  pending: 'Ожидаем ответа от Ресторана',
+  cook: 'Готовится',
+  delivery: 'Выполнен',
   complete: 'Выполнен',
   declined: 'Отклонен Рестораном',
   cancelled: 'Отменен'
