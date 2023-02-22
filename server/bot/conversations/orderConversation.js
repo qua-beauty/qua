@@ -22,7 +22,10 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.reply(messages.orderCard(order), parseMode);
 
-  ctx.session.newOrder = order;
+  ctx.session.newOrder = {
+    ...order,
+    chatId: chatId
+  };
 
   do {
     await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});

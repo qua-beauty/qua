@@ -31,7 +31,8 @@ const updateOrder = async (orderId, data) => {
     fields: {
       'Phone': data.phone,
       'Address': data.address,
-      'Status': data.status.capitalize()
+      'Status': data.status.capitalize(),
+      'Chat Id': data.chatId
     }
   }]);
 

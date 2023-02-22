@@ -1,10 +1,9 @@
 import {updateOrder, getOrder} from '../services.js';
 import {messages} from '../messages.js';
 import {parseMode} from '../utils.js';
-import {startKeyboard} from '../keyboards.js';
+import {orderShopDoneKeyboard, startKeyboard} from '../keyboards.js';
 
 const updateOrderAction = async (ctx, status, isUser) => {
-  console.log(ctx);
   const {message: {message_id: messageId, chat}, data} = ctx.update.callback_query;
 
   const orderId = data.split(' ')[1];
@@ -15,17 +14,16 @@ const updateOrderAction = async (ctx, status, isUser) => {
     status
   };
 
-  const message = messages.orderCard(newOrder);
   await ctx.api.deleteMessage(chat.id, messageId);
 
-  await ctx.reply(message, {
-    ...parseMode
+  await ctx.reply(messages.orderCard(newOrder), {
+    ...parseMode,
+    reply_markup: orderShopDoneKeyboard(orderId)
   });
 
   if(!isUser){
-    const {chatId, userMessageId} = order.telegram;
-    await ctx.api.deleteMessage(chatId, userMessageId);
-    await ctx.api.sendMessage(chatId, message, parseMode);
+    const {chatId} = order;
+    await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
 
     if(status === 'cooking') {
       await ctx.api.sendMessage(chatId, messages.approveOrder, parseMode);
