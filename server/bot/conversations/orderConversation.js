@@ -11,6 +11,10 @@ async function orderConversation(conversation, ctx) {
 
   console.log('context', ctx);
 
+  if(masks.order.test(userMessageText)) {
+    return await ctx.conversation.reenter('newOrder');
+  }
+
   const orderId = userMessageText.replace('order-', '');
   const order = await conversation.external(async () => await getOrder(orderId));
 
