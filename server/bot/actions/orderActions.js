@@ -8,15 +8,16 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   const orderId = data.split(' ')[1];
   const order = await getOrder(orderId);
-  const {userChat, userOrderMessage, userTitleMessage, shopOrderMessage} = order.telegram;
+  const {userChat, userOrderMessage, userTitleMessage, shopOrderMessage, shopLocationMessage} = order.telegram;
 
   ctx.session.newOrder = {
     ...order,
     status
   };
-  
+
   if(!isUser) {
     await ctx.api.deleteMessage(chat.id, messageId);
+    await ctx.api.deleteMessage(chat.id, shopLocationMessage);
   }
 
   await ctx.api.deleteMessage(userChat, userOrderMessage);
@@ -33,6 +34,8 @@ const updateOrderAction = async (ctx, status, isUser) => {
     await ctx.reply(messages.orderCard(ctx.session.newOrder), {
       ...parseMode
     });
+    const location = ctx.session.newOrder.address.split(', ');
+    let {message_id: shopLocationMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
       let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
@@ -45,6 +48,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
           ...order.telegram,
           userOrderMessage: userOrderMessageNew,
           userTitleMessage: userTitleMessageNew,
+          shopLocationMessage
         }
       }
     }
@@ -55,6 +59,9 @@ const updateOrderAction = async (ctx, status, isUser) => {
       ...parseMode,
       reply_markup: orderShopDeliveryKeyboard(orderId)
     });
+
+    const location = ctx.session.newOrder.address.split(', ');
+    let {message_id: shopLocationMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
       let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
@@ -67,6 +74,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
           ...order.telegram,
           userOrderMessage: userOrderMessageNew,
           userTitleMessage: userTitleMessageNew,
+          shopLocationMessage
         }
       }
     }
@@ -77,6 +85,9 @@ const updateOrderAction = async (ctx, status, isUser) => {
       ...parseMode,
       reply_markup: orderShopDoneKeyboard(orderId)
     });
+
+    const location = ctx.session.newOrder.address.split(', ');
+    let {message_id: shopLocationMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
       let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
@@ -89,6 +100,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
           ...order.telegram,
           userOrderMessage: userOrderMessageNew,
           userTitleMessage: userTitleMessageNew,
+          shopLocationMessage
         }
       }
     }
