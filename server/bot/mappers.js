@@ -16,6 +16,26 @@ const orderMapper = (order) => {
   }
 }
 
+export const shopMapper = (shop) => {
+  return {
+    id: shop.id,
+    name: shop.fields['Name'],
+    title: shop.fields['Title'],
+    address: shop.fields['Address'],
+    about: shop.fields['About'],
+    phone: shop.fields['Phone'],
+    color: shop.fields['Color'],
+    endTime: shop.fields['End Time'],
+    startTime: shop.fields['Start Time'],
+    workTime: `${shop.fields['End Time']} - ${shop.fields['Start Time']}`,
+    image: shop.fields['Image'] ? shop.fields['Image'][0].url : undefined,
+    categories: shop.fields['Categories'],
+    telegramGroupId: shop.fields['Admin Group'],
+    deliveryPrice: shop.fields['Delivery Price'],
+    adminGroup: shop.fields['Admin Group'],
+  };
+};
+
 export {
   orderMapper
 }

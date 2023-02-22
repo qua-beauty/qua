@@ -1,4 +1,5 @@
 const statuses = {
+  draft: null,
   pending: null,
   moderate: 'Ожидаем ответа от Ресторана',
   preorder: 'Добавлен в предзаказ',

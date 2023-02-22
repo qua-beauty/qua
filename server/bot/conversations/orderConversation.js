@@ -1,7 +1,7 @@
 import {masks, parseMode} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {messages} from '../messages.js';
-import {orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
+import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -59,7 +59,7 @@ async function orderConversation(conversation, ctx) {
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
-    status: 'pending',
+    status: 'moderate',
   }
 
   await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
@@ -70,6 +70,16 @@ async function orderConversation(conversation, ctx) {
   });
 
   await ctx.reply(messages.saveOrder);
+
+  if (order.shop.adminGroup) {
+    await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({
+      ...ctx.session.newOrder
+    }, 'shop'), {
+      ...parseMode,
+      reply_markup: orderShopKeyboard(orderId)
+    })
+  }
+
 }
 
 export {

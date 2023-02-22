@@ -1,5 +1,5 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
-import {orderMapper} from './mappers.js';
+import {orderMapper, shopMapper} from './mappers.js';
 
 const airtableBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
@@ -9,8 +9,16 @@ const airtableBase = new Airtable({
 
 const getOrder = async (orderId) => {
   if (orderId) {
-    const order = await airtableBase.find(orderId);
-    return orderMapper(order);
+    const orderData = await airtableBase.find(orderId);
+    const order = orderMapper(orderData);
+
+    const shopData = await airtableBase.find(order.shop);
+    const shop = shopMapper(shopData);
+
+    return {
+      ...order,
+      shop
+    };
   }
 
   throw Error('No Order ID');
