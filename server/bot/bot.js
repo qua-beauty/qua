@@ -62,6 +62,8 @@ bot.command('start', async (ctx) => {
 });
 
 bot.hears(masks.order, async (ctx) => {
+  console.log('hears', ctx);
+
   await ctx.conversation.enter('newOrder');
 });
 

@@ -103,7 +103,7 @@ const BasketDetails = () => {
       console.log(e);
     }
   }, [basket, currentShop])
-  
+
   if (webApp) {
     webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
     webApp.MainButton.color = '#66bb6a';

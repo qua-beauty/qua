@@ -9,7 +9,7 @@ async function orderConversation(conversation, ctx) {
     chat: {id: chatId}, text: userMessageText
   } = ctx.update.message;
 
-  console.log(ctx);
+  console.log('context', ctx);
 
   const orderId = userMessageText.replace('order-', '');
   const order = await conversation.external(async () => await getOrder(orderId));
@@ -24,13 +24,14 @@ async function orderConversation(conversation, ctx) {
     await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});
     ctx = await conversation.wait();
 
+    console.log('phone', ctx);
+
     if (ctx.message?.text === '/cancel') {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
   } while (!(ctx.message?.contact || ctx.message?.text.match(masks.phone)));
 
-  console.log(ctx);
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
@@ -43,13 +44,13 @@ async function orderConversation(conversation, ctx) {
     });
     ctx = await conversation.wait();
 
+    console.log('location', ctx);
+
     if (ctx.message?.text === '/cancel') {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
   } while (!ctx.message?.location);
-
-  console.log(ctx);
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
