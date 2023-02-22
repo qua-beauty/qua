@@ -8,7 +8,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   const orderId = data.split(' ')[1];
   const order = await getOrder(orderId);
-  const {userChat, userOrderMessage, userTitleMessage} = order.telegram;
+  const {userChat, userOrderMessage, userTitleMessage, shopOrderMessage} = order.telegram;
 
   ctx.session.newOrder = {
     ...order,
@@ -20,11 +20,15 @@ const updateOrderAction = async (ctx, status, isUser) => {
   if(!isUser) {
     await ctx.api.deleteMessage(chat.id, messageId);
   }
+
   await ctx.api.deleteMessage(userChat, userOrderMessage);
   await ctx.api.deleteMessage(userChat, userTitleMessage);
 
   if(status === 'cancelled') {
+    await ctx.reply(messages.orderCard(ctx.session.newOrder), parseMode);
 
+    await ctx.api.deleteMessage(order.shop.adminGroup, shopOrderMessage);
+    await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard(ctx.session.newOrder), parseMode);
   }
 
   if(status === 'cook') {

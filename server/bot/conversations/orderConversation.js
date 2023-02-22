@@ -83,6 +83,18 @@ async function orderConversation(conversation, ctx) {
 
   const {message_id: userTitleMessage} = await ctx.reply(messages.saveOrder);
 
+  let shopOrderMessage;
+  if (order.shop.adminGroup) {
+    const {message_id: shopOrderMessageId} = await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({
+      ...ctx.session.newOrder
+    }, 'shop'), {
+      ...parseMode,
+      reply_markup: orderShopKeyboard(orderId)
+    })
+
+    shopOrderMessage = shopOrderMessageId;
+  }
+
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
@@ -90,20 +102,12 @@ async function orderConversation(conversation, ctx) {
     telegram: {
       userChat: chatId,
       userOrderMessage,
-      userTitleMessage
+      userTitleMessage,
+      shopOrderMessage
     },
   }
 
   await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
-
-  if (order.shop.adminGroup) {
-    await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({
-      ...ctx.session.newOrder
-    }, 'shop'), {
-      ...parseMode,
-      reply_markup: orderShopKeyboard(orderId)
-    })
-  }
 
 }
 
