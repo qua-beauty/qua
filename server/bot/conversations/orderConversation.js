@@ -47,7 +47,6 @@ async function orderConversation(conversation, ctx) {
 
   do {
     await ctx.reply(messages.saveAddress(ctx.session.newOrder.user), {
-      ...parseMode,
       reply_markup: shareAddressKeyboard
     });
     ctx = await conversation.wait();
@@ -73,7 +72,7 @@ async function orderConversation(conversation, ctx) {
     reply_markup: orderUserKeyboard(orderId)
   });
 
-  await ctx.reply(messages.saveOrder, { ...parseMode });
+  await ctx.reply(messages.saveOrder);
 
   if (order.shop.adminGroup) {
     await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({

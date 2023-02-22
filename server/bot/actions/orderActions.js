@@ -26,11 +26,11 @@ const updateOrderAction = async (ctx, status, isUser) => {
     await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
 
     if(status === 'cooking') {
-      await ctx.api.sendMessage(chatId, messages.approveOrder, parseMode);
+      await ctx.api.sendMessage(chatId, messages.approveOrder);
     }
 
     if(status === 'cooked') {
-      await ctx.api.sendMessage(chatId, messages.doneOrder, parseMode);
+      await ctx.api.sendMessage(chatId, messages.doneOrder);
     }
   }
 
