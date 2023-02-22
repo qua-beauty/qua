@@ -47,7 +47,7 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    address: ctx.message.location,
+    address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
     status: 'pending',
   }
 
