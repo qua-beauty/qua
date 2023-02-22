@@ -9,9 +9,9 @@ import {orderConversation} from './conversations/orderConversation.js';
 import {
   backToHome,
   cancelOrder,
-  deliveryAcceptOrder,
   shopAcceptOrder,
-  shopDeclineOrder, shopDeliveryOrder,
+  shopDeclineOrder,
+  shopDeliveryOrder,
   shopDoneOrder
 } from './actions/orderActions.js';
 
