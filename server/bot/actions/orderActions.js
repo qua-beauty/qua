@@ -62,7 +62,6 @@ const shopDeclineOrder = (ctx) => updateOrderAction(ctx, 'declined');
 const shopAcceptOrder = (ctx) => updateOrderAction(ctx, 'cook');
 const shopDeliveryOrder = (ctx) => updateOrderAction(ctx, 'delivery');
 const shopDoneOrder = (ctx) => updateOrderAction(ctx, 'complete');
-const deliveryAcceptOrder = (ctx) => updateOrderAction(ctx, 'delivery');
 
 const backToHome = async (ctx) => {
   await ctx.reply(messages.start, startKeyboard);
@@ -74,6 +73,5 @@ export {
   shopAcceptOrder,
   backToHome,
   shopDeliveryOrder,
-  deliveryAcceptOrder,
   shopDoneOrder
 };

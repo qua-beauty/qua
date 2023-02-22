@@ -11,7 +11,7 @@ import {
   cancelOrder,
   deliveryAcceptOrder,
   shopAcceptOrder,
-  shopDeclineOrder,
+  shopDeclineOrder, shopDeliveryOrder,
   shopDoneOrder
 } from './actions/orderActions.js';
 
@@ -70,7 +70,7 @@ bot.hears(masks.order, async (ctx) => {
 bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), cancelOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), shopAcceptOrder);
-bot.callbackQuery(new RegExp(actions.SHOP_DELIVERY_ORDER), deliveryAcceptOrder);
+bot.callbackQuery(new RegExp(actions.SHOP_DELIVERY_ORDER), shopDeliveryOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
 

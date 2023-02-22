@@ -2,7 +2,7 @@ const statuses = {
   draft: null,
   pending: 'Ожидаем ответа от Ресторана',
   cook: 'Готовится',
-  delivery: 'Выполнен',
+  delivery: 'В доставке',
   complete: 'Выполнен',
   declined: 'Отклонен Рестораном',
   cancelled: 'Отменен'
