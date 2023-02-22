@@ -15,9 +15,15 @@ const updateOrderAction = async (ctx, status, isUser) => {
     status
   };
 
+  console.log(order.telegram);
+
   await ctx.api.deleteMessage(chat.id, messageId);
   await ctx.api.deleteMessage(userChat, userOrderMessage);
   await ctx.api.deleteMessage(userChat, userTitleMessage);
+
+  if(status === 'cancelled') {
+
+  }
 
   if(status === 'cook') {
     await ctx.reply(messages.orderCard(ctx.session.newOrder), {
