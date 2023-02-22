@@ -62,7 +62,7 @@ async function orderConversation(conversation, ctx) {
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
-    status: 'moderate',
+    status: 'pending',
   }
 
   await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
