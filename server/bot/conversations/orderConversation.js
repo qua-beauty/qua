@@ -24,7 +24,7 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...order,
-    chatId: chatId.toString();
+    chatId: chatId.toString()
   };
 
   do {
