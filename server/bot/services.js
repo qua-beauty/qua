@@ -25,6 +25,7 @@ const getOrder = async (orderId) => {
 };
 
 const updateOrder = async (orderId, data) => {
+  console.log(data);
   const order = await airtableBase.update([{
     id: orderId,
     fields: {
