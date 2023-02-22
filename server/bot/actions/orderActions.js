@@ -15,9 +15,11 @@ const updateOrderAction = async (ctx, status, isUser) => {
     status
   };
 
-  console.log(order.telegram);
+  console.log(order.telegram, chat.id, messageId);
 
-  await ctx.api.deleteMessage(chat.id, messageId);
+  if(!isUser) {
+    await ctx.api.deleteMessage(chat.id, messageId);
+  }
   await ctx.api.deleteMessage(userChat, userOrderMessage);
   await ctx.api.deleteMessage(userChat, userTitleMessage);
 
