@@ -25,7 +25,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     if(!isUser){
       const {chatId} = order;
       await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
-      await ctx.api.sendMessage(chatId, messages.deliveryOrder);
+      await ctx.api.sendMessage(chatId, messages.cookOrder);
     }
   }
 
@@ -38,11 +38,21 @@ const updateOrderAction = async (ctx, status, isUser) => {
     if(!isUser){
       const {chatId} = order;
       await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
-      await ctx.api.sendMessage(chatId, messages.doneOrder);
+      await ctx.api.sendMessage(chatId, messages.deliveryOrder);
     }
   }
 
+  if(status === 'complete') {
+    await ctx.reply(messages.orderCard(newOrder), {
+      ...parseMode
+    });
 
+    if(!isUser){
+      const {chatId} = order;
+      await ctx.api.sendMessage(chatId, messages.orderCard(newOrder), parseMode);
+      await ctx.api.sendMessage(chatId, messages.doneOrder);
+    }
+  }
 
   await updateOrder(orderId, {status});
 };
