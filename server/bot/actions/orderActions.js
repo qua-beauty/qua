@@ -14,9 +14,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     ...order,
     status
   };
-
-  console.log(order.telegram, chat.id, messageId);
-
+  
   if(!isUser) {
     await ctx.api.deleteMessage(chat.id, messageId);
   }
@@ -29,6 +27,27 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
     await ctx.api.deleteMessage(order.shop.adminGroup, shopOrderMessage);
     await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard(ctx.session.newOrder), parseMode);
+  }
+
+  if(status === 'declined') {
+    await ctx.reply(messages.orderCard(ctx.session.newOrder), {
+      ...parseMode
+    });
+
+    if(!isUser) {
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, messages.orderCard(ctx.session.newOrder),
+        parseMode);
+      let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, messages.declineOrder);
+
+      ctx.session.newOrder = {
+        ...ctx.session.newOrder,
+        telegram: {
+          ...order.telegram,
+          userOrderMessage: userOrderMessageNew,
+          userTitleMessage: userTitleMessageNew,
+        }
+      }
+    }
   }
 
   if(status === 'cook') {
