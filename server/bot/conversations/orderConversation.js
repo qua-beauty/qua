@@ -104,9 +104,9 @@ async function orderConversation(conversation, ctx) {
       reply_markup: orderShopKeyboard(orderId)
     })
 
-    
+
     const location = ctx.session.newOrder.address.split(', ');
-    const {message_id: shopAddressMessage} = await ctx.api.sendLocation(location[0], location[1]);
+    const {message_id: shopAddressMessage} = await ctx.api.sendLocation(order.shop.adminGroup, location[0], location[1]);
 
     await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, {
       ...ctx.session.newOrder,
