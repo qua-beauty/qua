@@ -9,6 +9,8 @@ async function orderConversation(conversation, ctx) {
     chat: {id: chatId}, text: userMessageText
   } = ctx.update.message;
 
+  console.log(ctx);
+
   const orderId = userMessageText.replace('order-', '');
   const order = await conversation.external(async () => await getOrder(orderId));
 
@@ -28,6 +30,8 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!(ctx.message?.contact || ctx.message?.text.match(masks.phone)));
 
+  console.log(ctx);
+
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     phone: ctx.message.contact ? ctx.message.contact.phone_number : phoneMessageText
@@ -44,6 +48,8 @@ async function orderConversation(conversation, ctx) {
       return;
     }
   } while (!ctx.message?.location);
+
+  console.log(ctx);
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,

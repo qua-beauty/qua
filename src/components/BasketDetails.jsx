@@ -70,7 +70,7 @@ const BasketDetails = () => {
     if (webApp) {
       webApp.MainButton.disable();
       webApp.MainButton.showProgress();
-      webApp.enableClosingConfirmation()
+      webApp.disableClosingConfirmation();
     }
 
     try {
@@ -96,7 +96,6 @@ const BasketDetails = () => {
 
         if (webApp) {
           webApp.MainButton.hideProgress();
-          webApp.disableClosingConfirmation()
           webApp.close();
         }
       });
@@ -104,9 +103,7 @@ const BasketDetails = () => {
       console.log(e);
     }
   }, [basket, currentShop])
-
-  console.log(basket);
-
+  
   if (webApp) {
     webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
     webApp.MainButton.color = '#66bb6a';
