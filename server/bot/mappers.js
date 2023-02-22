@@ -12,7 +12,8 @@ const orderMapper = (order) => {
     deliveryPrice: order.fields['Delivery Price'],
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],
-    productsJson: order.fields['Products JSON']
+    productsJson: order.fields['Products JSON'],
+    chatId: order.fields['Chat Id'],
   }
 }
 
@@ -33,7 +34,6 @@ export const shopMapper = (shop) => {
     telegramGroupId: shop.fields['Admin Group'],
     deliveryPrice: shop.fields['Delivery Price'],
     adminGroup: shop.fields['Admin Group'],
-    chatId: shop.fields['Chat Id'],
   };
 };
 
