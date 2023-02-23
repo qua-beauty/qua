@@ -4,7 +4,11 @@ import {actions} from './utils.js';
 
 const startKeyboard = new InlineKeyboard()
   .webApp('Маркет', Deno.env.get('TWA_URL'))
-  .text('Подключиться', actions.ABOUT);
+  .text('О платформе', actions.ABOUT);
+
+const aboutKeyboard = new InlineKeyboard()
+  .webApp('Подключиться', actions.CONNECT)
+  .text('Назад', actions.HOME);
 
 const startShopKeyboard = (shopId) => new InlineKeyboard()
   .webApp(`Маркет`, `${Deno.env.get('TWA_URL')}shop/${shopId}`);
@@ -32,6 +36,7 @@ const orderUserKeyboard = (orderId) => new InlineKeyboard()
 
 export {
   startKeyboard,
+  aboutKeyboard,
   startShopKeyboard,
   sharePhoneKeyboard,
   shareAddressKeyboard,

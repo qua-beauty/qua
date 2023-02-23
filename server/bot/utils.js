@@ -6,6 +6,8 @@ const masks = {
 
 const actions = {
   ABOUT: 'ABOUT',
+  CONNECT: 'CONNECT',
+  HOME: 'HOME',
   OPEN_SHOP: 'OPEN_SHOP',
   CANCEL_ORDER: 'CANCEL_ORDER',
   SHOP_DECLINE_ORDER: 'SHOP_DECLINE_ORDER',

@@ -4,7 +4,7 @@ import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import "https://deno.land/x/dotenv/load.ts";
 import {actions, masks} from './utils.js';
 import {messages} from './messages.js';
-import {startKeyboard, startShopKeyboard} from './keyboards.js';
+import {aboutKeyboard, startKeyboard, startShopKeyboard} from './keyboards.js';
 import {orderConversation} from './conversations/orderConversation.js';
 import {
   backToHome,
@@ -68,8 +68,8 @@ bot.hears(masks.order, async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.reply(messages.start, {
-    reply_markup: startKeyboard
+  await ctx.reply(messages.about, {
+    reply_markup: aboutKeyboard
   });
 });
 
