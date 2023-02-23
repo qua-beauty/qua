@@ -3,7 +3,8 @@ import "https://deno.land/x/dotenv/load.ts";
 import {actions} from './utils.js';
 
 const startKeyboard = new InlineKeyboard()
-  .webApp('Маркет', Deno.env.get('TWA_URL'));
+  .webApp('Маркет', Deno.env.get('TWA_URL'))
+  .text('Подключиться', actions.ABOUT);
 
 const startShopKeyboard = (shopId) => new InlineKeyboard()
   .webApp(`Маркет`, `${Deno.env.get('TWA_URL')}shop/${shopId}`);

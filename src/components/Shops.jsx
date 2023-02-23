@@ -1,20 +1,24 @@
 import Shop from './Shop.jsx';
-import {styled, Typography} from '@mui/material';
+import {Box, styled, Typography} from '@mui/material';
 import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate} from 'react-router-dom';
 
 const Base = styled('div')`
-  padding: 16px;
+  padding: 8px;
 `;
 
 const Title = styled(Typography)`
+  margin-top: 8px;
   margin-bottom: 16px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-align: center;
 `;
 
-const ShopList = styled(Typography)`
-  margin: 0 -16px;
+const ShopList = styled(Box)`
+  
 `;
 
 const Shops = () => {
@@ -33,7 +37,7 @@ const Shops = () => {
 
   return shops ? (
     <Base>
-      <Title variant="subtitle1">Выберите магазин с продуктами</Title>
+      <Title variant="subtitle1">Список ресторанов</Title>
       <ShopList>
         {shops.map(shop => (
           <Shop onSelect={handleSelect} key={shop.name} {...shop}/>

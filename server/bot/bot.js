@@ -67,6 +67,12 @@ bot.hears(masks.order, async (ctx) => {
   await ctx.conversation.enter('newOrder');
 });
 
+bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
+  await ctx.reply(messages.start, {
+    reply_markup: startKeyboard
+  });
+});
+
 bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), cancelOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), shopAcceptOrder);

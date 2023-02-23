@@ -1,4 +1,4 @@
-import {styled, Typography} from '@mui/material';
+import {Box, styled, Typography} from '@mui/material';
 import Filters from './Filters.jsx';
 import Catalog from './Catalog.jsx';
 import {useEffect} from 'react';
@@ -14,9 +14,11 @@ const Base = styled('div')`
 `;
 
 const Header = styled('header')`
+  background: ${({ theme }) => theme.palette.background.paper};
+  box-shadow: ${({ theme }) => theme.shadows[4]};;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   padding: 8px 16px;
   text-align: left;
@@ -41,8 +43,9 @@ const Info = styled('div')`
   margin-left: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   max-width: 100%;
+  gap: 2px;
 `;
 
 const Share = styled('div')`
@@ -58,15 +61,12 @@ const About = styled(Typography)`
 
 const Title = styled(Typography)`
   font-weight: 700;
-  margin-top: 16px;
 `;
 const Address = styled(Typography)`
   text-align: center;
-  margin-top: 8px;
 `;
 const WorkTime = styled(Typography)`
   text-align: center;
-  margin-top: 8px;
 `;
 
 const Delivery = styled(Typography)`
@@ -74,6 +74,12 @@ const Delivery = styled(Typography)`
 `;
 
 const Instagram = styled('a')``;
+
+const Wrap = styled(Box)`
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+`;
 
 function ShopCatalog() {
   const {shopId} = useParams();
@@ -94,22 +100,25 @@ function ShopCatalog() {
   return currentShop ? (
     <Base>
       <Header>
-        <Thumbnail>
-          <Image src={currentShop.image}></Image>
-        </Thumbnail>
-        <Info>
-          <Title variant="subtitle1">{currentShop.name}</Title>
-          <WorkTime variant="subtitle2"> 🕔 {currentShop.workTime}</WorkTime>
-          <Delivery variant="subtitle2">🚚 Доставка {currentShop.deliveryPrice} {getCurrencyTitle('LKR')}</Delivery>
-          <Address variant="subtitle2"> {currentShop.address}</Address>
-          <About variant="body2">{currentShop.about}</About>
-          <Instagram href={currentShop.instagram}></Instagram>
-        </Info>
+        <Wrap>
+          <Thumbnail>
+            <Image src={currentShop.image}></Image>
+          </Thumbnail>
+          <Info>
+            <Title variant="h6">{currentShop.name}</Title>
+            <WorkTime variant="subtitle2"> 🕔 {currentShop.workTime}</WorkTime>
+            <Address variant="subtitle2">📍 {currentShop.address}</Address>
+            <Instagram href={currentShop.instagram}></Instagram>
+          </Info>
+        </Wrap>
+
         <Share>
           <ShareButton title={currentShop.title} url={getShopUrl(currentShop.id)}/>
         </Share>
+
+        <Filters shopId={currentShop.id}/>
       </Header>
-      <Filters shopId={currentShop.id}/>
+
       <Catalog catalog={catalog}/>
     </Base>
   ) : <></>;

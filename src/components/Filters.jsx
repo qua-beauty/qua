@@ -10,7 +10,8 @@ const Base = styled('div')`
   flex-wrap: nowrap;
   overflow: auto;
   
-  padding: 8px 16px;
+  margin-top: 8px;
+  max-width: 100%;
 
   > .MuiChip-root {
     font-size: 14px;
@@ -33,7 +34,8 @@ const Filters = ({shopId}) => {
   return categories.length > 1 && (
     <Box sx={{
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      maxWidth: '100%'
     }}>
       <Base>
         {categories.map(cat => {
