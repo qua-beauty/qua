@@ -25,5 +25,5 @@ export const getStatusTitle = (status) => {
 }
 
 export const getShopUrl = (shopId) => {
-  return `https://t.me/swamimarketbot?start=openShop-${shopId}`;
+  return `https://t.me/swamimarketbot?start=shop-${shopId}`;
 }

@@ -48,6 +48,8 @@ bot.catch((error) => {
 bot.command('start', async (ctx) => {
   const {text} = ctx.update.message;
 
+  console.log(ctx);
+
   if (masks.shop.test(text)) {
     const shopId = text.split('-')[1];
     await ctx.reply(messages.startShop(shopId), {
