@@ -1,12 +1,11 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
-import {bot, runBot} from './bot/bot.js';
+import {bot} from './bot/bot.js';
+import {webhookCallback} from 'grammy';
 
 const app = new Application();
 const router = new Router();
-
-runBot();
 
 router.get('/', async (context) => {
   context.response.body = 'Hello, oak!';
@@ -32,5 +31,6 @@ app.use(oakCors({
 
 app.use(router.allowedMethods());
 app.use(router.routes());
+app.use(webhookCallback(bot, 'oak'));
 
 await app.listen({port: 8000});

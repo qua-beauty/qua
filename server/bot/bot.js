@@ -1,6 +1,5 @@
 import {Bot, session} from 'https://deno.land/x/grammy/mod.ts';
 import {conversations, createConversation} from 'https://deno.land/x/grammy_conversations@v1.1.0/mod.ts';
-import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import "https://deno.land/x/dotenv/load.ts";
 import {actions, masks, parseMode} from './utils.js';
 import {messages} from './messages.js';
@@ -87,14 +86,3 @@ bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), shopAcceptOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DELIVERY_ORDER), shopDeliveryOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
-
-let runner;
-export function runBot(){
-  runner = run(bot);
-}
-
-// Stopping the bot when the Node process
-// is about to be terminated
-const stopRunner = () => runner.isRunning() && runner.stop();
-Deno.addSignalListener("SIGINT", stopRunner);
-Deno.addSignalListener("SIGTERM", stopRunner);
