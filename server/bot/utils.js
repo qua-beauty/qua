@@ -45,7 +45,8 @@ const parseMode = {
   parse_mode: 'MarkdownV2',
 };
 
-export const getOrderVars = (order, type) => {
+export const getOrderVars = (order, type = 'user') => {
+  console.log(order);
   const {id, comment, status, address, price, count, phone, name, deliveryPrice, productsJson} = order;
   const products = JSON.parse(productsJson);
   const productsText = products.reduce((acc, product) => {
