@@ -52,7 +52,7 @@ export const orderCardMessage = (order, type = 'user') => {
     id: order.id,
     title: getOrderTitle(type),
     comment: order.comment,
-    status: order.status,
+    status: getStatusTitle(order.status),
     address: order.address,
     price: order.price,
     count: order.count,
@@ -63,12 +63,17 @@ export const orderCardMessage = (order, type = 'user') => {
       return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
     }, '') + '\n'
   };
+
   const dataKeys = Object.keys(data);
   const dataValues = Object.values(data);
 
-  return dataValues.reduce((acc, value, index) => {
+  const message = dataValues.reduce((acc, value, index) => {
     return acc + value ? `${i18n.t(`orderCard.${dataKeys[index]}`)}\n` : ''
   }, '')
+
+  console.log(message);
+
+  return message;
 };
 
 export {
