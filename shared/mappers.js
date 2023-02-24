@@ -59,7 +59,8 @@ export const orderMapper = (order) => {
     price: order.fields['Price'],
     deliveryPrice: order.fields['Delivery Price'],
     comment: order.fields['Comment'],
-    phone: order.fields['Phone']
+    phone: order.fields['Phone'],
+    productsJson: order.fields['Products JSON']
   }
 }
 
