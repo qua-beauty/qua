@@ -71,8 +71,10 @@ export const orderCardMessage = (order, type = 'user') => {
     if(dataKeys[index] === 'products') {
       return acc + value;
     }
-    
-    return acc + value ? `${i18n.t(`orderCard.${dataKeys[index]}`, { ...value })}\n` : ''
+
+    console.log(acc, value, index)
+
+    return acc + (value ? `${i18n.t(`orderCard.${dataKeys[index]}`, { ...value })}\n` : '')
   }, '')
 
   console.log(message);
