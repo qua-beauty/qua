@@ -1,8 +1,10 @@
 import {Bot, session} from 'https://deno.land/x/grammy/mod.ts';
 import {conversations, createConversation} from 'https://deno.land/x/grammy_conversations@v1.1.0/mod.ts';
+import {hydrateReply, parseMode} from "https://deno.land/x/grammy_parse_mode@1.5.0/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import {actions, masks, parseMode} from './utils.js';
-import {messages} from './messages.js';
+import './polyfills.js';
+import {i18n} from './i18n.js';
+import {actions, masks} from './utils.js';
 import {aboutKeyboard, startKeyboard, startShopKeyboard} from './keyboards.js';
 import {orderConversation} from './conversations/orderConversation.js';
 import {
@@ -40,43 +42,42 @@ bot.use(session({
 bot.use(conversations());
 bot.use(createConversation(orderConversation, 'newOrder'));
 
+bot.use(hydrateReply);
+bot.api.config.use(parseMode("HTML"));
+
 bot.catch((error) => {
   console.log(error);
-  error.ctx.reply(messages.botError);
+  error.ctx.reply(i18n.t('messageBotError'));
 });
 
 bot.command('start', async (ctx) => {
   const {text} = ctx.update.message;
 
-  console.log(ctx);
-
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(messages.startShop(shopId), {
+    await ctx.reply(i18n.t('messageStartShop'), {
       reply_markup: startShopKeyboard(shopId)
     });
   } else {
-    await ctx.reply(messages.start, {
+    await ctx.reply(i18n.t('messageStart'), {
       reply_markup: startKeyboard
     });
   }
 });
 
 bot.hears(masks.order, async (ctx) => {
-  console.log('hears', ctx);
-
   await ctx.conversation.enter('newOrder');
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.editMessageText(messages.about, parseMode);
+  await ctx.editMessageText(i18n.t('messageAbout'));
   await ctx.editMessageReplyMarkup({
     reply_markup: aboutKeyboard
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(messages.start);
+  await ctx.editMessageText(i18n.t('messageStart'));
   await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard
   })

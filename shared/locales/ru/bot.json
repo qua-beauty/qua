@@ -1,0 +1,24 @@
+{
+  "keyboardMarket": "Маркет",
+  "keyboardAbout": "О платформе",
+  "keyboardBack": "Назад",
+  "keyboardShareLocation": "Поделиться локацией \uD83D\uDCCD",
+  "keyboardSharePhone": "Поделиться номером \uD83D\uDCF1",
+  "keyboardAcceptOrder": "Принять заказ",
+  "keyboardDeclineOrder": "Отклонить заказ",
+  "keyboardDeliveryOrder": "Заказ готов, в доставку",
+  "keyboardCompleteOrder": "Заказ выполнен, завершить",
+  "keyboardCancelOrder": "Отменить заказ",
+  "messageStart": "С Вами Маркет! Привет! <br>Я помогу вам оформить заказ на доставку вашего любимого блюда!<br>  Вы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!",
+  "messageStartShop": "`С Вами Маркет! Привет! <br>Вижу что с вами поделились ссылкой на ресторан, чтобы открыть его, нажмите кнопку Маркет",
+  "messageAbout": "О нас",
+  "messageAddAddress": "Благодарим за авторизацию {name}. <br>Куда доставляем заказ? \uD83D\uDCCD",
+  "messageAddPhone": "Ваш заказ создан, для продолжения поделитесь телефоном",
+  "messageOrderPending": "Заказ передан ресторану. <br>Ожидаем подтверждения (в среднем до 5 минут)",
+  "messageOrderDeclined": "Заказ отменен рестораном",
+  "messageOrderCooking": "Заказ подтвердили и начали готовить",
+  "messageOrderDelivering": "Заказ готов и спешит к вам!",
+  "messageOrderComplete": "Заказ выполнен!",
+  "messageBotError": "Что-то случилось с ботом, переводим вас на оператора"
+
+}

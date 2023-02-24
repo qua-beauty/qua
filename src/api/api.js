@@ -1,7 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
 import {airtableBaseQuery} from './airtableBaseQuery.js';
-import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper} from './mappers.js';
-import {serializeOrder, serializeUser} from './serializers.js';
+import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 export const AirtableApi = createApi({
   reducerPath: 'AirtableApi',

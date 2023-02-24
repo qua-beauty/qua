@@ -1,7 +1,8 @@
-import {masks, parseMode} from '../utils.js';
+import {getOrderVars, masks, parseMode} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {messages} from '../messages.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
+import {i18n} from '../i18n.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -22,7 +23,7 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  const {message_id: orderMessage} = await ctx.reply(messages.orderCard(order), parseMode);
+  const {message_id: orderMessage} = await ctx.reply(i18n.t('messageOrderCard', getOrderVars(order)));
 
   ctx.session.newOrder = {
     ...order,
@@ -32,7 +33,8 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
-    const {message_id: phoneTitleMessageId} = await ctx.reply(messages.auth, {reply_markup: sharePhoneKeyboard});
+    const {message_id: phoneTitleMessageId} = await ctx.reply(i18n.t('messageAddPhone'),
+      {reply_markup: sharePhoneKeyboard});
     ctx = await conversation.wait();
 
     phoneTitleMessage = phoneTitleMessageId;
@@ -53,9 +55,10 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
-    const {message_id: addressTitleMessageId} = await ctx.reply(messages.saveAddress(ctx.session.newOrder.user), {
-      reply_markup: shareAddressKeyboard
-    });
+    const {message_id: addressTitleMessageId} =
+      await ctx.reply(i18n.t('messageAddPhone', {name: ctx.session.newOrder.user}), {
+        reply_markup: shareAddressKeyboard
+      });
 
     ctx = await conversation.wait();
 
@@ -70,8 +73,7 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!ctx.message?.location);
 
-  const {message_id: userOrderMessage} = await ctx.reply(messages.orderCard(ctx.session.newOrder), {
-    ...parseMode,
+  const {message_id: userOrderMessage} = await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)), {
     reply_markup: orderUserKeyboard(orderId)
   });
 
@@ -97,13 +99,10 @@ async function orderConversation(conversation, ctx) {
   await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
 
   if (order.shop.adminGroup) {
-    const {message_id: shopOrderMessage} = await ctx.api.sendMessage(order.shop.adminGroup, messages.orderCard({
-      ...ctx.session.newOrder
-    }, 'shop'), {
-      ...parseMode,
+    const {message_id: shopOrderMessage} =
+      await ctx.api.sendMessage(order.shop.adminGroup, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder, 'shop')), {
       reply_markup: orderShopKeyboard(orderId)
     })
-
 
     const location = ctx.session.newOrder.address.split(', ');
     const {message_id: shopAddressMessage} = await ctx.api.sendLocation(order.shop.adminGroup, location[0], location[1]);

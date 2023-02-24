@@ -1,26 +1,4 @@
-const statuses = {
-  draft: null,
-  pending: 'Ожидаем ответа от Ресторана',
-  cook: 'Готовится',
-  delivery: 'В доставке',
-  complete: 'Выполнен',
-  declined: 'Отклонен Рестораном',
-  cancelled: 'Отменен'
-};
 
-const orderTitles = {
-  shop: 'Новый заказ:',
-  user: 'Ваш заказ:',
-  delivery: 'Новый заказ на доставку:',
-}
-
-const getOrderTitle = (type) => {
-  return orderTitles.hasOwnProperty(type) ? orderTitles[type] : type;
-}
-
-const getStatusTitle = (status) => {
-  return statuses.hasOwnProperty(status) ? statuses[status] : status;
-};
 
 const messages = {
   start: `С Вами Маркет! Привет!\n\nЯ помогу вам оформить заказ на доставку блюда или продуктов!\n\nВы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!`,

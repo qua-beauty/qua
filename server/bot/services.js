@@ -1,5 +1,5 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
-import {orderMapper, shopMapper} from './mappers.js';
+import {orderMapper, shopMapper} from '../../shared/mappers.js';
 
 const airtableBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
@@ -25,7 +25,6 @@ const getOrder = async (orderId) => {
 };
 
 const updateOrder = async (orderId, data) => {
-  console.log(data);
   const order = await airtableBase.update([{
     id: orderId,
     fields: {
