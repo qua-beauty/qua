@@ -13,7 +13,7 @@ export const shopMapper = (shop) => {
     image: shop.fields['Image'] ? shop.fields['Image'][0].url : undefined,
     background: shop.fields['Background'] ? shop.fields['Background'][0].url : undefined,
     categories: shop.fields['Categories'],
-    telegramGroupId: shop.fields['Admin Group'],
+    adminGroup: shop.fields['Admin Group'],
     deliveryPrice: shop.fields['Delivery Price'],
     instagram: shop.fields['Instagram'],
   };
