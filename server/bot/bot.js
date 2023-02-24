@@ -2,7 +2,7 @@ import {Bot, session} from 'https://deno.land/x/grammy/mod.ts';
 import {conversations, createConversation} from 'https://deno.land/x/grammy_conversations@v1.1.0/mod.ts';
 import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import "https://deno.land/x/dotenv/load.ts";
-import {actions, masks} from './utils.js';
+import {actions, masks, parseMode} from './utils.js';
 import {messages} from './messages.js';
 import {aboutKeyboard, startKeyboard, startShopKeyboard} from './keyboards.js';
 import {orderConversation} from './conversations/orderConversation.js';
@@ -69,6 +69,7 @@ bot.hears(masks.order, async (ctx) => {
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
   await ctx.reply(messages.about, {
+    ...parseMode,
     reply_markup: aboutKeyboard
   });
 });
