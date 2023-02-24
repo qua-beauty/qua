@@ -51,24 +51,28 @@ export const orderCardMessage = (order, type = 'user') => {
   const data = {
     id: order.id,
     title: getOrderTitle(type),
-    comment: order.comment,
-    status: getStatusTitle(order.status),
-    address: order.address,
-    price: order.price,
-    count: order.count,
-    phone: order.phone,
-    name: order.name,
-    deliveryPrice: order.deliveryPrice,
     products: JSON.parse(order.productsJson).reduce((acc, product) => {
       return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
-    }, '') + '\n'
+    }, '') + '\n',
+    count: order.count,
+    price: order.price,
+    deliveryPrice: order.deliveryPrice,
+    phone: order.phone,
+    address: order.address,
+    nickname: order.name,
+    comment: order.comment,
+    status: getStatusTitle(order.status),
   };
 
   const dataKeys = Object.keys(data);
   const dataValues = Object.values(data);
 
   const message = dataValues.reduce((acc, value, index) => {
-    return acc + value ? `${i18n.t(`orderCard.${dataKeys[index]}`)}\n` : ''
+    if(dataKeys[index] === 'products') {
+      return acc + value;
+    }
+    
+    return acc + value ? `${i18n.t(`orderCard.${dataKeys[index]}`, { ...value })}\n` : ''
   }, '')
 
   console.log(message);
