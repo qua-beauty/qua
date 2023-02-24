@@ -4,6 +4,7 @@ import {actions} from './utils.js';
 
 const startKeyboard = new InlineKeyboard()
   .webApp('Маркет', Deno.env.get('TWA_URL'))
+  .row()
   .text('О платформе', actions.ABOUT);
 
 const aboutKeyboard = new InlineKeyboard()
