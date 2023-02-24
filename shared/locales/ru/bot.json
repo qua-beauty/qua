@@ -29,7 +29,7 @@
     "deliveryPrice": "<strong>Стоимость доставки</strong>: {{deliveryPrice}} рупий",
     "address": "<strong>Адрес:</strong> {{address}}",
     "phone": "<strong>Телефон:</strong> {{phone}}",
-    "nickname": "<strong>Никнейм:</strong> @{{name}}",
+    "nickname": "<strong>Никнейм:</strong> @{{nickname}}",
     "comment": "<strong>Комментарий:</strong> {{comment}}",
     "status": "<strong>Статус</strong>: {{status}}"
   }
