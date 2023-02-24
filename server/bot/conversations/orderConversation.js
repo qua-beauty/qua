@@ -23,6 +23,7 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
+  console.log(getOrderVars(order));
   const {message_id: orderMessage} = await ctx.reply(i18n.t('messageOrderCard', getOrderVars(order)));
 
   ctx.session.newOrder = {
