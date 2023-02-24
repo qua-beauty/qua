@@ -1,15 +1,19 @@
 import i18next from 'https://deno.land/x/i18next/index.js';
-import Backend from 'https://deno.land/x/i18next_fs_backend/index.js';
+import botEn from "../../shared/locales/en/bot.json" assert { type: "json" };
+import botRu from "../../shared/locales/ru/bot.json" assert { type: "json" };
 
 i18next
-  .use(Backend)
   .init({
-    initImmediate: false,
-    backend: {
-      loadPath: '../shared/locales/{{lng}}/{{ns}}.json'
-    },
+    lng: 'en',
     fallbackLng: 'en',
-    preload: ['en', 'ru']
+    resources: {
+      en: {
+        bot: botEn
+      },
+      ru: {
+        bot: botRu
+      }
+    },
   });
 
 export const i18n = i18next;
