@@ -68,16 +68,13 @@ export const orderCardMessage = (order, type = 'user') => {
   const dataValues = Object.values(data);
 
   const message = dataValues.reduce((acc, value, index) => {
-    if(dataKeys[index] === 'products') {
+    const key = dataKeys[index];
+    if(key === 'products') {
       return acc + value;
     }
 
-    console.log(acc, value, index)
-
-    return acc + (value ? `${i18n.t(`orderCard.${dataKeys[index]}`, { ...value })}\n` : '')
+    return acc + (value ? `${i18n.t(`orderCard.${key}`, { [key]: value })}\n` : '')
   }, '')
-
-  console.log(message);
 
   return message;
 };
