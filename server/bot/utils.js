@@ -1,3 +1,5 @@
+import {i18n} from './i18n.js';
+
 const masks = {
   order: new RegExp(/^order-/),
   shop: new RegExp(/^shop-/),
@@ -45,27 +47,28 @@ const parseMode = {
   parse_mode: 'MarkdownV2',
 };
 
-export const getOrderVars = (order, type = 'user') => {
-  console.log(order);
-  const {id, comment, status, address, price, count, phone, name, deliveryPrice, productsJson} = order;
-  const products = JSON.parse(productsJson);
-  const productsText = products.reduce((acc, product) => {
-    return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
-  }, '') + '<br>';
-
-  return {
-    id,
-    comment,
-    products: productsText,
+export const orderCardMessage = (order, type = 'user') => {
+  const data = {
+    id: order.id,
     title: getOrderTitle(type),
-    status: getStatusTitle(status),
-    address,
-    price,
-    count,
-    phone,
-    name,
-    deliveryPrice,
+    comment: order.comment,
+    status: order.status,
+    address: order.address,
+    price: order.price,
+    count: order.count,
+    phone: order.phone,
+    name: order.name,
+    deliveryPrice: order.deliveryPrice,
+    products: JSON.parse(order.productsJson).reduce((acc, product) => {
+      return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
+    }, '') + '\n'
   };
+  const dataKeys = Object.keys(data);
+  const dataValues = Object.values(data);
+
+  return dataValues.reduce((acc, value, index) => {
+    return acc + value ? `${i18n.t(`orderCard.${dataKeys[index]}`)}\n` : ''
+  }, '')
 };
 
 export {

@@ -1,4 +1,4 @@
-import {getOrderVars, masks, parseMode} from '../utils.js';
+import {masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {messages} from '../messages.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
@@ -23,8 +23,7 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  console.log(getOrderVars(order));
-  const {message_id: orderMessage} = await ctx.reply(i18n.t('messageOrderCard', getOrderVars(order)));
+  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(order));
 
   ctx.session.newOrder = {
     ...order,
@@ -74,7 +73,7 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!ctx.message?.location);
 
-  const {message_id: userOrderMessage} = await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)), {
+  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, 'shop'), {
     reply_markup: orderUserKeyboard(orderId)
   });
 
@@ -101,7 +100,7 @@ async function orderConversation(conversation, ctx) {
 
   if (order.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
-      await ctx.api.sendMessage(order.shop.adminGroup, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder, 'shop')), {
+      await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, 'shop'), {
       reply_markup: orderShopKeyboard(orderId)
     })
 

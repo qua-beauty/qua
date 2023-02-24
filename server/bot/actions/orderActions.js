@@ -1,5 +1,5 @@
 import {getOrder, updateOrder} from '../services.js';
-import {getOrderVars} from '../utils.js';
+import {orderCardMessage} from '../utils.js';
 import {orderShopDeliveryKeyboard, orderShopDoneKeyboard, startKeyboard} from '../keyboards.js';
 import {i18n} from '../i18n.js';
 
@@ -24,19 +24,19 @@ const updateOrderAction = async (ctx, status, isUser) => {
   await ctx.api.deleteMessage(userChat, userTitleMessage);
 
   if(status === 'cancelled') {
-    await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+    await ctx.reply(orderCardMessage(ctx.session.newOrder));
 
     await ctx.api.deleteMessage(order.shop.adminGroup, shopOrderMessage);
-    await ctx.api.sendMessage(order.shop.adminGroup, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+    await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder));
   }
 
   if(status === 'declined') {
-    await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+    await ctx.reply(orderCardMessage(ctx.session.newOrder));
     const location = ctx.session.newOrder.address.split(', ');
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderDecline'));
 
       ctx.session.newOrder = {
@@ -52,7 +52,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'cook') {
-    await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)), {
+    await ctx.reply(orderCardMessage(ctx.session.newOrder), {
       reply_markup: orderShopDeliveryKeyboard(orderId)
     });
 
@@ -60,7 +60,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderCooking'));
 
       ctx.session.newOrder = {
@@ -76,7 +76,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'delivery') {
-    await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)), {
+    await ctx.reply(orderCardMessage(ctx.session.newOrder), {
       reply_markup: orderShopDoneKeyboard(orderId)
     });
 
@@ -84,7 +84,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, i18n.t('messageOrderDelivering'));
 
       ctx.session.newOrder = {
@@ -100,10 +100,10 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'complete') {
-    await ctx.reply(i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+    await ctx.reply(orderCardMessage(ctx.session.newOrder));
 
     if (!isUser) {
-      await ctx.api.sendMessage(userChat, i18n.t('messageOrderCard', getOrderVars(ctx.session.newOrder)));
+      await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
       await ctx.api.sendMessage(userChat, i18n.t('messageOrderComplete'));
     }
   }
