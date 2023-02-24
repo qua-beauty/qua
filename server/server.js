@@ -1,8 +1,8 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
+import {webhookCallback} from 'https://deno.land/x/grammy/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
-import {webhookCallback} from 'grammy';
 
 const app = new Application();
 const router = new Router();
