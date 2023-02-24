@@ -32,6 +32,7 @@ const updateOrder = async (orderId, data) => {
       'Address': data.address,
       'Status': data.status.capitalize(),
       'Telegram': JSON.stringify(data.telegram),
+      'Nickname': data.nickname
     }
   }]);
 

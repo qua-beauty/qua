@@ -59,7 +59,7 @@ export const orderCardMessage = (order, type = 'user') => {
     deliveryPrice: order.deliveryPrice,
     phone: order.phone,
     address: order.address,
-    nickname: order.name,
+    nickname: order.nickname,
     comment: order.comment,
     status: getStatusTitle(order.status),
   };
@@ -67,16 +67,14 @@ export const orderCardMessage = (order, type = 'user') => {
   const dataKeys = Object.keys(data);
   const dataValues = Object.values(data);
 
-  const message = dataValues.reduce((acc, value, index) => {
+  return dataValues.reduce((acc, value, index) => {
     const key = dataKeys[index];
-    if(key === 'products') {
+    if (key === 'products') {
       return acc + value;
     }
 
-    return acc + (value ? `${i18n.t(`orderCard.${key}`, { [key]: value })}\n` : '')
-  }, '')
-
-  return message;
+    return acc + (value ? `${i18n.t(`orderCard.${key}`, {[key]: value})}\n` : '')
+  }, '');
 };
 
 export {

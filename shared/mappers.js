@@ -61,7 +61,8 @@ export const orderMapper = (order) => {
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],
     productsJson: order.fields['Products JSON'],
-    telegram: order.fields['Telegram'] ? JSON.parse(order.fields['Telegram']) : undefined
+    telegram: order.fields['Telegram'] ? JSON.parse(order.fields['Telegram']) : undefined,
+    nickname: order.fields['Nickname']
   }
 }
 
