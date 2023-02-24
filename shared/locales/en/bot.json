@@ -12,7 +12,7 @@
   "messageStart": "С Вами Маркет! Привет! <br>Я помогу вам оформить заказ на доставку вашего любимого блюда!<br>  Вы можете открыть приложение через кнопку Маркет или просто напишите мне что вам нужно, я обязательно вам помогу!",
   "messageStartShop": "`С Вами Маркет! Привет! <br>Вижу что с вами поделились ссылкой на ресторан, чтобы открыть его, нажмите кнопку Маркет",
   "messageAbout": "About us",
-  "messageAddAddress": "Благодарим за авторизацию {name}. <br>Куда доставляем заказ? \uD83D\uDCCD",
+  "messageAddAddress": "Благодарим за авторизацию {{name}}. <br>Куда доставляем заказ? \uD83D\uDCCD",
   "messageAddPhone": "Ваш заказ создан, для продолжения поделитесь телефоном",
   "messageOrderPending": "Заказ передан ресторану. <br>Ожидаем подтверждения (в среднем до 5 минут)",
   "messageOrderDeclined": "Заказ отменен рестораном",
@@ -20,5 +20,5 @@
   "messageOrderDelivering": "Заказ готов и спешит к вам!",
   "messageOrderComplete": "Заказ выполнен!",
   "messageBotError": "Что-то случилось с ботом, переводим вас на оператора",
-  "messageOrderCard": "`<strong>ID</strong>: #{id}<br><strong>{title}</strong><br><br>{productsText}<br><strong>Количество</strong>: {count}<br><strong>Стоимость продуктов</strong>: {price} рупий<br><strong>Стоимость доставки</strong>: {deliveryPrice} рупий<br><strong>Комментарий:</strong> {comment}<br><strong>Адрес:</strong> {address}<br><strong>Никнейм:</strong> @{name}<br><strong>Телефон:</strong> {phone}<br><strong>Статус</strong>: {status}"
+  "messageOrderCard": "`<strong>ID</strong>: #{{id}}<br><strong>{{title}}</strong><br><br>{{productsText}}<br><strong>Количество</strong>: {{count}}<br><strong>Стоимость продуктов</strong>: {{price}} рупий<br><strong>Стоимость доставки</strong>: {{deliveryPrice}} рупий<br><strong>Комментарий:</strong> {{comment}}<br><strong>Адрес:</strong> {{address}}<br><strong>Никнейм:</strong> @{{name}}<br><strong>Телефон:</strong> {{phone}}<br><strong>Статус</strong>: {{status}}"
 }

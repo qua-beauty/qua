@@ -18,6 +18,8 @@ import {
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
+console.log(i18n.getResourceBundle('en', 'bot'));
+
 bot.use(session({
   initial() {
     return {

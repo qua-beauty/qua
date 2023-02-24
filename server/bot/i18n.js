@@ -3,9 +3,11 @@ import botEn from "../../shared/locales/en/bot.json" assert { type: "json" };
 import botRu from "../../shared/locales/ru/bot.json" assert { type: "json" };
 
 i18next
+  .use()
   .init({
     lng: 'en',
     fallbackLng: 'en',
+    defaultNS: 'bot',
     resources: {
       en: {
         bot: botEn
@@ -15,5 +17,7 @@ i18next
       }
     },
   });
+
+
 
 export const i18n = i18next;
