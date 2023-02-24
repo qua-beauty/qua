@@ -3,7 +3,6 @@ import botEn from "../../shared/locales/en/bot.json" assert { type: "json" };
 import botRu from "../../shared/locales/ru/bot.json" assert { type: "json" };
 
 i18next
-  .use()
   .init({
     lng: 'en',
     fallbackLng: 'en',
