@@ -7,7 +7,6 @@ const startKeyboard = new InlineKeyboard()
   .text('О платформе', actions.ABOUT);
 
 const aboutKeyboard = new InlineKeyboard()
-  .text('Подключиться', actions.CONNECT)
   .text('Назад', actions.HOME);
 
 const startShopKeyboard = (shopId) => new InlineKeyboard()
