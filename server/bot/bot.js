@@ -68,10 +68,17 @@ bot.hears(masks.order, async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.reply(messages.about, {
-    ...parseMode,
+  await ctx.editMessageText(messages.about, parseMode);
+  await ctx.editMessageReplyMarkup({
     reply_markup: aboutKeyboard
-  });
+  })
+});
+
+bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
+  await ctx.editMessageText(messages.start, parseMode);
+  await ctx.editMessageReplyMarkup({
+    reply_markup: startKeyboard
+  })
 });
 
 bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), cancelOrder);
