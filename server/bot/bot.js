@@ -75,7 +75,7 @@ bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(messages.start, parseMode);
+  await ctx.editMessageText(messages.start);
   await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard
   })
