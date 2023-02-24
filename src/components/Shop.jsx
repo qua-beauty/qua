@@ -6,7 +6,7 @@ import {getShopUrl} from '../utils.js';
 const Header = styled('header')`
   background: ${({ theme }) => theme.palette.background.default};
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 56px 20px 20px 56px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,17 +36,6 @@ const Info = styled('div')`
   align-items: flex-start;
   max-width: 100%;
   gap: 2px;
-`;
-
-const Share = styled('div')`
-  position: absolute;
-  top: 16px;
-  right: 2px;
-`;
-
-const About = styled(Typography)`
-  margin-top: 8px;
-  text-align: center;
 `;
 
 const Title = styled(Typography)`

@@ -14,7 +14,7 @@ const Base = styled('div')`
 `;
 
 const Header = styled('header')`
-  background: ${({ theme }) => theme.palette.background.paper};
+  background: ${({ theme }) => theme.palette.background.default};
   box-shadow: ${({ theme }) => theme.shadows[4]};;
   display: flex;
   flex-direction: column;
