@@ -50,7 +50,7 @@ bot.command('start', async (ctx) => {
 
   console.log(ctx);
 
-  if (masks.shop.test(text)) {
+  if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
     await ctx.reply(messages.startShop(shopId), {
       reply_markup: startShopKeyboard(shopId)
