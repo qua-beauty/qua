@@ -19,11 +19,9 @@ const getUser = async (userId) => {
     const userData = await airtableUsersBase.select({
       maxRecords: 1,
       filterByFormula: `{TelegramId} = ${userId.toString()}`
-    }).then(data => data.records)
+    }).then(data => data.records);
 
-    console.log(userData);
-
-    return userMapper(userData[0]);
+    return userData.length > 0 ? userMapper(userData[0]) : null;
   } catch (e) {
     console.log(e);
     return null;
@@ -32,7 +30,8 @@ const getUser = async (userId) => {
 }
 
 const saveUser = async (userData) => {
-  const user = await airtableOrdersBase.create(serializeUser([userData]))
+  const user = await airtableOrdersBase.create(serializeUser([userData]));
+  console.log(user);
   return userMapper(user);
 }
 
