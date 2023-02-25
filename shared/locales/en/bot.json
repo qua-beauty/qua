@@ -22,7 +22,9 @@
   "messageBotError": "Something happens with bot, we invited an operator to chat",
   "orderCard": {
     "id": "<strong>ID</strong>: #{{id}}",
-    "title": "<strong>{{title}}</strong>",
+    "userTitle": "<strong>Your order:</strong>",
+    "shopTitle": "<strong>New Order:</strong>",
+    "deliveryTitle": "<strong>New order for delivery</strong>",
     "count": "<strong>Count</strong>: {{count}}",
     "price": "<strong>Price</strong>: {{price}} rupee",
     "deliveryPrice": "<strong>Delivery Price</strong>: {{deliveryPrice}} rupee",
@@ -31,5 +33,14 @@
     "username": "<strong>Username:</strong> @{{username}}",
     "comment": "<strong>Comment:</strong> {{comment}}",
     "status": "<strong>Status</strong>: {{status}}"
+  },
+  "statuses": {
+    "draft": "",
+    "pending": "Waiting answer from Restaurant",
+    "cook": "Cooking",
+    "delivery": "Delivering",
+    "complete": "Complete",
+    "declined": "Declined by Restaurant",
+    "cancelled": "Cancelled"
   }
 }

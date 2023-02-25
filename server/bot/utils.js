@@ -6,30 +6,6 @@ const masks = {
   phone: new RegExp(/^(\+)?((\d{2,3}) ?\d|\d)(([ -]?\d)|( ?(\d{2,3}) ?)){5,12}\d$/),
 };
 
-const statuses = {
-  draft: null,
-  pending: 'Ожидаем ответа от Ресторана',
-  cook: 'Готовится',
-  delivery: 'В доставке',
-  complete: 'Выполнен',
-  declined: 'Отклонен Рестораном',
-  cancelled: 'Отменен'
-};
-
-const orderTitles = {
-  shop: 'Новый заказ:',
-  user: 'Ваш заказ:',
-  delivery: 'Новый заказ на доставку:',
-};
-
-const getOrderTitle = (type) => {
-  return orderTitles.hasOwnProperty(type) ? orderTitles[type] : type;
-};
-
-const getStatusTitle = (status) => {
-  return statuses.hasOwnProperty(status) ? statuses[status] : status;
-};
-
 const actions = {
   ABOUT: 'ABOUT',
   CONNECT: 'CONNECT',
@@ -43,14 +19,10 @@ const actions = {
   BACK_TO_HOME: 'BACK_TO_HOME',
 }
 
-const parseMode = {
-  parse_mode: 'MarkdownV2',
-};
-
 export const orderCardMessage = (order, type = 'user') => {
-  const data = {
+  let data = {
     id: order.id,
-    title: getOrderTitle(type),
+    title: type,
     products: JSON.parse(order.productsJson).reduce((acc, product) => {
       return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
     }, '') + '\n',
@@ -61,7 +33,7 @@ export const orderCardMessage = (order, type = 'user') => {
     address: order.address,
     username: order.username,
     comment: order.comment,
-    status: getStatusTitle(order.status),
+    status: i18n.t(`statuses.${order.status}`),
   };
 
   const dataKeys = Object.keys(data);
@@ -73,12 +45,19 @@ export const orderCardMessage = (order, type = 'user') => {
       return acc + value;
     }
 
+    if(key === 'title') {
+      switch(value) {
+        case 'shop': return acc + i18n.t('orderCard.shopTitle')
+        case 'delivery': return acc + i18n.t('orderCard.deliveryTitle')
+        default: return acc + i18n.t('orderCard.userTitle')
+      }
+    }
+
     return acc + (value ? `${i18n.t(`orderCard.${key}`, {[key]: value})}\n` : '')
   }, '');
 };
 
 export {
   masks,
-  parseMode,
   actions
 }
