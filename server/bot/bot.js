@@ -16,7 +16,7 @@ import {
 } from './actions/orderActions.js';
 import {getUser, saveUser} from './services.js';
 import {telegramUserMapper} from '../../shared/mappers.js';
-import {i18nMiddleware} from './plugins/i18middleware.js';
+import {i18n} from './i18n.js';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
@@ -41,8 +41,6 @@ bot.use(session({
   },
 }));
 
-bot.use(i18nMiddleware());
-
 bot.use(conversations());
 bot.use(createConversation(orderConversation, 'newOrder'));
 
@@ -50,7 +48,7 @@ bot.use(hydrateReply);
 bot.api.config.use(parseMode("HTML"));
 
 bot.catch((error) => {
-  error.ctx.reply(error.ctx.i18n.t('messageBotError'));
+  error.ctx.reply(i18n.t('messageBotError'));
 });
 
 bot.command('start', async (ctx) => {
@@ -64,35 +62,36 @@ bot.command('start', async (ctx) => {
     ctx.session.user = await saveUser(userData);
   }
 
-  await ctx.i18n.changeLanguage(ctx.session.user.language);
+  await(i18n.changeLanguage(ctx.session.user.language));
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(ctx.i18n.t('messageStartShop'), {
-      reply_markup: startShopKeyboard(ctx, shopId)
+    await ctx.reply(i18n.t('messageStartShop'), {
+      reply_markup: startShopKeyboard({i18n}, shopId)
     });
   } else {
-    await ctx.reply(ctx.i18n.t('messageStart'), {
-      reply_markup: startKeyboard(ctx)
+    await ctx.reply(i18n.t('messageStart'), {
+      reply_markup: startKeyboard({i18n})
     });
   }
 });
 
 bot.hears(masks.order, async (ctx) => {
+  await(i18n.changeLanguage(ctx.session.user.language));
   await ctx.conversation.enter('newOrder');
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.editMessageText(ctx.i18n.t('messageAbout'));
+  await ctx.editMessageText(i18n.t('messageAbout'));
   await ctx.editMessageReplyMarkup({
-    reply_markup: aboutKeyboard(ctx)
+    reply_markup: aboutKeyboard({i18n})
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(ctx.i18n.t('messageStart'));
+  await ctx.editMessageText(i18n.t('messageStart'));
   await ctx.editMessageReplyMarkup({
-    reply_markup: startKeyboard(ctx)
+    reply_markup: startKeyboard({i18n})
   })
 });
 
