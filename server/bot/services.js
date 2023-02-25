@@ -2,30 +2,44 @@ import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
 import {orderMapper, shopMapper, userMapper} from '../../shared/mappers.js';
 import {serializeUser} from '../../shared/serializers.js';
 
-const airtableBase = new Airtable({
+const airtableOrdersBase = new Airtable({
+  apiKey: Deno.env.get('AIRTABLE_API_KEY'),
+  baseId: Deno.env.get('AIRTABLE_BASE'),
+  tableName: 'Orders'
+});
+
+const airtableUsersBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
   baseId: Deno.env.get('AIRTABLE_BASE'),
   tableName: 'Orders'
 });
 
 const getUser = async (userId) => {
-  console.log(userId);
-  const userData = await airtableBase.find(userId);
-  console.log(userData);
-  return userData ? userMapper(userData) : null;
+  try {
+    const userData = await airtableUsersBase.select({
+      maxRecords: 1,
+      filterByFormula: `{TelegramId} = ${userId.toString()}`
+    }).firstPage();
+
+    return userMapper(userData[0]);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+
 }
 
 const saveUser = async (userData) => {
-  const user = await airtableBase.create(serializeUser([userData]))
+  const user = await airtableOrdersBase.create(serializeUser([userData]))
   return userMapper(user);
 }
 
 const getOrder = async (orderId) => {
   if (orderId) {
-    const orderData = await airtableBase.find(orderId);
+    const orderData = await airtableOrdersBase.find(orderId);
     const order = orderMapper(orderData);
 
-    const shopData = await airtableBase.find(order.shop);
+    const shopData = await airtableOrdersBase.find(order.shop);
     const shop = shopMapper(shopData);
 
     return {
@@ -38,7 +52,7 @@ const getOrder = async (orderId) => {
 };
 
 const updateOrder = async (orderId, data) => {
-  return await airtableBase.update([{
+  return await airtableOrdersBase.update([{
     id: orderId,
     fields: {
       'Phone': data.phone,
