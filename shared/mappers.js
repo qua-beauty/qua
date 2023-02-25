@@ -62,7 +62,7 @@ export const orderMapper = (order) => {
     phone: order.fields['Phone'],
     productsJson: order.fields['Products JSON'],
     telegram: order.fields['Telegram'] ? JSON.parse(order.fields['Telegram']) : undefined,
-    nickname: order.fields['Nickname']
+    username: order.fields['Username']
   }
 }
 
@@ -72,7 +72,21 @@ export const userMapper = (user) => {
     name: user.fields['Name'],
     phone: user.fields['Phone'],
     address: user.fields['Address'],
-    username: user.fields['Telegram'],
+    username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
+    language: user.fields['Language'],
   };
+}
+
+export const telegramUserMapper = (user) => {
+  return {
+    id: user.id.toString(),
+    name: `${user.first_name} + ${user.last_name}`,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    language: user.language_code,
+    username: user.username,
+    phone: user.phone_number,
+    address: user.location
+  }
 }

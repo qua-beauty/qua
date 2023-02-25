@@ -59,7 +59,7 @@ export const orderCardMessage = (order, type = 'user') => {
     deliveryPrice: order.deliveryPrice,
     phone: order.phone,
     address: order.address,
-    nickname: order.nickname,
+    username: order.username,
     comment: order.comment,
     status: getStatusTitle(order.status),
   };

@@ -18,9 +18,12 @@ export const serializeOrder = (orderData) => {
 export const serializeUser = (userData) => {
   return userData.map(user => ({
     fields: {
-      'Name': `${user.first_name} ${user.last_name}`,
-      'TelegramId': user.id.toString(),
-      'Telegram': `${user.username}`
+      'TelegramId': user.id,
+      'Name': user.name,
+      'Language': user.language,
+      'Username': user.username,
+      'Phone': user.phone,
+      'Address': user.location
     }
   }));
 }
