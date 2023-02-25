@@ -5,7 +5,6 @@ import botRu from "../../shared/locales/ru/bot.json" assert { type: "json" };
 i18next
   .init({
     lng: 'ru',
-    fallbackLng: 'ru',
     defaultNS: 'bot',
     resources: {
       en: {
