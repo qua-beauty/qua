@@ -31,9 +31,17 @@ const getUser = async (userId) => {
 
 const saveUser = async (userData) => {
   console.log(userData);
-  const user = await airtableUsersBase.create(serializeUser([userData]));
-  console.log(user);
-  return userMapper(user);
+  try {
+    console.log(serializeUser([userData]));
+    const user = await airtableUsersBase.create(serializeUser([userData]));
+    return userMapper(user);
+  } catch(e) {
+    console.log(e);
+    return null;
+  }
+
+
+
 }
 
 const getOrder = async (orderId) => {
