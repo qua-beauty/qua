@@ -3,7 +3,7 @@ import {conversations, createConversation} from 'https://deno.land/x/grammy_conv
 import {hydrateReply, parseMode} from 'https://deno.land/x/grammy_parse_mode@1.5.0/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import './polyfills.js';
-import {i18n} from './i18n.js';
+import {changeLanguage, i18n} from './i18n.js';
 import {actions, masks} from './utils.js';
 import {aboutKeyboard, startKeyboard, startShopKeyboard} from './keyboards.js';
 import {orderConversation} from './conversations/orderConversation.js';
@@ -62,11 +62,8 @@ bot.command('start', async (ctx) => {
   } else {
     ctx.session.user = await saveUser(userData);
   }
-
-  console.log(ctx.session.user);
-  await i18n().changeLanguage(ctx.session.user.language).then(t => {
-    console.log(t('messageStart'));
-  })
+  
+  await changeLanguage(ctx.session.user.language);
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
