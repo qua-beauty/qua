@@ -33,7 +33,7 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
-    const {message_id: phoneTitleMessageId} = await ctx.reply(i18n().t('messageAddPhone'),
+    const {message_id: phoneTitleMessageId} = await ctx.reply(i18n.t('messageAddPhone'),
       {reply_markup: sharePhoneKeyboard});
     ctx = await conversation.wait();
 
