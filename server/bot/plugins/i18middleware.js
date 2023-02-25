@@ -7,6 +7,7 @@ export function i18nMiddleware() {
         changeLanguage: i18n.changeLanguage,
         t: i18n.t
       },
+      writable: true
     });
 
     await next();

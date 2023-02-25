@@ -32,9 +32,11 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
+    console.log(ctx);
     const {message_id: phoneTitleMessageId} = await ctx.reply(ctx.i18n.t('messageAddPhone'),
       {reply_markup: sharePhoneKeyboard(ctx)});
     ctx = await conversation.wait();
+    console.log(ctx);
 
     phoneTitleMessage = phoneTitleMessageId;
     phoneUserMessage = ctx.message.message_id;
