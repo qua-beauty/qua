@@ -65,7 +65,7 @@ bot.command('start', async (ctx) => {
 
   console.log(ctx.session.user);
   await i18n.changeLanguage(ctx.session.user.language).then(t => {
-    console.log(t);
+    console.log(t('messageStart'));
   })
 
   if (masks.shop.test(ctx.match)) {
