@@ -11,7 +11,7 @@ const airtableOrdersBase = new Airtable({
 const airtableUsersBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
   baseId: Deno.env.get('AIRTABLE_BASE'),
-  tableName: 'Orders'
+  tableName: 'Users'
 });
 
 const getUser = async (userId) => {
