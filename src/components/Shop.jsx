@@ -4,7 +4,7 @@ import {getShopUrl} from '../utils.js';
 
 
 const Header = styled('header')`
-  background: ${({ theme }) => theme.palette.background.default};
+  background: ${({ theme }) => theme.palette.background.paper};
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   display: flex;

@@ -64,7 +64,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <GlobalStyles
           styles={{
             body: {
-              background: webApp ? webApp.themeParams.bg_color : '#fff'
+              background: webApp ? webApp.themeParams.secondary_bg_color : '#fff'
             }
           }}
         />

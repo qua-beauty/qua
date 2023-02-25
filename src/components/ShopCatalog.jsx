@@ -14,13 +14,13 @@ const Base = styled('div')`
 `;
 
 const Header = styled('header')`
-  background: ${({ theme }) => theme.palette.background.default};
+  background: ${({ theme }) => theme.palette.background.paper};
   box-shadow: ${({ theme }) => theme.shadows[4]};;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 8px 16px;
+  padding: 0 16px 8px 16px;
   text-align: left;
   width: 100%;
 
