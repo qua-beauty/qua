@@ -33,7 +33,7 @@ const saveUser = async (userData) => {
   console.log(userData);
   try {
     console.log(serializeUser([userData]));
-    const user = await airtableUsersBase.create(serializeUser([userData]));
+    const user = await airtableUsersBase.create(serializeUser([userData])[0].fields);
     return userMapper(user);
   } catch(e) {
     console.log(e);
