@@ -16,4 +16,4 @@ i18next
     },
   });
 
-export const i18n = i18next;
+export const i18n = () => i18next;

@@ -49,7 +49,7 @@ bot.api.config.use(parseMode("HTML"));
 
 bot.catch((error) => {
   console.log(error);
-  error.ctx.reply(i18n.t('messageBotError'));
+  error.ctx.reply(i18n().t('messageBotError'));
 });
 
 bot.command('start', async (ctx) => {
@@ -64,17 +64,17 @@ bot.command('start', async (ctx) => {
   }
 
   console.log(ctx.session.user);
-  await i18n.changeLanguage(ctx.session.user.language).then(t => {
+  await i18n().changeLanguage(ctx.session.user.language).then(t => {
     console.log(t('messageStart'));
   })
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(i18n.t('messageStartShop'), {
+    await ctx.reply(i18n().t('messageStartShop'), {
       reply_markup: startShopKeyboard(shopId)
     });
   } else {
-    await ctx.reply(i18n.t('messageStart'), {
+    await ctx.reply(i18n().t('messageStart'), {
       reply_markup: startKeyboard
     });
   }
@@ -85,14 +85,14 @@ bot.hears(masks.order, async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.editMessageText(i18n.t('messageAbout'));
+  await ctx.editMessageText(i18n().t('messageAbout'));
   await ctx.editMessageReplyMarkup({
     reply_markup: aboutKeyboard
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(i18n.t('messageStart'));
+  await ctx.editMessageText(i18n().t('messageStart'));
   await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard
   })
