@@ -41,10 +41,10 @@ bot.use(session({
   },
 }));
 
+bot.use(i18nMiddleware());
+
 bot.use(conversations());
 bot.use(createConversation(orderConversation, 'newOrder'));
-
-bot.use(i18nMiddleware());
 
 bot.use(hydrateReply);
 bot.api.config.use(parseMode("HTML"));

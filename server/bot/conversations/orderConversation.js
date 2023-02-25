@@ -1,7 +1,6 @@
 import {masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
-import {i18n} from '../i18n.js';
 
 async function orderConversation(conversation, ctx) {
   const {
