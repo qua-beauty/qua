@@ -9,7 +9,9 @@ const airtableBase = new Airtable({
 });
 
 const getUser = async (userId) => {
+  console.log(userId);
   const userData = await airtableBase.find(userId);
+  console.log(userData);
   return userData ? userMapper(userData) : null;
 }
 
