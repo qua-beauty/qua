@@ -5,9 +5,9 @@ import {i18n} from './i18n.js';
 
 const startKeyboard = (ctx) => {
   return new InlineKeyboard()
-    .webApp(ctx.t('keyboardMarket'), Deno.env.get('TWA_URL'))
+    .webApp(ctx.i18n.t('keyboardMarket'), Deno.env.get('TWA_URL'))
     .row()
-    .text(ctx.t('keyboardAbout'), actions.ABOUT);
+    .text(ctx.i18n.t('keyboardAbout'), actions.ABOUT);
 }
 
 const aboutKeyboard = new InlineKeyboard()

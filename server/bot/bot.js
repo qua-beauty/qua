@@ -50,7 +50,7 @@ bot.use(hydrateReply);
 bot.api.config.use(parseMode("HTML"));
 
 bot.catch((error) => {
-  error.ctx.reply(error.ctx.t('messageBotError'));
+  error.ctx.reply(error.ctx.i18n.t('messageBotError'));
 });
 
 bot.command('start', async (ctx) => {
@@ -68,11 +68,11 @@ bot.command('start', async (ctx) => {
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(ctx.t('messageStartShop'), {
+    await ctx.reply(ctx.i18n.t('messageStartShop'), {
       reply_markup: startShopKeyboard(shopId)
     });
   } else {
-    await ctx.reply(ctx.t('messageStart'), {
+    await ctx.reply(ctx.i18n.t('messageStart'), {
       reply_markup: startKeyboard(ctx)
     });
   }
@@ -83,14 +83,14 @@ bot.hears(masks.order, async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.editMessageText(ctx.t('messageAbout'));
+  await ctx.editMessageText(ctx.i18n.t('messageAbout'));
   await ctx.editMessageReplyMarkup({
     reply_markup: aboutKeyboard
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(ctx.t('messageStart'));
+  await ctx.editMessageText(ctx.i18n.t('messageStart'));
   await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard
   })
