@@ -53,7 +53,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   if(status === 'cook') {
     await ctx.reply(orderCardMessage(ctx.session.newOrder), {
-      reply_markup: orderShopDeliveryKeyboard(orderId)
+      reply_markup: orderShopDeliveryKeyboard(ctx, orderId)
     });
 
     const location = ctx.session.newOrder.address.split(', ');
@@ -77,7 +77,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   if(status === 'delivery') {
     await ctx.reply(orderCardMessage(ctx.session.newOrder), {
-      reply_markup: orderShopDoneKeyboard(orderId)
+      reply_markup: orderShopDoneKeyboard(ctx, orderId)
     });
 
     const location = ctx.session.newOrder.address.split(', ');

@@ -69,7 +69,7 @@ bot.command('start', async (ctx) => {
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
     await ctx.reply(ctx.i18n.t('messageStartShop'), {
-      reply_markup: startShopKeyboard(shopId)
+      reply_markup: startShopKeyboard(ctx, shopId)
     });
   } else {
     await ctx.reply(ctx.i18n.t('messageStart'), {
@@ -85,14 +85,14 @@ bot.hears(masks.order, async (ctx) => {
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
   await ctx.editMessageText(ctx.i18n.t('messageAbout'));
   await ctx.editMessageReplyMarkup({
-    reply_markup: aboutKeyboard
+    reply_markup: aboutKeyboard(ctx)
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
   await ctx.editMessageText(ctx.i18n.t('messageStart'));
   await ctx.editMessageReplyMarkup({
-    reply_markup: startKeyboard
+    reply_markup: startKeyboard(ctx)
   })
 });
 
