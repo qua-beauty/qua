@@ -21,6 +21,8 @@ const getUser = async (userId) => {
       filterByFormula: `{TelegramId} = ${userId.toString()}`
     });
 
+    console.log(userData);
+
     return userMapper(userData[0]);
   } catch (e) {
     console.log(e);
