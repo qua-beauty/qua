@@ -3,9 +3,9 @@ import 'https://deno.land/x/dotenv/load.ts';
 import {actions} from './utils.js';
 
 const startKeyboard = (ctx) => new InlineKeyboard()
-  .webApp(ctx.ctx.i18n.t('keyboardMarket'), Deno.env.get('TWA_URL'))
+  .webApp(ctx.i18n.t('keyboardMarket'), Deno.env.get('TWA_URL'))
   .row()
-  .text(ctx.ctx.i18n.t('keyboardAbout'), actions.ABOUT);
+  .text(ctx.i18n.t('keyboardAbout'), actions.ABOUT);
 
 const aboutKeyboard = (ctx) => new InlineKeyboard()
   .text(ctx.i18n.t('keyboardBack'), actions.HOME);
