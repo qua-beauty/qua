@@ -31,7 +31,7 @@ async function orderConversation(conversation, ctx) {
   };
 
   do {
-    console.log(ctx);
+    console.log(ctx.session);
     const {message_id: phoneTitleMessageId} = await ctx.reply(ctx.i18n.t('messageAddPhone'),
       {reply_markup: sharePhoneKeyboard(ctx)});
     ctx = await conversation.wait();

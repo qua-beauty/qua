@@ -10,6 +10,8 @@ export function i18nMiddleware() {
       writable: true
     });
 
+    ctx.session.t = i18n.t;
+
     await next();
   };
 }
