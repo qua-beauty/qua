@@ -19,7 +19,7 @@ const getUser = async (userId) => {
     const userData = await airtableUsersBase.select({
       maxRecords: 1,
       filterByFormula: `{TelegramId} = ${userId.toString()}`
-    });
+    }).then(data => data.records)
 
     console.log(userData);
 
