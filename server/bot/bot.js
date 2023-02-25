@@ -64,7 +64,7 @@ bot.command('start', async (ctx) => {
     ctx.session.user = await saveUser(userData);
   }
 
-  await ctx.changeLanguage(ctx.session.user.language);
+  await ctx.i18n.changeLanguage(ctx.session.user.language);
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
