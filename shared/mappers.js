@@ -81,12 +81,10 @@ export const userMapper = (user) => {
 export const telegramUserMapper = (user) => {
   return {
     id: user.id.toString(),
-    name: `${user.first_name} + ${user.last_name}`,
+    name: `${user.first_name}${user.last_name ? ` ${user.last_name}` : ''}`,
     firstName: user.first_name,
     lastName: user.last_name,
     language: user.language_code,
-    username: user.username,
-    phone: user.phone_number,
-    address: user.location
+    username: user.username
   }
 }

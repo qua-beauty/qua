@@ -22,8 +22,8 @@ export const serializeUser = (userData) => {
       'Name': user.name,
       'Language': user.language,
       'Username': user.username,
-      'Phone': user.phone,
-      'Address': user.location
+      'Phone': user.phone ? user.phone : '',
+      'Address': user.location ? user.location : ''
     }
   }));
 }
