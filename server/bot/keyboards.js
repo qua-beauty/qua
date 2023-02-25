@@ -3,10 +3,12 @@ import "https://deno.land/x/dotenv/load.ts";
 import {actions} from './utils.js';
 import {i18n} from './i18n.js';
 
-const startKeyboard = new InlineKeyboard()
-  .webApp(i18n().t('keyboardMarket'), Deno.env.get('TWA_URL'))
-  .row()
-  .text(i18n().t('keyboardAbout'), actions.ABOUT);
+const startKeyboard = (ctx) => {
+  return new InlineKeyboard()
+    .webApp(ctx.t('keyboardMarket'), Deno.env.get('TWA_URL'))
+    .row()
+    .text(ctx.t('keyboardAbout'), actions.ABOUT);
+}
 
 const aboutKeyboard = new InlineKeyboard()
   .text(i18n().t('keyboardBack'), actions.HOME);

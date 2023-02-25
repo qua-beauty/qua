@@ -3,7 +3,6 @@ import {conversations, createConversation} from 'https://deno.land/x/grammy_conv
 import {hydrateReply, parseMode} from 'https://deno.land/x/grammy_parse_mode@1.5.0/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import './polyfills.js';
-import {changeLanguage, i18n} from './i18n.js';
 import {actions, masks} from './utils.js';
 import {aboutKeyboard, startKeyboard, startShopKeyboard} from './keyboards.js';
 import {orderConversation} from './conversations/orderConversation.js';
@@ -17,6 +16,7 @@ import {
 } from './actions/orderActions.js';
 import {getUser, saveUser} from './services.js';
 import {telegramUserMapper} from '../../shared/mappers.js';
+import {i18nMiddleware} from './plugins/i18middleware.js';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
@@ -44,12 +44,13 @@ bot.use(session({
 bot.use(conversations());
 bot.use(createConversation(orderConversation, 'newOrder'));
 
+bot.use(i18nMiddleware());
+
 bot.use(hydrateReply);
 bot.api.config.use(parseMode("HTML"));
 
 bot.catch((error) => {
-  console.log(error);
-  error.ctx.reply(i18n().t('messageBotError'));
+  error.ctx.reply(error.ctx.t('messageBotError'));
 });
 
 bot.command('start', async (ctx) => {
@@ -62,17 +63,17 @@ bot.command('start', async (ctx) => {
   } else {
     ctx.session.user = await saveUser(userData);
   }
-  
-  await changeLanguage(ctx.session.user.language);
+
+  await ctx.changeLanguage(ctx.session.user.language);
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(i18n().t('messageStartShop'), {
+    await ctx.reply(ctx.t('messageStartShop'), {
       reply_markup: startShopKeyboard(shopId)
     });
   } else {
-    await ctx.reply(i18n().t('messageStart'), {
-      reply_markup: startKeyboard
+    await ctx.reply(ctx.t('messageStart'), {
+      reply_markup: startKeyboard(ctx)
     });
   }
 });
@@ -82,14 +83,14 @@ bot.hears(masks.order, async (ctx) => {
 });
 
 bot.callbackQuery(new RegExp(actions.ABOUT), async (ctx) => {
-  await ctx.editMessageText(i18n().t('messageAbout'));
+  await ctx.editMessageText(ctx.t('messageAbout'));
   await ctx.editMessageReplyMarkup({
     reply_markup: aboutKeyboard
   })
 });
 
 bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
-  await ctx.editMessageText(i18n().t('messageStart'));
+  await ctx.editMessageText(ctx.t('messageStart'));
   await ctx.editMessageReplyMarkup({
     reply_markup: startKeyboard
   })

@@ -16,8 +16,4 @@ i18next
     },
   });
 
-export const changeLanguage = async (language) => {
-  await i18next.changeLanguage(language);
-}
-
-export const i18n = () => i18next;
+export const i18n = i18next;
