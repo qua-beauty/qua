@@ -59,6 +59,8 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
       }
     }
 
+    console.log(key, value);
+
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
   })
 };
