@@ -44,6 +44,9 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
 
   return dataValues.reduce((acc, value, index) => {
     const key = dataKeys[index];
+
+    console.log(key, value);
+    
     if (key === 'products') {
       return acc + value;
     }
@@ -58,8 +61,6 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
           return acc + t('orderCard.userTitle', lng)
       }
     }
-
-    console.log(key, value);
 
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
   })
