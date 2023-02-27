@@ -2,7 +2,7 @@ import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
 import {orderMapper, shopMapper, userMapper} from '../../shared/mappers.js';
 import {serializeUser} from '../../shared/serializers.js';
 
-const airtableBase = new Airtable({
+const airtableOrdersBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
   baseId: Deno.env.get('AIRTABLE_BASE'),
   tableName: 'Orders'
