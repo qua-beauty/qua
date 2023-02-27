@@ -17,6 +17,7 @@ const actions = {
   SHOP_DELIVERY_ORDER: 'SHOP_DELIVERY_ORDER',
   SHOP_DONE_ORDER: 'SHOP_DONE_ORDER',
   BACK_TO_HOME: 'BACK_TO_HOME',
+  CHANGE_LANGUAGE: "CHANGE_LANGUAGE"
 }
 
 export const orderCardMessage = (order, type = 'user') => {

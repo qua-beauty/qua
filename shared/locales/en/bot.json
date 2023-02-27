@@ -9,6 +9,7 @@
   "keyboardDeliveryOrder": "Order is ready, to delivery",
   "keyboardCompleteOrder": "Order is complete",
   "keyboardCancelOrder": "Cancel order",
+  "keyboardChangeLanguage": "\uD83C\uDF10 Change language",
   "messageStart": "Welcome to Swami Market! \nI will help you to make order of your favorite meal! \nYou can open the app by clicking Market",
   "messageStartShop": "Welcome to Swami Market! To open the shop please click to Market button",
   "messageAbout": "About us",
@@ -20,6 +21,7 @@
   "messageOrderDelivering": "The order is ready and on it's way to you!",
   "messageOrderComplete": "The order is complete",
   "messageBotError": "Something happens with bot, we invited an operator to chat",
+  "messageChangeLanguage": "Please choose a language what you want",
   "orderCard": {
     "id": "<strong>ID</strong>: #{{id}}",
     "userTitle": "<strong>Your order:</strong>",

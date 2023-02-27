@@ -33,7 +33,7 @@ async function orderConversation(conversation, ctx) {
 
   do {
     console.log(ctx.session);
-    const {message_id: phoneTitleMessageId} = await ctx.reply(t('messageAddPhone'),
+    const {message_id: phoneTitleMessageId} = await ctx.reply(t('messageAddPhone', ctx.session.language),
       {reply_markup: sharePhoneKeyboard(ctx)});
     ctx = await conversation.wait();
     console.log(ctx);
@@ -58,7 +58,7 @@ async function orderConversation(conversation, ctx) {
 
   do {
     const {message_id: addressTitleMessageId} =
-      await ctx.reply(t('messageAddAddress', {name: ctx.session.newOrder.user}), {
+      await ctx.reply(t('messageAddAddress', ctx.session.language, {name: ctx.session.newOrder.user}), {
         reply_markup: shareAddressKeyboard(ctx)
       });
 
@@ -85,7 +85,7 @@ async function orderConversation(conversation, ctx) {
   await ctx.api.deleteMessage(chatId, phoneUserMessage);
   await ctx.api.deleteMessage(chatId, addressUserMessage);
 
-  const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending'));
+  const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending', ctx.session.language));
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,

@@ -55,7 +55,7 @@ const BasketDetails = () => {
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
-  const {t} = useTranslation();
+  const {t, i18n: { language: lng }} = useTranslation();
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -75,7 +75,7 @@ const BasketDetails = () => {
         deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
         productsJson: JSON.stringify(basket.map(product => ({
-          name: product.name,
+          name: product.name[lng],
           count: product.count,
           icon: product.icon,
           price: product.price

@@ -17,4 +17,4 @@ i18next
   });
 
 export const i18n = i18next;
-export const t = (key, lng) => i18next.getFixedT(lng)(key);
+export const t = (key, lng, options) => i18next.getFixedT(lng)(key, options);

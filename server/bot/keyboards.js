@@ -4,9 +4,7 @@ import {actions} from './utils.js';
 import {t} from './i18n.js';
 
 const startKeyboard = (ctx) => new InlineKeyboard()
-  .webApp(t('keyboardMarket', ctx.session.language), Deno.env.get('TWA_URL'))
-  .row()
-  .text(t('keyboardAbout', ctx.session.language), actions.ABOUT);
+  .webApp(t('keyboardMarket', ctx.session.language), Deno.env.get('TWA_URL'));
 
 const aboutKeyboard = (ctx) => new InlineKeyboard()
   .text(t('keyboardBack', ctx.session.language), actions.HOME);

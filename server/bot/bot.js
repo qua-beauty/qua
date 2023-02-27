@@ -110,6 +110,13 @@ bot.callbackQuery(new RegExp(actions.HOME), async (ctx) => {
   })
 });
 
+bot.callbackQuery(new RegExp(actions.CHANGE_LANGUAGE), async (ctx) => {
+  await ctx.editMessageText(t('messageChangeLanguage', ctx.session.language));
+  await ctx.editMessageReplyMarkup({
+    reply_markup: startKeyboard(ctx)
+  })
+});
+
 bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), cancelOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), shopAcceptOrder);
