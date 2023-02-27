@@ -34,14 +34,5 @@
     "username": "<strong>Никнейм:</strong> @{{username}}",
     "comment": "<strong>Комментарий:</strong> {{comment}}",
     "status": "<strong>Статус</strong>: {{status}}"
-  },
-  "statuses": {
-    "draft": "",
-    "pending": "Ожидаем ответа от Ресторана",
-    "cook": "Готовится",
-    "delivery": "В доставке",
-    "complete": "Выполнен",
-    "declined": "Отклонен Рестораном",
-    "cancelled": "Отменен"
   }
 }

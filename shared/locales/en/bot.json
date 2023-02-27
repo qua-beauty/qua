@@ -35,14 +35,5 @@
     "username": "<strong>Username:</strong> @{{username}}",
     "comment": "<strong>Comment:</strong> {{comment}}",
     "status": "<strong>Status</strong>: {{status}}"
-  },
-  "statuses": {
-    "draft": "",
-    "pending": "Waiting answer from Restaurant",
-    "cook": "Cooking",
-    "delivery": "Delivering",
-    "complete": "Complete",
-    "declined": "Declined by Restaurant",
-    "cancelled": "Cancelled"
   }
 }
