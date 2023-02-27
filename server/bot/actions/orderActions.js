@@ -32,7 +32,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
 
   if(status === 'declined') {
     await ctx.reply(orderCardMessage(ctx.session.newOrder));
-    const location = ctx.session.newOrder.address.split(', , ctx.session.language');
+    const location = ctx.session.newOrder.address.split(', ');
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
@@ -56,7 +56,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
       reply_markup: orderShopDeliveryKeyboard(ctx, orderId)
     });
 
-    const location = ctx.session.newOrder.address.split(', , ctx.session.language');
+    const location = ctx.session.newOrder.address.split(', ');
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
@@ -80,7 +80,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
       reply_markup: orderShopDoneKeyboard(ctx, orderId)
     });
 
-    const location = ctx.session.newOrder.address.split(', , ctx.session.language');
+    const location = ctx.session.newOrder.address.split(', ');
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
