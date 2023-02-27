@@ -22,14 +22,14 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(order, ctx));
-
   ctx.session.newOrder = {
     ...order,
     telegram: {
       userChat: chatId.toString()
     }
   };
+
+  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
 
   do {
     console.log(ctx.session);

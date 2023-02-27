@@ -46,7 +46,7 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     const key = dataKeys[index];
 
     console.log(key, value);
-    
+
     if (key === 'products') {
       return acc + value;
     }
