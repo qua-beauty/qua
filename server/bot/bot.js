@@ -77,7 +77,11 @@ bot.command('start', async (ctx) => {
 });
 
 bot.hears(masks.order, async (ctx) => {
-  await(i18n.changeLanguage(ctx.session.user.language));
+  console.log(ctx);
+  
+  if(ctx.session?.user?.language) {
+    await(i18n.changeLanguage(ctx.session.user.language));
+  }
   await ctx.conversation.enter('newOrder');
 });
 
