@@ -24,10 +24,10 @@ const updateOrderAction = async (ctx, status, isUser) => {
   await ctx.api.deleteMessage(userChat, userTitleMessage);
 
   if(status === 'cancelled') {
-    await ctx.reply(orderCardMessage(ctx.session.newOrder));
+    await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
 
     await ctx.api.deleteMessage(order.shop.adminGroup, shopOrderMessage);
-    await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder));
+    await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, ctx));
   }
 
   if(status === 'declined') {
@@ -36,7 +36,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder, ctx));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, t('messageOrderDecline', ctx.session.language));
 
       ctx.session.newOrder = {
@@ -60,7 +60,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder, ctx));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, t('messageOrderCooking', ctx.session.language));
 
       ctx.session.newOrder = {
@@ -76,7 +76,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'delivery') {
-    await ctx.reply(orderCardMessage(ctx.session.newOrder), {
+    await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
       reply_markup: orderShopDoneKeyboard(ctx, orderId)
     });
 
@@ -84,7 +84,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
     let {message_id: shopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
 
     if(!isUser) {
-      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
+      let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder, ctx));
       let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat, t('messageOrderDelivering', ctx.session.language));
 
       ctx.session.newOrder = {
@@ -100,10 +100,10 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'complete') {
-    await ctx.reply(orderCardMessage(ctx.session.newOrder));
+    await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
 
     if (!isUser) {
-      await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder));
+      await ctx.api.sendMessage(userChat, orderCardMessage(ctx.session.newOrder, ctx));
       await ctx.api.sendMessage(userChat, t('messageOrderComplete', ctx.session.language));
     }
   }

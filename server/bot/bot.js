@@ -36,7 +36,6 @@ bot.use(session({
         address: null,
         phone: null,
         user: null,
-        orderCardMessage: null,
         getPhoneMessage: null,
         getAddressMessage: null,
         phoneMessage: null,

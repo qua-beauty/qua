@@ -22,7 +22,7 @@ async function orderConversation(conversation, ctx) {
 
   await ctx.api.deleteMessage(chatId, userMessageId);
 
-  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(order));
+  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(order, ctx));
 
   ctx.session.newOrder = {
     ...order,
@@ -75,7 +75,7 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!ctx.message?.location);
 
-  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, 'shop'), {
+  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
     reply_markup: orderUserKeyboard(ctx, orderId)
   });
 
@@ -102,7 +102,7 @@ async function orderConversation(conversation, ctx) {
 
   if (order.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
-      await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, 'shop'), {
+      await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
       reply_markup: orderShopKeyboard(ctx, orderId)
     })
 

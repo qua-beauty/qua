@@ -20,7 +20,7 @@ const actions = {
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE"
 }
 
-export const orderCardMessage = (order, type = 'user', ctx) => {
+export const orderCardMessage = (order, ctx, type = 'user') => {
   const lng = ctx.session.language;
 
   let data = {
