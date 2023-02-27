@@ -1,5 +1,6 @@
 import {Application, Router} from 'https://deno.land/x/oak/mod.ts';
 import {webhookCallback} from 'https://deno.land/x/grammy/mod.ts';
+import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
@@ -24,13 +25,19 @@ router.post('/answerWebAppQuery', async (context) => {
 });
 
 app.use(oakCors({
-  origin: "*",
+  origin: '*',
   methods: ['GET', 'PUT', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin']
 }));
 
 app.use(router.allowedMethods());
 app.use(router.routes());
-app.use(webhookCallback(bot, 'oak'));
+
+if (Deno.env.get('IS_DEV')) {
+  run(bot);
+} else {
+  app.use(webhookCallback(bot, 'oak'));
+}
+
 
 await app.listen({port: 8000});

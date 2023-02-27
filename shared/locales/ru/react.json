@@ -1,0 +1,10 @@
+{
+  "catalogTitle": "Выберите ресторан",
+  "basket": {
+    "title": "Ваш заказ",
+    "editButton": "Изменить",
+    "addButton": "Добавить в корзину",
+    "viewButton": "Корзина \uD83E\uDDFA",
+    "continueButton": "Продолжить ({{price}})"
+  }
+}

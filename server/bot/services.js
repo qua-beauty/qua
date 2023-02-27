@@ -2,7 +2,7 @@ import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
 import {orderMapper, shopMapper, userMapper} from '../../shared/mappers.js';
 import {serializeUser} from '../../shared/serializers.js';
 
-const airtableOrdersBase = new Airtable({
+const airtableBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
   baseId: Deno.env.get('AIRTABLE_BASE'),
   tableName: 'Orders'
@@ -15,6 +15,7 @@ const airtableUsersBase = new Airtable({
 });
 
 const getUser = async (userId) => {
+  console.log(airtableUsersBase);
   try {
     const userData = await airtableUsersBase.select({
       maxRecords: 1,
@@ -30,9 +31,7 @@ const getUser = async (userId) => {
 }
 
 const saveUser = async (userData) => {
-  console.log(userData);
   try {
-    console.log(serializeUser([userData]));
     const user = await airtableUsersBase.create(serializeUser([userData])[0].fields);
     return userMapper(user);
   } catch(e) {

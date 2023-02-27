@@ -1,0 +1,15 @@
+{
+  "status": {
+    "draft": "",
+    "pending": "Waiting answer from Restaurant",
+    "cook": "Cooking",
+    "delivery": "Delivering",
+    "complete": "Complete",
+    "declined": "Declined by Restaurant",
+    "cancelled": "Cancelled"
+  },
+  "currency": {
+    "LKR": "Rupee",
+    "RUB": "Rubles"
+  }
+}

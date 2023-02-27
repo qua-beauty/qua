@@ -8,6 +8,7 @@ import ShareButton from './ShareButton.jsx';
 import {getCurrencyTitle, getShopUrl} from '../utils.js';
 import {useSelector} from 'react-redux';
 import {selectProductsByShop} from '../api/slices/productSlice.js';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
 

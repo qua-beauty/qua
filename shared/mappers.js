@@ -22,10 +22,16 @@ export const shopMapper = (shop) => {
 export const productMapper = (product) => {
   return {
     id: product.id,
-    name: product.fields['Name'],
+    name: {
+      ru: product.fields['Name'],
+      en: product.fields['Name En']
+    },
     category: product.fields['Category'] ? product.fields['Category'][0] : undefined,
     price: product.fields['Price'],
-    about: product.fields['About'],
+    about: {
+      ru: product.fields['About'],
+      en: product.fields['About En'],
+    },
     image: product.fields['Image'] ? product.fields['Image'][0].url : undefined,
     icon: product.fields['Icon'],
     isVegan: product.fields['isVegan'],
@@ -39,7 +45,10 @@ export const productMapper = (product) => {
 export const categoryMapper = (category) => {
   return {
     id: category.id,
-    name: category.fields['Name'],
+    name: {
+      ru: category.fields['Name'],
+      en: category.fields['Name En']
+    },
     icon: category.fields['Icon'],
     shops: category.fields['Shops'],
     products: category.fields['Products']

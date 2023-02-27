@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Chip, IconButton, styled, Typography} from '@mui/material';
-import {getCurrencyTitle} from '../utils.js';
 import {Add, Remove} from '@mui/icons-material';
 import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
   background: ${({ theme }) => theme.palette.background.paper};
@@ -89,9 +89,10 @@ const Title = styled(Typography)`
 
 const Product = ({ onSelect, ...product }) => {
   const dispatch = useDispatch();
-  const {name, image, price, currency, id, icon} = product;
+  const {name, image, price, id, icon} = product;
   const {basket} = useSelector(state => state.basket);
   const [added, setAdded] = useState(0);
+  const {t, i18n: { language: lng }} = useTranslation();
 
   const handleClick = () => {
     setAdded(added + 1);
@@ -125,9 +126,9 @@ const Product = ({ onSelect, ...product }) => {
         {image && <img src={image} alt=""/>}
         <NoImage>{icon}</NoImage>
       </Image>
-      <Title>{name}</Title>
+      <Title>{name[lng]}</Title>
 
-      {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${getCurrencyTitle(currency)}`}></Chip>}
+      {added === 0 && <Chip color="primary" onClick={handleClick} label={`${price} ${t(`currency.LKR`, { ns: 'common' })}`}></Chip>}
 
       {added > 0 && <PlusMinus>
         <ChipButton color="primary" size="small" onClick={handleMinus}><Remove /></ChipButton>

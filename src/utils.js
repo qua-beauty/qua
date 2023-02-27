@@ -20,10 +20,6 @@ export const getCurrencyTitle = (currency) => {
   return currencies.hasOwnProperty(currency) ? currencies[currency] : currencies['LKR'];
 }
 
-export const getStatusTitle = (status) => {
-  return statuses.hasOwnProperty(status) ? statuses[status] : status;
-}
-
 export const getShopUrl = (shopId) => {
   return `https://t.me/swamimarketbot?start=shop-${shopId}`;
 }

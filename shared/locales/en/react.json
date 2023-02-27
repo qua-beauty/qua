@@ -1,0 +1,10 @@
+{
+  "catalogTitle": "Choose restaurant",
+  "basket": {
+    "title": "Your order",
+    "editButton": "Edit",
+    "addButton": "Add to basket",
+    "viewButton": "Basket \uD83E\uDDFA",
+    "continueButton": "Continue ({{priceAndCurrency}})"
+  }
+}

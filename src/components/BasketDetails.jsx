@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from 'react';
-import {Button, InputBase, styled, Typography} from '@mui/material';
+import {Button, styled, Typography} from '@mui/material';
 import ProductInline from './ProductInline.jsx';
-import {getCurrencyTitle} from '../utils.js';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
   background: ${({theme}) => theme.palette.background.default};
@@ -48,16 +48,6 @@ const Products = styled('div')`
   margin-top: 16px;
 `;
 
-const Comment = styled('div')`
-  margin-top: 32px;
-`;
-
-const CommentField = styled(InputBase)`
-  background: ${({theme}) => theme.palette.background.paper};
-  border-radius: 12px;
-  padding: 6px 16px;
-`;
-
 const BasketDetails = () => {
   const dispatch = useDispatch();
   const {basket, price, count, currency} = useSelector(state => state.basket);
@@ -65,6 +55,7 @@ const BasketDetails = () => {
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
+  const {t} = useTranslation();
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -105,7 +96,7 @@ const BasketDetails = () => {
   }, [basket, currentShop])
 
   if (webApp) {
-    webApp.MainButton.text = `Продолжить (${price} ${getCurrencyTitle(currency)})`;
+    webApp.MainButton.text = t('basket.continueButton', { priceAndCurrency: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` });
     webApp.MainButton.color = '#66bb6a';
     webApp.MainButton.enable();
     webApp.MainButton.onClick(handleMakeOrder);
@@ -126,8 +117,8 @@ const BasketDetails = () => {
   return (
     <Base>
       <Header>
-        <Title color="textPrimary" variant="caption">Ваш заказ</Title>
-        <BackButton component={Link} to={`/`} size="small">Изменить</BackButton>
+        <Title color="textPrimary" variant="caption">{t('basket.title')}</Title>
+        <BackButton component={Link} to={`/`} size="small">{t('basket.editButton')}</BackButton>
       </Header>
 
       <Products>
@@ -135,7 +126,7 @@ const BasketDetails = () => {
       </Products>
 
       {import.meta.env.DEV && (
-        <Button onClick={handleMakeOrder}>Make Order</Button>
+        <Button onClick={handleMakeOrder}>{t('basket.continueButton', { priceAndCurrency: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` })}</Button>
       )}
     </Base>
   );

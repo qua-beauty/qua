@@ -1,6 +1,7 @@
 import React from 'react';
 import {styled, Typography} from '@mui/material';
 import {getCurrencyTitle} from '../utils.js';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
   display: flex;
@@ -75,7 +76,8 @@ const NoImage = styled('div')`
 `;
 
 const ProductInline = (product) => {
-  const {name, image, price, icon, currency, count} = product;
+  const {name, image, price, icon, count} = product;
+  const {t, i18n: { language: lng }} = useTranslation();
 
   return (
     <Base>
@@ -84,8 +86,8 @@ const ProductInline = (product) => {
         <NoImage>{icon}</NoImage>
       </Image>
       <Info>
-        <Title color="primary">{name}</Title>
-        <Price>{count} x {price} {getCurrencyTitle(currency)}</Price>
+        <Title color="primary">{name[lng]}</Title>
+        <Price>{count} x {price} {t(`currency.LKR`, { ns: 'common' })}</Price>
       </Info>
     </Base>
   );

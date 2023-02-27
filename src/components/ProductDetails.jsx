@@ -6,6 +6,7 @@ import {getCurrencyTitle} from '../utils.js';
 import {Add, Remove} from '@mui/icons-material';
 import {useDispatch, useSelector} from 'react-redux';
 import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
   flex: 1;
@@ -111,6 +112,7 @@ const ProductDetails = () => {
   const {basket} = useSelector(state => state.basket);
   const {productId} = useParams();
   const navigate = useNavigate();
+  const {t, i18n: { language: lng }} = useTranslation();
 
   const [added, setAdded] = useState(0);
 
@@ -162,10 +164,10 @@ const ProductDetails = () => {
         <ShopTitle sx={{
           borderColor: currentShop.color !== '' ? currentShop.color : 'inherit'
         }}>{currentShop.name}</ShopTitle>
-        <Title>{currentProduct.name}</Title>
-        <Price>{currentProduct.price} {getCurrencyTitle(currentProduct.currency)}</Price>
+        <Title>{currentProduct.name[lng]}</Title>
+        <Price>{currentProduct.price} {t(`currency.LKR`, { ns: 'common' })}</Price>
         {added === 0 && <ChipPrice color="primary" onClick={handleClick}
-                                   label={`Добавить в корзину`}></ChipPrice>}
+                                   label={t('basket.addButton')}></ChipPrice>}
 
         {added > 0 && <PlusMinus>
           <ChipButton color="primary" size="small" onClick={handleMinus}><Remove/></ChipButton>
@@ -173,7 +175,7 @@ const ProductDetails = () => {
           <ChipButton color="primary" size="small" onClick={handlePlus}><Add/></ChipButton>
         </PlusMinus>}
 
-        {currentProduct.about && <Description>{currentProduct.about}</Description>}
+        {currentProduct.about && <Description>{currentProduct.about[lng]}</Description>}
       </Content>
     </Base>
   ) : <></>

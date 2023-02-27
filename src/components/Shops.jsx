@@ -4,6 +4,7 @@ import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
 
 const Base = styled('div')`
   padding: 8px;
@@ -25,6 +26,7 @@ const Shops = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const shops = useSelector(state => state.shops.data);
+  const {t} = useTranslation();
 
   const handleSelect = (shop) => {
     dispatch(setCurrentShop(shop));
@@ -37,7 +39,7 @@ const Shops = () => {
 
   return shops ? (
     <Base>
-      <Title variant="subtitle1">Список ресторанов</Title>
+      <Title variant="subtitle1">{t('catalogTitle')}</Title>
       <ShopList>
         {shops.map(shop => (
           <Shop onSelect={handleSelect} key={shop.name} {...shop}/>

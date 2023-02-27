@@ -15,14 +15,13 @@ const useAuth = () => {
       id: '5476797712',
       first_name: 'Dev',
       last_name: 'Env',
-      username: 'rashdeva'
+      username: 'rashdeva',
+      language_code: 'en'
     };
 
     if (webApp) {
       userData = webApp.initDataUnsafe.user;
     }
-
-    console.log(webApp);
 
     getUser(userData).unwrap().then((data) => {
       if (!data && !user) {
