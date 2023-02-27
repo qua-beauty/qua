@@ -1,4 +1,4 @@
-import {i18n} from './i18n.js';
+import {t} from './i18n.js';
 
 const masks = {
   order: new RegExp(/^order-/),
@@ -20,7 +20,9 @@ const actions = {
   CHANGE_LANGUAGE: "CHANGE_LANGUAGE"
 }
 
-export const orderCardMessage = (order, type = 'user') => {
+export const orderCardMessage = (order, type = 'user', ctx) => {
+  const lng = ctx.session.language;
+
   let data = {
     id: order.id,
     title: type,
@@ -34,7 +36,7 @@ export const orderCardMessage = (order, type = 'user') => {
     address: order.address,
     username: order.username,
     comment: order.comment,
-    status: i18n.t(`statuses.${order.status}`),
+    status: t(`status.${order.status}`, lng, { ns: 'common' }),
   };
 
   const dataKeys = Object.keys(data);
@@ -46,16 +48,19 @@ export const orderCardMessage = (order, type = 'user') => {
       return acc + value;
     }
 
-    if(key === 'title') {
-      switch(value) {
-        case 'shop': return acc + i18n.t('orderCard.shopTitle')
-        case 'delivery': return acc + i18n.t('orderCard.deliveryTitle')
-        default: return acc + i18n.t('orderCard.userTitle')
+    if (key === 'title') {
+      switch (value) {
+        case 'shop':
+          return acc + t('orderCard.shopTitle', lng)
+        case 'delivery':
+          return acc + t('orderCard.deliveryTitle', lng)
+        default:
+          return acc + t('orderCard.userTitle', lng)
       }
     }
 
-    return acc + (value ? `${i18n.t(`orderCard.${key}`, {[key]: value})}\n` : '')
-  }, '');
+    return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}` : '');
+  })
 };
 
 export {
