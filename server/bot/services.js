@@ -15,7 +15,6 @@ const airtableUsersBase = new Airtable({
 });
 
 const getUser = async (userId) => {
-  console.log(airtableUsersBase);
   try {
     const userData = await airtableUsersBase.select({
       maxRecords: 1,
@@ -38,9 +37,6 @@ const saveUser = async (userData) => {
     console.log(e);
     return null;
   }
-
-
-
 }
 
 const getOrder = async (orderId) => {

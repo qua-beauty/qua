@@ -52,7 +52,7 @@ const updateOrderAction = async (ctx, status, isUser) => {
   }
 
   if(status === 'cook') {
-    await ctx.reply(orderCardMessage(ctx.session.newOrder), {
+    await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
       reply_markup: orderShopDeliveryKeyboard(ctx, orderId)
     });
 

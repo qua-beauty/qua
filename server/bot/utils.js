@@ -45,8 +45,6 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
   return dataValues.reduce((acc, value, index) => {
     const key = dataKeys[index];
 
-    console.log(key, value);
-
     if (key === 'products') {
       return acc + value;
     }
@@ -54,11 +52,11 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     if (key === 'title') {
       switch (value) {
         case 'shop':
-          return acc + t('orderCard.shopTitle', lng)
+          return acc + `${t('orderCard.shopTitle', lng)}\n`
         case 'delivery':
-          return acc + t('orderCard.deliveryTitle', lng)
+          return acc + `${t('orderCard.deliveryTitle', lng)}\n`
         default:
-          return acc + t('orderCard.userTitle', lng)
+          return acc + `${t('orderCard.userTitle', lng)}\n`
       }
     }
 
