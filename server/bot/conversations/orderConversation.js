@@ -49,9 +49,10 @@ async function orderConversation(conversation, ctx) {
     }
   } while (!(ctx.message?.contact || ctx.message?.text.match(masks.phone)));
 
+  console.log(ctx.session.newOrder);
 
   ctx.session.newOrder = {
-    ...ctx.session.newOrder,
+    ...ctx.session?.newOrder,
     phone: ctx.message.contact.phone_number,
     username: ctx.message.from.username ? ctx.message.from.username : undefined
   };
