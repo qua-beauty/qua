@@ -12,7 +12,7 @@
     "count": "шт"
   },
   "basket": {
-    "title": "ваш заказ",
+    "title": "корзина",
     "ingredientsTitle": "состав",
     "addButton": "Добавить в корзину",
     "viewButton": "корзина \uD83E\uDDFA",
