@@ -4,9 +4,9 @@ export const shopMapper = (shop) => {
     name: shop.fields['Name'],
     title: shop.fields['Title'],
     address: shop.fields['Address'],
-    about: {
-      ru: shop.fields['About'],
-      en: shop.fields['About']
+    delivery: {
+      ru: shop.fields['Delivery'],
+      en: shop.fields['Delivery En']
     },
     phone: shop.fields['Phone'],
     color: shop.fields['Color'],

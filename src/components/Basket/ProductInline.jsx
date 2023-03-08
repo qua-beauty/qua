@@ -5,6 +5,7 @@ import {borderRadius} from '../../globalSx.js';
 import BasketCounter from '../BasketCounter.jsx';
 import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch} from 'react-redux';
+import {getCategoryName} from '../../api/helpers.js';
 
 const ProductInline = (product) => {
   const dispatch = useDispatch();
@@ -35,11 +36,11 @@ const ProductInline = (product) => {
       </Flex>
       <Flex flex={'1'} direction={'column'} justifyContent={'space-between'} pl={'12px'}>
         <Box>
-          <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{category}</Text>
+          <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(category, lng)}</Text>
           <Heading fontSize={'sm'} fontWeight={'400'} color="primary">{name[lng]}</Heading>
         </Box>
         <Flex alignItems={'center'} justifyContent={'flex-end'}>
-          <BasketCounter size={'sm'} added={count} onAdd={handlePlus} onRemove={handleMinus} />
+          <BasketCounter size={'sm'} added={count} onAdd={handlePlus} onRemove={handleMinus} min={1} />
           <Text ml={'16px'} fontSize={'lg'} fontWeight={'700'}>{price} {t(`currency.LKR`, { ns: 'common' })}</Text>
         </Flex>
       </Flex>

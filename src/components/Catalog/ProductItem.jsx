@@ -63,7 +63,7 @@ const ProductItem = ({onSelect, ...product}) => {
         <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
           <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(
             category, lng)}</Text>
-          <Text textAlign={'right'} fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>1 шт</Text>
+          <Text textAlign={'right'} fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>1 {t('product.count')}</Text>
         </Flex>
 
         <Flex mt={'4px'} p={'0 16px'}>

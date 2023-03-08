@@ -85,7 +85,7 @@ const Basket = () => {
           padding: '8px 12px',
           border: '1px dashed'
         }} background={'background.paper'} borderColor={'telegram.200'} fontSize={'md'} color={'telegram.200'}>
-          {currentShop.about[lng]}
+          {currentShop.delivery[lng]}
         </Box>
       </Flex>
 

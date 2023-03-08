@@ -11,12 +11,13 @@ const wrapSx = {
   justifyContent: 'center'
 };
 
-const BasketCounter = ({added, label, size, width, onAdd, onRemove, sx}) => {
+const BasketCounter = ({added, label, size, width, min, onAdd, onRemove, sx}) => {
   const theme = useTheme();
 
   const iconSize = size === 'sm' ? '20px' : '28px';
   const buttonSize = size === 'sm' ? '28px' : '48px';
   const buttonP = size === 'sm' ? '4px' : '8px';
+  const labelSize = size === 'sm' ? 'lg' : 'xl';
 
   return (
     <Flex sx={{...wrapSx, ...sx}} width={label ? width : 'auto'}>
@@ -33,7 +34,7 @@ const BasketCounter = ({added, label, size, width, onAdd, onRemove, sx}) => {
 
       {added > 0 && (
         <>
-          <Text width={'40px'} textAlign={'center'} fontSize={'xl'} fontWeight={'600'}>
+          <Text width={'40px'} textAlign={'center'} fontSize={labelSize} fontWeight={'600'}>
             {added}
           </Text>
           <IconButton borderRadius={'16px'}
@@ -42,6 +43,7 @@ const BasketCounter = ({added, label, size, width, onAdd, onRemove, sx}) => {
                       pl={buttonP} pr={buttonP}
                       height={buttonSize}
                       color="primary.200"
+                      isDisabled={added === min}
                       onClick={onRemove} aria-label={'basket'}>
             <Icon as={IoIosRemoveCircle} color={'telegram.200'} fontSize={iconSize}/>
           </IconButton>

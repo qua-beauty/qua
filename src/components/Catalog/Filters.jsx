@@ -25,7 +25,7 @@ const Filters = ({shopId}) => {
           height={'56px'}
           overflowX={'auto'}
           alignItems={'stretch'}
-          m={'0 24px 24px'}
+          mb={'24px'}
           justifyContent={'stretch'}>
       <Flex flex={1} gap={1} justifyContent={'space-around'} p={'4px'}>
         {categories.map(cat => {

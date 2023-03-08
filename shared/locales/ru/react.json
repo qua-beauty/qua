@@ -5,7 +5,8 @@
       "active": "Работаем",
       "inactive": "Отдыхаем"
     },
-    "delivery": "доставка ≈  {{minutes}} минуты"
+    "delivery": "доставка ≈  {{minutes}} минуты",
+    "rest": "работаем с 10:00 до 20:00"
   },
   "product": {
     "count": "шт"

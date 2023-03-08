@@ -2,10 +2,11 @@
   "catalogTitle": "Choose restaurant",
   "info": {
     "status": {
-      "active": "working",
-      "inactive": "rest"
+      "active": "open",
+      "inactive": "closed"
     },
-    "delivery": "delivery ≈ {{minutes}} minutes"
+    "delivery": "delivery ≈ {{minutes}} minutes",
+    "rest": "tomorrow 10:00 - 20:00"
   },
   "product": {
     "count": "it"
