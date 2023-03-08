@@ -20,5 +20,11 @@ export const selectCategoriesByShopId = (shopId) => (
   })
 )
 
+export const selectCategoryName = (categoryId) => (
+  createSelector(categorySelector, (categories) => {
+    return categories.data ? categories.data.filter(c => c.id === categoryId) : null;
+  })
+)
+
 export const {setCategoriesData} = categorySlice.actions;
 export const categoryReducer = categorySlice.reducer;

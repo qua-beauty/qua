@@ -1,26 +1,10 @@
 import Shop from './Shop.jsx';
-import {Box, styled, Typography} from '@mui/material';
 import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-
-const Base = styled('div')`
-  padding: 8px;
-`;
-
-const Title = styled(Typography)`
-  margin-top: 8px;
-  margin-bottom: 16px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  text-align: center;
-`;
-
-const ShopList = styled(Box)`
-  
-`;
+import {Box, Flex, Heading} from '@chakra-ui/react';
 
 const Shops = () => {
   const dispatch = useDispatch();
@@ -38,14 +22,14 @@ const Shops = () => {
   }
 
   return shops ? (
-    <Base>
-      <Title variant="subtitle1">{t('catalogTitle')}</Title>
-      <ShopList>
+    <Box p={'8px'}>
+      <Heading variant="subtitle1">{t('catalogTitle')}</Heading>
+      <Flex>
         {shops.map(shop => (
           <Shop onSelect={handleSelect} key={shop.name} {...shop}/>
         ))}
-      </ShopList>
-    </Base>
+      </Flex>
+    </Box>
   ) : <></>;
 };
 

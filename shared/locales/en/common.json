@@ -9,7 +9,7 @@
     "cancelled": "Cancelled"
   },
   "currency": {
-    "LKR": "Rupee",
-    "RUB": "Rubles"
+    "LKR": "rup",
+    "RUB": "rub"
   }
 }

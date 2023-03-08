@@ -1,10 +1,13 @@
 {
-  "catalogTitle": "Выберите ресторан",
+  "catalogTitle": "выберите ресторан",
+  "product": {
+    "count": "шт"
+  },
   "basket": {
-    "title": "Ваш заказ",
-    "editButton": "Изменить",
+    "title": "ваш заказ",
+    "ingredientsTitle": "состав",
     "addButton": "Добавить в корзину",
-    "viewButton": "Корзина \uD83E\uDDFA",
+    "viewButton": "корзина \uD83E\uDDFA",
     "continueButton": "Продолжить ({{price}})"
   }
 }

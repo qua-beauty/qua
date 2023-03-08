@@ -4,7 +4,10 @@ export const shopMapper = (shop) => {
     name: shop.fields['Name'],
     title: shop.fields['Title'],
     address: shop.fields['Address'],
-    about: shop.fields['About'],
+    about: {
+      ru: shop.fields['About'],
+      en: shop.fields['About']
+    },
     phone: shop.fields['Phone'],
     color: shop.fields['Color'],
     endTime: shop.fields['End Time'],
@@ -31,6 +34,10 @@ export const productMapper = (product) => {
     about: {
       ru: product.fields['About'],
       en: product.fields['About En'],
+    },
+    ingredients: {
+      ru: product.fields['Ingredients'],
+      en: product.fields['Ingredients En'],
     },
     image: product.fields['Image'] ? product.fields['Image'][0].url : undefined,
     icon: product.fields['Icon'],

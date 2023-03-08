@@ -1,8 +1,8 @@
 {
   "catalogTitle": "Choose restaurant",
   "basket": {
-    "title": "Your order",
-    "editButton": "Edit",
+    "title": "your order",
+    "ingredientsTitle": "ingredients",
     "addButton": "Add to basket",
     "viewButton": "Basket \uD83E\uDDFA",
     "continueButton": "Continue ({{priceAndCurrency}})"

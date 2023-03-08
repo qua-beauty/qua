@@ -1,54 +1,16 @@
 import React, {useCallback, useEffect} from 'react';
-import {Button, styled, Typography} from '@mui/material';
-import ProductInline from './ProductInline.jsx';
-import {Link, useNavigate} from 'react-router-dom';
+import ProductInline from '../components/Basket/ProductInline.jsx';
+import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
+import {Box, Button, Text, Flex, Heading} from '@chakra-ui/react';
+import {borderRadius} from '../globalSx.js';
 
-const Base = styled('div')`
-  background: ${({theme}) => theme.palette.background.default};
-  padding: 16px 16px 16px;
-`;
-
-const Header = styled('header')`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Title = styled(Typography)`
-  display: inline-flex;
-  align-items: center;
-  border-radius: 16px;
-
-  height: 32px;
-
-  font-size: 0.825rem;
-  font-weight: 700;
-  text-transform: uppercase;
-`;
-
-const BackButton = styled(Button)`
-  height: 32px;
-  padding: 0 12px;
-  background: ${({theme}) => theme.palette.background.paper};
-
-  font-size: 0.825rem;
-  letter-spacing: 0;
-  font-weight: 500;
-`;
-
-const Products = styled('div')`
-  display: flex;
-  flex-direction: column;
-
-  margin-top: 16px;
-`;
-
-const BasketDetails = () => {
+const Basket = () => {
   const dispatch = useDispatch();
   const {basket, price, count, currency} = useSelector(state => state.basket);
   const currentShop = useSelector(state => state.shops.current);
@@ -114,22 +76,28 @@ const BasketDetails = () => {
     };
   }, []);
 
-  return (
-    <Base>
-      <Header>
-        <Title color="textPrimary" variant="caption">{t('basket.title')}</Title>
-        <BackButton component={Link} to={`/`} size="small">{t('basket.editButton')}</BackButton>
-      </Header>
+  return currentShop && (
+    <Box>
+      <Flex direction={'column'} alignItems={'center'}>
+        <Heading fontSize={'xl'} fontWeight={'400'}><Text as={'span'} mr={'8px'}>🧺</Text> {t('basket.title')}</Heading>
+        <Box mt={'16px'} sx={{
+          ...borderRadius(12),
+          padding: '8px 12px',
+          border: '1px dashed'
+        }} background={'background.paper'} borderColor={'telegram.200'} fontSize={'md'} color={'telegram.200'}>
+          {currentShop.about[lng]}
+        </Box>
+      </Flex>
 
-      <Products>
+      <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
-      </Products>
+      </Flex>
 
       {import.meta.env.DEV && (
         <Button onClick={handleMakeOrder}>{t('basket.continueButton', { priceAndCurrency: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` })}</Button>
       )}
-    </Base>
+    </Box>
   );
 };
 
-export default BasketDetails;
+export default Basket;
