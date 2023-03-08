@@ -23,6 +23,7 @@ const Filters = ({shopId}) => {
           backdropFilter={'blur(6px)'}
           sx={borderRadius(16, 12)}
           height={'56px'}
+          overflowX={'auto'}
           alignItems={'stretch'}
           m={'0 24px 24px'}
           justifyContent={'stretch'}>
