@@ -5,6 +5,7 @@ import {selectCategoriesByShopId} from '../../api/slices/categorySlice.js';
 import {useTranslation} from 'react-i18next';
 import {Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {rgba} from '../../utils.js';
+import {borderRadius} from '../../globalSx.js';
 
 const Filters = ({shopId}) => {
   const dispatch = useDispatch();
@@ -20,29 +21,22 @@ const Filters = ({shopId}) => {
   return categories.length > 1 && (
     <Flex background={rgba(theme.colors.background.default, 0.9)}
           backdropFilter={'blur(6px)'}
-          borderRadius={'16px'}
-          sx={{
-            '--smooth-corners': 12,
-            'mask-image': 'paint(smooth-corners)',
-          }}
+          sx={borderRadius(16, 12)}
           height={'56px'}
           alignItems={'stretch'}
-          m={'24px'}
+          m={'0 24px 24px'}
           justifyContent={'stretch'}>
       <Flex flex={1} gap={1} justifyContent={'space-around'} p={'4px'}>
         {categories.map(cat => {
           const isActive = filters && filters['category'] === cat.id;
 
           return (
-            <Flex as={'button'} direction={'column'} justifyContent={'center'} alignItems={'center'} onClick={handleFilter(cat.id)}
+            <Flex key={cat.id}
+                  as={'button'} direction={'column'} justifyContent={'center'} alignItems={'center'} onClick={handleFilter(cat.id)}
                   pl={'12px'}
                   pr={'12px'}
-                  sx={{
-                    '--smooth-corners': 8,
-                    maskImage: 'paint(smooth-corners)'
-                  }}
+                  sx={borderRadius(16)}
                   transition={'0.225s ease-out'}
-                  borderRadius={'16px'}
                   bg={isActive ? rgba(theme.colors.brand[200], 0.2) : 'default'}
                   textAlign={'center'}>
               <Text>{cat.icon}</Text>

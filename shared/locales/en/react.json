@@ -1,5 +1,15 @@
 {
   "catalogTitle": "Choose restaurant",
+  "info": {
+    "status": {
+      "active": "working",
+      "inactive": "rest"
+    },
+    "delivery": "delivery ≈ {{minutes}} minutes"
+  },
+  "product": {
+    "count": "it"
+  },
   "basket": {
     "title": "your order",
     "ingredientsTitle": "ingredients",

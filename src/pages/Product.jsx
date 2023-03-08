@@ -8,6 +8,7 @@ import {setCurrentShop} from '../api/slices/shopSlice.js';
 import BasketCounter from '../components/BasketCounter.jsx';
 import {Box, Flex, Heading, Text, VStack} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
+import {getCategoryName} from '../api/helpers.js';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const Product = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/shop/${currentShop.id}`);
+        navigate(`/`);
       });
     }
   }, [currentProduct]);
@@ -78,8 +79,8 @@ const Product = () => {
       <VStack spacing={'20px'} p={'0 10px'} alignItems={'stretch'}>
         <Box p={'0 10px'}>
           <Flex mt={'12px'} justifyContent={'space-between'}>
-            <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{currentProduct.category}</Text>
-            <Text fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>1 шт</Text>
+            <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(currentProduct.category, lng)}</Text>
+            <Text fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>1 {t('product.count')}</Text>
           </Flex>
 
           <Flex mt={'4px'}>
@@ -89,7 +90,7 @@ const Product = () => {
           </Flex>
         </Box>
 
-        <BasketCounter width={'100%'} label={'Добавить'} added={added} onAdd={handlePlus} onRemove={handleMinus}/>
+        <BasketCounter width={'100%'} label={t('basket.addButton')} added={added} onAdd={handlePlus} onRemove={handleMinus}/>
 
         {currentProduct.ingredients && <Box bg={'background.paper'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
           <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>

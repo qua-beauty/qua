@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {webApp} from './telegram.js';
 import useAuth from './hooks/useAuth.js';
-import {Link, Outlet, useNavigate, useParams} from 'react-router-dom';
+import {Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery} from './api/api.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentProduct, setProductsData} from './api/slices/productSlice.js';
@@ -79,11 +79,12 @@ function App() {
   }, [basket]);
 
   const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading;
-
+  const location = useLocation();
+  const isBasket = location.pathname.includes('/basket');
 
   return (
     <Container maxW={'560px'} p={'0 8px'} m={'0 auto'}>
-      <Header />
+      {!isBasket && <Header />}
       <Outlet isLoading={isLoading}/>
 
       {import.meta.env.DEV && (

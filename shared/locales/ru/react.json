@@ -1,5 +1,12 @@
 {
   "catalogTitle": "выберите ресторан",
+  "info": {
+    "status": {
+      "active": "Работаем",
+      "inactive": "Отдыхаем"
+    },
+    "delivery": "доставка ≈  {{minutes}} минуты"
+  },
   "product": {
     "count": "шт"
   },

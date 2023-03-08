@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {Box, Flex, Heading, Text} from '@chakra-ui/react';
 import BasketCounter from '../BasketCounter.jsx';
 import {borderRadius, textOverflow} from '../../globalSx.js';
+import {getCategoryName} from '../../api/helpers.js';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
@@ -60,7 +61,8 @@ const ProductItem = ({onSelect, ...product}) => {
           }} added={added} onAdd={handlePlus} onRemove={handleMinus} />
         </Box>
         <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
-          <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{category}</Text>
+          <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(
+            category, lng)}</Text>
           <Text textAlign={'right'} fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>1 шт</Text>
         </Flex>
 

@@ -7,7 +7,7 @@ import {userReducer} from './slices/userSlice.js';
 import {filterReducer} from './slices/filterSlice.js';
 import {basketReducer} from './slices/basketSlice.js';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     shops: shopReducer,
     products: productReducer,
@@ -19,3 +19,5 @@ export default configureStore({
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(AirtableApi.middleware)
 })
+
+export default store;

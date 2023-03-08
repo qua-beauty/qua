@@ -1,7 +1,7 @@
 export const borderRadius = (radius, smooth= 8) => ({
-  'border-radius': radius,
+  borderRadius: radius,
   '--smooth-corners': smooth,
-  'mask-image': 'paint(smooth-corners)',
+  maskImage: 'paint(smooth-corners)',
 });
 
 export const textOverflow = {

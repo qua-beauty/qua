@@ -77,7 +77,7 @@ const Basket = () => {
   }, []);
 
   return currentShop && (
-    <Box>
+    <Box pt={'24px'}>
       <Flex direction={'column'} alignItems={'center'}>
         <Heading fontSize={'xl'} fontWeight={'400'}><Text as={'span'} mr={'8px'}>🧺</Text> {t('basket.title')}</Heading>
         <Box mt={'16px'} sx={{
