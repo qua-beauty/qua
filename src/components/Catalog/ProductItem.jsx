@@ -66,7 +66,7 @@ const ProductItem = ({onSelect, ...product}) => {
             padding: '10px',
             borderRadius: 15
           }} added={added} onAdd={handlePlus} onRemove={handleMinus} />
-          <Heading p={'4px 16px 4px 16px'} background={'telegram.200'} borderRadius={'8px 20px 4px 20px'} fontSize={'md'} position={'absolute'} bottom={'0'} left={'0'}>{getShopName(shop)}</Heading>
+          <Heading p={'4px 16px 4px 16px'} background={'telegram.200'} borderRadius={'8px 20px 4px 20px'} fontSize={'lg'} fontWeight={400} position={'absolute'} bottom={'0'} left={'0'}>{getShopName(shop)}</Heading>
         </Box>
         <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
           <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(
