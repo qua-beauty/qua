@@ -19,7 +19,8 @@ function App() {
   const navigate = useNavigate();
   const {productId, shopId} = useParams();
   const {t, i18n} = useTranslation();
-  const {basket} = useSelector(state => state.basket);
+  const {basket, count, price, currency} = useSelector(state => state.basket);
+
 
   const user = useSelector(state => state.user.data);
   const {data: shops, isLoading: isShopsLoading} = useGetShopsQuery();
@@ -64,7 +65,7 @@ function App() {
     if (!webApp) return;
 
     if (basket.length > 0) {
-      webApp.MainButton.text = t('basket.viewButton');
+      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
       webApp.MainButton.color = theme.colors.telegram[200];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(() => {
@@ -82,6 +83,8 @@ function App() {
   const location = useLocation();
   const isBasket = location.pathname.includes('/basket');
 
+  console.log(basket);
+
   return (
     <Box>
       {!isBasket && <Header />}
@@ -90,7 +93,7 @@ function App() {
         <Outlet isLoading={isLoading}/>
 
         {import.meta.env.DEV && (
-          <Button as={Link} to={'/basket'}>{t('basket.viewButton')}</Button>
+          <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
         )}
       </Container>
     </Box>
