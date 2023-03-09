@@ -15,7 +15,7 @@ const config = {
 
 const colors = {
   telegram: {
-    300: rgba(webApp?.themeParams.button_color || '#B378FF', 0.72),
+    300: rgba(webApp?.themeParams.button_color || '#B378FF', 0.35),
     200: webApp?.themeParams.button_color || '#B378FF',
     100: rgba(webApp?.themeParams.button_color || '#B378FF', 0.12)
   },
