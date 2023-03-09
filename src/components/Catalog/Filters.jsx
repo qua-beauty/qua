@@ -24,15 +24,15 @@ const Filters = ({shopId}) => {
   return categories.length > 1 && (
     <Flex background={rgba(theme.colors.background.paper, 0.87)}
           backdropFilter={'blur(6px)'}
-          sx={borderRadius(16, 12)}
           height={'56px'}
-          position={'sticky'}
+          position={'fixed'}
+          left={0}
+          right={0}
           ref={stickyElementRef}
-          top={'62px'}
+          bottom={0}
           zIndex={'100'}
           overflowX={'auto'}
           alignItems={'stretch'}
-          mb={'24px'}
           justifyContent={'stretch'}>
       <Flex flex={1} gap={1} justifyContent={'space-around'} p={'4px'}>
         {categories.map(cat => {
