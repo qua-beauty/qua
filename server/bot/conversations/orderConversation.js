@@ -1,7 +1,8 @@
 import {masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
-import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
+import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
+import {getGoogleCoords, isGoogleMapsLink} from '../helpers.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -57,22 +58,18 @@ async function orderConversation(conversation, ctx) {
 
   do {
     const {message_id: addressTitleMessageId} =
-      await ctx.reply(t('messageAddAddress', ctx.session.language, {name: ctx.session.newOrder.user}), {
-        reply_markup: shareAddressKeyboard(ctx)
-      });
+      await ctx.reply(t('messageAddAddress', ctx.session.language, {name: ctx.session.newOrder.user}));
 
     ctx = await conversation.wait();
 
     addressTitleMessage = addressTitleMessageId;
     addressUserMessage = ctx.message.message_id;
 
-    console.log('location', ctx);
-
     if (ctx.message?.text === '/cancel') {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
-  } while (!ctx.message?.location);
+  } while (!ctx.message?.location && !isGoogleMapsLink(ctx.message.text))
 
   const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
     reply_markup: orderUserKeyboard(ctx, orderId)
@@ -86,9 +83,11 @@ async function orderConversation(conversation, ctx) {
 
   const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending', ctx.session.language));
 
+  const address = isGoogleMapsLink(ctx.message.text) ? await getGoogleCoords(ctx.message.text) : {...ctx.message.location};
+
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    address: `${ctx.message.location.latitude}, ${ctx.message.location.longitude}`,
+    address: Object.values(address).join(', '),
     status: 'pending',
     telegram: {
       userChat: chatId,

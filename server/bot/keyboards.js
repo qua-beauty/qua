@@ -22,7 +22,7 @@ const sharePhoneKeyboard = (ctx) => new Keyboard()
 
 const orderShopKeyboard = (ctx, orderId) => new InlineKeyboard()
   .text(t('keyboardDeclineOrder', ctx.session.language), `${actions.SHOP_DECLINE_ORDER} ${orderId}`)
-  .text(t('keyboardAcceptOrder', ctx.session.language), `${actions.SHOP_ACCEPT_ORDER} ${orderId}`);
+  .text(t('keyboardAcceptOrder', ctx.session.language), `${actions.SHOP_COOK_ORDER} ${orderId}`);
 
 const orderShopDeliveryKeyboard = (ctx, orderId) => new InlineKeyboard()
   .text(t('keyboardDeliveryOrder', ctx.session.language), `${actions.SHOP_DELIVERY_ORDER} ${orderId}`);

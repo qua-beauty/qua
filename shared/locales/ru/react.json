@@ -3,10 +3,10 @@
   "info": {
     "status": {
       "active": "Работаем",
-      "inactive": "Отдыхаем"
+      "inactive": "Мы закрыты"
     },
-    "delivery": "доставка ≈  {{minutes}} минуты",
-    "rest": "работаем с 10:00 до 20:00"
+    "delivery": "Доставка ≈ {{minutes}} минуты",
+    "rest": "Откроемся завтра в 10:00 утра"
   },
   "product": {
     "count": "шт"
