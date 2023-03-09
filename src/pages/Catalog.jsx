@@ -6,6 +6,7 @@ import {useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
+import {webApp} from '../telegram.js';
 
 function Catalog() {
   const dispatch = useDispatch();
@@ -25,6 +26,10 @@ function Catalog() {
       dispatch(setCurrentShop(shops[0]))
     }
   }, [shops])
+
+  if (webApp) {
+    webApp.BackButton.hide();
+  }
 
   return currentShop ? (
     <>
