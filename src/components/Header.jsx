@@ -19,7 +19,7 @@ const AppBar = () => {
   const isWorkingTime = isTimeBetween10AMand8PM(Date.now());
 
   return (
-    <Box zIndex={'100'} position={'sticky'} top={'0'} p={'5px'} mb={15}>
+    <Box zIndex={'100'} p={'16px'} mb={15}>
       <Flex backdropFilter={'blur(5px)'} borderRadius={'12px'} background={'telegram.300'} p={'4px 16px'}>
         <Flex flex={'1'} gap={'8px'} justifyContent={'space-between'} alignItems={'center'}>
           <Flex alignItems={'center'} gap={'8px'}>
