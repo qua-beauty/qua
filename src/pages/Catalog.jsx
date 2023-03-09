@@ -27,15 +27,14 @@ function Catalog() {
   }, [shops])
 
   return currentShop ? (
-    <Box>
+    <>
       <Filters shopId={currentShop.id}/>
-
       <Flex alignItems={'center'} gap={10} pb={'56px'} direction={'column'}>
         {catalog.map(product => {
           return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
         })}
       </Flex>
-    </Box>
+    </>
   ) : <></>;
 }
 

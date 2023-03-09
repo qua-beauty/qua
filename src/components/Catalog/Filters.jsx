@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {toggleFilter} from '../../api/slices/filterSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectCategoriesByShopId} from '../../api/slices/categorySlice.js';
@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {rgba} from '../../utils.js';
 import {borderRadius} from '../../globalSx.js';
+import {useStickyScroll} from '../../hooks/useStickyScroll.js';
 
 const Filters = ({shopId}) => {
   const dispatch = useDispatch();
@@ -13,16 +14,22 @@ const Filters = ({shopId}) => {
   const categories = useSelector(selectCategoriesByShopId(shopId));
   const {i18n: {language: lng}} = useTranslation();
   const theme = useTheme();
+  const stickyElementRef = useRef();
+  const isStickyScrolled = useStickyScroll(stickyElementRef);
 
   const handleFilter = (categoryId) => () => {
     dispatch(toggleFilter(['category', categoryId]));
   };
 
   return categories.length > 1 && (
-    <Flex background={rgba(theme.colors.background.default, 0.9)}
+    <Flex background={rgba(theme.colors.background.paper, 0.87)}
           backdropFilter={'blur(6px)'}
           sx={borderRadius(16, 12)}
           height={'56px'}
+          position={'sticky'}
+          ref={stickyElementRef}
+          top={'62px'}
+          zIndex={'100'}
           overflowX={'auto'}
           alignItems={'stretch'}
           mb={'24px'}

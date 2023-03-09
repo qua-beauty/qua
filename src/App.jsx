@@ -10,7 +10,7 @@ import {setCurrentShop, setShopsData} from './api/slices/shopSlice.js';
 import './i18n';
 import {useTranslation} from 'react-i18next';
 import Header from './components/Header.jsx';
-import {Button, Container, useTheme} from '@chakra-ui/react';
+import {Box, Button, Container, useTheme} from '@chakra-ui/react';
 
 function App() {
   useAuth();
@@ -83,14 +83,17 @@ function App() {
   const isBasket = location.pathname.includes('/basket');
 
   return (
-    <Container maxW={'560px'} p={'0 8px'} m={'0 auto'}>
+    <Box>
       {!isBasket && <Header />}
-      <Outlet isLoading={isLoading}/>
+      <Container maxW={'560px'} p={'0 8px'} m={'0 auto'}>
 
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>{t('basket.viewButton')}</Button>
-      )}
-    </Container>
+        <Outlet isLoading={isLoading}/>
+
+        {import.meta.env.DEV && (
+          <Button as={Link} to={'/basket'}>{t('basket.viewButton')}</Button>
+        )}
+      </Container>
+    </Box>
   );
 }
 

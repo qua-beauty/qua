@@ -1,40 +1,41 @@
 import React from 'react';
-import {Flex, Heading, HStack, Text, VStack} from '@chakra-ui/react';
+import {Box, Flex, Heading, HStack, Text, useTheme, VStack} from '@chakra-ui/react';
 import {CheckCircleIcon, Icon} from '@chakra-ui/icons';
 import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {IoPauseCircleSharp} from 'react-icons/io5';
+import {rgba} from '../utils.js';
 
 function isTimeBetween10AMand8PM(utc530Time) {
   const localTime = new Date(utc530Time);
   const hours = localTime.getHours();
-  return hours >= 0 && hours < 20;
+  return hours >= 10 && hours < 20;
 }
 
 const AppBar = () => {
   const {t, i18n: {language: lng}} = useTranslation();
+  const theme = useTheme();
 
   const isWorkingTime = isTimeBetween10AMand8PM(Date.now());
 
   return (
-    <Flex direction={'column'} justifyContent={'center'} p={'24px'}>
-      <VStack spacing={0.5} alignItems={'center'}>
-        <HStack>
-          <Text fontSize={'lg'}>😉</Text>
-          <Text fontSize={'lg'}>🥐</Text>
-          <Text fontSize={'lg'}>🌮</Text>
-          <Text fontSize={'lg'}>🥯</Text>
-        </HStack>
-        <Heading as={Link} to={'/'} fontWeight={'700'} fontSize={'md'}>swami.market</Heading>
-      </VStack>
-      <VStack mt={'16px'} spacing={0.5} alignItems={'center'}>
-        <Flex gap={'8px'}>
-          {isWorkingTime ? <CheckCircleIcon color={'telegram.200'} /> : <Icon color={'telegram.200'} as={IoPauseCircleSharp} />}
-          <Heading fontWeight={'400'} fontSize={'md'}>{t(isWorkingTime ? 'info.status.active' : 'info.status.inactive')}</Heading>
+    <Box zIndex={'100'} position={'sticky'} top={'0'} mb={'10px'}>
+      <Flex backdropFilter={'blur(5px)'} background={'telegram.300'} p={'4px 16px'}>
+        <Flex flex={'1'} gap={'8px'} justifyContent={'space-between'} alignItems={'center'}>
+          <Flex alignItems={'center'} gap={'8px'}>
+            {isWorkingTime ? <CheckCircleIcon color={'text.primary'} /> : <Icon color={'text.primary'} as={IoPauseCircleSharp} />}
+            <Heading fontWeight={'400'} fontSize={'md'}>{t(isWorkingTime ? 'info.status.active' : 'info.status.inactive')}</Heading>
+          </Flex>
+          <Text fontWeight={'500'} textAlign={'right'} fontSize={'sm'}>{isWorkingTime ? t('info.delivery', { minutes: 64 }) : t('info.rest')}</Text>
         </Flex>
-        <Text fontSize={'xs'}>{isWorkingTime ? t('info.delivery', { minutes: 64 }) : t('info.rest')}</Text>
-      </VStack>
-    </Flex>
+      </Flex>
+      <Flex background={rgba(theme.colors.background.paper, 0.87)} p={'8px 16px'} justifyContent={'space-between'} alignItems={'center'}>
+        <VStack spacing={0.5} alignItems={'center'}>
+          <Heading color={'text.primary'} as={Link} to={'/'} fontWeight={'700'} fontSize={'md'}>swami.market</Heading>
+        </VStack>
+      </Flex>
+
+    </Box>
   );
 };
 
