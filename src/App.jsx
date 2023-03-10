@@ -92,7 +92,7 @@ function App() {
         <Outlet isLoading={isLoading}/>
       </Container>
 
-      {!isBasket && <Footer />}
+      {/*{!isBasket && <Footer />}*/}
 
       {import.meta.env.DEV && (
         <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
