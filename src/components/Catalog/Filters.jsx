@@ -22,7 +22,7 @@ const Filters = ({shopId}) => {
   };
 
   return categories.length > 1 && (
-    <Flex background={rgba(theme.colors.background.paper, 0.87)}
+    <Flex background={rgba(theme.colors.background.default, 0.87)}
           backdropFilter={'blur(6px)'}
           height={'56px'}
           position={'fixed'}
