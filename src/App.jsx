@@ -84,8 +84,6 @@ function App() {
   const location = useLocation();
   const isBasket = location.pathname.includes('/basket');
 
-  console.log(basket);
-
   return (
     <Box>
       {!isBasket && <Header />}
