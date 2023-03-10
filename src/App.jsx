@@ -11,6 +11,7 @@ import './i18n';
 import {useTranslation} from 'react-i18next';
 import Header from './components/Header.jsx';
 import {Box, Button, Container, useTheme} from '@chakra-ui/react';
+import Footer from './components/Footer.jsx';
 
 function App() {
   useAuth();
@@ -88,14 +89,16 @@ function App() {
   return (
     <Box>
       {!isBasket && <Header />}
+
       <Container maxW={'560px'} p={'0 8px'} m={'0 auto'}>
-
         <Outlet isLoading={isLoading}/>
-
-        {import.meta.env.DEV && (
-          <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
-        )}
       </Container>
+
+      {!isBasket && <Footer />}
+
+      {import.meta.env.DEV && (
+        <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
+      )}
     </Box>
   );
 }
