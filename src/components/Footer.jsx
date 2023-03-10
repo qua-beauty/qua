@@ -12,8 +12,8 @@ const Footer = () => {
   console.log(theme);
 
   return (
-    <Flex justifyContent={'center'} pb={'56px'}>
-      <Flex maxW={'360px'} pb={'24px'} sx={borderRadius('24px')} direction={'column'} alignItems={'center'}>
+    <Flex justifyContent={'center'} pt={'24px'} pb={'56px'}>
+      <Flex maxW={'360px'} pb={'32px'} sx={borderRadius('24px')} direction={'column'} alignItems={'center'}>
         <HStack mb={'32px'} fontSize={'36px'} maxW={'100%'} overflow={'auto'}>
           <Text>🥯</Text>
           <Text>🍕</Text>
