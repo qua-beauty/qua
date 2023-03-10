@@ -4,6 +4,7 @@ import logoLightSvg from '../assets/logo-light.svg';
 import {Text, Flex, HStack, useTheme} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
 import {borderRadius} from '../globalSx.js';
+import {rgba} from '../utils';
 
 const Footer = () => {
   const {t, i18n: {language: lng}} = useTranslation();
@@ -13,7 +14,7 @@ const Footer = () => {
 
   return (
     <Flex justifyContent={'center'} pt={'24px'} pb={'56px'}>
-      <Flex maxW={'360px'} pb={'32px'} sx={borderRadius('24px')} direction={'column'} alignItems={'center'}>
+      <Flex maxW={'360px'} pb={'32px'} backdropFilter={'blur(8px)'} background={rgba(theme.colors.background.default, 0.72)} sx={borderRadius('24px')} direction={'column'} alignItems={'center'}>
         <HStack mb={'32px'} fontSize={'36px'} maxW={'100%'} overflow={'auto'}>
           <Text>🥯</Text>
           <Text>🍕</Text>
