@@ -50,7 +50,7 @@ const styles = {
   global: {
     'html, body': {
       height: '100vh',
-      backgroundColor: 'background.default',
+      backgroundColor: 'background.paper',
     },
   },
 };

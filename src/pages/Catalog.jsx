@@ -7,6 +7,7 @@ import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
+import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 
 function Catalog() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function Catalog() {
         })}
       </Flex>
     </>
-  ) : <></>;
+  ) : <CatalogSkeleton />;
 }
 
 export default Catalog;

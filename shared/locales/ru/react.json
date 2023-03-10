@@ -15,7 +15,7 @@
     "title": "корзина",
     "ingredientsTitle": "состав",
     "addButton": "Добавить в корзину",
-    "viewButton": "корзина \uD83E\uDDFA ({{price}})",
+    "viewButton": "корзина \uD83E\uDDFA",
     "continueButton": "Продолжить ({{price}})"
   }
 }
