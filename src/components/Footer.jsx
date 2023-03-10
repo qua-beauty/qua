@@ -13,7 +13,7 @@ const Footer = () => {
   console.log(theme);
 
   return (
-    <Flex justifyContent={'center'} pt={'24px'} pb={'56px'}>
+    <Flex justifyContent={'center'} pt={'24px'} mb={'24px'} pb={'56px'}>
       <Flex maxW={'360px'} pb={'32px'} backdropFilter={'blur(8px)'} background={rgba(theme.colors.background.default, 0.72)} sx={borderRadius('24px')} direction={'column'} alignItems={'center'}>
         <HStack mb={'32px'} fontSize={'36px'} maxW={'100%'} overflow={'auto'}>
           <Text>🥯</Text>
