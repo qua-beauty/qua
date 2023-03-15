@@ -34,12 +34,12 @@ function Catalog() {
 
   return currentShop ? (
     <>
-      <Filters shopId={currentShop.id}/>
-      <Flex alignItems={'center'} gap={10} pb={'32px'} direction={'column'}>
+      <Flex alignItems={'center'} gap={10} mb={'80px'} direction={'column'}>
         {catalog.map(product => {
           return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
         })}
       </Flex>
+      <Filters shopId={currentShop.id}/>
     </>
   ) : <CatalogSkeleton />;
 }

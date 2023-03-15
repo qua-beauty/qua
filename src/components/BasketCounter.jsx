@@ -6,7 +6,7 @@ import {IoIosAddCircle, IoIosRemoveCircle} from 'react-icons/io';
 
 const wrapSx = {
   alignItems: 'center',
-  gap: 0,
+  gap: '8px',
   flexDirection: 'row-reverse',
   justifyContent: 'center'
 };
@@ -20,34 +20,28 @@ const BasketCounter = ({added, label, size, width, min, onAdd, onRemove, sx}) =>
   const labelSize = size === 'sm' ? 'lg' : 'xl';
 
   return (
-    <Flex sx={{...wrapSx, ...sx}} width={label ? width : 'auto'}>
+    <Flex spacing={'20px'} sx={{...wrapSx, ...sx}} width={label ? width : 'auto'}>
       <Button width={added ? 'auto' : width}
               pl={buttonP} pr={buttonP}
               borderRadius={'16px'}
-              bg={rgba(theme.colors.telegram[200], 0.2)}
+              bg={theme.colors.background.paper}
               color="primary.200"
               height={buttonSize}
               onClick={onAdd} aria-label={'basket'}>
         <Icon as={IoIosAddCircle} color={'telegram.200'} fontSize={iconSize}/>
-        {(label && !added) && <Text pr={'8px'} ml={'12px'} fontSize={'lg'} color={'telegram.200'}>{label}</Text>}
       </Button>
 
       {added > 0 && (
-        <>
-          <Text width={'40px'} textAlign={'center'} fontSize={labelSize} fontWeight={'600'}>
-            {added}
-          </Text>
-          <IconButton borderRadius={'16px'}
-                      bg={rgba(theme.colors.telegram[200], 0.2)}
-                      backdropBlur={'8px'}
-                      pl={buttonP} pr={buttonP}
-                      height={buttonSize}
-                      color="primary.200"
-                      isDisabled={added === min}
-                      onClick={onRemove} aria-label={'basket'}>
-            <Icon as={IoIosRemoveCircle} color={'telegram.200'} fontSize={iconSize}/>
-          </IconButton>
-        </>
+        <IconButton borderRadius={'16px'}
+                    bg={theme.colors.background.paper}
+                    backdropBlur={'8px'}
+                    pl={buttonP} pr={buttonP}
+                    height={buttonSize}
+                    color="primary.200"
+                    isDisabled={added === min}
+                    onClick={onRemove} aria-label={'basket'}>
+          <Icon as={IoIosRemoveCircle} color={'telegram.200'} fontSize={iconSize}/>
+        </IconButton>
       )}
     </Flex>
   );

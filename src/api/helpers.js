@@ -15,6 +15,9 @@ export const getShopName = (shopId) => {
 }
 
 export const getProductCount = (productId) => {
+  if(!productId) {
+    return null;
+  }
   const basket = store.getState().basket.basket;
   if (productId && basket.length > 0) {
     const product = basket.find(p => p.id === productId)

@@ -71,8 +71,9 @@ const ProductItem = ({onSelect, ...product}) => {
         <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
           <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(
             category, lng)}</Text>
-          <Text textAlign={'right'} fontSize={'md'} fontWeight={'400'} whiteSpace={'nowrap'}>
-            1 {countInBasket > 0 ? `= ${price}` : t('product.count')}
+          <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
+            <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
+            {price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
           </Text>
         </Flex>
 
@@ -80,9 +81,6 @@ const ProductItem = ({onSelect, ...product}) => {
           <Heading sx={{
             textOverflow
           }} mr={'8px'} flex={'1'} fontSize={'lg'} fontWeight={'400'}>{name[lng]}</Heading>
-          <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
-            {price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
-          </Text>
         </Flex>
       </Flex>
   );
