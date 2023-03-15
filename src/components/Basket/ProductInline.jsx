@@ -23,7 +23,7 @@ const ProductInline = (product) => {
     setAdded(added - 1);
   };
 
-  const countInBasket = getProductCount(currentProduct?.id);
+  const countInBasket = getProductCount(product?.id);
 
 
   return (
