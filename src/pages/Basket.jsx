@@ -9,6 +9,7 @@ import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
 import {Box, Button, Text, Flex, Heading} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
+import ReactMarkdown from "react-markdown";
 
 const Basket = () => {
   const dispatch = useDispatch();
@@ -86,9 +87,15 @@ const Basket = () => {
         {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
       </Flex>
 
-      {currentShop?.delivery && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
+      {currentShop?.delivery && <Box mt={'16px'} bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
         <Text color={'text.secondary'}>{t('basket.deliveryTitle')}</Text>
-        <Text>{currentShop?.delivery[lng]}</Text>
+        <Text fontSize={'md'} sx={{
+          '& p > strong': {
+            display: 'block',
+            marginBottom: '2px',
+            marginTop: '12px'
+          }
+        }}><ReactMarkdown>{currentShop?.delivery[lng]}</ReactMarkdown></Text>
       </Box>}
 
       {import.meta.env.DEV && (
