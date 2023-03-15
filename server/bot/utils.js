@@ -27,7 +27,7 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     id: `#${order.id}\n`,
     title: type,
     products: JSON.parse(order.productsJson).reduce((acc, product) => {
-      return acc + `${product.icon} ${product.name} (${product.count} x ${product.price})\n`;
+      return acc + `${product.name} (${product.count} x ${product.price})\n`;
     }, '') + '\n',
     count: order.count,
     price: order.price,

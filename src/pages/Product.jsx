@@ -6,7 +6,7 @@ import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
 import {useTranslation} from 'react-i18next';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import BasketCounter from '../components/BasketCounter.jsx';
-import {Box, Flex, Heading, Text, VStack} from '@chakra-ui/react';
+import {Box, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import {getCategoryName, getProductCount} from '../api/helpers.js';
 
@@ -15,10 +15,11 @@ const Product = () => {
   const currentProduct = useSelector(state => state.products.current);
   const shops = useSelector(state => state.shops.data);
   const currentShop = useSelector(state => state.shops.current);
-  const {basket} = useSelector(state => state.basket);
   const {productId} = useParams();
   const navigate = useNavigate();
   const {t, i18n: {language: lng}} = useTranslation();
+  const {basket, count, price, currency} = useSelector(state => state.basket);
+  const theme = useTheme();
 
   const [added, setAdded] = useState(0);
 
@@ -62,6 +63,31 @@ const Product = () => {
   }, [shops]);
 
   const countInBasket = getProductCount(currentProduct?.id);
+
+  const navigateBasket = () => navigate('/basket');
+
+
+  useEffect(() => {
+    if (!webApp) return;
+
+    if (basket.length > 0) {
+      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
+      webApp.MainButton.color = theme.colors.telegram[200];
+      webApp.MainButton.textColor = theme.colors.text.primary;
+      webApp.MainButton.onClick(navigateBasket);
+      webApp.MainButton.show();
+      webApp.enableClosingConfirmation();
+    } else {
+      webApp.MainButton.hide();
+      webApp.disableClosingConfirmation();
+    }
+  }, [basket]);
+
+  useEffect(() => {
+    return () => {
+      webApp && webApp.MainButton.offClick(navigateBasket);
+    }
+  }, [])
 
   return (currentProduct && currentShop) ? (
     <Box pb={'80px'}>
