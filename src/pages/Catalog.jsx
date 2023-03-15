@@ -62,7 +62,7 @@ function Catalog() {
 
   return currentShop ? (
     <>
-      <Box pb={'56px'} position={'relative'}>
+      <Box pb={'72px'} position={'relative'}>
         <Flex alignItems={'center'} gap={10} direction={'column'}>
           {catalog.map(product => {
             return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;

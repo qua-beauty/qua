@@ -41,7 +41,10 @@ const ProductInline = (product) => {
         </Box>
         <Flex alignItems={'center'} justifyContent={'space-between'}>
           <BasketCounter size={'sm'} added={count} onAdd={handlePlus} onRemove={handleMinus} min={1} />
-          <Text ml={'16px'} fontSize={'lg'} fontWeight={'700'}>{price} {t(`currency.LKR`, { ns: 'common' })}</Text>
+          <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
+            <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
+            {currentProduct.price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
+          </Text>
         </Flex>
       </Flex>
     </Flex>

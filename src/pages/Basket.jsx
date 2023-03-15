@@ -59,7 +59,7 @@ const Basket = () => {
   }, [basket, currentShop])
 
   if (webApp) {
-    webApp.MainButton.text = t('basket.continueButton', { price: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` });
+    webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
     webApp.MainButton.color = '#66bb6a';
     webApp.MainButton.enable();
     webApp.MainButton.onClick(handleMakeOrder);
