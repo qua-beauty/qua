@@ -13,9 +13,10 @@
   },
   "basket": {
     "title": "basket",
+    "deliveryTitle": "Delivery",
     "ingredientsTitle": "ingredients",
     "addButton": "Add to basket",
     "viewButton": "Basket \uD83E\uDDFA",
-    "continueButton": "Continue ({{priceAndCurrency}})"
+    "continueButton": "Continue"
   }
 }

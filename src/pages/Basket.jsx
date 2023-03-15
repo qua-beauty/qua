@@ -58,7 +58,7 @@ const Basket = () => {
   }, [basket, currentShop])
 
   if (webApp) {
-    webApp.MainButton.text = t('basket.continueButton', { priceAndCurrency: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` });
+    webApp.MainButton.text = t('basket.continueButton', { price: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` });
     webApp.MainButton.color = '#66bb6a';
     webApp.MainButton.enable();
     webApp.MainButton.onClick(handleMakeOrder);
@@ -80,21 +80,19 @@ const Basket = () => {
     <Box pt={'24px'}>
       <Flex direction={'column'} alignItems={'center'}>
         <Heading fontSize={'xl'} fontWeight={'400'}><Text as={'span'} mr={'8px'}>🧺</Text> {t('basket.title')}</Heading>
-        <Box mt={'16px'} sx={{
-          ...borderRadius(12),
-          padding: '8px 12px',
-          border: '1px dashed'
-        }} background={'background.paper'} borderColor={'telegram.200'} fontSize={'md'} color={'telegram.200'}>
-          {currentShop.delivery[lng]}
-        </Box>
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
       </Flex>
 
+      {currentShop?.delivery && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
+        <Text color={'text.secondary'}>{t('basket.deliveryTitle')}</Text>
+        <Text>{currentShop?.delivery[lng]}</Text>
+      </Box>}
+
       {import.meta.env.DEV && (
-        <Button onClick={handleMakeOrder}>{t('basket.continueButton', { priceAndCurrency: `${price} ${t(`currency.${currency}`, { ns: 'common' })}` })}</Button>
+        <Button onClick={handleMakeOrder}>{t('basket.continueButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
       )}
     </Box>
   );

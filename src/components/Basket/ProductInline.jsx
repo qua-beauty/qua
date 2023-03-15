@@ -39,7 +39,7 @@ const ProductInline = (product) => {
           <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(category, lng)}</Text>
           <Heading fontSize={'sm'} fontWeight={'400'} color="primary">{name[lng]}</Heading>
         </Box>
-        <Flex alignItems={'center'} justifyContent={'flex-end'}>
+        <Flex alignItems={'center'} justifyContent={'space-between'}>
           <BasketCounter size={'sm'} added={count} onAdd={handlePlus} onRemove={handleMinus} min={1} />
           <Text ml={'16px'} fontSize={'lg'} fontWeight={'700'}>{price} {t(`currency.LKR`, { ns: 'common' })}</Text>
         </Flex>

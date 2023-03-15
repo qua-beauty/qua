@@ -33,14 +33,14 @@ function Catalog() {
   }
 
   return currentShop ? (
-    <>
-      <Flex alignItems={'center'} gap={10} mb={'80px'} direction={'column'}>
+    <Box pb={'56px'} position={'relative'}>
+      <Flex alignItems={'center'} gap={10} direction={'column'}>
         {catalog.map(product => {
           return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
         })}
       </Flex>
       <Filters shopId={currentShop.id}/>
-    </>
+    </Box>
   ) : <CatalogSkeleton />;
 }
 

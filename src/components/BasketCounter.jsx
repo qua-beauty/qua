@@ -15,8 +15,8 @@ const BasketCounter = ({added, label, size, width, min, onAdd, onRemove, sx}) =>
   const theme = useTheme();
 
   const iconSize = size === 'sm' ? '20px' : '28px';
-  const buttonSize = size === 'sm' ? '28px' : '48px';
-  const buttonP = size === 'sm' ? '4px' : '8px';
+  const buttonSize = size === 'sm' ? '24px' : '48px';
+  const buttonP = size === 'sm' ? '2px' : '8px';
   const labelSize = size === 'sm' ? 'lg' : 'xl';
 
   return (
