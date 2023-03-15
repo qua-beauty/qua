@@ -5,7 +5,7 @@ import {borderRadius} from '../../globalSx.js';
 import BasketCounter from '../BasketCounter.jsx';
 import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch} from 'react-redux';
-import {getCategoryName} from '../../api/helpers.js';
+import {getCategoryName, getProductCount} from '../../api/helpers.js';
 
 const ProductInline = (product) => {
   const dispatch = useDispatch();
@@ -23,11 +23,8 @@ const ProductInline = (product) => {
     setAdded(added - 1);
   };
 
-  useEffect(() => {
-    if(product) {
+  const countInBasket = getProductCount(currentProduct?.id);
 
-    }
-  }, [product])
 
   return (
     <Flex flex={'1'} sx={borderRadius(12, 20)} mt={'10px'} padding={'10px'} bg={'background.paper'}>
@@ -43,7 +40,7 @@ const ProductInline = (product) => {
           <BasketCounter size={'sm'} added={count} onAdd={handlePlus} onRemove={handleMinus} min={1} />
           <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
             <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
-            {currentProduct.price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
+            {price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
           </Text>
         </Flex>
       </Flex>

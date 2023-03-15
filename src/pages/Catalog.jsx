@@ -9,6 +9,7 @@ import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import {useTranslation} from "react-i18next";
+import {getProductCount} from "../api/helpers.js";
 
 function Catalog() {
   const dispatch = useDispatch();
