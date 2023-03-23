@@ -1,4 +1,4 @@
-import {masks, orderCardMessage} from '../utils.js';
+import {calculateDistance, masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services/airtable.js';
 import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
@@ -68,10 +68,13 @@ async function orderConversation(conversation, ctx) {
     longitude: '80.250995',
   }, ctx.message.location);
 
+  const deliveryPrice = calculateDistance(distance, ctx.session.newOrder.price);
+
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     address: Object.values(ctx.message.location).join(', '),
     distance,
+    deliveryPrice,
     status: 'pending',
   }
 

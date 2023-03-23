@@ -35,7 +35,6 @@ const Basket = () => {
         currency,
         user,
         shop: currentShop,
-        deliveryPrice: currentShop.deliveryPrice,
         date: new Date(),
         productsJson: JSON.stringify(basket.map(product => ({
           name: product.name[lng],
