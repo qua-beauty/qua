@@ -1,4 +1,4 @@
-import {getOrder, updateOrder} from '../services.js';
+import {getOrder, updateOrder} from '../services/airtable.js';
 import {orderCardMessage} from '../utils.js';
 
 const cancelOrder = async (ctx) => {

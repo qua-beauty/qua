@@ -1,4 +1,4 @@
-import {getOrder, updateOrder} from '../services.js';
+import {getOrder, updateOrder} from '../services/airtable.js';
 import {orderCardMessage} from '../utils.js';
 import {t} from '../i18n.js';
 

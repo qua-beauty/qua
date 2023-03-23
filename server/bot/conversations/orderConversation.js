@@ -1,7 +1,8 @@
 import {masks, orderCardMessage} from '../utils.js';
-import {getOrder, updateOrder} from '../services.js';
+import {getOrder, updateOrder} from '../services/airtable.js';
 import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
+import {getDistance} from '../services/googleMaps.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -12,10 +13,6 @@ async function orderConversation(conversation, ctx) {
   let phoneTitleMessage, addressTitleMessage, phoneUserMessage, addressUserMessage;
 
   console.log('context', ctx);
-
-  // if(masks.order.test(userMessageText)) {
-  //   return await ctx.conversation.reenter('newOrder');
-  // }
 
   const orderId = userMessageText.replace('order-', '');
   const order = await conversation.external(async () => await getOrder(orderId));
@@ -32,22 +29,18 @@ async function orderConversation(conversation, ctx) {
   const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
 
   do {
-    console.log(ctx.session);
     const {message_id: phoneTitleMessageId} = await ctx.reply(t('messageAddPhone', ctx.session.language),
       {reply_markup: sharePhoneKeyboard(ctx)});
     ctx = await conversation.wait();
-    console.log(ctx);
 
     phoneTitleMessage = phoneTitleMessageId;
     phoneUserMessage = ctx.message.message_id;
-
-    console.log('phone', ctx);
 
     if (ctx.message?.text === '/cancel') {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
-  } while (!(ctx.message?.contact || ctx.message?.text.match(masks.phone)));
+  } while (!(ctx.message?.contact || ctx.message?.text?.match(masks.phone)));
 
   ctx.session.newOrder = {
     ...ctx.session?.newOrder,
@@ -68,7 +61,19 @@ async function orderConversation(conversation, ctx) {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
-  } while (!ctx.message?.location)
+  } while (!ctx.message?.location);
+
+  const distance = await getDistance({
+    latitude: '6.009466',
+    longitude: '80.250995',
+  }, ctx.message.location);
+
+  ctx.session.newOrder = {
+    ...ctx.session.newOrder,
+    address: Object.values(ctx.message.location).join(', '),
+    distance,
+    status: 'pending',
+  }
 
   const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
     reply_markup: orderUserKeyboard(ctx, orderId)
@@ -84,8 +89,6 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    address: Object.values(ctx.message.location).join(', '),
-    status: 'pending',
     telegram: {
       userChat: chatId,
       userOrderMessage,

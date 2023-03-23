@@ -8,6 +8,9 @@
     "declined": "Declined by Restaurant",
     "cancelled": "Cancelled"
   },
+  "price": {
+    "free": "Free"
+  },
   "currency": {
     "LKR": "rup",
     "RUB": "rub"

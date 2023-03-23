@@ -17,11 +17,41 @@ const actions = {
   SHOP_DELIVERY_ORDER: 'SHOP_DELIVERY_ORDER',
   SHOP_DONE_ORDER: 'SHOP_DONE_ORDER',
   BACK_TO_HOME: 'BACK_TO_HOME',
-  CHANGE_LANGUAGE: "CHANGE_LANGUAGE"
+  CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
+}
+
+function calculateDistance(distance, price) {
+  if (!distance) {
+    return null;
+  }
+
+  distance = parseInt(distance);
+  price = parseInt(price);
+
+  if (distance <= 20) {
+    if (price >= 4000) {
+      return 0;
+    } else {
+      return 1000;
+    }
+  } else if (distance <= 30) {
+    if (price >= 8000) {
+      return 0;
+    } else {
+      return 2000;
+    }
+  } else {
+    if (price >= 10000) {
+      return 0;
+    } else {
+      return 2500;
+    }
+  }
 }
 
 export const orderCardMessage = (order, ctx, type = 'user') => {
   const lng = ctx.session.language;
+  const deliveryPrice = calculateDistance(order.distance, order.price);
 
   let data = {
     id: `#${order.id}\n`,
@@ -31,13 +61,21 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     }, '') + '\n',
     count: order.count,
     price: order.price,
-    deliveryPrice: order.deliveryPrice,
+    deliveryPrice,
     phone: order.phone,
     address: order.address,
     username: order.username,
     comment: order.comment,
-    status: t(`status.${order.status}`, lng, { ns: 'common' }),
+    status: t(`status.${order.status}`, lng, {ns: 'common'}),
   };
+
+  if (deliveryPrice !== null) {
+    data.deliveryPrice = deliveryPrice > 0
+      ? `${deliveryPrice} ${t('currency.LKR', lng, {ns: 'common'})}`
+      : t('price.free', lng, {ns: 'common'});
+  } else {
+    delete data.deliveryPrice;
+  }
 
   const dataKeys = Object.keys(data);
   const dataValues = Object.values(data);
@@ -52,11 +90,11 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     if (key === 'title') {
       switch (value) {
         case 'shop':
-          return acc + `${t('orderCard.shopTitle', lng)}\n`
+          return acc + `${t('orderCard.shopTitle', lng)}\n`;
         case 'delivery':
-          return acc + `${t('orderCard.deliveryTitle', lng)}\n`
+          return acc + `${t('orderCard.deliveryTitle', lng)}\n`;
         default:
-          return acc + `${t('orderCard.userTitle', lng)}\n`
+          return acc + `${t('orderCard.userTitle', lng)}\n`;
       }
     }
 
