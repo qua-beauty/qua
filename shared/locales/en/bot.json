@@ -13,7 +13,7 @@
   "messageStart": "Welcome to Swami Market! \nI will help you to make order of your favorite meal! \nYou can open the app by clicking Market",
   "messageStartShop": "Welcome to Swami Market! To open the shop please click to Market button",
   "messageAbout": "About us",
-  "messageAddAddress": "Thank you for sharing your phone, {{name}}. \nTo where delivery your order? \uD83D\uDCCD",
+  "messageAddAddress": "Send please your location using attachment menu. Click to \uD83D\uDCCE and choose Location.",
   "messageAddPhone": "Your order is created, to continue please share your phone",
   "messageOrderPending": "Waiting an answer from restaurant (usually up to 5 minutes)",
   "messageOrderDeclined": "The order is declined by restaurant",

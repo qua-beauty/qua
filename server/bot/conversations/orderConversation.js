@@ -2,7 +2,6 @@ import {masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services.js';
 import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
-import {getGoogleCoords, isGoogleMapsLink} from '../helpers.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -69,7 +68,7 @@ async function orderConversation(conversation, ctx) {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
-  } while (!ctx.message?.location && !isGoogleMapsLink(ctx.message.text))
+  } while (!ctx.message?.location)
 
   const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
     reply_markup: orderUserKeyboard(ctx, orderId)
@@ -83,11 +82,9 @@ async function orderConversation(conversation, ctx) {
 
   const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending', ctx.session.language));
 
-  const address = isGoogleMapsLink(ctx.message.text) ? await getGoogleCoords(ctx.message.text) : {...ctx.message.location};
-
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
-    address: Object.values(address).join(', '),
+    address: Object.values(ctx.message.location).join(', '),
     status: 'pending',
     telegram: {
       userChat: chatId,
