@@ -51,6 +51,7 @@ const styles = {
     'html, body': {
       height: '100vh',
       backgroundColor: 'background.paper',
+      color: 'text.primary'
     },
   },
 };
