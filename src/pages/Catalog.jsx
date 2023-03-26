@@ -47,6 +47,7 @@ function Catalog() {
       webApp.MainButton.color = theme.colors.telegram[200];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
+      webApp.MainButton.enable();
       webApp.MainButton.show();
       webApp.enableClosingConfirmation();
     } else {
