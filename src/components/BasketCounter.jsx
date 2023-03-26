@@ -11,7 +11,7 @@ const wrapSx = {
   justifyContent: 'center'
 };
 
-const BasketCounter = ({added, label, size, width, min, onAdd, onRemove, sx}) => {
+const BasketCounter = ({added, label, size, width, isBasket, onAdd, onDelete, sx}) => {
   const theme = useTheme();
 
   const iconSize = size === 'sm' ? '20px' : '28px';
@@ -31,15 +31,15 @@ const BasketCounter = ({added, label, size, width, min, onAdd, onRemove, sx}) =>
         <Icon as={IoIosAddCircle} color={'telegram.200'} fontSize={iconSize}/>
       </Button>
 
-      {added > 0 && (
+      {(added > 0 || isBasket) && (
         <IconButton borderRadius={'16px'}
                     bg={theme.colors.background.paper}
                     backdropBlur={'8px'}
                     pl={buttonP} pr={buttonP}
                     height={buttonSize}
+                    isDisabled={added === 0}
                     color="primary.200"
-                    isDisabled={added === min}
-                    onClick={onRemove} aria-label={'basket'}>
+                    onClick={onDelete} aria-label={'basket'}>
           <Icon as={IoIosRemoveCircle} color={'telegram.200'} fontSize={iconSize}/>
         </IconButton>
       )}

@@ -1,16 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const calculateBasketParams = (basket) => {
-  return basket.reduce(
-    (acc, product) => {
-      return [
-        acc[0] + parseInt(product.count),
-        acc[1] + parseInt(product.count) * parseInt(product.price)
-      ];
-    },
-    [0, 0]
-  );
-}
+  let totalCount = 0;
+  let totalPrice = 0;
+  basket.forEach(product => {
+    if (!product.isDeleted) {
+      totalCount += parseInt(product.count);
+      totalPrice += parseInt(product.count) * parseInt(product.price);
+    } else {
+      product.count = 0; // set count of deleted product to 0
+    }
+  });
+  return [totalCount, totalPrice];
+};
 
 const basketSlice = createSlice({
   name: 'basket',
@@ -29,15 +31,17 @@ const basketSlice = createSlice({
     },
     addProduct: (state, action) => {
       const newBasket = [...state.basket];
-      const isProductExist = newBasket.filter((x) => x.id === action.payload.id)[0];
+      const existingProductIndex = newBasket.findIndex((x) => x.id === action.payload.id);
 
-      if (isProductExist) {
-        ++isProductExist.count;
+      if (existingProductIndex > -1) {
+        newBasket[existingProductIndex].count++;
+        delete newBasket[existingProductIndex].isDeleted;
       } else {
-        newBasket.push({
-          ...action.payload,
-          count: 1,
-        });
+        const productToAdd = { ...action.payload, count: 1 };
+        if (productToAdd.isDeleted) {
+          delete productToAdd.isDeleted;
+        }
+        newBasket.push(productToAdd);
       }
 
       const params = calculateBasketParams(newBasket);
@@ -47,12 +51,14 @@ const basketSlice = createSlice({
       state.price = params[1];
     },
     deleteProduct: (state, action) => {
-      const newBasket = state.basket.filter((p) => {
+      const newBasket = state.basket.map((p) => {
         if (p.id === action.payload.id) {
-          if (p.count <= 1) return false;
-          --p.count;
+          if (p.count > 1) {
+            --p.count;
+          } else {
+            p.isDeleted = true;
+          }
         }
-
         return p;
       });
 

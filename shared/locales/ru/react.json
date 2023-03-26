@@ -17,6 +17,7 @@
     "ingredientsTitle": "состав",
     "addButton": "Добавить в корзину",
     "viewButton": "корзина \uD83E\uDDFA",
-    "continueButton": "Продолжить"
+    "continueButton": "Продолжить",
+    "continueDisabledButton": "Корзина пуста"
   }
 }

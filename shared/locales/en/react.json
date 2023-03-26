@@ -17,6 +17,7 @@
     "ingredientsTitle": "ingredients",
     "addButton": "Add to basket",
     "viewButton": "Basket \uD83E\uDDFA",
-    "continueButton": "Continue"
+    "continueButton": "Continue",
+    "continueDisabledButton": "Basket is empty"
   }
 }

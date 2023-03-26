@@ -7,18 +7,26 @@ import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
-import {Box, Button, Text, Flex, Heading} from '@chakra-ui/react';
+import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown from 'react-markdown';
+import {rgba} from '../utils.js';
 
 const Basket = () => {
   const dispatch = useDispatch();
-  const {basket, price, count, currency} = useSelector(state => state.basket);
+  const {price, count, currency, deletedProducts} = useSelector(state => state.basket);
+  const allBasket = useSelector(state => state.basket.basket);
+  const basket = useSelector(state => {
+    const {basket} = state.basket;
+    return basket.filter(product => !product.isDeleted);
+  });
+
   const currentShop = useSelector(state => state.shops.current);
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
   const {t, i18n: { language: lng }} = useTranslation();
+  const theme = useTheme();
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -57,26 +65,37 @@ const Basket = () => {
     }
   }, [basket, currentShop])
 
-
-
   useEffect(() => {
     if (webApp) {
-      webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
-      webApp.MainButton.color = '#66bb6a';
-      webApp.MainButton.enable();
+
+      if(basket.length === 0) {
+        webApp.MainButton.text = t('basket.continueDisabledButton');
+        webApp.MainButton.color = theme.colors.background.default;
+        webApp.MainButton.disable();
+      } else {
+        webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(
+          `currency.${currency}`, {ns: 'common'})})`}`;
+        webApp.MainButton.color = '#66bb6a';
+        webApp.MainButton.enable();
+      }
+
       webApp.MainButton.onClick(handleMakeOrder);
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
         navigate('/');
       });
     }
+  }, [basket]);
 
+  useEffect(() => {
     return () => {
       if (webApp) {
         webApp.MainButton.offClick(handleMakeOrder);
       }
     };
   }, []);
+
+  console.log(basket.length);
 
   return currentShop && (
     <Box pt={'24px'}>
@@ -85,7 +104,7 @@ const Basket = () => {
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
-        {basket && basket.map(product => <ProductInline key={product.id} {...product} />)}
+        {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
 
       {currentShop?.delivery && <Box mt={'16px'} bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
@@ -100,7 +119,7 @@ const Basket = () => {
       </Box>}
 
       {import.meta.env.DEV && (
-        <Button onClick={handleMakeOrder}>{t('basket.continueButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
+        <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>{t('basket.continueButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
       )}
     </Box>
   );

@@ -7,7 +7,6 @@ import {Box, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import BasketCounter from '../BasketCounter.jsx';
 import {borderRadius, textOverflow} from '../../globalSx.js';
 import {getCategoryName, getProductCount, getShopName} from '../../api/helpers.js';
-import {rgba} from '../../utils.js';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
@@ -15,14 +14,13 @@ const ProductItem = ({onSelect, ...product}) => {
   const {name, image, price, id, category, shop} = product;
   const {basket} = useSelector(state => state.basket);
   const {t, i18n: {language: lng}} = useTranslation();
-  const theme = useTheme();
 
-  const handlePlus = () => {
+  const handleAddProduct = () => {
     setAdded(added + 1);
     dispatch(addProduct(product));
   };
 
-  const handleMinus = () => {
+  const handleDeleteProduct = () => {
     dispatch(deleteProduct(product));
     setAdded(added - 1);
   };
@@ -65,7 +63,7 @@ const ProductItem = ({onSelect, ...product}) => {
             bottom: 0,
             padding: '10px',
             borderRadius: 15
-          }} added={added} onAdd={handlePlus} onRemove={handleMinus} />
+          }} added={added} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
           <Heading p={'4px 16px 4px 16px'} background={'telegram.200'} borderRadius={'8px 20px 4px 20px'} fontSize={'lg'} fontWeight={400} position={'absolute'} bottom={'0'} left={'0'}>{getShopName(shop)}</Heading>
         </Box>
         <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
