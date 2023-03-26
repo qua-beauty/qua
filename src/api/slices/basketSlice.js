@@ -24,6 +24,14 @@ const basketSlice = createSlice({
     currency: 'LKR',
   },
   reducers: {
+    clearDeletedBasket: (state) => {
+      const newBasket = state.basket.filter(p => !p.isDeleted);
+      const params = calculateBasketParams(newBasket);
+
+      state.basket = newBasket;
+      state.count = params[0];
+      state.price = params[1];
+    },
     clearBasket: (state) => {
       state.basket = [];
       state.count = 0;
@@ -71,6 +79,6 @@ const basketSlice = createSlice({
   },
 });
 
-export const {addProduct, deleteProduct, clearBasket} = basketSlice.actions;
+export const {addProduct, deleteProduct, clearBasket, clearDeletedBasket} = basketSlice.actions;
 
 export const basketReducer = basketSlice.reducer;

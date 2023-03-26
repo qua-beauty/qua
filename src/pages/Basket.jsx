@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import ProductInline from '../components/Basket/ProductInline.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearBasket} from '../api/slices/basketSlice.js';
+import {clearBasket, clearDeletedBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
@@ -14,7 +14,7 @@ import {rgba} from '../utils.js';
 
 const Basket = () => {
   const dispatch = useDispatch();
-  const {price, count, currency, deletedProducts} = useSelector(state => state.basket);
+  const {price, count, currency} = useSelector(state => state.basket);
   const allBasket = useSelector(state => state.basket.basket);
   const basket = useSelector(state => {
     const {basket} = state.basket;
@@ -84,6 +84,10 @@ const Basket = () => {
       webApp.BackButton.onClick(() => {
         navigate('/');
       });
+
+      return () => {
+        webApp.MainButton.offClick(handleMakeOrder);
+      };
     }
   }, [basket]);
 
@@ -92,6 +96,7 @@ const Basket = () => {
       if (webApp) {
         webApp.MainButton.offClick(handleMakeOrder);
       }
+      dispatch(clearDeletedBasket());
     };
   }, []);
 
