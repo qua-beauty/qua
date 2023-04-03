@@ -1,6 +1,6 @@
 # **Run bot on localhost**
 
-Create .env file and set environment variables:
+Create .env file in /server directory and set environment variables:
 ```sh
 TWA_URL=https://swamimarket.netlify.app/
 AIRTABLE_API_KEY=<>
