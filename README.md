@@ -77,3 +77,33 @@ and then add these rows to the end of file:
 export DENO_INSTALL="/Users/<username>/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 ```
+
+</br>
+
+# Run all services locally
+
+### **1.** Make sure you installed all dependencies from ./src/README.md and ./server/README.md
+</br>
+
+----------------------------------------------------------------
+
+Seems like telegram web apps can't be tested locally without ssl. So we decided to use --live option to make https url. Check the link for more information 
+https://github.com/rashdeva/swami.market/issues/3
+
+----------------------------------------------------------------
+</br>
+
+### **2** To make possible using web app with bot run the live version:
+```sh
+netlify dev --live
+```
+
+### **3.** Copy the url and set it as TWA_URL in ./server/.env. Every time the url is different.
+</br>
+
+### **4.** Run the bot in another terminal/process
+```sh
+yarn bot
+```
+
+Now when you open web app in the bot it will be local web app
