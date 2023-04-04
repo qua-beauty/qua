@@ -77,6 +77,7 @@ and then add these rows to the end of file:
 export DENO_INSTALL="/Users/<username>/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 ```
+
 </br>
 
 # Run all services locally
