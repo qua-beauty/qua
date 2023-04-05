@@ -26,7 +26,7 @@ const shopDeclineOrder = async (ctx) => {
   let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat,
     orderCardMessage(ctx.session.newOrder, ctx));
   let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat,
-    t('messageOrderDecline', ctx.session.language));
+    t('messageOrderDeclined', ctx.session.language));
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,

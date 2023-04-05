@@ -9,7 +9,8 @@
     "cancelled": "Cancelled"
   },
   "price": {
-    "free": "Free"
+    "free": "Free",
+    "unknown": "Unknown"
   },
   "currency": {
     "LKR": "rup",

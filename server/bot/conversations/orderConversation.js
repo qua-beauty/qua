@@ -1,8 +1,8 @@
 import {calculateDistance, masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services/airtable.js';
-import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
+import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
-import {getDistance} from '../services/googleMaps.js';
+import {getDistance} from '../services/maps.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -35,11 +35,6 @@ async function orderConversation(conversation, ctx) {
 
     phoneTitleMessage = phoneTitleMessageId;
     phoneUserMessage = ctx.message.message_id;
-
-    if (ctx.message?.text === '/cancel') {
-      await ctx.reply('Cancelled, leaving!');
-      return;
-    }
   } while (!(ctx.message?.contact || ctx.message?.text?.match(masks.phone)));
 
   ctx.session.newOrder = {
@@ -50,17 +45,14 @@ async function orderConversation(conversation, ctx) {
 
   do {
     const {message_id: addressTitleMessageId} =
-      await ctx.reply(t('messageAddAddress', ctx.session.language, {name: ctx.session.newOrder.user}));
+      await ctx.reply(t('messageAddAddress', ctx.session.language), {
+        reply_markup: shareAddressKeyboard(ctx)
+      });
 
     ctx = await conversation.wait();
 
     addressTitleMessage = addressTitleMessageId;
     addressUserMessage = ctx.message.message_id;
-
-    if (ctx.message?.text === '/cancel') {
-      await ctx.reply('Cancelled, leaving!');
-      return;
-    }
   } while (!ctx.message?.location);
 
   const distance = await getDistance({
@@ -78,7 +70,7 @@ async function orderConversation(conversation, ctx) {
     status: 'pending',
   }
 
-  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
+  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
     reply_markup: orderUserKeyboard(ctx, orderId)
   });
 

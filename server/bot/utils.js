@@ -22,7 +22,7 @@ const actions = {
 
 export const calculateDistance = (distance, price) => {
   if (!distance) {
-    return null;
+    return -1;
   }
 
   distance = parseInt(distance);
@@ -71,7 +71,7 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
   if (data.deliveryPrice !== null) {
     data.deliveryPrice = data.deliveryPrice > 0
       ? `${data.deliveryPrice} ${t('currency.LKR', lng, {ns: 'common'})}`
-      : t('price.free', lng, {ns: 'common'});
+      : data.deliveryPrice < 0 ? t('price.unknown', lng, {ns: 'common'}) : t('price.free', lng, {ns: 'common'});
   } else {
     delete data.deliveryPrice;
   }
