@@ -1,8 +1,8 @@
 import {calculateDistance, masks, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services/airtable.js';
-import {orderShopKeyboard, orderUserKeyboard, sharePhoneKeyboard} from '../keyboards.js';
+import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
-import {getDistance} from '../services/googleMaps.js';
+import {getDistance} from '../services/maps.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -45,7 +45,9 @@ async function orderConversation(conversation, ctx) {
 
   do {
     const {message_id: addressTitleMessageId} =
-      await ctx.reply(t('messageAddAddress', ctx.session.language, {name: ctx.session.newOrder.user}));
+      await ctx.reply(t('messageAddAddress', ctx.session.language), {
+        reply_markup: shareAddressKeyboard(ctx)
+      });
 
     ctx = await conversation.wait();
 
