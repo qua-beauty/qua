@@ -62,7 +62,7 @@ const updateOrder = async (orderId, data) => {
     fields: {
       'Phone': data.phone,
       'Address': data.address,
-      'Distance': data.distance,
+      'Distance': data.distance ? data.distance : 0,
       'Delivery Price': data.deliveryPrice,
       'Status': data.status.capitalize(),
       'Telegram': JSON.stringify(data.telegram),

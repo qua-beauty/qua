@@ -35,11 +35,6 @@ async function orderConversation(conversation, ctx) {
 
     phoneTitleMessage = phoneTitleMessageId;
     phoneUserMessage = ctx.message.message_id;
-
-    if (ctx.message?.text === '/cancel') {
-      await ctx.reply('Cancelled, leaving!');
-      return;
-    }
   } while (!(ctx.message?.contact || ctx.message?.text?.match(masks.phone)));
 
   ctx.session.newOrder = {
@@ -56,11 +51,6 @@ async function orderConversation(conversation, ctx) {
 
     addressTitleMessage = addressTitleMessageId;
     addressUserMessage = ctx.message.message_id;
-
-    if (ctx.message?.text === '/cancel') {
-      await ctx.reply('Cancelled, leaving!');
-      return;
-    }
   } while (!ctx.message?.location);
 
   const distance = await getDistance({
@@ -78,7 +68,7 @@ async function orderConversation(conversation, ctx) {
     status: 'pending',
   }
 
-  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
+  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
     reply_markup: orderUserKeyboard(ctx, orderId)
   });
 
