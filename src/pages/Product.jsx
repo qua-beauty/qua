@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
@@ -63,9 +63,7 @@ const Product = () => {
   }, [shops]);
 
   const countInBasket = getProductCount(currentProduct?.id);
-
-  const navigateBasket = () => navigate('/basket');
-
+  const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
 
   useEffect(() => {
     if (!webApp) return;
@@ -81,13 +79,11 @@ const Product = () => {
       webApp.MainButton.hide();
       webApp.disableClosingConfirmation();
     }
-  }, [basket]);
 
-  useEffect(() => {
     return () => {
       webApp && webApp.MainButton.offClick(navigateBasket);
     }
-  }, [])
+  }, [basket]);
 
   return (currentProduct && currentShop) ? (
     <>

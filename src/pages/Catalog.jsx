@@ -2,7 +2,7 @@ import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectProductsByShop, setCurrentProduct} from '../api/slices/productSlice.js';
 import {Box, Button, Flex, useTheme} from '@chakra-ui/react';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {Link, useNavigate} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
@@ -37,7 +37,7 @@ function Catalog() {
     webApp.BackButton.hide();
   }
 
-  const navigateBasket = () => navigate('/basket');
+  const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
 
   useEffect(() => {
     if (!webApp) return;
@@ -54,13 +54,11 @@ function Catalog() {
       webApp.MainButton.hide();
       webApp.disableClosingConfirmation();
     }
-  }, [basket]);
 
-  useEffect(() => {
     return () => {
       webApp && webApp.MainButton.offClick(navigateBasket);
     }
-  }, [])
+  }, [basket]);
 
   return currentShop ? (
     <>
