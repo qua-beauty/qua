@@ -93,14 +93,9 @@ const Basket = () => {
 
   useEffect(() => {
     return () => {
-      if (webApp) {
-        webApp.MainButton.offClick(handleMakeOrder);
-      }
       dispatch(clearDeletedBasket());
     };
   }, []);
-
-  console.log(basket.length);
 
   return currentShop && (
     <Box pt={'24px'}>
