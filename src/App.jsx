@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import {webApp} from './telegram.js';
 import useAuth from './hooks/useAuth.js';
-import {Link, Outlet, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Outlet, useLocation, useParams} from 'react-router-dom';
 import {useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery} from './api/api.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentProduct, setProductsData} from './api/slices/productSlice.js';
@@ -10,7 +9,7 @@ import {setCurrentShop, setShopsData} from './api/slices/shopSlice.js';
 import './i18n';
 import {useTranslation} from 'react-i18next';
 import Header from './components/Header.jsx';
-import {Box, Button, Container, useTheme} from '@chakra-ui/react';
+import {Box, Container} from '@chakra-ui/react';
 
 function App() {
   useAuth();
