@@ -10,6 +10,7 @@ import './i18n';
 import {useTranslation} from 'react-i18next';
 import Header from './components/Header.jsx';
 import {Box, Container} from '@chakra-ui/react';
+import {withProfiler} from '@sentry/react';
 
 function App() {
   useAuth();
@@ -73,4 +74,4 @@ function App() {
   );
 }
 
-export default App;
+export default withProfiler(App);
