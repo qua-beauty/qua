@@ -24,8 +24,8 @@ const colors = {
     500: isColorModeDark ? '#EBFF73' : '#6B2ABD'
   },
   text: {
-    primary: isColorModeDark ? '#fff' : 'rgba(0 0 0 / 0.87)',
-    secondary: isColorModeDark ? 'rgba(255, 255, 255, 0.72)' : 'rgba(0 0 0 / 0.54)',
+    primary: isColorModeDark ? '#fff' : 'rgba(0, 0, 0, 0.87)',
+    secondary: isColorModeDark ? 'rgba(255, 255, 255, 0.72)' : 'rgba(0, 0, 0, 0.54)',
   },
   background: {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',

@@ -89,7 +89,7 @@ const Basket = () => {
         webApp.MainButton.offClick(handleMakeOrder);
       };
     }
-  }, [basket]);
+  }, [basket, theme]);
 
   useEffect(() => {
     return () => {

@@ -9,7 +9,6 @@ import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import {useTranslation} from "react-i18next";
-import {getProductCount} from "../api/helpers.js";
 
 function Catalog() {
   const dispatch = useDispatch();
@@ -27,12 +26,6 @@ function Catalog() {
     navigate(`product/${product.id}`);
   }
 
-  useEffect(() => {
-    if(shops) {
-      dispatch(setCurrentShop(shops[0]))
-    }
-  }, [shops])
-
   if (webApp) {
     webApp.BackButton.hide();
   }
@@ -40,11 +33,11 @@ function Catalog() {
   const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
 
   useEffect(() => {
-    if (!webApp) return;
+    if (!(webApp && webApp.hasOwnProperty('MainButton'))) return;
 
     if (basket.length > 0) {
       webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
-      webApp.MainButton.color = theme.colors.telegram[200];
+      webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
       webApp.MainButton.enable();
@@ -58,7 +51,13 @@ function Catalog() {
     return () => {
       webApp && webApp.MainButton.offClick(navigateBasket);
     }
-  }, [basket]);
+  }, [basket, theme]);
+
+  useEffect(() => {
+    if(shops) {
+      dispatch(setCurrentShop(shops[0]))
+    }
+  }, [shops])
 
   return currentShop ? (
     <>

@@ -70,7 +70,7 @@ const Product = () => {
 
     if (basket.length > 0) {
       webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
-      webApp.MainButton.color = theme.colors.telegram[200];
+      webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
       webApp.MainButton.show();
@@ -83,7 +83,7 @@ const Product = () => {
     return () => {
       webApp && webApp.MainButton.offClick(navigateBasket);
     }
-  }, [basket]);
+  }, [basket, theme]);
 
   return (currentProduct && currentShop) ? (
     <>
