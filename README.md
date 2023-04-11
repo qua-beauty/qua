@@ -101,9 +101,14 @@ netlify dev --live
 ### **3.** Copy the url and set it as TWA_URL in ./server/.env. Every time the url is different.
 </br>
 
-### **4.** Run the bot in another terminal/process
+### **4.** Run the bot in another terminal/process:
 ```sh
 yarn bot
+```
+
+Run the dev server in another terminal/process:
+```sh
+vite
 ```
 
 Now when you open web app in the bot it will be local web app
