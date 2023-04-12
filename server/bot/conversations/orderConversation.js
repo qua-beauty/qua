@@ -1,4 +1,4 @@
-import {calculateDistance, masks, orderCardMessage} from '../utils.js';
+import {calculateDistance, orderCardMessage} from '../utils.js';
 import {getOrder, updateOrder} from '../services/airtable.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
@@ -10,7 +10,7 @@ async function orderConversation(conversation, ctx) {
     chat: {id: chatId}, text: userMessageText
   } = ctx.update.message;
 
-  let phoneTitleMessage, addressTitleMessage, phoneUserMessage, addressUserMessage;
+  let addressTitleMessage, addressUserMessage;
 
   console.log('context', ctx);
 
@@ -21,27 +21,13 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...order,
+    username: ctx.message.from.username ? ctx.message.from.username : undefined,
     telegram: {
       userChat: chatId.toString()
     }
   };
 
   const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
-
-  do {
-    const {message_id: phoneTitleMessageId} = await ctx.reply(t('messageAddPhone', ctx.session.language),
-      {reply_markup: sharePhoneKeyboard(ctx)});
-    ctx = await conversation.wait();
-
-    phoneTitleMessage = phoneTitleMessageId;
-    phoneUserMessage = ctx.message.message_id;
-  } while (!(ctx.message?.contact || ctx.message?.text?.match(masks.phone)));
-
-  ctx.session.newOrder = {
-    ...ctx.session?.newOrder,
-    phone: ctx.message.contact?.phone_number || ctx.message.text,
-    username: ctx.message.from.username ? ctx.message.from.username : undefined
-  };
 
   do {
     const {message_id: addressTitleMessageId} =
@@ -75,9 +61,7 @@ async function orderConversation(conversation, ctx) {
   });
 
   await ctx.api.deleteMessage(chatId, orderMessage);
-  await ctx.api.deleteMessage(chatId, phoneTitleMessage);
   await ctx.api.deleteMessage(chatId, addressTitleMessage);
-  await ctx.api.deleteMessage(chatId, phoneUserMessage);
   await ctx.api.deleteMessage(chatId, addressUserMessage);
 
   const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending', ctx.session.language));

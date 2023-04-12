@@ -51,7 +51,7 @@ export const calculateDistance = (distance, price) => {
 
 export const orderCardMessage = (order, ctx, type = 'user') => {
   const lng = ctx.session.language;
-
+  
   let data = {
     id: `#${order.id}\n`,
     title: type,
@@ -68,7 +68,7 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     status: t(`status.${order.status}`, lng, {ns: 'common'}),
   };
 
-  if (data.deliveryPrice !== null) {
+  if (typeof data.deliveryPrice !== 'undefined') {
     data.deliveryPrice = data.deliveryPrice > 0
       ? `${data.deliveryPrice} ${t('currency.LKR', lng, {ns: 'common'})}`
       : data.deliveryPrice < 0 ? t('price.unknown', lng, {ns: 'common'}) : t('price.free', lng, {ns: 'common'});
