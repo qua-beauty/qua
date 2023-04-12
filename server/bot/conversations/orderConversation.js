@@ -21,6 +21,7 @@ async function orderConversation(conversation, ctx) {
 
   ctx.session.newOrder = {
     ...order,
+    username: ctx.message.from.username ? ctx.message.from.username : undefined,
     telegram: {
       userChat: chatId.toString()
     }
