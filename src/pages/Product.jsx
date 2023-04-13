@@ -12,11 +12,11 @@ import {getCategoryName, getProductCount} from '../api/helpers.js';
 
 const Product = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {productId} = useParams();
   const currentProduct = useSelector(state => state.products.current);
   const shops = useSelector(state => state.shops.data);
   const currentShop = useSelector(state => state.shops.current);
-  const {productId} = useParams();
-  const navigate = useNavigate();
   const {t, i18n: {language: lng}} = useTranslation();
   const {basket, count, price, currency} = useSelector(state => state.basket);
   const theme = useTheme();

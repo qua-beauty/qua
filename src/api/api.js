@@ -51,7 +51,6 @@ export const AirtableApi = createApi({
         data: serializeUser(user)
       }),
       transformResponse(result, meta, arg) {
-        console.log(result);
         return result.length > 0 ? userMapper(result[0]) : null;
       }
     }),

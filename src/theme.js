@@ -38,12 +38,13 @@ const fontSizes = {
   sm: '0.8125rem',
   md: '0.875rem',
   lg: '1rem',
-  xl: '1.25rem'
+  xl: '1.0625rem',
+  '2x1': '1.25rem'
 };
 
 const fonts = {
-  heading: `'Unbounded', sans-serif`,
-  body: `'Montserrat', sans-serif`,
+  heading: `'Inter', Helvetica, sans-serif`,
+  body: `'Inter', Helvetica, sans-serif`,
 };
 
 const styles = {
