@@ -3,17 +3,20 @@ import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {Box, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
+import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import BasketCounter from '../BasketCounter.jsx';
-import {borderRadius, textOverflow} from '../../globalSx.js';
-import {getCategoryName, getProductCount, getShopName} from '../../api/helpers.js';
+import {borderRadius} from '../../globalSx.js';
+import {getProductCount} from '../../api/helpers.js';
+import {PlusCircle} from '@phosphor-icons/react';
+import {rgba} from '../../utils.js';
+import AddToBasket from '../AddToBasket.jsx';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
   const [added, setAdded] = useState(0);
   const {name, image, price, id, category, shop} = product;
   const {basket} = useSelector(state => state.basket);
-  const {t, i18n: {language: lng}} = useTranslation();
+  const {i18n: {language: lng}} = useTranslation();
 
   const handleAddProduct = () => {
     setAdded(added + 1);
@@ -42,44 +45,49 @@ const ProductItem = ({onSelect, ...product}) => {
       <Flex sx={{
         flexDirection: 'column',
         transition: '0.25s ease',
-        'width': 292,
-        transform: added ? 'scale(1.05)' : 'scale(1)'
+        margin: '4px',
+        width: 'calc(50% - 8px)',
+        borderRadius: '16px',
+        background: 'var(--chakra-colors-background-default)',
       }}>
         <Box sx={{
           transition: '0.25s ease',
-          'background': 'var(--chakra-colors-background-default)',
-          ...borderRadius(32),
-          width: '100%',
-          'height': added ? 240 : 220,
+          ...borderRadius(16),
+          paddingBottom: '100%',
           display: 'flex',
+          height: 0,
           alignItems: 'center',
           position: 'relative',
           overflow: 'hidden',
+          '&:before': {
+            content: '""',
+            display: 'block',
+            paddingTop: '100%'
+          }
         }}>
-          {image && <img onClick={() => onSelect(product)} src={image} width={'100%'} alt=""/>}
-          <BasketCounter sx={{
+          {image && <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
             position: 'absolute',
-            right: 0,
+            top: 0,
             bottom: 0,
-            padding: '10px',
-            borderRadius: 15
-          }} added={added} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
-          
+            width: '100%',
+            '& img': {
+              height: '100%',
+              width: 'auto',
+              maxWidth: 'fit-content'
+            }
+          }}>
+            <img onClick={() => onSelect(product)} src={image} height={'100%'} alt=""/>
+          </Box>}
         </Box>
-        <Flex mt={'12px'} p={'0 16px'} justifyContent={'space-between'}>
-          <Text flex={'1'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(
-            category, lng)}</Text>
-          <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
-            <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
-            {price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
-          </Text>
-        </Flex>
+        <Box p={'8px'}>
+          <Heading mb={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}
+                   height={'34px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
 
-        <Flex mt={'4px'} p={'0 16px'}>
-          <Heading sx={{
-            textOverflow
-          }} mr={'8px'} flex={'1'} fontSize={'lg'} fontWeight={'400'}>{name[lng]}</Heading>
-        </Flex>
+          <AddToBasket price={price} count={countInBasket} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
+        </Box>
+
       </Flex>
   );
 };

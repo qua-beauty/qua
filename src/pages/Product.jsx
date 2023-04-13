@@ -87,7 +87,7 @@ const Product = () => {
 
   return (currentProduct && currentShop) ? (
     <>
-      <Box pb={'80px'}>
+      <Box p={'8px 8px 80px'}>
         <Box sx={{
           'background': 'var(--chakra-colors-background-default)',
           ...borderRadius(32),

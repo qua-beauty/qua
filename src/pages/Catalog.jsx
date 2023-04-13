@@ -1,7 +1,7 @@
 import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectProductsByShop, setCurrentProduct} from '../api/slices/productSlice.js';
-import {Box, Button, Flex, useTheme} from '@chakra-ui/react';
+import {Box, Button, Container, Flex, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {Link, useNavigate} from 'react-router-dom';
@@ -23,7 +23,7 @@ function Catalog() {
 
   const handleSelect = (product) => {
     dispatch(setCurrentProduct(product));
-    navigate(`product/${product.id}`);
+    navigate(`/product/${product.id}`);
   }
 
   if (webApp) {
@@ -60,9 +60,9 @@ function Catalog() {
   }, [shops])
 
   return currentShop ? (
-    <>
+    <Container p={'12px 16px'}>
       <Box pb={'72px'} position={'relative'}>
-        <Flex alignItems={'center'} gap={10} direction={'column'}>
+        <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
           {catalog.map(product => {
             return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
           })}
@@ -72,7 +72,7 @@ function Catalog() {
       {import.meta.env.DEV && (
         <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
       )}
-    </>
+    </Container>
   ) : <CatalogSkeleton />;
 }
 
