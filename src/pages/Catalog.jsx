@@ -1,14 +1,16 @@
 import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectProductsByShop, setCurrentProduct} from '../api/slices/productSlice.js';
-import {Box, Button, Container, Flex, useTheme} from '@chakra-ui/react';
+import {Box, Button, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import {useTranslation} from "react-i18next";
+import {isWorkingTime} from '../helpers.js';
+import {Offline, Online} from '../components/Status.jsx';
 
 function Catalog() {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ function Catalog() {
   const navigate = useNavigate();
   const {basket, count, price, currency} = useSelector(state => state.basket);
   const theme = useTheme();
+  const {shopId} = useParams();
   const {t} = useTranslation();
 
   const handleSelect = (product) => {
@@ -55,13 +58,37 @@ function Catalog() {
 
   useEffect(() => {
     if(shops) {
-      dispatch(setCurrentShop(shops[0]))
+      const shop = shops.find(s => s.id === shopId);
+
+      if(shop) {
+        dispatch(setCurrentShop(shop))
+      } else {
+        navigate('/')
+      }
     }
   }, [shops])
 
   return currentShop ? (
-    <Container p={'12px 16px'}>
-      <Box pb={'72px'} position={'relative'}>
+    <Container p={'16px'}>
+      <Flex mt={'8px'} justifyContent={'space-between'}>
+        <Box>
+          <Heading fontSize={'2x1'}>{currentShop.name}</Heading>
+          <Flex mt={'4px'} alignItems={'baseline'} gap={'6px'}>
+            {isWorkingTime(currentShop.startTime, currentShop.endTime) ? <>
+              <Online /> Работаем
+            </> : <>
+              <Offline /> Отдыхаем
+            </>}
+            <Text fontWeight={'500'} fontSize={'md'}>{currentShop.workTime}</Text>
+          </Flex>
+        </Box>
+        <Box>
+          {currentShop.logo && <Box width={'56px'} height={'56px'} borderRadius={'50%'} overflow={'hidden'}>
+            <img src={currentShop.logo} width={'100%'} alt=""/>
+          </Box>}
+        </Box>
+      </Flex>
+      <Box mt={'16px'} pb={'72px'} position={'relative'}>
         <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
           {catalog.map(product => {
             return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;

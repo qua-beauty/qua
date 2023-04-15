@@ -9,6 +9,7 @@ import BasketCounter from '../components/BasketCounter.jsx';
 import {Box, Button, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import {getCategoryName, getProductCount} from '../api/helpers.js';
+import AddToBasket from '../components/AddToBasket.jsx';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -51,10 +52,10 @@ const Product = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/`);
+        navigate(`/shop/${currentShop}`);
       });
     }
-  }, [currentProduct]);
+  }, [currentShop]);
 
   useEffect(() => {
     if (shops) {
@@ -90,7 +91,7 @@ const Product = () => {
       <Box p={'8px 8px 80px'}>
         <Box sx={{
           'background': 'var(--chakra-colors-background-default)',
-          ...borderRadius(32),
+          ...borderRadius(16),
           'width': '100%',
           'height': 280,
           display: 'flex',
@@ -98,29 +99,21 @@ const Product = () => {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          {currentProduct.image && <img style={borderRadius(32)} src={currentProduct.image} width={'100%'} alt=""/>}
-          <BasketCounter sx={{
-            position: 'absolute',
-            bottom: '16px',
-            right: '16px',
-            left: 'auto'
-          }} label={t('basket.addButton')} added={added} onAdd={handleAddProduct} onDelete={handleDeleteProduct}/>
+          {currentProduct.image && <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/>}
         </Box>
 
-        <VStack spacing={'20px'} p={'0 10px'} alignItems={'stretch'}>
-          <Box p={'0 10px'}>
+        <VStack spacing={'20px'} p={'0 8px'} alignItems={'stretch'}>
+          <Box>
             <Flex mt={'12px'} justifyContent={'space-between'}>
               <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(currentProduct.category, lng)}</Text>
-              <Text textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
-                <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
-                {currentProduct.price * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
-              </Text>
             </Flex>
 
-            <Flex mt={'4px'}>
-              <Heading mr={'8px'} flex={'1'} fontSize={'lg'} fontWeight={'400'}>{currentProduct.name[lng]}</Heading>
+            <Flex>
+              <Heading mr={'8px'} flex={'1'} fontSize={'2x1'} fontWeight={'500'}>{currentProduct.name[lng]}</Heading>
             </Flex>
           </Box>
+
+          <AddToBasket price={currentProduct.price} count={countInBasket} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
 
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>
