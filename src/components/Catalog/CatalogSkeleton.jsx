@@ -1,15 +1,19 @@
 import React from 'react';
 import ProductSkeleton from './ProductSkeleton.jsx';
-import {Stack} from '@chakra-ui/react';
+import {Box, Flex, Skeleton, Stack} from '@chakra-ui/react';
 
 const CatalogSkeleton = () => {
   return (
-    <Stack padding={'0 12px 12px 12px'} gap={'2.5rem'}>
-      <ProductSkeleton />
-      <ProductSkeleton />
-      <ProductSkeleton />
-      <ProductSkeleton />
-    </Stack>
+    <Box p={'16px'}>
+      <Skeleton startColor='background.default' endColor='telegram.300' width={'100%'} borderRadius={'16px'} height='56px' />
+
+      <Flex flexWrap={'wrap'} m={'24px -4px 0'}>
+        <ProductSkeleton />
+        <ProductSkeleton />
+        <ProductSkeleton />
+        <ProductSkeleton />
+      </Flex>
+    </Box>
   );
 };
 
