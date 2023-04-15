@@ -98,16 +98,16 @@ const Basket = () => {
   }, []);
 
   return currentShop && (
-    <Box pt={'24px'}>
+    <Box p={'16px'}>
       <Flex direction={'column'} alignItems={'center'}>
-        <Heading fontSize={'2x1'} fontWeight={'400'}><Text as={'span'} mr={'8px'}>🧺</Text> {t('basket.title')}</Heading>
+        <Heading fontSize={'2x1'} fontWeight={'400'}>{t('basket.title')}</Heading>
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
 
-      {currentShop?.delivery && <Box mt={'16px'} bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
+      {currentShop?.delivery && <Box mt={'16px'} bg={'background.default'} p={'8px'} sx={{ ...borderRadius(12, 12) }}>
         <Text color={'text.secondary'}>{t('basket.deliveryTitle')}</Text>
         <Text fontSize={'md'} sx={{
           '& p > strong': {
