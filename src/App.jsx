@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import useAuth from './hooks/useAuth.js';
-import {Outlet, useLocation, useParams} from 'react-router-dom';
+import {Outlet, useParams} from 'react-router-dom';
 import {useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery} from './api/api.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentProduct, setProductsData} from './api/slices/productSlice.js';
@@ -8,7 +8,6 @@ import {setCategoriesData} from './api/slices/categorySlice.js';
 import {setCurrentShop, setShopsData} from './api/slices/shopSlice.js';
 import './i18n';
 import {useTranslation} from 'react-i18next';
-import Header from './components/Header.jsx';
 import {Box, Container} from '@chakra-ui/react';
 import {withProfiler} from '@sentry/react';
 
@@ -58,18 +57,10 @@ function App() {
   }, [products]);
 
   const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading;
-  const location = useLocation();
-  const isBasket = location.pathname.includes('/basket');
 
   return (
     <Box>
-      {!isBasket && <Header/>}
-
-      <Container maxW={'560px'} p={'0 8px'} m={'0 auto'}>
-        <Outlet isLoading={isLoading}/>
-      </Container>
-
-      {/*{!isBasket && <Footer />}*/}
+      <Outlet isLoading={isLoading}/>
     </Box>
   );
 }

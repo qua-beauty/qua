@@ -17,7 +17,7 @@ const BasketCounter = ({added, label, size, width, isBasket, onAdd, onDelete, sx
   const iconSize = size === 'sm' ? '20px' : '28px';
   const buttonSize = size === 'sm' ? '24px' : '48px';
   const buttonP = size === 'sm' ? '2px' : '8px';
-  const labelSize = size === 'sm' ? 'lg' : 'xl';
+  const labelSize = size === 'sm' ? 'lg' : '2x1';
 
   return (
     <Flex spacing={'20px'} sx={{...wrapSx, ...sx}} width={label ? width : 'auto'}>
