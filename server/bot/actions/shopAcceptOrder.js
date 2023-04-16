@@ -2,53 +2,41 @@ import {getOrder, updateOrder} from '../../services/airtable.js';
 import {orderCardMessage} from '../utils.js';
 import {t} from '../i18n.js';
 import {orderShopDeliveryKeyboard} from '../keyboards.js';
+import {bot} from '../bot.js';
 
-const shopAcceptOrder = async (ctx, status, isUser) => {
-  const {message: {message_id: messageId, chat}, data} = ctx.update.callback_query;
-
-  const orderId = data.split(' ')[1];
+const shopAcceptOrder = async (orderId) => {
   const order = await getOrder(orderId);
-  const {userChat, userOrderMessage, userTitleMessage, shopOrderMessage, shopAddressMessage} = order.telegram;
+  const language = 'ru';
+  const location = order.address.split(', ');
+  const {userChat, adminChat, userOrderMessage, userTitleMessage, shopOrderMessage, shopAddressMessage} = order.telegram;
 
-  ctx.session.newOrder = {
-    ...order,
-    status
-  };
-
-  if (!isUser) {
-    await ctx.api.deleteMessage(chat.id, messageId);
-    await ctx.api.deleteMessage(chat.id, shopAddressMessage);
+  try {
+    await bot.api.deleteMessage(adminChat, shopOrderMessage);
+    await bot.api.deleteMessage(adminChat, shopAddressMessage);
+    await bot.api.deleteMessage(userChat, userOrderMessage);
+    await bot.api.deleteMessage(userChat, userTitleMessage);
+  } catch (e) {
+    console.log(e);
   }
 
-  await ctx.api.deleteMessage(userChat, userOrderMessage);
-  await ctx.api.deleteMessage(userChat, userTitleMessage);
-
-
-  await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
-    reply_markup: orderShopDeliveryKeyboard(ctx, orderId)
+  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(adminChat, orderCardMessage(order, {session: { language }}), {
+    reply_markup: orderShopDeliveryKeyboard({session: { language }}, orderId)
   });
+  const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(adminChat, location[0], location[1]);
+  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order, {session: { language }}));
+  const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, t('messageOrderCooking', language));
 
-  const location = ctx.session.newOrder.address.split(', ');
-  let {message_id: newShopAddressMessage} = await ctx.replyWithLocation(location[0], location[1]);
-
-  if (!isUser) {
-    let {message_id: userOrderMessageNew} = await ctx.api.sendMessage(userChat,
-      orderCardMessage(ctx.session.newOrder, ctx));
-    let {message_id: userTitleMessageNew} = await ctx.api.sendMessage(userChat,
-      t('messageOrderCooking', ctx.session.language));
-
-    ctx.session.newOrder = {
-      ...ctx.session.newOrder,
-      telegram: {
-        ...order.telegram,
-        userOrderMessage: userOrderMessageNew,
-        userTitleMessage: userTitleMessageNew,
-        shopAddressMessage: newShopAddressMessage
-      }
-    };
-  }
-
-  await updateOrder(orderId, ctx.session.newOrder);
+  await updateOrder(orderId, {
+    ...order,
+    status: 'cook',
+    telegram: {
+      ...order.telegram,
+      userOrderMessage: userOrderMessageNew,
+      userTitleMessage: userTitleMessageNew,
+      shopOrderMessage: shopOrderMessageNew,
+      shopAddressMessage: shopAddressMessageNew
+    }
+  });
 };
 
 export default shopAcceptOrder;

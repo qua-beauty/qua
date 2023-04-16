@@ -13,8 +13,6 @@ async function orderConversation(conversation, ctx) {
 
   let addressTitleMessage, addressUserMessage;
 
-  console.log('context', ctx);
-
   const orderId = userMessageText.replace('order-', '');
   const order = await conversation.external(async () => await getOrder(orderId));
 
@@ -82,14 +80,14 @@ async function orderConversation(conversation, ctx) {
 
       ctx.session.newOrder = {
         ...ctx.session.newOrder,
-        posterId: posterOrder.id
+        posterId: posterOrder.id.toString()
       }
     } catch (e) {
       console.log(e);
     }
   }
 
-  if (ctx.session.newOrder.shop.adminGroup) {
+  if (order.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
       await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
         reply_markup: orderShopKeyboard(ctx, orderId)
@@ -102,6 +100,7 @@ async function orderConversation(conversation, ctx) {
       ...ctx.session.newOrder,
       telegram: {
         ...ctx.session.newOrder.telegram,
+        adminChat: order.shop.adminGroup,
         shopOrderMessage,
         shopAddressMessage
       }

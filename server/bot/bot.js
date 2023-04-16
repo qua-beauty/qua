@@ -16,7 +16,7 @@ import changeLanguage from './actions/changeLanguage.js';
 import about from './actions/about.js';
 import start from './actions/start.js';
 import {session} from './session.js';
-import shopCookOrder from './actions/shopCookOrder.js';
+import shopAcceptOrder from './actions/shopAcceptOrder.js';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
@@ -43,7 +43,10 @@ bot.callbackQuery(new RegExp(actions.ABOUT), about);
 bot.callbackQuery(new RegExp(actions.CHANGE_LANGUAGE), changeLanguage);
 bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), (ctx) => cancelOrder(ctx));
 bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
-bot.callbackQuery(new RegExp(actions.SHOP_COOK_ORDER), shopCookOrder);
+bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), async (ctx) => {
+  const orderId = ctx.update.callback_query.data.split(' ')[1];
+  await shopAcceptOrder(orderId);
+});
 bot.callbackQuery(new RegExp(actions.SHOP_DELIVERY_ORDER), shopDeliveryOrder);
 bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);

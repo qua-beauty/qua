@@ -1,6 +1,6 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
 import {orderMapper, posterMapper, shopMapper, userMapper} from '../../shared/mappers.js';
-import {serializeUser} from '../../shared/serializers.js';
+import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 const airtableOrdersBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
@@ -84,16 +84,11 @@ export const getOrder = async (orderId) => {
 };
 
 export const updateOrder = async (orderId, data) => {
+  const orderData = serializeOrder([data], ['User', 'Phone', 'Products']);
+  const order = orderData[0];
+
   return await airtableOrdersBase.update([{
     id: orderId,
-    fields: {
-      'Phone': data.phone,
-      'Address': data.address,
-      'Distance': data.distance ? data.distance : 0,
-      'Delivery Price': data.deliveryPrice,
-      'Status': data.status.capitalize(),
-      'Telegram': JSON.stringify(data.telegram),
-      'Username': data.username
-    }
+    fields: order.fields
   }]);
 };

@@ -3,8 +3,6 @@ import {serializePosterOrder} from '../../shared/serializers.js';
 import {posterOrderMapper} from '../../shared/mappers.js';
 
 export const createIncomingOrder = async (data) => {
-  console.log(data);
-
   try {
     const posterPos = await getPosterPos(data.shop.posterPos.account);
 

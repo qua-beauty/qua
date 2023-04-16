@@ -30,13 +30,17 @@ export const posterCallback = async (
     throw new Error('Checksum is not valid');
   }
 
-  const action = callbackAction(postData.object, postData.action);
-
-  if(action) {
-    await action(postData);
-  }
-
   console.log(postData);
+
+  try {
+    const action = callbackAction(postData.object, postData.action);
+
+    if(action) {
+      await action(postData);
+    }
+  } catch (e) {
+    console.log(e);
+  }
 
   return {
     status: 200,

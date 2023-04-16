@@ -44,13 +44,13 @@ const Basket = () => {
         user,
         shop: currentShop,
         date: new Date(),
-        productsJson: JSON.stringify(basket.map(product => ({
+        productsJson: basket.map(product => ({
           name: product.name[lng],
           count: product.count,
           icon: product.icon,
           price: product.price,
           posterId: product.posterId
-        }))),
+        })),
         status: 'pending',
       }]).unwrap().then(async (order) => {
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});

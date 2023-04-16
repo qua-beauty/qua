@@ -13,7 +13,7 @@ const actions = {
   OPEN_SHOP: 'OPEN_SHOP',
   CANCEL_ORDER: 'CANCEL_ORDER',
   SHOP_DECLINE_ORDER: 'SHOP_DECLINE_ORDER',
-  SHOP_COOK_ORDER: 'SHOP_COOK_ORDER',
+  SHOP_ACCEPT_ORDER: 'SHOP_ACCEPT_ORDER',
   SHOP_DELIVERY_ORDER: 'SHOP_DELIVERY_ORDER',
   SHOP_DONE_ORDER: 'SHOP_DONE_ORDER',
   BACK_TO_HOME: 'BACK_TO_HOME',
@@ -41,7 +41,7 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
   let data = {
     id: `#${order.id}\n`,
     title: type,
-    products: JSON.parse(order.productsJson).reduce((acc, product) => {
+    products: order.productsJson.reduce((acc, product) => {
       return acc + `${product.name} (${product.count} x ${product.price})\n`;
     }, '') + '\n',
     count: order.count,
