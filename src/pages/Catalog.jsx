@@ -58,12 +58,16 @@ function Catalog() {
 
   useEffect(() => {
     if(shops) {
-      const shop = shops.find(s => s.id === shopId);
+      if(shopId) {
+        const shop = shops.find(s => s.id === shopId);
 
-      if(shop) {
-        dispatch(setCurrentShop(shop))
+        if(shop) {
+          dispatch(setCurrentShop(shop))
+        } else {
+          navigate('/')
+        }
       } else {
-        navigate('/')
+        dispatch(setCurrentShop(shops[0]))
       }
     }
   }, [shops])
