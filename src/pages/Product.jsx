@@ -52,7 +52,7 @@ const Product = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/shop/${currentShop}`);
+        navigate(`/`);
       });
     }
   }, [currentShop]);
