@@ -1,4 +1,4 @@
-import {Hash, Md5Hash} from '../md5.ts';
+import {Md5Hash} from './md5.ts';
 
 export const checkSum = (postData: Record<string, string | undefined>): boolean => {
   const client_secret = Deno.env.get('POSTER_APPLICATION_SECRET');

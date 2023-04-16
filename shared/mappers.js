@@ -2,24 +2,26 @@ export const shopMapper = (shop) => {
   return {
     id: shop.id,
     name: shop.fields['Name'],
-    title: shop.fields['Title'],
     address: shop.fields['Address'],
     delivery: {
       ru: shop.fields['Delivery'],
       en: shop.fields['Delivery En']
     },
     phone: shop.fields['Phone'],
-    color: shop.fields['Color'],
+    textColor: shop.fields['Text Color'],
+    backgroundColor: shop.fields['Background Color'],
     endTime: shop.fields['End Time'],
     startTime: shop.fields['Start Time'],
     workTime: `${shop.fields['Start Time']} - ${shop.fields['End Time']}`,
     logo: shop.fields['Logotype'] ? shop.fields['Logotype'][0].url : undefined,
     thumbnail: shop.fields['Thumbnail'] ? shop.fields['Thumbnail'][0].url : undefined,
-    background: shop.fields['Background'] ? shop.fields['Background'][0].url : undefined,
     categories: shop.fields['Categories'],
     adminGroup: shop.fields['Admin Group'],
-    deliveryPrice: shop.fields['Delivery Price'],
     instagram: shop.fields['Instagram'],
+    posterPos: {
+      id: shop.fields['PosterPos'] ? shop.fields['PosterPos'][0] : undefined,
+      account: shop.fields['PosterPos Account'] ? shop.fields['PosterPos Account'][0] : undefined
+    }
   };
 };
 
@@ -117,4 +119,32 @@ export const telegramUserMapper = (user) => {
     language: user.language_code,
     username: user.username
   }
+}
+
+const getStatusName = (statusCode) => {
+  switch(statusCode) {
+    case 0:
+      return 'pending';
+    case 1:
+      return 'cook';
+    case 7:
+      return 'declined';
+    default:
+      return '';
+  }
+};
+
+export const posterOrderMapper = (posterOrder) => {
+  const priceAppendix = 100;
+
+  return {
+    id: posterOrder.incoming_order_id,
+    status: getStatusName(posterOrder.status),
+    deliveryPrice: posterOrder.delivery_price/priceAppendix,
+    products: posterOrder.products.map(p => ({
+      posterId: p.product_id,
+      count: parseInt(p.count),
+      price: p.price / priceAppendix
+    }))
+  };
 }

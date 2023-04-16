@@ -11,7 +11,8 @@ export const serializeOrder = (orderData) => {
       'Delivery Price': order.deliveryPrice,
       'Status': order.status.capitalize(),
       'Products JSON': order.productsJson,
-      'Distance': order.distance
+      'Distance': order.distance,
+      'Poster ID': order.posterId,
     }
   }));
 }

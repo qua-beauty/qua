@@ -14,10 +14,10 @@ const airtableUsersBase = new Airtable({
   tableName: 'Users'
 });
 
-const airtablePosterBase = new Airtable({
+const airtablePosterPosBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
   baseId: Deno.env.get('AIRTABLE_BASE'),
-  tableName: 'Poster'
+  tableName: 'PosterPos'
 });
 
 export const getUser = async (userId) => {
@@ -34,19 +34,24 @@ export const getUser = async (userId) => {
   }
 };
 
-export const getPoster = async (shopId) => {
-  if (!shopId) {
+export const getPosterPos = async (posterAccount) => {
+  if (!posterAccount) {
     return null;
   }
 
   try {
-    const posterData = await airtablePosterBase.select()
-      .then(data => data.records)
-      .then(data => data.map(p => posterMapper(p)));
+    const posterData = await airtablePosterPosBase.select({
+      maxRecords: 1,
+      filterByFormula: `{Account} = "${posterAccount}"`
+    }).then(data => posterMapper(data.records[0]));
 
-    return posterData?.find(p => p.shop.includes(shopId));
-  } catch (e) {
-    console.log(e);
+    if (!posterData) {
+      throw new Error(`Poster data not found for poster account: ${posterAccount}`);
+    }
+
+    return posterData;
+  } catch (error) {
+    console.error(`Error while retrieving poster data for account ${posterAccount}: ${error}`);
     return null;
   }
 };

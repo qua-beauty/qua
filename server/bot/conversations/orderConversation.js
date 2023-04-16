@@ -3,7 +3,7 @@ import {getOrder, updateOrder} from '../../services/airtable.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
 import {getDistance} from '../../services/maps.js';
-import {createIncomingOrder} from '../../services/poster.js';
+import {createIncomingOrder} from '../../services/posterPos.ts';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -76,39 +76,42 @@ async function orderConversation(conversation, ctx) {
     },
   }
 
-  try {
-    await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
-  } catch (e) {
-    console.log(e);
+  if(ctx.session.newOrder.shop.posterPos.id) {
+    try {
+      const posterOrder = await conversation.external(async () => await createIncomingOrder(ctx.session.newOrder));
+
+      ctx.session.newOrder = {
+        ...ctx.session.newOrder,
+        posterId: posterOrder.id
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  try {
-    await conversation.external(async () => await createIncomingOrder(ctx.session.newOrder));
-  } catch (e) {
-    console.log(e);
-  }
-
-  if (order.shop.adminGroup) {
+  if (ctx.session.newOrder.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
       await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
-      reply_markup: orderShopKeyboard(ctx, orderId)
-    })
+        reply_markup: orderShopKeyboard(ctx, orderId)
+      })
 
     const location = ctx.session.newOrder.address.split(', ');
     const {message_id: shopAddressMessage} = await ctx.api.sendLocation(order.shop.adminGroup, location[0], location[1]);
 
-    try {
-      await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, {
-        ...ctx.session.newOrder,
-        telegram: {
-          ...ctx.session.newOrder.telegram,
-          shopOrderMessage,
-          shopAddressMessage
-        }
-      }));
-    } catch (e) {
-      console.log(e);
+    ctx.session.newOrder = {
+      ...ctx.session.newOrder,
+      telegram: {
+        ...ctx.session.newOrder.telegram,
+        shopOrderMessage,
+        shopAddressMessage
+      }
     }
+  }
+
+  try {
+    await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
+  } catch (e) {
+    console.log(e);
   }
 
 }

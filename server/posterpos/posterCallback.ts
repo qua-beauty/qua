@@ -1,10 +1,15 @@
 import { Response } from "https://deno.land/x/oak@v12.1.0/mod.ts";
 import {checkSum} from "./checkSum.ts";
 import {addShop} from "./addShop.ts";
+import {updateOrder} from "./order.ts";
 
 const callbackActions = {
   'application': {
     'added': addShop
+  },
+  'incoming_order': {
+    'changed': (data) => updateOrder(data, 'changed'),
+    'closed': (data) => updateOrder(data, 'closed'),
   }
 }
 
@@ -28,11 +33,10 @@ export const posterCallback = async (
   const action = callbackAction(postData.object, postData.action);
 
   if(action) {
-    await action();
+    await action(postData);
   }
 
-  console.log('validated', postData);
-  console.log(postData?.data);
+  console.log(postData);
 
   return {
     status: 200,
