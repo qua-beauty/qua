@@ -28,3 +28,20 @@ export const serializeUser = (userData) => {
     }
   }));
 }
+
+export const serializePosterOrder = (orderData) => {
+  const priceAppendix = 100;
+
+  return orderData.map(order => ({
+    spot_id: 1,
+    type: 1,
+    products: JSON.parse(order.productsJson).map(p => ({
+      product_id: p.posterId,
+      price: p.price*priceAppendix,
+      count: p.count
+    })),
+    phone: '+79956324351',
+    service_mode: 3,
+    delivery_price: order.deliveryPrice*priceAppendix
+  }))[0];
+};

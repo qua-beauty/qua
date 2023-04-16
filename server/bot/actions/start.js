@@ -1,5 +1,5 @@
 import {telegramUserMapper} from '../../../shared/mappers.js';
-import {getUser, saveUser} from '../services/airtable.js';
+import {getUser, saveUser} from '../../services/airtable.js';
 import {masks} from '../utils.js';
 import {t} from '../i18n.js';
 import {startKeyboard, startShopKeyboard} from '../keyboards.js';

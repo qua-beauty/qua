@@ -1,8 +1,9 @@
 import {calculateDistance, orderCardMessage} from '../utils.js';
-import {getOrder, updateOrder} from '../services/airtable.js';
+import {getOrder, updateOrder} from '../../services/airtable.js';
 import {orderShopKeyboard, orderUserKeyboard, shareAddressKeyboard, sharePhoneKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
-import {getDistance} from '../services/maps.js';
+import {getDistance} from '../../services/maps.js';
+import {createIncomingOrder} from '../../services/poster.js';
 
 async function orderConversation(conversation, ctx) {
   const {
@@ -75,7 +76,17 @@ async function orderConversation(conversation, ctx) {
     },
   }
 
-  await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
+  try {
+    await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
+  } catch (e) {
+    console.log(e);
+  }
+
+  try {
+    await conversation.external(async () => await createIncomingOrder(ctx.session.newOrder));
+  } catch (e) {
+    console.log(e);
+  }
 
   if (order.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
@@ -86,14 +97,18 @@ async function orderConversation(conversation, ctx) {
     const location = ctx.session.newOrder.address.split(', ');
     const {message_id: shopAddressMessage} = await ctx.api.sendLocation(order.shop.adminGroup, location[0], location[1]);
 
-    await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, {
-      ...ctx.session.newOrder,
-      telegram: {
-        ...ctx.session.newOrder.telegram,
-        shopOrderMessage,
-        shopAddressMessage
-      }
-    }));
+    try {
+      await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, {
+        ...ctx.session.newOrder,
+        telegram: {
+          ...ctx.session.newOrder.telegram,
+          shopOrderMessage,
+          shopAddressMessage
+        }
+      }));
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 }

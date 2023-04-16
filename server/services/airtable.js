@@ -1,6 +1,6 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
-import {orderMapper, shopMapper, userMapper} from '../../../shared/mappers.js';
-import {serializeUser} from '../../../shared/serializers.js';
+import {orderMapper, posterMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {serializeUser} from '../../shared/serializers.js';
 
 const airtableOrdersBase = new Airtable({
   apiKey: Deno.env.get('AIRTABLE_API_KEY'),
@@ -14,7 +14,13 @@ const airtableUsersBase = new Airtable({
   tableName: 'Users'
 });
 
-const getUser = async (userId) => {
+const airtablePosterBase = new Airtable({
+  apiKey: Deno.env.get('AIRTABLE_API_KEY'),
+  baseId: Deno.env.get('AIRTABLE_BASE'),
+  tableName: 'Poster'
+});
+
+export const getUser = async (userId) => {
   try {
     const userData = await airtableUsersBase.select({
       maxRecords: 1,
@@ -26,20 +32,36 @@ const getUser = async (userId) => {
     console.log(e);
     return null;
   }
+};
 
-}
+export const getPoster = async (shopId) => {
+  if (!shopId) {
+    return null;
+  }
 
-const saveUser = async (userData) => {
   try {
-    const user = await airtableUsersBase.create(serializeUser([userData])[0].fields);
-    return userMapper(user);
-  } catch(e) {
+    const posterData = await airtablePosterBase.select()
+      .then(data => data.records)
+      .then(data => data.map(p => posterMapper(p)));
+
+    return posterData?.find(p => p.shop.includes(shopId));
+  } catch (e) {
     console.log(e);
     return null;
   }
-}
+};
 
-const getOrder = async (orderId) => {
+export const saveUser = async (userData) => {
+  try {
+    const user = await airtableUsersBase.create(serializeUser([userData])[0].fields);
+    return userMapper(user);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const getOrder = async (orderId) => {
   if (orderId) {
     const orderData = await airtableOrdersBase.find(orderId);
     const order = orderMapper(orderData);
@@ -56,7 +78,7 @@ const getOrder = async (orderId) => {
   throw Error('No Order ID');
 };
 
-const updateOrder = async (orderId, data) => {
+export const updateOrder = async (orderId, data) => {
   return await airtableOrdersBase.update([{
     id: orderId,
     fields: {
@@ -69,11 +91,4 @@ const updateOrder = async (orderId, data) => {
       'Username': data.username
     }
   }]);
-};
-
-export {
-  getOrder,
-  updateOrder,
-  saveUser,
-  getUser
 };

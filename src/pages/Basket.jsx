@@ -48,7 +48,8 @@ const Basket = () => {
           name: product.name[lng],
           count: product.count,
           icon: product.icon,
-          price: product.price
+          price: product.price,
+          posterId: product.posterId
         }))),
         status: 'pending',
       }]).unwrap().then(async (order) => {

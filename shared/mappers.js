@@ -47,6 +47,7 @@ export const productMapper = (product) => {
     isVegetarian: product.fields['isVegetarian'],
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
+    posterId: product.fields['Poster ID']
   };
 }
 
@@ -93,6 +94,17 @@ export const userMapper = (user) => {
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
     language: user.fields['Language'],
+  };
+}
+
+export const posterMapper = (poster) => {
+  return {
+    id: poster.id,
+    account: poster.fields['Account'],
+    accountNumber: poster.fields['Account Number'],
+    accessToken: poster.fields['Access Token'],
+    status: poster.fields['Status'],
+    shop: poster.fields['Shop'],
   };
 }
 
