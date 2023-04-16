@@ -14,10 +14,14 @@ const shopDoneOrder = async (ctx) => {
     status: 'complete'
   };
 
-  await ctx.api.deleteMessage(chat.id, messageId);
-  await ctx.api.deleteMessage(chat.id, shopAddressMessage);
-  await ctx.api.deleteMessage(userChat, userOrderMessage);
-  await ctx.api.deleteMessage(userChat, userTitleMessage);
+  try {
+    await ctx.api.deleteMessage(chat.id, messageId);
+    await ctx.api.deleteMessage(chat.id, shopAddressMessage);
+    await ctx.api.deleteMessage(userChat, userOrderMessage);
+    await ctx.api.deleteMessage(userChat, userTitleMessage);
+  } catch (e) {
+    console.log(e);
+  }
 
   await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
 

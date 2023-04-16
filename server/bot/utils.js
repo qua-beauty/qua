@@ -20,32 +20,18 @@ const actions = {
   CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
 }
 
-export const calculateDistance = (distance, price) => {
+export const calculateDistance = (distance) => {
   if (!distance) {
     return -1;
   }
-
   distance = parseInt(distance);
-  price = parseInt(price);
 
-  if (distance <= 15) {
-    if (price >= 4000) {
-      return 0;
-    } else {
-      return 1000;
-    }
+  if (distance <= 10) {
+    return 500;
   } else if (distance <= 30) {
-    if (price >= 8000) {
-      return 0;
-    } else {
-      return 2000;
-    }
+    return 1000;
   } else {
-    if (price >= 10000) {
-      return 0;
-    } else {
-      return 2500;
-    }
+    return 1500
   }
 }
 

@@ -42,11 +42,11 @@ async function orderConversation(conversation, ctx) {
   } while (!ctx.message?.location);
 
   const distance = await getDistance({
-    latitude: '6.009466',
-    longitude: '80.250995',
+    latitude: '6.011759',
+    longitude: '80.248796',
   }, ctx.message.location);
 
-  const deliveryPrice = calculateDistance(distance, ctx.session.newOrder.price);
+  const deliveryPrice = calculateDistance(distance);
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
