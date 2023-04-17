@@ -28,7 +28,7 @@
     "shopTitle": "<strong>New Order:</strong>",
     "deliveryTitle": "<strong>New order for delivery</strong>",
     "count": "<strong>Count</strong>: {{count}}",
-    "price": "<strong>Price</strong>: {{price}} rup",
+    "price": "<strong>Price</strong>: {{price}} Rs",
     "deliveryPrice": "<strong>Delivery Price</strong>: {{deliveryPrice}}",
     "address": "<strong>Address:</strong> {{address}}",
     "phone": "<strong>Phone:</strong> +{{phone}}",
