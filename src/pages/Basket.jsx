@@ -51,7 +51,7 @@ const Basket = () => {
           price: product.price,
           posterId: product.posterId
         })),
-        status: 'pending',
+        status: 'draft',
       }]).unwrap().then(async (order) => {
         await fetchAnswerWebQuery({messageText: `order-${order.id}`});
         dispatch(clearBasket());

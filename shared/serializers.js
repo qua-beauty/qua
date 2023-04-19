@@ -1,29 +1,31 @@
-export const serializeOrder = (orderData, excludedFields = []) => {
+export const serializeOrder = (orderData) => {
   return orderData.map((order) => {
     const fields = {
       Date: order.date,
-      User: [order.user.id],
+      User: [order.user?.id || order.user],
       Phone: order.phone,
       Address: order.address,
       Username: order.username,
-      Products: order.products.map((p) => p.id),
-      Shop: [order.shop.id],
+      Products: order.products?.map((p) => p?.id || p),
+      Shop: [order.shop?.id || order.user],
       Count: order.count,
       Price: order.price,
-      Comment: order.comment || '',
+      Comment: order.comment,
       'Delivery Price': order.deliveryPrice,
       Status: order.status.capitalize(),
-      'Products JSON': order.productsJson ? JSON.stringify(order.productsJson) : '',
-      Distance: order.distance || 0,
-      Telegram: order.telegram ? JSON.stringify(order.telegram) : '',
+      'Products JSON': order.productsJson ? JSON.stringify(order.productsJson) : undefined,
+      Distance: order.distance,
+      Telegram: order.telegram ? JSON.stringify(order.telegram) : undefined,
       'Poster ID': order.posterId,
     };
 
-    const filteredFields = Object.fromEntries(
-      Object.entries(fields).filter(([key]) => !excludedFields.includes(key))
-    );
+    Object.entries(fields).forEach(([key, value]) => {
+      if (value === undefined || (Array.isArray(value) && value.some((v) => v === undefined))) {
+        delete fields[key];
+      }
+    });
 
-    return { fields: filteredFields };
+    return { fields };
   });
 };
 

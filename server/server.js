@@ -4,7 +4,8 @@ import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
-import {posterCallback} from './posterpos/posterCallback.ts';
+import {orderMapper} from '../shared/mappers.js';
+import {updateOrderAction} from './bot/actions/orderActions.ts';
 
 const app = new Application();
 const router = new Router();
@@ -25,13 +26,13 @@ router.post('/answerWebAppQuery', async (context) => {
   }
 });
 
-router.post('/poster-webhook', async (context) => {
-  const data = await context.request.body().value;
+router.post('/updateOrder', async (context) => {
+  const orderData = await context.request.body().value;
 
   try {
-    await posterCallback(data);
-    context.response.status = 200;
-    context.response.body = 'OK';
+    const order = orderMapper(orderData);
+    console.log(`airtable order ${order}`);
+    await updateOrderAction(order);
   } catch (error) {
     console.error(error);
     context.response.status = 500;

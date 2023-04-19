@@ -1,23 +1,31 @@
 import {t} from './i18n.js';
 
-const masks = {
+export const masks = {
   order: new RegExp(/^order-/),
   shop: new RegExp(/^shop-/),
   phone: new RegExp(/^(\+)?((\d{2,3}) ?\d|\d)(([ -]?\d)|( ?(\d{2,3}) ?)){5,12}\d$/),
 };
 
-const actions = {
+export const actions = {
   ABOUT: 'ABOUT',
   CONNECT: 'CONNECT',
   HOME: 'HOME',
   OPEN_SHOP: 'OPEN_SHOP',
-  CANCEL_ORDER: 'CANCEL_ORDER',
-  SHOP_DECLINE_ORDER: 'SHOP_DECLINE_ORDER',
-  SHOP_ACCEPT_ORDER: 'SHOP_ACCEPT_ORDER',
-  SHOP_DELIVERY_ORDER: 'SHOP_DELIVERY_ORDER',
-  SHOP_DONE_ORDER: 'SHOP_DONE_ORDER',
+  ORDER_CANCEL: 'ORDER_CANCEL',
+  ORDER_DECLINE: 'ORDER_DECLINE',
+  ORDER_COOK: 'ORDER_COOK',
+  ORDER_DELIVERY: 'ORDER_DELIVERY',
+  ORDER_COMPLETE: 'ORDER_COMPLETE',
   BACK_TO_HOME: 'BACK_TO_HOME',
   CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
+}
+
+export const statusByAction = {
+  [actions.ORDER_CANCEL]: 'cancelled',
+  [actions.ORDER_DECLINE]: 'declined',
+  [actions.ORDER_COOK]: 'cook',
+  [actions.ORDER_DELIVERY]: 'delivery',
+  [actions.ORDER_COMPLETE]: 'complete',
 }
 
 export const calculateDistance = (distance) => {
@@ -36,7 +44,7 @@ export const calculateDistance = (distance) => {
 }
 
 export const orderCardMessage = (order, ctx, type = 'user') => {
-  const lng = ctx.session.language;
+  const lng = 'ru';
   
   let data = {
     id: `#${order.id}\n`,
@@ -86,8 +94,3 @@ export const orderCardMessage = (order, ctx, type = 'user') => {
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
   })
 };
-
-export {
-  masks,
-  actions
-}

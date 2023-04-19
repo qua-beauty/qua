@@ -7,16 +7,12 @@ import {actions, masks} from './utils.js';
 import {orderConversation} from './conversations/orderConversation.js';
 import {t} from './i18n.js';
 import {language} from './plugins/language.js';
-import cancelOrder from './actions/cancelOrder.js';
-import shopDeclineOrder from './actions/shopDeclineOrder.js';
-import shopDeliveryOrder from './actions/shopDeliveryOrder.js';
-import shopDoneOrder from './actions/shopDoneOrder.js';
 import backToHome from './actions/backToHome.js';
 import changeLanguage from './actions/changeLanguage.js';
 import about from './actions/about.js';
 import start from './actions/start.js';
 import {session} from './session.js';
-import shopAcceptOrder from './actions/shopAcceptOrder.js';
+import {orderAction,} from './actions/orderActions.ts';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
@@ -41,13 +37,11 @@ bot.hears(masks.order, async (ctx) => {
 
 bot.callbackQuery(new RegExp(actions.ABOUT), about);
 bot.callbackQuery(new RegExp(actions.CHANGE_LANGUAGE), changeLanguage);
-bot.callbackQuery(new RegExp(actions.CANCEL_ORDER), (ctx) => cancelOrder(ctx));
-bot.callbackQuery(new RegExp(actions.SHOP_DECLINE_ORDER), shopDeclineOrder);
-bot.callbackQuery(new RegExp(actions.SHOP_ACCEPT_ORDER), async (ctx) => {
-  const orderId = ctx.update.callback_query.data.split(' ')[1];
-  await shopAcceptOrder(orderId);
-});
-bot.callbackQuery(new RegExp(actions.SHOP_DELIVERY_ORDER), shopDeliveryOrder);
-bot.callbackQuery(new RegExp(actions.SHOP_DONE_ORDER), shopDoneOrder);
 bot.callbackQuery(new RegExp(actions.BACK_TO_HOME), backToHome);
 bot.callbackQuery(new RegExp(actions.HOME), backToHome);
+
+bot.callbackQuery(new RegExp(actions.ORDER_CANCEL), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_DECLINE), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_COOK), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_DELIVERY), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_COMPLETE), orderAction);

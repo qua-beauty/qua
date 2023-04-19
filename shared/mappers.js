@@ -69,7 +69,7 @@ export const categoryMapper = (category) => {
 export const orderMapper = (order) => {
   return {
     id: order.id,
-    date: order.fields['Date'],
+    date: new Date(order.fields['Date']),
     status: order.fields['Status'].toLowerCase(),
     user: order.fields['User'] ?  order.fields['User'][0] : undefined,
     products: order.fields['Products'],

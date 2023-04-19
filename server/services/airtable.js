@@ -67,7 +67,11 @@ export const saveUser = async (userData) => {
 };
 
 export const getOrder = async (orderId) => {
-  if (orderId) {
+  try {
+    if (!orderId) {
+      throw new Error('No Order ID');
+    }
+
     const orderData = await airtableOrdersBase.find(orderId);
     const order = orderMapper(orderData);
 
@@ -78,13 +82,14 @@ export const getOrder = async (orderId) => {
       ...order,
       shop
     };
+  } catch (error) {
+    console.error(`Error in getOrder function: ${error}`);
+    throw error;
   }
-
-  throw Error('No Order ID');
 };
 
 export const updateOrder = async (orderId, data) => {
-  const orderData = serializeOrder([data], ['User', 'Phone', 'Products']);
+  const orderData = serializeOrder([data]);
   const order = orderData[0];
 
   return await airtableOrdersBase.update([{

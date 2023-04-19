@@ -68,6 +68,7 @@ async function orderConversation(conversation, ctx) {
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
     telegram: {
+      status: 'pending',
       userChat: chatId,
       userOrderMessage,
       userTitleMessage,
