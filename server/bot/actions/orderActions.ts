@@ -8,27 +8,27 @@ const getData = (order) => {
   switch(order.status) {
     case 'cook':
       return {
-        message: t('messageOrderCooking', 'ru'),
-        keyboard: {reply_markup: orderShopDeliveryKeyboard({session: { language: 'ru' }}, order.id)}
+        message: t('messageOrderCooking'),
+        keyboard: {reply_markup: orderShopDeliveryKeyboard(order.id)}
       };
     case 'delivery':
       return {
-        message: t('messageOrderDelivering', 'ru'),
-        keyboard: { reply_markup: orderShopDoneKeyboard({session: { language: 'ru' }}, order.id) }
+        message: t('messageOrderDelivering'),
+        keyboard: { reply_markup: orderShopDoneKeyboard(order.id) }
       }
     case 'complete':
       return {
-        message: t('messageOrderComplete', 'ru'),
+        message: t('messageOrderComplete'),
         keyboard: null
       }
     case 'declined':
       return {
-        message: t('messageOrderDeclined', 'ru'),
+        message: t('messageOrderDeclined'),
         keyboard: null
       }
     case 'cancelled':
       return {
-        message: t('messageOrderCancelled', 'ru'),
+        message: t('messageOrderCancelled'),
         keyboard: null
       }
   }
@@ -49,9 +49,9 @@ export const updateOrderAction = async (order) => {
     console.error(error);
   }
 
-  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(adminChat, orderCardMessage(order, null), statusData.keyboard);
+  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(adminChat, orderCardMessage(order), statusData.keyboard);
   const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(adminChat, location[0], location[1]);
-  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order, null));
+  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order));
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, statusData.message);
 
   await updateOrder(orderId, {

@@ -21,4 +21,4 @@ i18next
   });
 
 export const i18n = i18next;
-export const t = (key, lng, options) => i18next.getFixedT(lng)(key, options);
+export const t = (key, lng, options) => i18next.getFixedT('ru')(key, options);

@@ -18,12 +18,12 @@ const start = async (ctx) => {
 
   if (masks.shop.test(ctx.match)) {
     const shopId = text.split('-')[1];
-    await ctx.reply(t('messageStartShop', ctx.session.language), {
-      reply_markup: startShopKeyboard(ctx, shopId)
+    await ctx.reply(t('messageStartShop'), {
+      reply_markup: startShopKeyboard(shopId)
     });
   } else {
-    await ctx.reply(t('messageStart', ctx.session.language), {
-      reply_markup: startKeyboard(ctx)
+    await ctx.reply(t('messageStart'), {
+      reply_markup: startKeyboard()
     });
   }
 }

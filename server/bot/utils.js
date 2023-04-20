@@ -43,7 +43,7 @@ export const calculateDistance = (distance) => {
   }
 }
 
-export const orderCardMessage = (order, ctx, type = 'user') => {
+export const orderCardMessage = (order, type = 'user') => {
   const lng = 'ru';
   
   let data = {

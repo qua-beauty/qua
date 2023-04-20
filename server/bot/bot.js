@@ -26,7 +26,7 @@ bot.api.config.use(parseMode("HTML"));
 
 bot.catch((error) => {
   console.log(error);
-  error.ctx.reply(t('messageBotError', error.ctx.session.language));
+  error.ctx.reply(t('messageBotError'));
 });
 
 bot.command('start', start);

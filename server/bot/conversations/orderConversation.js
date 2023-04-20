@@ -26,12 +26,12 @@ async function orderConversation(conversation, ctx) {
     }
   };
 
-  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx));
+  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder));
 
   do {
     const {message_id: addressTitleMessageId} =
-      await ctx.reply(t('messageAddAddress', ctx.session.language), {
-        reply_markup: shareAddressKeyboard(ctx)
+      await ctx.reply(t('messageAddAddress'), {
+        reply_markup: shareAddressKeyboard()
       });
 
     ctx = await conversation.wait();
@@ -55,15 +55,15 @@ async function orderConversation(conversation, ctx) {
     status: 'pending',
   }
 
-  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder, ctx), {
-    reply_markup: orderUserKeyboard(ctx, orderId)
+  const {message_id: userOrderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder), {
+    reply_markup: orderUserKeyboard(orderId)
   });
 
   await ctx.api.deleteMessage(chatId, orderMessage);
   await ctx.api.deleteMessage(chatId, addressTitleMessage);
   await ctx.api.deleteMessage(chatId, addressUserMessage);
 
-  const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending', ctx.session.language));
+  const {message_id: userTitleMessage} = await ctx.reply(t('messageOrderPending'));
 
   ctx.session.newOrder = {
     ...ctx.session.newOrder,
@@ -90,8 +90,8 @@ async function orderConversation(conversation, ctx) {
 
   if (order.shop.adminGroup) {
     const {message_id: shopOrderMessage} =
-      await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, ctx, 'shop'), {
-        reply_markup: orderShopKeyboard(ctx, orderId)
+      await ctx.api.sendMessage(order.shop.adminGroup, orderCardMessage(ctx.session.newOrder, 'shop'), {
+        reply_markup: orderShopKeyboard(orderId)
       })
 
     const location = ctx.session.newOrder.address.split(', ');
