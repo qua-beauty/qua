@@ -16,8 +16,8 @@ const ProductInline = ({product}) => {
   const countInBasket = getProductCount(product?.id);
 
   const handleAddProduct = () => {
-    setAdded(added + 1);
     dispatch(addProduct(product));
+    setAdded(added + 1);
   };
 
   const handleDeleteProduct = () => {

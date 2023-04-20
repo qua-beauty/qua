@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
+import {addProduct, clearBasket, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
@@ -8,17 +8,30 @@ import {borderRadius} from '../../globalSx.js';
 import {getProductCount} from '../../api/helpers.js';
 import AddToBasket from '../AddToBasket.jsx';
 import NoImage from '../NoImage.jsx';
+import {webApp} from '../../telegram.js';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
   const [added, setAdded] = useState(0);
   const {name, image, price, id} = product;
-  const {basket} = useSelector(state => state.basket);
+  const {basket, shop: basketShop} = useSelector(state => state.basket);
   const {i18n: {language: lng}} = useTranslation();
 
   const handleAddProduct = () => {
-    setAdded(added + 1);
-    dispatch(addProduct(product));
+    if(basketShop && (basketShop !== product.shop)) {
+      if(webApp) {
+        webApp.showConfirm('Блюда из предыдущего ресторана будут удалены', (confirm) => {
+          if(confirm) {
+            dispatch(clearBasket());
+            dispatch(addProduct(product));
+            setAdded(added + 1);
+          }
+        });
+      }
+    } else {
+      dispatch(addProduct(product));
+      setAdded(added + 1);
+    }
   };
 
   const handleDeleteProduct = () => {

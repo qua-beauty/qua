@@ -22,6 +22,7 @@ const basketSlice = createSlice({
     count: 0,
     price: 0,
     currency: 'LKR',
+    shop: null
   },
   reducers: {
     clearDeletedBasket: (state) => {
@@ -54,6 +55,7 @@ const basketSlice = createSlice({
 
       const params = calculateBasketParams(newBasket);
 
+      state.shop = newBasket[0].shop;
       state.basket = newBasket;
       state.count = params[0];
       state.price = params[1];
@@ -75,6 +77,8 @@ const basketSlice = createSlice({
       state.basket = newBasket;
       state.count = params[0];
       state.price = params[1];
+
+      if(state.count === 0) state.shop = null;
     },
   },
 });

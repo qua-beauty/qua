@@ -44,7 +44,7 @@ function Catalog() {
     if (!(webApp && webApp.hasOwnProperty('MainButton'))) return;
 
     if (basket.length > 0) {
-      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
+      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 ? `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})` : ''}`;
       webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);

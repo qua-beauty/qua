@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
-import {addProduct, deleteProduct} from '../api/slices/basketSlice.js';
+import {addProduct, clearBasket, deleteProduct} from '../api/slices/basketSlice.js';
 import {useTranslation} from 'react-i18next';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import BasketCounter from '../components/BasketCounter.jsx';
@@ -20,14 +20,26 @@ const Product = () => {
   const shops = useSelector(state => state.shops.data);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
-  const {basket, count, price, currency} = useSelector(state => state.basket);
+  const {basket, count, price, currency, shop: basketShop} = useSelector(state => state.basket);
   const theme = useTheme();
 
   const [added, setAdded] = useState(0);
 
   const handleAddProduct = () => {
-    setAdded(added + 1);
-    dispatch(addProduct(currentProduct));
+    if(basketShop && (basketShop !== product.shop)) {
+      if(webApp) {
+        webApp.showConfirm('Блюда из предыдущего ресторана будут удалены', (confirm) => {
+          if(confirm) {
+            dispatch(clearBasket());
+            dispatch(addProduct(currentProduct));
+            setAdded(added + 1);
+          }
+        });
+      }
+    } else {
+      dispatch(addProduct(currentProduct));
+      setAdded(added + 1);
+    }
   };
 
   const handleDeleteProduct = () => {
@@ -72,7 +84,7 @@ const Product = () => {
     if (!webApp) return;
 
     if (basket.length > 0) {
-      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}`;
+      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 ? `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})` : ''}`;
       webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
