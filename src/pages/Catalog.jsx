@@ -77,7 +77,7 @@ function Catalog() {
     }
   }, [shops]);
 
-  const isWorking = isWorkingTime(currentShop.startTime, currentShop.endTime);
+  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime);
 
   return currentShop ? (
     <Container p={'16px'}>

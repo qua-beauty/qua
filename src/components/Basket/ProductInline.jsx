@@ -6,6 +6,7 @@ import BasketCounter from '../BasketCounter.jsx';
 import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch} from 'react-redux';
 import {getCategoryName, getProductCount} from '../../api/helpers.js';
+import NoImage from '../NoImage.jsx';
 
 const ProductInline = ({product}) => {
   const dispatch = useDispatch();
@@ -28,8 +29,8 @@ const ProductInline = ({product}) => {
 
   return (
     <Flex flex={'1'} sx={borderRadius(12, 20)} mt={'10px'} padding={'10px'} bg={isDeleted ? 'background.default' : 'background.paper'} opacity={isDeleted ? '0.8' : '1'}>
-      <Flex alignItems={'center'} w={'110px'} h={'80px'} overflow={'hidden'} sx={borderRadius(12)}>
-        <img src={image} width={'100%'} alt=""/>
+      <Flex alignItems={'center'} justifyContent={'center'} background={'background.default'} w={'110px'} h={'80px'} overflow={'hidden'} sx={borderRadius(12)}>
+        {image ? <img src={image} height={'100%'} alt=""/> : <NoImage fontSize={'36px'} />}
       </Flex>
       <Flex flex={'1'} direction={'column'} justifyContent={'space-between'} pl={'12px'}>
         <Box>
