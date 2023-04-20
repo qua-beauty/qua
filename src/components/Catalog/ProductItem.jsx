@@ -3,18 +3,16 @@ import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
-import BasketCounter from '../BasketCounter.jsx';
+import {Box, Flex, Heading} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import {getProductCount} from '../../api/helpers.js';
-import {PlusCircle} from '@phosphor-icons/react';
-import {rgba} from '../../utils.js';
 import AddToBasket from '../AddToBasket.jsx';
+import NoImage from '../NoImage.jsx';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
   const [added, setAdded] = useState(0);
-  const {name, image, price, id, category, shop} = product;
+  const {name, image, price, id} = product;
   const {basket} = useSelector(state => state.basket);
   const {i18n: {language: lng}} = useTranslation();
 
@@ -50,7 +48,7 @@ const ProductItem = ({onSelect, ...product}) => {
         borderRadius: '16px',
         background: 'var(--chakra-colors-background-default)',
       }}>
-        <Box sx={{
+        <Box onClick={() => onSelect(product)} sx={{
           transition: '0.25s ease',
           ...borderRadius(16),
           paddingBottom: '100%',
@@ -65,7 +63,7 @@ const ProductItem = ({onSelect, ...product}) => {
             paddingTop: '100%'
           }
         }}>
-          {image && <Box sx={{
+          <Box sx={{
             display: 'flex',
             justifyContent: 'center',
             position: 'absolute',
@@ -78,12 +76,12 @@ const ProductItem = ({onSelect, ...product}) => {
               maxWidth: 'fit-content'
             }
           }}>
-            <img onClick={() => onSelect(product)} src={image} height={'100%'} alt=""/>
-          </Box>}
+            {image ? <img src={image} height={'100%'} alt=""/> : <NoImage fontSize={'56px'} />}
+          </Box>
         </Box>
         <Box p={'8px'}>
           <Heading mb={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}
-                   height={'34px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
+                   height={'51px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
 
           <AddToBasket price={price} count={countInBasket} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
         </Box>

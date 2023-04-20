@@ -10,6 +10,7 @@ import {Box, Button, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/rea
 import {borderRadius} from '../globalSx.js';
 import {getCategoryName, getProductCount} from '../api/helpers.js';
 import AddToBasket from '../components/AddToBasket.jsx';
+import NoImage from '../components/NoImage.jsx';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -94,13 +95,34 @@ const Product = () => {
           'background': 'var(--chakra-colors-background-default)',
           ...borderRadius(16),
           'width': '100%',
-          'height': 280,
+          paddingBottom: '100%',
           display: 'flex',
+          height: 0,
           alignItems: 'center',
+          justifyContent: 'center',
           position: 'relative',
           overflow: 'hidden',
+          '&:before': {
+            content: '""',
+            display: 'block',
+            paddingTop: '100%'
+          }
         }}>
-          {currentProduct.image && <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/>}
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            width: '100%',
+            '& img': {
+              height: '100%',
+              width: 'auto',
+              maxWidth: 'fit-content'
+            }
+          }}>
+            {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> : <NoImage fontSize={'96px'} />}
+          </Box>
         </Box>
 
         <VStack spacing={'20px'} p={'0 8px'} alignItems={'stretch'}>
