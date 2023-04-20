@@ -24,7 +24,7 @@ const Filters = ({shopId}) => {
   return categories.length > 1 && (
     <Flex background={rgba(theme.colors.background.default, 0.87)}
           backdropFilter={'blur(6px)'}
-          height={'56px'}
+          height={'68px'}
           position={'fixed'}
           left={0}
           right={0}
@@ -48,7 +48,9 @@ const Filters = ({shopId}) => {
                   bg={isActive ? rgba(theme.colors.brand[200], 0.2) : 'default'}
                   textAlign={'center'}>
               <Text>{cat.icon}</Text>
-              <Heading transition={'0.125s ease-out'} fontWeight={isActive ? '600' : '400'} color={isActive ? theme.colors.brand[500] : 'inherit'} fontSize={'xs'}>{cat.name[lng]}</Heading>
+              <Heading height={'28px'} display={'flex'} alignItems={'center'} transition={'0.125s ease-out'}
+                       fontWeight={isActive ? '600' : '400'} color={isActive ? theme.colors.brand[500] : 'inherit'}
+                       fontSize={'xs'} lineHeight={'1.15'}>{cat.name[lng]}</Heading>
             </Flex>
           )
         })}
