@@ -4,6 +4,8 @@ import {run} from 'https://deno.land/x/grammy_runner@v1.0.4/mod.ts';
 import {oakCors} from 'https://deno.land/x/cors/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
+import {orderMapper} from '../shared/mappers.js';
+import {updateOrderAction} from './bot/actions/orderActions.ts';
 
 const app = new Application();
 const router = new Router();
@@ -17,6 +19,20 @@ router.post('/answerWebAppQuery', async (context) => {
 
   try {
     context.response.body = await bot.api.answerWebAppQuery(queryId, data);
+  } catch (error) {
+    console.error(error);
+    context.response.status = 500;
+    context.response.body = 'Error processing the request';
+  }
+});
+
+router.post('/updateOrder', async (context) => {
+  const orderData = await context.request.body().value;
+
+  try {
+    const order = orderMapper(orderData);
+    console.log(`airtable order ${order}`);
+    await updateOrderAction(order);
   } catch (error) {
     console.error(error);
     context.response.status = 500;
