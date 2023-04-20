@@ -4,6 +4,8 @@ import ShopItem from '../components/Shops/ShopItem.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
+import {webApp} from '../telegram.js';
+import ShopsSkeleton from '../components/Shops/ShopsSkeleton.jsx';
 
 const Shops = () => {
   const dispatch = useDispatch();
@@ -12,16 +14,16 @@ const Shops = () => {
 
   const handleSelect = (shop) => {
     dispatch(setCurrentShop(shop));
-    navigate(`shop/${shop.id}`);
-  }
+    navigate(`/shop/${shop.id}`);
+  };
 
   useEffect(() => {
-    if(shops && shops.length === 1) {
-      navigate(`shop/${shops[0].id}`);
+    if (webApp) {
+      webApp.BackButton.hide();
     }
-  }, [shops])
+  }, [])
 
-  return shops && (
+  return shops ? (
     <Box p={'24px 24px'}>
       <Heading fontSize={'lg'} fontWeight={'400'} mb={'16px'}>Выберите ресторан</Heading>
       <Flex direction={'column'} gap={'24px'}>
@@ -30,7 +32,7 @@ const Shops = () => {
         )}
       </Flex>
     </Box>
-  );
+  ) : <ShopsSkeleton />
 };
 
 export default Shops;

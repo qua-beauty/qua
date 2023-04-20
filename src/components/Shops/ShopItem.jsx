@@ -6,6 +6,7 @@ import {isWorkingTime} from '../../helpers.js';
 
 const ShopItem = ({onSelect, ...shop}) => {
   const {name, logo, thumbnail, startTime, endTime, workTime} = shop;
+  const isWorking = isWorkingTime(startTime, endTime);
 
   return (
       <Flex sx={{
@@ -13,6 +14,7 @@ const ShopItem = ({onSelect, ...shop}) => {
       }} onClick={() => onSelect(shop)}>
         <Box sx={{
           background: `var(--chakra-colors-background-default) url(${thumbnail}) no-repeat center`,
+          filter: isWorking ? 'none' : 'grayscale(1)',
           backgroundSize: 'cover',
           ...borderRadius(16),
           width: '100%',
@@ -29,7 +31,7 @@ const ShopItem = ({onSelect, ...shop}) => {
         <Flex p={'0 8px'} mt={'8px'} justifyContent={'space-between'} alignItems={'center'}>
           <Heading fontSize={'xl'}>{name}</Heading>
           <Flex alignItems={'center'} gap={'6px'}>
-            {isWorkingTime(startTime, endTime) ? <Online /> : <Offline />}
+            {isWorking ? <Online /> : <Offline />}
             <Text fontWeight={'500'} fontSize={'md'}>{workTime}</Text>
           </Flex>
         </Flex>

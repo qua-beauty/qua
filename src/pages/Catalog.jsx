@@ -29,11 +29,16 @@ function Catalog() {
     navigate(`/product/${product.id}`);
   }
 
-  if (webApp) {
-    webApp.BackButton.hide();
-  }
-
   const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
+
+  useEffect(() => {
+    if (webApp) {
+      webApp.BackButton.show();
+      webApp.BackButton.onClick(() => {
+        navigate(`/`);
+      });
+    }
+  }, [currentShop]);
 
   useEffect(() => {
     if (!(webApp && webApp.hasOwnProperty('MainButton'))) return;

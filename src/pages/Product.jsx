@@ -52,16 +52,17 @@ const Product = () => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
-        navigate(`/`);
+        console.log(currentShop);
+        navigate(`/shop/${currentShop.id}`);
       });
     }
   }, [currentShop]);
 
   useEffect(() => {
     if (shops) {
-      dispatch(setCurrentShop(shops[0]));
+      dispatch(setCurrentShop(shops.find(s => s.id === currentProduct.shop)));
     }
-  }, [shops]);
+  }, [currentProduct, shops]);
 
   const countInBasket = getProductCount(currentProduct?.id);
   const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
