@@ -3,10 +3,12 @@ import {Box, Flex, Heading, Text} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import {Offline, Online} from '../Status.jsx';
 import {isWorkingTime} from '../../helpers.js';
+import {useTranslation} from 'react-i18next';
 
 const ShopItem = ({onSelect, ...shop}) => {
   const {name, logo, thumbnail, startTime, endTime, workTime} = shop;
   const isWorking = isWorkingTime(startTime, endTime);
+  const {t} = useTranslation();
 
   return (
       <Flex sx={{
@@ -18,7 +20,7 @@ const ShopItem = ({onSelect, ...shop}) => {
           backgroundSize: 'cover',
           ...borderRadius(16),
           width: '100%',
-          height: 202,
+          height: 200,
           display: 'flex',
           alignItems: 'center',
           position: 'relative',
@@ -31,8 +33,14 @@ const ShopItem = ({onSelect, ...shop}) => {
         <Flex p={'0 8px'} mt={'8px'} justifyContent={'space-between'} alignItems={'center'}>
           <Heading fontSize={'xl'}>{name}</Heading>
           <Flex alignItems={'center'} gap={'6px'}>
-            {isWorking ? <Online /> : <Offline />}
-            <Text fontWeight={'500'} fontSize={'md'}>{workTime}</Text>
+            <Text fontWeight={'500'} fontSize={'md'}>
+              {isWorking ? <>
+                <Online/> {t('info.status.active')}
+              </> : <>
+                <Offline/> {t('info.status.inactive')}
+              </>}
+              {isWorking ? shop.workTime : shop.startTime}
+            </Text>
           </Flex>
         </Flex>
       </Flex>

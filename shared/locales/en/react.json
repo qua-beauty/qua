@@ -3,7 +3,8 @@
   "info": {
     "status": {
       "active": "Open",
-      "inactive": "Working Time"
+      "inactive": "Opens at",
+      "closed": "Closed"
     },
     "delivery": "Delivery ≈ {{minutes}} minutes",
     "rest": "Opens at 10AM"

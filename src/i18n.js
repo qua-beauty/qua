@@ -19,7 +19,7 @@ i18next
         common: commonRu
       }
     },
-    fallbackLng: webApp?.initDataUnsafe?.user?.language_code || "en",
+    fallbackLng: webApp?.initDataUnsafe?.user?.language_code || "ru",
     fallbackNS: 'react',
 
     interpolation: {

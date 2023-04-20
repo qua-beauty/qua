@@ -8,7 +8,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
-import {useTranslation} from "react-i18next";
+import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
 import {Offline, Online} from '../components/Status.jsx';
 
@@ -66,16 +66,18 @@ function Catalog() {
       if(shopId) {
         const shop = shops.find(s => s.id === shopId);
 
-        if(shop) {
-          dispatch(setCurrentShop(shop))
+        if (shop) {
+          dispatch(setCurrentShop(shop));
         } else {
-          navigate('/')
+          navigate('/');
         }
       } else {
-        dispatch(setCurrentShop(shops[0]))
+        dispatch(setCurrentShop(shops[0]));
       }
     }
-  }, [shops])
+  }, [shops]);
+
+  const isWorking = isWorkingTime(currentShop.startTime, currentShop.endTime);
 
   return currentShop ? (
     <Container p={'16px'}>
@@ -83,12 +85,14 @@ function Catalog() {
         <Box>
           <Heading fontSize={'2x1'}>{currentShop.name}</Heading>
           <Flex mt={'4px'} alignItems={'baseline'} gap={'6px'}>
-            {isWorkingTime(currentShop.startTime, currentShop.endTime) ? <>
-              <Online /> Работаем
-            </> : <>
-              <Offline /> Отдыхаем
-            </>}
-            <Text fontWeight={'500'} fontSize={'md'}>{currentShop.workTime}</Text>
+            <Text fontWeight={'500'} fontSize={'md'}>
+              {isWorking ? <>
+                <Online/> {t('info.status.active')}
+              </> : <>
+                <Offline/> {t('info.status.inactive')}
+              </>}
+              {isWorking ? currentShop.workTime : currentShop.startTime}
+            </Text>
           </Flex>
         </Box>
         <Box>

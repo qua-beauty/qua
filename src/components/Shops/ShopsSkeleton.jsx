@@ -4,7 +4,7 @@ import ShopSkeleton from './ShopSkeleton.jsx';
 
 const ShopsSkeleton = () => {
   return (
-    <Box p={'16px'}>
+    <Box p={'40px 8px 8px'}>
       <ShopSkeleton />
       <ShopSkeleton />
     </Box>

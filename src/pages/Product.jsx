@@ -100,6 +100,8 @@ const Product = () => {
     }
   }, [basket, theme]);
 
+  console.log(currentProduct);
+
   return (currentProduct && currentShop) ? (
     <>
       <Box p={'8px 8px 80px'}>
