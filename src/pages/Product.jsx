@@ -26,7 +26,7 @@ const Product = () => {
   const [added, setAdded] = useState(0);
 
   const handleAddProduct = () => {
-    if(basketShop && (basketShop !== product.shop)) {
+    if(basketShop && (basketShop !== currentProduct.shop)) {
       if(webApp) {
         webApp.showConfirm('Блюда из предыдущего ресторана будут удалены', (confirm) => {
           if(confirm) {
