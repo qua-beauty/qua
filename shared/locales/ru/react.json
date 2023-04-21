@@ -2,7 +2,7 @@
   "catalogTitle": "выберите ресторан",
   "info": {
     "status": {
-      "active": "Работаем",
+      "active": "Работаем, ",
       "inactive": "Откроемся в ",
       "closed": "Закрыты"
     },

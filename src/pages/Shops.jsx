@@ -12,8 +12,8 @@ const Shops = () => {
   const navigate = useNavigate();
   const shops = useSelector(state => state.shops.data);
 
-  const handleSelect = (shop) => {
-    dispatch(setCurrentShop(shop));
+  const handleSelect = async (shop) => {
+    await dispatch(setCurrentShop(shop));
     navigate(`/shop/${shop.id}`);
   };
 

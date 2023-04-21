@@ -2,7 +2,7 @@
   "catalogTitle": "Choose restaurant",
   "info": {
     "status": {
-      "active": "Open",
+      "active": "Open ",
       "inactive": "Opens at",
       "closed": "Closed"
     },

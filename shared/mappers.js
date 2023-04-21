@@ -18,6 +18,7 @@ export const shopMapper = (shop) => {
     categories: shop.fields['Categories'],
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
+    commission: shop.fields['Commission'],
     posterPos: {
       id: shop.fields['PosterPos'] ? shop.fields['PosterPos'][0] : undefined,
       account: shop.fields['PosterPos Account'] ? shop.fields['PosterPos Account'][0] : undefined
@@ -77,6 +78,7 @@ export const orderMapper = (order) => {
     shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
     count: order.fields['Count'],
     price: order.fields['Price'],
+    commission: order.fields['Commission'] || 0,
     deliveryPrice: order.fields['Delivery Price'],
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],

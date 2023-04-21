@@ -44,6 +44,7 @@ const Basket = () => {
         user,
         shop: currentShop,
         date: new Date(),
+        commission: price * (parseInt(currentShop.commission) / 100),
         productsJson: basket.map(product => ({
           name: product.name[lng],
           count: product.count,
