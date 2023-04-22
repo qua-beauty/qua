@@ -21,7 +21,7 @@ export const shopMapper = (shop) => {
     commission: shop.fields['Commission'],
     posterPos: {
       id: shop.fields['PosterPos'] ? shop.fields['PosterPos'][0] : undefined,
-      account: shop.fields['PosterPos Account'] ? shop.fields['PosterPos Account'][0] : undefined
+      account: shop.fields['PosterPos Account Number'] ? shop.fields['PosterPos Account Number'][0] : undefined
     }
   };
 };
@@ -98,11 +98,11 @@ export const userMapper = (user) => {
     address: user.fields['Address'],
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
-    language: user.fields['Language'],
+    language: user.fields['Language']
   };
 }
 
-export const posterMapper = (poster) => {
+export const posterPosMapper = (poster) => {
   return {
     id: poster.id,
     account: poster.fields['Account'],
