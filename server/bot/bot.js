@@ -6,18 +6,16 @@ import './polyfills.js';
 import {actions, masks} from './utils.js';
 import {orderConversation} from './conversations/orderConversation.js';
 import {t} from './i18n.js';
-import {language} from './plugins/language.js';
 import backToHome from './actions/backToHome.js';
 import changeLanguage from './actions/changeLanguage.js';
 import about from './actions/about.js';
 import start from './actions/start.js';
 import {session} from './session.js';
-import {orderAction,} from './actions/orderActions.ts';
+import {orderAction} from './actions/orderActions.ts';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
 bot.use(session());
-bot.use(language());
 bot.use(conversations());
 bot.use(createConversation(orderConversation, 'newOrder'));
 

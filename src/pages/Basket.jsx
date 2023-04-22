@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearBasket, clearDeletedBasket} from '../api/slices/basketSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
-import {webApp} from '../telegram.js';
+import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
@@ -54,18 +54,23 @@ const Basket = () => {
         })),
         status: 'draft',
       }]).unwrap().then(async (order) => {
-        await fetchAnswerWebQuery({messageText: `order-${order.id}`});
-        dispatch(clearBasket());
-
         if (webApp) {
+          if(isDirectWebApp) {
+            webApp.openTelegramLink(`https://t.me/swamimarketbot?start=order-${order.id}`);
+          } else {
+            await fetchAnswerWebQuery({messageText: `order-${order.id}`});
+            dispatch(clearBasket());
+          }
+
           webApp.MainButton.hideProgress();
           webApp.close();
+
         }
       });
     } catch (e) {
       console.log(e);
     }
-  }, [basket, currentShop])
+  }, [basket, currentShop, user])
 
   useEffect(() => {
     if (webApp) {

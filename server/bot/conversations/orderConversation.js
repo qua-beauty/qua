@@ -12,8 +12,14 @@ async function orderConversation(conversation, ctx) {
   } = ctx.update.message;
 
   let addressTitleMessage, addressUserMessage;
+  let orderId;
 
-  const orderId = userMessageText.replace('order-', '');
+  if(userMessageText.indexOf('/start') >= 0) {
+    orderId = userMessageText.replace('/start order-', '');
+  } else {
+    orderId = userMessageText.replace('order-', '');
+  }
+
   const order = await conversation.external(async () => await getOrder(orderId));
 
   await ctx.api.deleteMessage(chatId, userMessageId);
@@ -38,6 +44,11 @@ async function orderConversation(conversation, ctx) {
 
     addressTitleMessage = addressTitleMessageId;
     addressUserMessage = ctx.message.message_id;
+
+    if (ctx.message?.text === '/cancel') {
+      await ctx.reply('Cancelled, leaving!');
+      return;
+    }
   } while (!ctx.message?.location);
 
   const distance = await getDistance({
