@@ -4,7 +4,7 @@ import {posterOrderMapper} from '../../shared/mappers.js';
 
 export const createIncomingOrder = async (data) => {
   try {
-    const posterPos = await getPosterPos(data.shop.posterPos.account);
+    const posterPos = await getPosterPos(data.shop.posterPos.id);
 
     return await fetch(`https://joinposter.com/api/incomingOrders.createIncomingOrder?token=${posterPos.accessToken}`, {
       method: 'POST',

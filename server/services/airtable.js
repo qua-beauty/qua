@@ -1,5 +1,5 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
-import {orderMapper, posterMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {orderMapper, posterPosMapper, shopMapper, userMapper} from '../../shared/mappers.js';
 import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 const airtableOrdersBase = new Airtable({
@@ -34,22 +34,14 @@ export const getUser = async (userId) => {
   }
 };
 
-export const getPosterPos = async (posterAccount) => {
-  if (!posterAccount) {
+export const getPosterPos = async (posterPosId) => {
+  if (!posterPosId) {
     return null;
   }
 
   try {
-    const posterData = await airtablePosterPosBase.select({
-      maxRecords: 1,
-      filterByFormula: `{Account} = "${posterAccount}"`
-    }).then(data => posterMapper(data.records[0]));
-
-    if (!posterData) {
-      throw new Error(`Poster data not found for poster account: ${posterAccount}`);
-    }
-
-    return posterData;
+    const posterPosData = await airtablePosterPosBase.find(posterPosId)
+    return posterPosMapper(posterPosData);
   } catch (error) {
     console.error(`Error while retrieving poster data for account ${posterAccount}: ${error}`);
     return null;
@@ -68,10 +60,6 @@ export const saveUser = async (userData) => {
 
 export const getOrder = async (orderId) => {
   try {
-    if (!orderId) {
-      throw new Error('No Order ID');
-    }
-
     const orderData = await airtableOrdersBase.find(orderId);
     const order = orderMapper(orderData);
 
