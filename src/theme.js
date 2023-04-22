@@ -2,11 +2,7 @@ import {extendTheme} from '@chakra-ui/react';
 import {webApp} from './telegram.js';
 import {rgba} from './utils.js';
 
-console.log(webApp);
-
 export const isColorModeDark = webApp?.colorScheme === 'dark';
-
-console.log(isColorModeDark, isColorModeDark ? 'dark' : 'light');
 
 const config = {
   initialColorMode: isColorModeDark ? 'dark' : 'light',

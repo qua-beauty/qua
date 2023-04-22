@@ -5,7 +5,8 @@ import {rgba} from '../utils.js';
 export const Online = ({fontSize = '16px', ...rest}) => {
   return (
     <Box {...rest}
-      width={fontSize}
+         as={'span'}
+         width={fontSize}
          height={fontSize}
          display={'inline-flex'}
          verticalAlign={'middle'}
@@ -18,6 +19,7 @@ export const Online = ({fontSize = '16px', ...rest}) => {
 export const Offline = ({fontSize = '16px', ...rest}) => {
   return (
     <Box {...rest}
+         as={'span'}
          width={fontSize}
          height={fontSize}
          display={'inline-flex'}
