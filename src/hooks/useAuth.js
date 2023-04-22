@@ -26,7 +26,6 @@ const useAuth = () => {
     getUser(userData).unwrap().then((data) => {
       if (!data && !user) {
         saveUser([userData]).then((data) => {
-          console.log(data);
           dispatch(setUser(data));
         });
       } else {

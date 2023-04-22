@@ -1,5 +1,5 @@
 import {telegramUserMapper} from '../../../shared/mappers.js';
-import {getUser, saveUser} from '../../services/airtable.js';
+import {getUser, saveUser, getOrder} from '../../services/airtable.js';
 import {masks} from '../utils.js';
 import {t} from '../i18n.js';
 import {startKeyboard, startShopKeyboard} from '../keyboards.js';
@@ -14,6 +14,11 @@ const start = async (ctx) => {
     ctx.session.user = user;
   } else {
     ctx.session.user = await saveUser(userData);
+  }
+
+  // if user comes from Direct Link
+  if(masks.order.test(ctx.match)) {
+    return await ctx.conversation.enter('newOrder');
   }
 
   if (masks.shop.test(ctx.match)) {
