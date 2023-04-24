@@ -98,7 +98,8 @@ export const userMapper = (user) => {
     address: user.fields['Address'],
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
-    language: user.fields['Language']
+    language: user.fields['Language'],
+    referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined
   };
 }
 

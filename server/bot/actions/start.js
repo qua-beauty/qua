@@ -4,15 +4,43 @@ import {masks} from '../utils.js';
 import {t} from '../i18n.js';
 import {startKeyboard, startShopKeyboard} from '../keyboards.js';
 
+const checkReferral = (url) => {
+  const pattern = /\bref-([\d]+)\b/;
+  const match = url.match(pattern);
+
+  if (match) {
+    return match[1];
+  }
+
+  return false;
+}
+
 const start = async (ctx) => {
   const {text, from} = ctx.update.message;
-  const userData = telegramUserMapper(from);
+  let userData = telegramUserMapper(from);
 
   const user = await getUser(userData.id);
 
   if(user) {
     ctx.session.user = user;
   } else {
+    if(ctx?.match) {
+      try {
+        const referrer = checkReferral(ctx.match);
+
+        if(referrer) {
+          const referrerUser = await getUser(referrer);
+
+          userData = {
+            ...userData,
+            referrer: referrerUser.id
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     ctx.session.user = await saveUser(userData);
   }
 

@@ -38,7 +38,8 @@ export const serializeUser = (userData) => {
       'Language': user.language ? user.language : 'ru',
       'Username': user.username ? user.username : '',
       'Phone': user.phone ? user.phone : '',
-      'Address': user.location ? user.location : ''
+      'Address': user.location ? user.location : '',
+      'Referrer': user.referrer ? [user.referrer] : ''
     }
   }));
 }
