@@ -18,6 +18,7 @@ export const serializeOrder = (orderData) => {
       Distance: order.distance,
       Telegram: order.telegram ? JSON.stringify(order.telegram) : undefined,
       'Poster ID': order.posterId,
+      'Poster Transaction ID': order.posterTransactionId
     };
 
     Object.entries(fields).forEach(([key, value]) => {
@@ -49,14 +50,23 @@ export const serializePosterOrder = (orderData) => {
 
   return orderData.map(order => ({
     spot_id: 1,
-    type: 1,
+    service_mode: 3,
     products: order.productsJson.map(p => ({
       product_id: p.posterId,
       price: p.price*priceAppendix,
       count: p.count
     })),
     phone: '+79956324351',
-    service_mode: 3,
     delivery_price: order.deliveryPrice*priceAppendix
+  }))[0];
+};
+
+export const serializePosterTransaction = (orderData) => {
+  return orderData.map(order => ({
+    transaction_id: order.posterTransactionId,
+    spot_id: 1,
+    spot_tablet_id: 1,
+    courier_id: 1,
+    processing_status: order.status === 'delivery' ? 40 : 50
   }))[0];
 };

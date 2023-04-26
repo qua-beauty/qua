@@ -1,5 +1,5 @@
 import {getPosterPos} from './airtable.js';
-import {serializePosterOrder} from '../../shared/serializers.js';
+import {serializePosterOrder, serializePosterTransaction} from '../../shared/serializers.js';
 import {posterOrderMapper} from '../../shared/mappers.js';
 
 export const createIncomingOrder = async (data) => {
@@ -19,3 +19,19 @@ export const createIncomingOrder = async (data) => {
     return null;
   }
 };
+
+export const updateIncomingOrder = async (data) => {
+  const posterPos = await getPosterPos(data.shop.posterPos.id);
+
+  try {
+    await fetch(`https://joinposter.com/api/transactions.updateTransaction?token=${posterPos.accessToken}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(serializePosterTransaction([data]))
+    })
+  } catch (e) {
+    console(e);
+  }
+}

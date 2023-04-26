@@ -31,7 +31,6 @@ router.post('/updateOrder', async (context) => {
 
   try {
     const order = orderMapper(orderData);
-    console.log(`airtable order ${order}`);
     await updateOrderAction(order);
   } catch (error) {
     console.error(error);

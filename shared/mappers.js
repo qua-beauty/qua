@@ -87,6 +87,7 @@ export const orderMapper = (order) => {
     username: order.fields['Username'],
     distance: order.fields['Distance'],
     posterId: order.fields['Poster ID'],
+    posterTransactionId: order.fields['Poster Transaction ID']
   }
 }
 
@@ -140,6 +141,7 @@ const getStatusName = (statusCode) => {
 
 export const posterOrderMapper = (posterOrder) => {
   const priceAppendix = 100;
+  console.log(posterOrder);
 
   return {
     id: posterOrder.incoming_order_id,

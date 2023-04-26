@@ -1,8 +1,9 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
-import {orderCardMessage, statusByAction} from '../utils.js';
+import {actions, orderCardMessage, statusByAction, statuses} from '../utils.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
-import {loadingKeyboard, orderShopDeliveryKeyboard, orderShopDoneKeyboard} from "../keyboards.js";
+import {orderShopDeliveryKeyboard, orderShopDoneKeyboard} from "../keyboards.js";
+import {updateIncomingOrder} from "../../services/posterPos.ts";
 
 const getData = (order) => {
   switch(order.status) {
@@ -65,6 +66,10 @@ export const updateOrderAction = async (order) => {
       shopAddressMessage: shopAddressMessageNew
     }
   });
+
+  if(order.status === statuses.DELIVERY || order.status === statuses.COMPLETE) {
+    await updateIncomingOrder(order);
+  }
 };
 
 export const orderAction = async (ctx) => {
@@ -75,5 +80,5 @@ export const orderAction = async (ctx) => {
   await updateOrderAction({
     ...order,
     status: statusByAction[action]
-  })
+  });
 }

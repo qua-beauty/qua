@@ -6,6 +6,14 @@ export const masks = {
   phone: new RegExp(/^(\+)?((\d{2,3}) ?\d|\d)(([ -]?\d)|( ?(\d{2,3}) ?)){5,12}\d$/),
 };
 
+export const statuses = {
+  CANCELLED: 'cancelled',
+  DECLINED: 'declined',
+  COOK: 'cook',
+  DELIVERY: 'delivery',
+  COMPLETE: 'complete'
+}
+
 export const actions = {
   ABOUT: 'ABOUT',
   CONNECT: 'CONNECT',
@@ -21,11 +29,11 @@ export const actions = {
 }
 
 export const statusByAction = {
-  [actions.ORDER_CANCEL]: 'cancelled',
-  [actions.ORDER_DECLINE]: 'declined',
-  [actions.ORDER_COOK]: 'cook',
-  [actions.ORDER_DELIVERY]: 'delivery',
-  [actions.ORDER_COMPLETE]: 'complete',
+  [actions.ORDER_CANCEL]: statuses.CANCELLED,
+  [actions.ORDER_DECLINE]: statuses.DECLINED,
+  [actions.ORDER_COOK]: statuses.COOK,
+  [actions.ORDER_DELIVERY]: statuses.DELIVERY,
+  [actions.ORDER_COMPLETE]: statuses.COMPLETE,
 }
 
 export const calculateDistance = (distance) => {
