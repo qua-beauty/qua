@@ -34,21 +34,6 @@ async function orderConversation(conversation, ctx) {
 
   const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder));
 
-  if(ctx.update.message.from.id.toString() === '48361363' && order.shop.posterPos.id) {
-    try {
-      const posterOrder = await conversation.external(async () => await createIncomingOrder(ctx.session.newOrder));
-
-      ctx.session.newOrder = {
-        ...ctx.session.newOrder,
-        posterId: posterOrder.id.toString()
-      }
-
-      await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   do {
     const {message_id: addressTitleMessageId} =
       await ctx.reply(t('messageAddAddress'), {
@@ -125,6 +110,21 @@ async function orderConversation(conversation, ctx) {
     await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
   } catch (e) {
     console.log(e);
+  }
+
+  if(order.shop.posterPos.id) {
+    try {
+      const posterOrder = await conversation.external(async () => await createIncomingOrder(ctx.session.newOrder));
+
+      ctx.session.newOrder = {
+        ...ctx.session.newOrder,
+        posterId: posterOrder.id.toString()
+      }
+
+      await conversation.external(async () => await updateOrder(ctx.session.newOrder.id, ctx.session.newOrder));
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 }
