@@ -5,7 +5,7 @@ import {posterOrderMapper} from '../../shared/mappers.js';
 export const createIncomingOrder = async (data) => {
   try {
     console.log(data);
-    const posterPos = await getPosterPos(data.shop.posterPos.id);
+    const posterPos = await getPosterPos(data.shopPosterPos);
 
     return await fetch(`https://joinposter.com/api/incomingOrders.createIncomingOrder?token=${posterPos.accessToken}`, {
       method: 'POST',
@@ -22,7 +22,7 @@ export const createIncomingOrder = async (data) => {
 };
 
 export const updateIncomingOrder = async (data) => {
-  const posterPos = await getPosterPos(data.shop.posterPos.id);
+  const posterPos = await getPosterPos(data.shopPosterPos);
 
   try {
     await fetch(`https://joinposter.com/api/transactions.updateTransaction?token=${posterPos.accessToken}`, {

@@ -19,10 +19,6 @@ export const shopMapper = (shop) => {
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
-    posterPos: {
-      id: shop.fields['PosterPos'] ? shop.fields['PosterPos'][0] : undefined,
-      account: shop.fields['PosterPos Account Number'] ? shop.fields['PosterPos Account Number'][0] : undefined
-    }
   };
 };
 
@@ -73,11 +69,9 @@ export const orderMapper = (order) => {
     date: new Date(order.fields['Date']),
     status: order.fields['Status'].toLowerCase(),
     user: order.fields['User'] ?  order.fields['User'][0] : undefined,
-    userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
     products: order.fields['Products'],
     address: order.fields['Address'],
     shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
-    shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
     count: order.fields['Count'],
     price: order.fields['Price'],
     commission: order.fields['Commission'],
@@ -89,7 +83,10 @@ export const orderMapper = (order) => {
     username: order.fields['Username'],
     distance: order.fields['Distance'],
     posterId: order.fields['Poster ID'],
-    posterTransactionId: order.fields['Poster Transaction ID']
+    posterTransactionId: order.fields['Poster Transaction ID'],
+    shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
+    userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
+    shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined
   }
 }
 

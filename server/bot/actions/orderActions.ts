@@ -120,7 +120,7 @@ export const updateOrderAction = async (order) => {
 
   await updateOrder(orderId, orderData);
 
-  if (order.shop.posterPos.id) {
+  if (order.shopPosterPos) {
     if (order.status === statuses.DELIVERY || order.status === statuses.COMPLETE) {
       try {
         await updateIncomingOrder(order);
