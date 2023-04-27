@@ -50,7 +50,8 @@ const Basket = () => {
           count: product.count,
           icon: product.icon,
           price: product.price,
-          posterId: product.posterId
+          posterId: product.posterId,
+          weight: product.weight
         })),
         status: 'draft',
       }]).unwrap().then(async (order) => {

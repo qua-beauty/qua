@@ -46,7 +46,8 @@ export const productMapper = (product) => {
     isVegetarian: product.fields['isVegetarian'],
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
-    posterId: product.fields['Poster ID']
+    posterId: product.fields['Poster ID'],
+    weight: product.fields['Weight']
   };
 }
 

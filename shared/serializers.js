@@ -54,7 +54,7 @@ export const serializePosterOrder = (orderData) => {
     products: order.productsJson.map(p => ({
       product_id: p.posterId,
       price: p.price*priceAppendix,
-      count: p.count
+      count: p.weight ? (p.weight * p.count) : p.count // if weight product, 1 equals 1 gram
     })),
     phone: '+79956324351',
     delivery_price: order.deliveryPrice*priceAppendix
