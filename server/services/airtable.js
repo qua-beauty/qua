@@ -1,5 +1,5 @@
 import {Airtable} from 'https://deno.land/x/airtable@v1.1.1/mod.ts';
-import {orderMapper, posterPosMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {orderMapper, posterPosMapper, userMapper} from '../../shared/mappers.js';
 import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 const airtableOrdersBase = new Airtable({
@@ -61,15 +61,7 @@ export const saveUser = async (userData) => {
 export const getOrder = async (orderId) => {
   try {
     const orderData = await airtableOrdersBase.find(orderId);
-    const order = orderMapper(orderData);
-
-    const shopData = await airtableOrdersBase.find(order.shop);
-    const shop = shopMapper(shopData);
-
-    return {
-      ...order,
-      shop
-    };
+    return orderMapper(orderData);
   } catch (error) {
     console.error(`Error in getOrder function: ${error}`);
     throw error;
@@ -79,6 +71,8 @@ export const getOrder = async (orderId) => {
 export const updateOrder = async (orderId, data) => {
   const orderData = serializeOrder([data]);
   const order = orderData[0];
+
+  console.log(order);
 
   return await airtableOrdersBase.update([{
     id: orderId,

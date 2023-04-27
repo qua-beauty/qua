@@ -19,10 +19,6 @@ export const shopMapper = (shop) => {
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
-    posterPos: {
-      id: shop.fields['PosterPos'] ? shop.fields['PosterPos'][0] : undefined,
-      account: shop.fields['PosterPos Account Number'] ? shop.fields['PosterPos Account Number'][0] : undefined
-    }
   };
 };
 
@@ -50,7 +46,8 @@ export const productMapper = (product) => {
     isVegetarian: product.fields['isVegetarian'],
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
-    posterId: product.fields['Poster ID']
+    posterId: product.fields['Poster ID'],
+    weight: product.fields['Weight']
   };
 }
 
@@ -87,6 +84,10 @@ export const orderMapper = (order) => {
     username: order.fields['Username'],
     distance: order.fields['Distance'],
     posterId: order.fields['Poster ID'],
+    posterTransactionId: order.fields['Poster Transaction ID'],
+    shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
+    userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
+    shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined
   }
 }
 
@@ -140,6 +141,7 @@ const getStatusName = (statusCode) => {
 
 export const posterOrderMapper = (posterOrder) => {
   const priceAppendix = 100;
+  console.log(posterOrder);
 
   return {
     id: posterOrder.incoming_order_id,

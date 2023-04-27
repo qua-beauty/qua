@@ -41,5 +41,7 @@ bot.callbackQuery(new RegExp(actions.HOME), backToHome);
 bot.callbackQuery(new RegExp(actions.ORDER_CANCEL), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_DECLINE), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_COOK), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_COOKED), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_DELIVERY), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_COMPLETE), orderAction);
+bot.callbackQuery(new RegExp(actions.ORDER_CLOSED), orderAction);
