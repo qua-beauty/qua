@@ -78,7 +78,7 @@ export const orderMapper = (order) => {
     shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
     count: order.fields['Count'],
     price: order.fields['Price'],
-    commission: order.fields['Commission'] || 0,
+    commission: order.fields['Commission'],
     deliveryPrice: order.fields['Delivery Price'],
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],
