@@ -48,17 +48,23 @@ export const serializeUser = (userData) => {
 export const serializePosterOrder = (orderData) => {
   const priceAppendix = 100;
 
-  return orderData.map(order => ({
-    spot_id: 1,
-    service_mode: 3,
-    products: order.productsJson.map(p => ({
-      product_id: p.posterId,
-      price: p.price*priceAppendix,
-      count: p.weight ? (p.weight * p.count) : p.count // if weight product, 1 equals 1 gram
-    })),
-    phone: '+79956324351',
-    delivery_price: order.deliveryPrice*priceAppendix
-  }))[0];
+
+
+  return orderData.map(order => {
+    const products = order.productsJson.filter(p => p.hasOwnProperty('posterId'));
+
+    return {
+      spot_id: 1,
+      service_mode: 3,
+      products: products.map(p => ({
+        product_id: p.posterId,
+        price: p.price*priceAppendix,
+        count: p.weight ? (p.weight * p.count) : p.count // if weight product, 1 equals 1 gram
+      })),
+      phone: '+79956324351',
+      delivery_price: order.deliveryPrice*priceAppendix
+    };
+  })[0];
 };
 
 export const serializePosterTransaction = (orderData) => {
