@@ -20,7 +20,8 @@
   "messageOrderDeclined": "Заказ отменен рестораном",
   "messageOrderCancelled": "Заказ отменен",
   "messageOrderCooking": "Заказ подтвердили и начали готовить",
-  "messageOrderDelivering": "Заказ готов и спешит к вам!",
+  "messageOrderCooked": "Заказ приготовлен и ожидает курьера",
+  "messageOrderDelivery": "Заказ готов и спешит к вам!",
   "messageOrderComplete": "Заказ выполнен!",
   "messageBotError": "Что-то случилось с ботом, переводим вас на оператора",
   "orderCard": {

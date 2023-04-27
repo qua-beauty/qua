@@ -24,10 +24,13 @@ export const orderShopKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardDeclineOrder'), `${actions.ORDER_DECLINE} ${orderId}`)
   .text(t('keyboardAcceptOrder'), `${actions.ORDER_COOK} ${orderId}`);
 
-export const orderShopDeliveryKeyboard = (orderId) => new InlineKeyboard()
+export const orderCookKeyboard = (orderId) => new InlineKeyboard()
+  .text(t('keyboardCookOrder'), `${actions.ORDER_COOKED} ${orderId}`);
+
+export const orderDeliveryKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardDeliveryOrder'), `${actions.ORDER_DELIVERY} ${orderId}`);
 
-export const orderShopDoneKeyboard = (orderId) => new InlineKeyboard()
+export const orderCompleteKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCompleteOrder'), `${actions.ORDER_COMPLETE} ${orderId}`);
 
 export const orderUserKeyboard = (orderId) => new InlineKeyboard()

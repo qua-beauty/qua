@@ -1,69 +1,98 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
-import {actions, orderCardMessage, statusByAction, statuses} from '../utils.js';
+import {orderCardMessage, statusByAction, statuses} from '../utils.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
-import {orderShopDeliveryKeyboard, orderShopDoneKeyboard} from "../keyboards.js";
+import {orderCompleteKeyboard, orderCookKeyboard, orderDeliveryKeyboard} from "../keyboards.js";
 import {updateIncomingOrder} from "../../services/posterPos.ts";
 
-const getData = (order) => {
-  switch(order.status) {
+const getMessageData = (order) => {
+  switch (order.status) {
     case 'cook':
       return {
         message: t('messageOrderCooking'),
-        keyboard: {reply_markup: orderShopDeliveryKeyboard(order.id)}
+        shopKeyboard: {reply_markup: orderCookKeyboard(order.id)},
+        deliveryKeyboard: null
+      };
+    case 'cooked':
+      return {
+        message: t('messageOrderCooked'),
+        shopKeyboard: null,
+        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id)},
       };
     case 'delivery':
       return {
-        message: t('messageOrderDelivering'),
-        keyboard: { reply_markup: orderShopDoneKeyboard(order.id) }
+        message: t('messageOrderDelivery'),
+        shopKeyboard: null,
+        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id)}
       }
     case 'complete':
       return {
         message: t('messageOrderComplete'),
-        keyboard: null
+        shopKeyboard: null,
+        deliveryKeyboard: null
       }
     case 'declined':
       return {
         message: t('messageOrderDeclined'),
-        keyboard: null
+        shopKeyboard: null,
+        deliveryKeyboard: null
       }
     case 'cancelled':
       return {
         message: t('messageOrderCancelled'),
-        keyboard: null
+        shopKeyboard: null,
+        deliveryKeyboard: null
       }
   }
 }
 
 export const updateOrderAction = async (order) => {
+  if(order.status === statuses.CLOSED) return; // Don't do anything if status CLOSED
+
   const orderId = order.id;
   const location = order.address.split(', ');
-  const {userChat, adminChat, userOrderMessage, userTitleMessage, shopOrderMessage, shopAddressMessage} = order.telegram;
-  const statusData = getData(order);
+  const messageData = getMessageData(order);
+  const deliveryChat: number = -1001927483990 //TODO: REMOVE IT FROM HERE
+  const {
+    userChat,
+    adminChat,
+    userOrderMessage,
+    userTitleMessage,
+    shopOrderMessage,
+    shopAddressMessage
+  } = order.telegram;
 
   try {
-    await bot.api.deleteMessage(adminChat, shopOrderMessage);
-    await bot.api.deleteMessage(adminChat, shopAddressMessage);
-    await bot.api.deleteMessage(userChat, userOrderMessage);
-    await bot.api.deleteMessage(userChat, userTitleMessage);
+    if (shopOrderMessage) await bot.api.deleteMessage(adminChat, shopOrderMessage);
+    if (shopAddressMessage) await bot.api.deleteMessage(adminChat, shopAddressMessage);
+    if (userOrderMessage) await bot.api.deleteMessage(userChat, userOrderMessage);
+    if (userTitleMessage) await bot.api.deleteMessage(userChat, userTitleMessage);
+    if (deliveryOrderMessage) await bot.api.deleteMessage(deliveryChat, deliveryOrderMessage);
+    if (deliveryAddressMessage) await bot.api.deleteMessage(deliveryChat, deliveryAddressMessage);
   } catch (error) {
     console.error(error);
   }
 
-  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(adminChat, orderCardMessage(order), statusData.keyboard);
-  const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(adminChat, location[0], location[1]);
-  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order));
-  const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, statusData.message);
+  const {message_id: shopOrderMessage} = await bot.api.sendMessage(order.telegram.adminChat, orderCardMessage(order), messageData.shopKeyboard);
+  const {message_id: shopAddressMessage} = await bot.api.sendLocation(order.telegram.adminChat, location[0], location[1]);
+
+  const {message_id: userOrderMessage} = await bot.api.sendMessage(order.telegram.userChat, orderCardMessage(order));
+  const {message_id: userTitleMessage} = await bot.api.sendMessage(order.telegram.userChat, messageData.message);
+
+  const {message_id: deliveryOrderMessage} = await bot.api.sendMessage(order.telegram.deliveryChat, orderCardMessage(order), messageData.deliveryKeyboard);
+  const {message_id: deliveryAddressMessage} = await bot.api.sendLocation(order.telegram.deliveryChat, location[0], location[1]);
 
   await updateOrder(orderId, {
     ...order,
     telegram: {
       ...order.telegram,
       status: order.status,
-      userOrderMessage: userOrderMessageNew,
-      userTitleMessage: userTitleMessageNew,
-      shopOrderMessage: shopOrderMessageNew,
-      shopAddressMessage: shopAddressMessageNew
+      shopOrderMessage,
+      shopAddressMessage,
+      userOrderMessage,
+      userTitleMessage,
+      deliveryOrderMessage,
+      deliveryAddressMessage
     }
   });
 
@@ -76,9 +105,10 @@ export const orderAction = async (ctx) => {
   const action = ctx.update.callback_query.data.split(' ')[0];
   const orderId = ctx.update.callback_query.data.split(' ')[1];
   const order = await getOrder(orderId);
+  const status = statusByAction[action];
 
   await updateOrderAction({
     ...order,
-    status: statusByAction[action]
-  });
+    status,
+  })
 }
