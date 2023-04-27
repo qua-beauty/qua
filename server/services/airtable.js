@@ -80,6 +80,8 @@ export const updateOrder = async (orderId, data) => {
   const orderData = serializeOrder([data]);
   const order = orderData[0];
 
+  console.log(order);
+
   return await airtableOrdersBase.update([{
     id: orderId,
     fields: order.fields

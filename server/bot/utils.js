@@ -7,6 +7,7 @@ export const masks = {
 };
 
 export const statuses = {
+  PENDING: 'pending',
   CANCELLED: 'cancelled',
   DECLINED: 'declined',
   COOK: 'cook',
