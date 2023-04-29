@@ -19,6 +19,7 @@ export const shopMapper = (shop) => {
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
+    available: shop.fields['Available']
   };
 };
 

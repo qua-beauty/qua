@@ -77,7 +77,7 @@ function Catalog() {
     }
   }, [shops]);
 
-  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime);
+  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
 
   return currentShop ? (
     <Container p={'16px'}>
@@ -89,9 +89,9 @@ function Catalog() {
               {isWorking ? <>
                 <Online/> {t('info.status.active')}
               </> : <>
-                <Offline/> {t('info.status.inactive')}
+                <Offline/> {currentShop.available ? t('info.status.inactive') : ''}
               </>}
-              {isWorking ? currentShop.workTime : currentShop.startTime}
+              {isWorking ? currentShop.workTime : (currentShop.available ? currentShop.startTime : t('info.status.closed'))}
             </Text>
           </Flex>
         </Box>
