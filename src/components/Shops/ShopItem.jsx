@@ -6,8 +6,8 @@ import {isWorkingTime} from '../../helpers.js';
 import {useTranslation} from 'react-i18next';
 
 const ShopItem = ({onSelect, ...shop}) => {
-  const {name, logo, thumbnail, startTime, endTime, workTime} = shop;
-  const isWorking = isWorkingTime(startTime, endTime);
+  const {name, logo, thumbnail, startTime, endTime, workTime, available} = shop;
+  const isWorking = isWorkingTime(startTime, endTime) && available;
   const {t} = useTranslation();
 
   return (
@@ -37,9 +37,9 @@ const ShopItem = ({onSelect, ...shop}) => {
               {isWorking ? <>
                 <Online/> {t('info.status.active')}
               </> : <>
-                <Offline/> {t('info.status.inactive')}
+                <Offline/> {available ? t('info.status.inactive') : ''}
               </>}
-              {isWorking ? shop.workTime : shop.startTime}
+              {isWorking ? shop.workTime : (available ? shop.startTime : t('info.status.closed'))}
             </Text>
           </Flex>
         </Flex>
