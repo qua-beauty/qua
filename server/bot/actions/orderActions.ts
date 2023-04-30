@@ -85,10 +85,35 @@ export const updateOrderAction = async (order) => {
   if (order.status !== statuses.PENDING) {
     try {
       if (order?.telegram?.shopOrderMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopOrderMessage);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
       if (order?.telegram?.shopAddressMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopAddressMessage);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
       if (order?.telegram?.userOrderMessage) await bot.api.deleteMessage(userChat, order.telegram.userOrderMessage);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
       if (order?.telegram?.userTitleMessage) await bot.api.deleteMessage(userChat, order.telegram.userTitleMessage);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
       if (order?.telegram?.deliveryOrderMessage) await bot.api.deleteMessage(deliveryChat, order.telegram.deliveryOrderMessage);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
       if (order?.telegram?.deliveryAddressMessage) await bot.api.deleteMessage(deliveryChat, order.telegram.deliveryAddressMessage);
     } catch (error) {
       console.error(error);
@@ -102,7 +127,13 @@ export const updateOrderAction = async (order) => {
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
   const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, orderCardMessage(order), messageData.deliveryKeyboard);
-  const {message_id: deliveryAddressMessageNew} = await bot.api.sendLocation(deliveryChat, location[0], location[1]);
+
+  let deliveryAddressMessageNew = order.telegram.deliveryOrderMessage;
+
+  if (order.status !== statuses.COMPLETE && order.status !== statuses.CLOSED) {
+    const {message_id: messageId} = await bot.api.sendLocation(deliveryChat, location[0], location[1]);
+    deliveryAddressMessageNew = messageId;
+  }
 
   let orderData = {
     ...order,
