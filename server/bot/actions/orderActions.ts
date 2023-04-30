@@ -149,8 +149,6 @@ export const updateOrderAction = async (order) => {
     }
   }
 
-  await updateOrder(orderId, orderData);
-
   if (order.shopPosterPos) {
     if (order.status === statuses.DELIVERY || order.status === statuses.COMPLETE) {
       try {
@@ -164,19 +162,19 @@ export const updateOrderAction = async (order) => {
       try {
         const posterOrder = await createIncomingOrder(orderData);
 
-        console.log(posterOrder);
-
         orderData = {
           ...orderData,
           posterId: posterOrder.id.toString()
         }
-
-        await updateOrder(orderId, orderData);
       } catch (e) {
         console.log(e);
       }
     }
   }
+
+  console.log(orderData);
+
+  await updateOrder(orderId, orderData);
 };
 
 export const orderAction = async (ctx) => {
