@@ -84,7 +84,7 @@ const Basket = () => {
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
       } else if(!isWorking) {
-        webApp.MainButton.text = t('continueNotWorking');
+        webApp.MainButton.text = t('basket.continueNotWorking');
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
       } else {
