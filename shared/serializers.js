@@ -62,7 +62,7 @@ export const serializePosterOrder = (orderData) => {
         count: p.weight ? (p.weight * p.count) : p.count // if weight product, 1 equals 1 gram
       })),
       phone: '+79956324351',
-      delivery_price: order.deliveryPrice*priceAppendix
+      delivery_price: 0
     };
   })[0];
 };

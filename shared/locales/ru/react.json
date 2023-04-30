@@ -19,6 +19,7 @@
     "addButton": "Добавить в корзину",
     "viewButton": "Корзина",
     "continueButton": "Продолжить",
+    "continueNotWorking": "Ресторан закрыт",
     "continueDisabledButton": "Корзина пуста"
   }
 }
