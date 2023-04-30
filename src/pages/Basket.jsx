@@ -11,6 +11,7 @@ import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import ReactMarkdown from 'react-markdown';
 import {rgba} from '../utils.js';
+import {isWorkingTime} from '../helpers.js';
 
 const Basket = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const Basket = () => {
   const [saveOrder] = useSaveOrderMutation();
   const {t, i18n: { language: lng }} = useTranslation();
   const theme = useTheme();
+
+  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -80,14 +83,21 @@ const Basket = () => {
         webApp.MainButton.text = t('basket.continueDisabledButton');
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
+      } else if(!isWorking) {
+        webApp.MainButton.text = t('continueNotWorking');
+        webApp.MainButton.color = theme.colors.background.default;
+        webApp.MainButton.disable();
       } else {
-        webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(
+        webApp.MainButton.text = `${t('basket.continueNotWorking')} ${count > 0 && `(${count}x${price} ${t(
           `currency.${currency}`, {ns: 'common'})})`}`;
         webApp.MainButton.color = '#66bb6a';
         webApp.MainButton.enable();
       }
 
-      webApp.MainButton.onClick(handleMakeOrder);
+      if(isWorking) {
+        webApp.MainButton.onClick(handleMakeOrder);
+      }
+
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
         navigate('/');
