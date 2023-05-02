@@ -32,14 +32,14 @@ const getMessageData = (order) => {
       return {
         message: t('messageOrderCooked'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id)},
+        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'en')},
         userKeyboard: null
       };
     case statuses.DELIVERY:
       return {
         message: t('messageOrderDelivery'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id)},
+        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'en')},
         userKeyboard: null
       }
     case statuses.COMPLETE:
@@ -128,7 +128,7 @@ export const updateOrderAction = async (order) => {
 
   const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, orderCardMessage(order), messageData.deliveryKeyboard);
 
-  let deliveryAddressMessageNew = order.telegram.deliveryOrderMessage;
+  let deliveryAddressMessageNew;
 
   if (order.status !== statuses.COMPLETE && order.status !== statuses.CLOSED) {
     const {message_id: messageId} = await bot.api.sendLocation(deliveryChat, location[0], location[1]);
@@ -149,6 +149,8 @@ export const updateOrderAction = async (order) => {
     }
   }
 
+  await updateOrder(orderId, orderData);
+
   if (order.shopPosterPos) {
     if (order.status === statuses.DELIVERY || order.status === statuses.COMPLETE) {
       try {
@@ -166,6 +168,8 @@ export const updateOrderAction = async (order) => {
           ...orderData,
           posterId: posterOrder.id.toString()
         }
+
+        await updateOrder(orderId, orderData);
       } catch (e) {
         console.log(e);
       }
@@ -173,8 +177,6 @@ export const updateOrderAction = async (order) => {
   }
 
   console.log(orderData);
-
-  await updateOrder(orderId, orderData);
 };
 
 export const orderAction = async (ctx) => {
