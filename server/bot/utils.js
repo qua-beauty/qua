@@ -12,6 +12,7 @@ export const statuses = {
   COOKED: 'cooked',
   DELIVERY: 'delivery',
   COMPLETE: 'complete',
+  COMPLETE_PICKUP: 'completePickup',
   CLOSED: 'closed',
 }
 

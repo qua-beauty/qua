@@ -72,7 +72,7 @@ export const orderMapper = (order) => {
     id: order.id,
     date: new Date(order.fields['Date']),
     status: order.fields['Status'].toLowerCase(),
-    type: order.fields['Type'].toLowerCase(),
+    type: order.fields['Type'] ? order.fields['Type'].toLowerCase() : undefined,
     user: order.fields['User'] ?  order.fields['User'][0] : undefined,
     userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
     products: order.fields['Products'],

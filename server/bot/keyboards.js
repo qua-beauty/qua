@@ -28,6 +28,9 @@ export const orderShopKeyboard = (orderId) => new InlineKeyboard()
 export const orderCookedKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCookedOrder'), `${actions.ORDER_COOKED} ${orderId}`);
 
+export const orderPickupCookedKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
+  .text(t('keyboardCookedOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);
+
 export const orderDeliveryKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
   .text(t('keyboardDeliveryOrder', lng), `${actions.ORDER_DELIVERY} ${orderId}`);
 

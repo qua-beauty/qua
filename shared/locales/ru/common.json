@@ -6,9 +6,14 @@
     "cooked": "⌛ Приготовлен, ожидает курьера",
     "delivery": "\uD83D\uDEF5 В доставке",
     "complete": "\uD83C\uDFC1 Курьер ожидает на месте",
+    "completePickup": "\uD83E\uDDD1\u200D\uD83C\uDF73 Ожидает вас в ресторане",
     "closed": "✅ Выполнен",
     "declined": "\uD83D\uDED1 Отклонен Рестораном",
     "cancelled": "❌ Отменен"
+  },
+  "type": {
+    "delivery": "\uD83D\uDE97 Доставка",
+    "pickup": "\uD83D\uDC4C Самовывоз"
   },
   "price": {
     "free": "Бесплатно",
