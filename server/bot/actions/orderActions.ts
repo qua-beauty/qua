@@ -1,5 +1,6 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
-import {orderCardMessage, statusByAction, statuses} from '../utils.js';
+import {statusByAction, statuses} from '../utils.js';
+import {defaultOrderTemplate, deliveryOrderTemplate} from '../templates.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
 import {
@@ -112,28 +113,14 @@ export const updateOrderAction = async (order) => {
     } catch (error) {
       console.error(error);
     }
-
-    try {
-      if (order?.telegram?.deliveryAddressMessage) await bot.api.deleteMessage(deliveryChat, order.telegram.deliveryAddressMessage);
-    } catch (error) {
-      console.error(error);
-    }
   }
 
-  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, orderCardMessage(order), messageData.shopKeyboard);
+  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, defaultOrderTemplate(order), messageData.shopKeyboard);
   const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(shopChat, location[0], location[1]);
-
-  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order), messageData.userKeyboard);
+  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
-  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, orderCardMessage(order), messageData.deliveryKeyboard);
-
-  let deliveryAddressMessageNew;
-
-  if (order.status !== statuses.COMPLETE && order.status !== statuses.CLOSED) {
-    const {message_id: messageId} = await bot.api.sendLocation(deliveryChat, location[0], location[1]);
-    deliveryAddressMessageNew = messageId;
-  }
+  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order), messageData.deliveryKeyboard);
 
   let orderData = {
     ...order,
@@ -144,8 +131,7 @@ export const updateOrderAction = async (order) => {
       shopAddressMessage: shopAddressMessageNew,
       userOrderMessage: userOrderMessageNew,
       userTitleMessage: userTitleMessageNew,
-      deliveryOrderMessage: deliveryOrderMessageNew,
-      deliveryAddressMessage: deliveryAddressMessageNew
+      deliveryOrderMessage: deliveryOrderMessageNew
     }
   }
 

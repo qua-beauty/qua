@@ -1,4 +1,5 @@
-import {calculateDistance, orderCardMessage, statuses} from '../utils.js';
+import {calculateDistance, statuses} from '../utils.js';
+import {defaultOrderTemplate} from '../templates.js';
 import {getOrder} from '../../services/airtable.js';
 import {shareAddressKeyboard} from '../keyboards.js';
 import {t} from '../i18n.js';
@@ -29,7 +30,7 @@ async function orderConversation(conversation, ctx) {
     username: ctx.message.from.username ? ctx.message.from.username : undefined,
   };
 
-  const {message_id: orderMessage} = await ctx.reply(orderCardMessage(ctx.session.newOrder));
+  const {message_id: orderMessage} = await ctx.reply(defaultOrderTemplate(ctx.session.newOrder));
 
   do {
     const {message_id: addressTitleMessageId} =
