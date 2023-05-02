@@ -78,7 +78,6 @@ export const updateOrderAction = async (order) => {
   console.log(order);
 
   const orderId = order.id;
-  const location = order.address.split(', ');
   const messageData = getMessageData(order);
   const deliveryChat = -1001927483990 //TODO: REMOVE IT FROM HERE
   const {shopChat, userChat} = order;
@@ -86,12 +85,6 @@ export const updateOrderAction = async (order) => {
   if (order.status !== statuses.PENDING) {
     try {
       if (order?.telegram?.shopOrderMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopOrderMessage);
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      if (order?.telegram?.shopAddressMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopAddressMessage);
     } catch (error) {
       console.error(error);
     }
@@ -116,7 +109,7 @@ export const updateOrderAction = async (order) => {
   }
 
   const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, defaultOrderTemplate(order), messageData.shopKeyboard);
-  const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(shopChat, location[0], location[1]);
+
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
@@ -128,7 +121,6 @@ export const updateOrderAction = async (order) => {
       ...order.telegram,
       status: order.status,
       shopOrderMessage: shopOrderMessageNew,
-      shopAddressMessage: shopAddressMessageNew,
       userOrderMessage: userOrderMessageNew,
       userTitleMessage: userTitleMessageNew,
       deliveryOrderMessage: deliveryOrderMessageNew

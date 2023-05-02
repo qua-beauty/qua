@@ -1,10 +1,9 @@
 import {t} from './i18n.js';
 import {getGoogleMapsLink} from './utils.js';
 
-export const defaultOrderTemplate = (order, type = 'user') => {
-  const lng = 'ru';
-
+export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
+  const location = order.address.split(', ');
 
   let data = {
     id: `#${order.number}\n`,
@@ -14,14 +13,14 @@ export const defaultOrderTemplate = (order, type = 'user') => {
     }, '') + '\n',
     count: order.count,
     phone: order.phone,
-    address: order.address,
     username: order.username,
     comment: order.comment,
     price: order.price,
     deliveryPrice: order.deliveryPrice,
     commission: order.commission,
     sum,
-    status: t(`status.${order.status}`, lng, {ns: 'common'}),
+    address: location ? getGoogleMapsLink(location[0], location[1]) : '',
+    status: t(`status.${order.status}`, lng, {ns: 'common'})
   };
 
   const dataKeys = Object.keys(data);
@@ -45,12 +44,16 @@ export const defaultOrderTemplate = (order, type = 'user') => {
       }
     }
 
+    if(key === 'address') {
+      return acc + `\n${t('orderCard.' + key)}📍 ${value}\n`;
+    }
+
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
   })
 };
 
 export const deliveryOrderTemplate = (order, lng = 'ru') => {
-  const location = order.address.split(', ')
+  const location = order.address.split(', ');
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
   let data = {
