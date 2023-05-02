@@ -45,7 +45,7 @@ export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
     }
 
     if(key === 'address') {
-      return acc + `\n${t('orderCard.' + key)}📍 ${value}\n`;
+      return acc + `\n${t('orderCard.' + key)}📍${value}\n`;
     }
 
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
