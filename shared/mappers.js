@@ -90,7 +90,8 @@ export const orderMapper = (order) => {
     posterTransactionId: order.fields['Poster Transaction ID'],
     shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
     userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
-    shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined
+    shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined,
+    number: order.fields['Number']
   }
 }
 

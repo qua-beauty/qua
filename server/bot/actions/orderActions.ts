@@ -1,5 +1,6 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
-import {orderCardMessage, statusByAction, statuses} from '../utils.js';
+import {statusByAction, statuses} from '../utils.js';
+import {defaultOrderTemplate, deliveryOrderTemplate} from '../templates.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
 import {
@@ -32,21 +33,21 @@ const getMessageData = (order) => {
       return {
         message: t('messageOrderCooked'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'en')},
+        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'si')},
         userKeyboard: null
       };
     case statuses.DELIVERY:
       return {
         message: t('messageOrderDelivery'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'en')},
+        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'si')},
         userKeyboard: null
       }
     case statuses.COMPLETE:
       return {
         message: t('messageOrderComplete'),
         shopKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
-        deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
+        deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id, 'si')},
         userKeyboard: null
       }
     case statuses.CLOSED:
@@ -77,7 +78,6 @@ export const updateOrderAction = async (order) => {
   console.log(order);
 
   const orderId = order.id;
-  const location = order.address.split(', ');
   const messageData = getMessageData(order);
   const deliveryChat = -1001927483990 //TODO: REMOVE IT FROM HERE
   const {shopChat, userChat} = order;
@@ -85,12 +85,6 @@ export const updateOrderAction = async (order) => {
   if (order.status !== statuses.PENDING) {
     try {
       if (order?.telegram?.shopOrderMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopOrderMessage);
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      if (order?.telegram?.shopAddressMessage) await bot.api.deleteMessage(shopChat, order.telegram.shopAddressMessage);
     } catch (error) {
       console.error(error);
     }
@@ -112,28 +106,14 @@ export const updateOrderAction = async (order) => {
     } catch (error) {
       console.error(error);
     }
-
-    try {
-      if (order?.telegram?.deliveryAddressMessage) await bot.api.deleteMessage(deliveryChat, order.telegram.deliveryAddressMessage);
-    } catch (error) {
-      console.error(error);
-    }
   }
 
-  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, orderCardMessage(order), messageData.shopKeyboard);
-  const {message_id: shopAddressMessageNew} = await bot.api.sendLocation(shopChat, location[0], location[1]);
+  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, defaultOrderTemplate(order), messageData.shopKeyboard);
 
-  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, orderCardMessage(order), messageData.userKeyboard);
+  const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
-  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, orderCardMessage(order), messageData.deliveryKeyboard);
-
-  let deliveryAddressMessageNew;
-
-  if (order.status !== statuses.COMPLETE && order.status !== statuses.CLOSED) {
-    const {message_id: messageId} = await bot.api.sendLocation(deliveryChat, location[0], location[1]);
-    deliveryAddressMessageNew = messageId;
-  }
+  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order, 'si'), messageData.deliveryKeyboard);
 
   let orderData = {
     ...order,
@@ -141,11 +121,9 @@ export const updateOrderAction = async (order) => {
       ...order.telegram,
       status: order.status,
       shopOrderMessage: shopOrderMessageNew,
-      shopAddressMessage: shopAddressMessageNew,
       userOrderMessage: userOrderMessageNew,
       userTitleMessage: userTitleMessageNew,
-      deliveryOrderMessage: deliveryOrderMessageNew,
-      deliveryAddressMessage: deliveryAddressMessageNew
+      deliveryOrderMessage: deliveryOrderMessageNew
     }
   }
 

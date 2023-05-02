@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (user && user.language) {
-      i18n.changeLanguage(user.language);
+      i18n.changeLanguage('ru');
     }
   }, [user])
 
