@@ -7,7 +7,7 @@ export const defaultOrderTemplate = (order, type = 'user') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
   let data = {
-    id: `#${order.id}\n`,
+    id: `#${order.number}\n`,
     title: type,
     products: order.productsJson.reduce((acc, product) => {
       return acc + `${product.name} (${product.count} x ${product.price})\n`;
@@ -54,7 +54,7 @@ export const deliveryOrderTemplate = (order, lng = 'ru') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
   let data = {
-    id: `#${order.id}\n`,
+    id: `#${order.number}\n`,
     count: order.count,
     username: order.username,
     sum,
