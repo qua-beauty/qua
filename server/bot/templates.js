@@ -57,12 +57,11 @@ export const deliveryOrderTemplate = (order, lng = 'ru') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
   let data = {
-    id: `#${order.number}\n`,
+    id: `#${order.number} ${t(`status.${order.status}`, lng, {ns: 'common'})} \n`,
+    address: getGoogleMapsLink(location[0], location[1]),
     count: order.count,
     username: order.username,
     sum,
-    address: getGoogleMapsLink(location[0], location[1]),
-    status: t(`status.${order.status}`, lng, {ns: 'common'})
   };
 
   const dataKeys = Object.keys(data);
@@ -72,7 +71,7 @@ export const deliveryOrderTemplate = (order, lng = 'ru') => {
     const key = dataKeys[index];
 
     if(key === 'address') {
-      return acc + `\n📍 ${value}\n\n`;
+      return acc + `📍 ${value}\n--\n`;
     }
 
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
