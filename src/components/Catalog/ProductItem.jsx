@@ -3,19 +3,21 @@ import {addProduct, clearBasket, deleteProduct} from '../../api/slices/basketSli
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-import {Box, Flex, Heading} from '@chakra-ui/react';
+import {Box, Flex, Heading, useTheme} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import {getProductCount} from '../../api/helpers.js';
 import AddToBasket from '../AddToBasket.jsx';
 import NoImage from '../NoImage.jsx';
 import {webApp} from '../../telegram.js';
+import {Percent} from '@phosphor-icons/react';
 
 const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
   const [added, setAdded] = useState(0);
-  const {name, image, price, id} = product;
+  const {name, image, price, discountPrice, discount, id} = product;
   const {basket, shop: basketShop} = useSelector(state => state.basket);
   const {i18n: {language: lng}} = useTranslation();
+  const theme = useTheme();
 
   const handleAddProduct = () => {
     if(basketShop && (basketShop !== product.shop)) {
@@ -89,14 +91,21 @@ const ProductItem = ({onSelect, ...product}) => {
               maxWidth: 'fit-content'
             }
           }}>
-            {image ? <img src={image} height={'100%'} alt=""/> : <NoImage fontSize={'56px'} />}
+            {image ? <img src={image} height={'100%'} alt=""/> : <NoImage fontSize={'56px'}/>}
+            {discountPrice &&
+              <Box zIndex={3} p={'4px'} display={'flex'} alignItems={'center'} position={'absolute'} right={'8px'}
+                   top={'8px'} overflow={'hidden'} bg={theme.colors.telegram['200']} borderRadius={'8px'}
+                   color={'white'}>
+                <Percent size={28} weight="duotone" />
+              </Box>}
           </Box>
         </Box>
         <Box p={'8px'}>
           <Heading mb={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}
                    height={'51px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
 
-          <AddToBasket price={price} count={countInBasket} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
+          <AddToBasket price={price} discountPrice={discountPrice} discount={discount} count={countInBasket}
+                       onAdd={handleAddProduct} onDelete={handleDeleteProduct}/>
         </Box>
 
       </Flex>

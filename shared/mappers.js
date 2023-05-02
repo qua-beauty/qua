@@ -48,7 +48,9 @@ export const productMapper = (product) => {
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
     posterId: product.fields['Poster ID'],
-    weight: product.fields['Weight']
+    weight: product.fields['Weight'],
+    discountPrice: product.fields['Discount Price'],
+    discount: product.fields['Discount']
   };
 }
 

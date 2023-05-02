@@ -5,12 +5,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addProduct, clearBasket, deleteProduct} from '../api/slices/basketSlice.js';
 import {useTranslation} from 'react-i18next';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
-import BasketCounter from '../components/BasketCounter.jsx';
 import {Box, Button, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import {getCategoryName, getProductCount} from '../api/helpers.js';
 import AddToBasket from '../components/AddToBasket.jsx';
 import NoImage from '../components/NoImage.jsx';
+import {Percent} from '@phosphor-icons/react';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -135,7 +135,14 @@ const Product = () => {
               maxWidth: 'fit-content'
             }
           }}>
-            {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> : <NoImage fontSize={'96px'} />}
+            {currentProduct.discountPrice &&
+              <Box zIndex={3} p={'4px'} display={'flex'} alignItems={'center'} position={'absolute'} right={'8px'}
+                   top={'8px'} overflow={'hidden'} bg={theme.colors.telegram['200']} borderRadius={'12px'}
+                   color={'white'}>
+                <Percent size={36} weight="duotone" />
+              </Box>}
+            {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> :
+              <NoImage fontSize={'96px'}/>}
           </Box>
         </Box>
 
@@ -150,7 +157,9 @@ const Product = () => {
             </Flex>
           </Box>
 
-          <AddToBasket price={currentProduct.price} count={countInBasket} onAdd={handleAddProduct} onDelete={handleDeleteProduct} />
+          <AddToBasket price={currentProduct.price} discountPrice={currentProduct.discountPrice}
+                       discount={currentProduct.discount} count={countInBasket} onAdd={handleAddProduct}
+                       onDelete={handleDeleteProduct}/>
 
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>

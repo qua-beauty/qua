@@ -10,7 +10,6 @@ import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import ReactMarkdown from 'react-markdown';
-import {rgba} from '../utils.js';
 import {isWorkingTime} from '../helpers.js';
 
 const Basket = () => {
@@ -52,7 +51,7 @@ const Basket = () => {
           name: product.name[lng],
           count: product.count,
           icon: product.icon,
-          price: product.price,
+          price: product.discountPrice || product.price,
           posterId: product.posterId,
           weight: product.weight
         })),
@@ -88,7 +87,7 @@ const Basket = () => {
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
       } else {
-        webApp.MainButton.text = `${t('basket.continueNotWorking')} ${count > 0 && `(${count}x${price} ${t(
+        webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(
           `currency.${currency}`, {ns: 'common'})})`}`;
         webApp.MainButton.color = '#66bb6a';
         webApp.MainButton.enable();

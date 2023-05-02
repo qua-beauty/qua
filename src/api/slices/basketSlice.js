@@ -6,7 +6,7 @@ const calculateBasketParams = (basket) => {
   basket.forEach(product => {
     if (!product.isDeleted) {
       totalCount += parseInt(product.count);
-      totalPrice += parseInt(product.count) * parseInt(product.price);
+      totalPrice += parseInt(product.count) * parseInt(product.discountPrice || product.price);
     } else {
       product.count = 0; // set count of deleted product to 0
     }

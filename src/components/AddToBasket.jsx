@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, Flex, IconButton, Text, useTheme} from '@chakra-ui/react';
+import {Box, Button, Flex, IconButton, Text, useTheme} from '@chakra-ui/react';
 import {rgba} from '../utils.js';
 import {MinusCircle, PlusCircle} from '@phosphor-icons/react';
 import {useTranslation} from 'react-i18next';
 
-const AddToBasket = ({price, count, onAdd, onDelete}) => {
+const AddToBasket = ({price, discountPrice, discount, count, onAdd, onDelete}) => {
   const theme = useTheme();
   const {t} = useTranslation();
 
@@ -14,7 +14,17 @@ const AddToBasket = ({price, count, onAdd, onDelete}) => {
         <Button onClick={onAdd} fontWeight={'500'} borderRadius={'12px'} width={'100%'}
                 background={rgba(theme.colors.telegram['200'], 0.2)} color={'telegram.200'}
                 leftIcon={<PlusCircle size={20} weight="bold"/>}>
-          {price} {t('currency.LKR', {ns: 'common'})}
+          {discountPrice ? <Box as={'span'} display={'flex'} flexDirection={'column'}>
+            <Text fontSize={'11px'} textDecoration={'line-through'}>
+              {price} {t('currency.LKR', {ns: 'common'})}
+            </Text>
+            <Text fontSize={'md'}>
+              {discountPrice} {t('currency.LKR', {ns: 'common'})}
+            </Text>
+          </Box> : <>
+            {price} {t('currency.LKR', {ns: 'common'})}
+          </>}
+
         </Button>
       </>}
 
@@ -28,7 +38,7 @@ const AddToBasket = ({price, count, onAdd, onDelete}) => {
             <MinusCircle size={20} weight="bold"/>
           </IconButton>
           <Text whiteSpace={'nowrap'} fontWeight={'500'} fontSize={'md'}>
-            <Text display={'inline'} color={'telegram.200'}>{count}x</Text> {price} {t('currency.LKR', {ns: 'common'})}</Text>
+            <Text display={'inline'} color={'telegram.200'}>{count}x</Text> {discountPrice || price} {t('currency.LKR', {ns: 'common'})}</Text>
           <IconButton
             bg={'none'}
             color={'telegram.200'}
