@@ -3,7 +3,7 @@ import {getGoogleMapsLink} from './utils.js';
 
 export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
-  const location = order.address.split(', ');
+  const location = order.address?.split(', ');
 
   let data = {
     id: `#${order.number}\n`,
@@ -45,7 +45,7 @@ export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
     }
 
     if(key === 'address') {
-      return acc + `\n${t('orderCard.' + key)}📍${value}\n`;
+      return acc + (value ? `\n${t('orderCard.' + key)}📍${value}\n` : '');
     }
 
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');
@@ -53,7 +53,7 @@ export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
 };
 
 export const deliveryOrderTemplate = (order, lng = 'ru') => {
-  const location = order.address.split(', ');
+  const location = order.address?.split(', ');
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
   let data = {
