@@ -49,8 +49,7 @@ export const defaultOrderTemplate = (order, type = 'user') => {
   })
 };
 
-export const deliveryOrderTemplate = (order) => {
-  const lng = 'ru';
+export const deliveryOrderTemplate = (order, lng = 'ru') => {
   const location = order.address.split(', ')
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
 
@@ -59,8 +58,8 @@ export const deliveryOrderTemplate = (order) => {
     count: order.count,
     username: order.username,
     sum,
-    status: t(`status.${order.status}`, lng, {ns: 'common'}),
-    address: getGoogleMapsLink(location[0], location[1])
+    address: getGoogleMapsLink(location[0], location[1]),
+    status: t(`status.${order.status}`, lng, {ns: 'common'})
   };
 
   const dataKeys = Object.keys(data);
@@ -70,7 +69,7 @@ export const deliveryOrderTemplate = (order) => {
     const key = dataKeys[index];
 
     if(key === 'address') {
-      return `\n\n${value}`;
+      return acc + `\n📍 ${value}\n\n`;
     }
 
     return acc + (value ? `${t(`orderCard.${key}`, lng, {[key]: value})}\n` : '');

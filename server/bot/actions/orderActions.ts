@@ -33,21 +33,21 @@ const getMessageData = (order) => {
       return {
         message: t('messageOrderCooked'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'en')},
+        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'si')},
         userKeyboard: null
       };
     case statuses.DELIVERY:
       return {
         message: t('messageOrderDelivery'),
         shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'en')},
+        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'si')},
         userKeyboard: null
       }
     case statuses.COMPLETE:
       return {
         message: t('messageOrderComplete'),
         shopKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
-        deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
+        deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id, 'si')},
         userKeyboard: null
       }
     case statuses.CLOSED:
@@ -120,7 +120,7 @@ export const updateOrderAction = async (order) => {
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
-  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order), messageData.deliveryKeyboard);
+  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order, 'si'), messageData.deliveryKeyboard);
 
   let orderData = {
     ...order,

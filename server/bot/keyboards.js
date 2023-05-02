@@ -27,14 +27,14 @@ export const orderShopKeyboard = (orderId) => new InlineKeyboard()
 export const orderCookedKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCookedOrder'), `${actions.ORDER_COOKED} ${orderId}`);
 
-export const orderDeliveryKeyboard = (orderId) => new InlineKeyboard()
-  .text(t('keyboardDeliveryOrder'), `${actions.ORDER_DELIVERY} ${orderId}`);
+export const orderDeliveryKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
+  .text(t('keyboardDeliveryOrder', lng), `${actions.ORDER_DELIVERY} ${orderId}`);
 
-export const orderCompleteKeyboard = (orderId) => new InlineKeyboard()
-  .text(t('keyboardCompleteOrder'), `${actions.ORDER_COMPLETE} ${orderId}`);
+export const orderCompleteKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
+  .text(t('keyboardCompleteOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);
 
-export const orderCloseKeyboard = (orderId) => new InlineKeyboard()
-  .text(t('keyboardCloseOrder'), `${actions.ORDER_CLOSED} ${orderId}`);
+export const orderCloseKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
+  .text(t('keyboardCloseOrder', lng), `${actions.ORDER_CLOSED} ${orderId}`);
 
 export const orderUserKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCancelOrder'), `${actions.ORDER_CANCEL} ${orderId}`);
