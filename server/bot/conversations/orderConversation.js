@@ -1,4 +1,4 @@
-import {calculateDistance, statuses} from '../utils.js';
+import {calculateDistance, deliveryTypes, statuses} from '../utils.js';
 import {defaultOrderTemplate} from '../templates.js';
 import {getOrder} from '../../services/airtable.js';
 import {shareAddressKeyboard} from '../keyboards.js';
@@ -35,7 +35,7 @@ async function orderConversation(conversation, ctx) {
   do {
     const {message_id: addressTitleMessageId} =
       await ctx.reply(t('messageAddAddress'), {
-        reply_markup: shareAddressKeyboard()
+        reply_markup: shareAddressKeyboard(orderId)
       });
 
     ctx = await conversation.wait();
@@ -49,25 +49,43 @@ async function orderConversation(conversation, ctx) {
       await ctx.reply('Cancelled, leaving!');
       return;
     }
-  } while (!ctx.message?.location);
+  } while (!(ctx.message?.location || ctx.message.text === t('keyboardPickup')));
 
-  const distance = await getDistance({
-    latitude: '6.011759',
-    longitude: '80.248796',
-  }, ctx.message.location);
+  const deliveryType = ctx.message?.location ? deliveryTypes.DELIVERY : deliveryTypes.PICKUP;
+  let orderData;
 
-  const deliveryPrice = calculateDistance(distance);
+  if(deliveryType === deliveryTypes.DELIVERY) {
+    const shopAddress = order.shopAddress.split(', ');
+
+    const distance = await getDistance({
+      latitude: shopAddress[0],
+      longitude: shopAddress[1],
+    }, ctx.message.location);
+
+    const deliveryPrice = calculateDistance(distance);
+
+    orderData = {
+      distance,
+      deliveryPrice,
+      status: statuses.PENDING,
+      address: Object.values(ctx.message.location).join(', '),
+      type: deliveryTypes.DELIVERY
+    }
+  } else {
+    orderData = {
+      status: statuses.PENDING,
+      address: order.shopAddress,
+      type: deliveryTypes.PICKUP
+    }
+  }
 
   await ctx.api.deleteMessage(chatId, orderMessage);
   await ctx.api.deleteMessage(chatId, addressTitleMessage);
   await ctx.api.deleteMessage(chatId, addressUserMessage);
 
   await updateOrderAction({
-    ...ctx.session.newOrder,
-    address: Object.values(ctx.message.location).join(', '),
-    distance,
-    deliveryPrice,
-    status: statuses.PENDING,
+    ...order,
+    ...orderData
   })
 }
 
