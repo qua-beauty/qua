@@ -34,6 +34,7 @@
     "deliveryTitle": "<strong>නව බෙදාහැරීමේ ඇණවුම</strong>",
     "count": "<strong>ප්රමාණය</strong>: {{count}}",
     "price": "<strong>ආහාර පිරිවැය</strong>: {{price}} Rs",
+    "type": "<strong>බෙදා හැරීමේ වර්ගය</strong>: {{type}}",
     "deliveryPrice": "<strong>බෙදා හැරීමේ පිරිවැය</strong>: {{deliveryPrice}} Rs",
     "commission": "<strong>සේවා ගාස්තුව</strong>: {{commission}} Rs\n",
     "sum": "<strong>එකතුව</strong>: {{sum}} Rs",

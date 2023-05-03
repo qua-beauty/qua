@@ -14,11 +14,12 @@ export const serializeOrder = (orderData) => {
       'Delivery Price': order.deliveryPrice,
       Commission: order.commission,
       Status: order.status.capitalize(),
+      Type: order.type.capitalize(),
       'Products JSON': order.productsJson ? JSON.stringify(order.productsJson) : undefined,
       Distance: order.distance,
       Telegram: order.telegram ? JSON.stringify(order.telegram) : undefined,
       'Poster ID': order.posterId,
-      'Poster Transaction ID': order.posterTransactionId
+      'Poster Transaction ID': order.posterTransactionId,
     };
 
     Object.entries(fields).forEach(([key, value]) => {

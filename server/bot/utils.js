@@ -1,5 +1,3 @@
-import {t} from './i18n.js';
-
 export const masks = {
   order: new RegExp(/^order-/),
   shop: new RegExp(/^shop-/),
@@ -14,6 +12,7 @@ export const statuses = {
   COOKED: 'cooked',
   DELIVERY: 'delivery',
   COMPLETE: 'complete',
+  COMPLETE_PICKUP: 'completePickup',
   CLOSED: 'closed',
 }
 
@@ -22,6 +21,7 @@ export const actions = {
   CONNECT: 'CONNECT',
   HOME: 'HOME',
   OPEN_SHOP: 'OPEN_SHOP',
+  ORDER_PICKUP: 'ORDER_PICKUP',
   ORDER_CANCEL: 'ORDER_CANCEL',
   ORDER_DECLINE: 'ORDER_DECLINE',
   ORDER_COOK: 'ORDER_COOK',
@@ -43,6 +43,10 @@ export const statusByAction = {
   [actions.ORDER_CLOSED]: statuses.CLOSED,
 }
 
+export const deliveryTypes = {
+  DELIVERY: 'delivery',
+  PICKUP: 'pickup'
+}
 export const calculateDistance = (distance) => {
   if (!distance) {
     return -1;

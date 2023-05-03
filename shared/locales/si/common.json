@@ -10,6 +10,10 @@
     "declined": "\uD83D\uDED1 අවලංගු කළා",
     "cancelled": "❌ අවලංගු කළා"
   },
+  "type": {
+    "delivery": "බෙදා හැරීම",
+    "pickup": "අවුලා ගන්න"
+  },
   "price": {
     "free": "Бесплатно",
     "unknown": "Не можем определить"

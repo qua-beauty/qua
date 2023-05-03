@@ -1,5 +1,5 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
-import {statusByAction, statuses} from '../utils.js';
+import {deliveryTypes, statusByAction, statuses} from '../utils.js';
 import {defaultOrderTemplate, deliveryOrderTemplate} from '../templates.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
@@ -7,7 +7,7 @@ import {
   orderCloseKeyboard,
   orderCompleteKeyboard,
   orderCookedKeyboard,
-  orderDeliveryKeyboard,
+  orderDeliveryKeyboard, orderPickupCookedKeyboard,
   orderShopKeyboard,
   orderUserKeyboard
 } from "../keyboards.js";
@@ -20,12 +20,12 @@ const getMessageData = (order) => {
         message: t('messageOrderPending'),
         shopKeyboard: {reply_markup: orderShopKeyboard(order.id)},
         deliveryKeyboard: null,
-        userKeyboard: orderUserKeyboard(order.id)
+        userKeyboard: {reply_markup: orderUserKeyboard(order.id)}
       };
     case statuses.COOK:
       return {
         message: t('messageOrderCooking'),
-        shopKeyboard: {reply_markup: orderCookedKeyboard(order.id)},
+        shopKeyboard: {reply_markup: order.type === deliveryTypes.DELIVERY ? orderCookedKeyboard(order.id) : orderPickupCookedKeyboard(order.id)},
         deliveryKeyboard: null,
         userKeyboard: null
       };
@@ -45,7 +45,7 @@ const getMessageData = (order) => {
       }
     case statuses.COMPLETE:
       return {
-        message: t('messageOrderComplete'),
+        message: order.type === deliveryTypes.DELIVERY ? t('messageOrderComplete') : t('messageOrderPickup'),
         shopKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
         deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id, 'si')},
         userKeyboard: null
@@ -113,17 +113,22 @@ export const updateOrderAction = async (order) => {
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
-  const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order, 'si'), messageData.deliveryKeyboard);
+  let telegram = {
+    shopOrderMessage: shopOrderMessageNew,
+    userOrderMessage: userOrderMessageNew,
+    userTitleMessage: userTitleMessageNew,
+  };
+
+  if(order.type === deliveryTypes.DELIVERY) {
+    const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order, 'si'), messageData.deliveryKeyboard);
+    telegram.deliveryOrderMessage = deliveryOrderMessageNew;
+  }
 
   let orderData = {
     ...order,
     telegram: {
       ...order.telegram,
-      status: order.status,
-      shopOrderMessage: shopOrderMessageNew,
-      userOrderMessage: userOrderMessageNew,
-      userTitleMessage: userTitleMessageNew,
-      deliveryOrderMessage: deliveryOrderMessageNew
+      ...telegram
     }
   }
 

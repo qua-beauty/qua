@@ -12,9 +12,9 @@ export const aboutKeyboard = () => new InlineKeyboard()
 export const startShopKeyboard = (shopId) => new InlineKeyboard()
   .webApp(t('keyboardMarket'), `${Deno.env.get('TWA_URL')}shop/${shopId}`);
 
-export const shareAddressKeyboard = () => new Keyboard()
-  .requestLocation(t('keyboardShareLocation'))
-  .oneTime();
+export const shareAddressKeyboard = (orderId) => new Keyboard()
+  .requestLocation(t('keyboardShareLocation')).row().oneTime()
+  .text(t('keyboardPickup'), `${actions.ORDER_PICKUP} ${orderId}`).row();
 
 export const sharePhoneKeyboard = () => new Keyboard()
   .requestContact(t('keyboardSharePhone'))
@@ -26,6 +26,9 @@ export const orderShopKeyboard = (orderId) => new InlineKeyboard()
 
 export const orderCookedKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCookedOrder'), `${actions.ORDER_COOKED} ${orderId}`);
+
+export const orderPickupCookedKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
+  .text(t('keyboardCookedOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);
 
 export const orderDeliveryKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
   .text(t('keyboardDeliveryOrder', lng), `${actions.ORDER_DELIVERY} ${orderId}`);
