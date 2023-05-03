@@ -20,7 +20,7 @@ const getMessageData = (order) => {
         message: t('messageOrderPending'),
         shopKeyboard: {reply_markup: orderShopKeyboard(order.id)},
         deliveryKeyboard: null,
-        userKeyboard: orderUserKeyboard(order.id)
+        userKeyboard: {reply_markup: orderUserKeyboard(order.id)}
       };
     case statuses.COOK:
       return {
