@@ -14,7 +14,7 @@ export const serializeOrder = (orderData) => {
       'Delivery Price': order.deliveryPrice,
       Commission: order.commission,
       Status: order.status.capitalize(),
-      Type: order.type.capitalize(),
+      Type: order.type ? order.type.capitalize() : undefined,
       'Products JSON': order.productsJson ? JSON.stringify(order.productsJson) : undefined,
       Distance: order.distance,
       Telegram: order.telegram ? JSON.stringify(order.telegram) : undefined,
