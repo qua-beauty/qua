@@ -13,9 +13,8 @@ export const startShopKeyboard = (shopId) => new InlineKeyboard()
   .webApp(t('keyboardMarket'), `${Deno.env.get('TWA_URL')}shop/${shopId}`);
 
 export const shareAddressKeyboard = (orderId) => new Keyboard()
-  .text(t('keyboardPickup'), `${actions.ORDER_PICKUP} ${orderId}`)
-  .requestLocation(t('keyboardShareLocation'))
-  .oneTime();
+  .requestLocation(t('keyboardShareLocation')).row().oneTime()
+  .text(t('keyboardPickup'), `${actions.ORDER_PICKUP} ${orderId}`).row();
 
 export const sharePhoneKeyboard = () => new Keyboard()
   .requestContact(t('keyboardSharePhone'))
