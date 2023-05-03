@@ -128,7 +128,8 @@ export const updateOrderAction = async (order) => {
     ...order,
     telegram: {
       ...order.telegram,
-      ...telegram
+      ...telegram,
+      status: order.status,
     }
   }
 
