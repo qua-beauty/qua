@@ -2,7 +2,7 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-export const getDistance = async (shopCoords, placeCoords) => {
+export const getDistance = (shopCoords, placeCoords) => {
     const R = 6371; // radius of the earth in kilometers
     const dLat = deg2rad(placeCoords.latitude - shopCoords.latitude);
     const dLon = deg2rad(placeCoords.longitude - shopCoords.longitude);

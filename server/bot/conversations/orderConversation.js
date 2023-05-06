@@ -57,7 +57,7 @@ async function orderConversation(conversation, ctx) {
   if(deliveryType === deliveryTypes.DELIVERY) {
     const shopAddress = order.shopAddress.split(', ');
 
-    const distance = await getDistance({
+    const distance = getDistance({
       latitude: shopAddress[0],
       longitude: shopAddress[1],
     }, ctx.message.location);
