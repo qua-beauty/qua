@@ -75,8 +75,6 @@ const getMessageData = (order) => {
 }
 
 export const updateOrderAction = async (order) => {
-  console.log(order);
-
   const orderId = order.id;
   const messageData = getMessageData(order);
   const deliveryChat = -1001927483990 //TODO: REMOVE IT FROM HERE
@@ -134,16 +132,9 @@ export const updateOrderAction = async (order) => {
   }
 
   await updateOrder(orderId, orderData);
+  console.log(orderData);
 
   if (order.shopPosterPos) {
-    if (order.status === statuses.DELIVERY || order.status === statuses.COMPLETE) {
-      try {
-        await updateIncomingOrder(order);
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
     if (order.status === statuses.PENDING) {
       try {
         const posterOrder = await createIncomingOrder(orderData);
@@ -160,7 +151,6 @@ export const updateOrderAction = async (order) => {
     }
   }
 
-  console.log(orderData);
 };
 
 export const orderAction = async (ctx) => {

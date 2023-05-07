@@ -82,10 +82,6 @@ const Basket = () => {
         webApp.MainButton.text = t('basket.continueDisabledButton');
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
-      } else if(!isWorking) {
-        webApp.MainButton.text = t('basket.continueNotWorking');
-        webApp.MainButton.color = theme.colors.background.default;
-        webApp.MainButton.disable();
       } else {
         webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(
           `currency.${currency}`, {ns: 'common'})})`}`;
@@ -93,9 +89,7 @@ const Basket = () => {
         webApp.MainButton.enable();
       }
 
-      if(isWorking) {
-        webApp.MainButton.onClick(handleMakeOrder);
-      }
+      webApp.MainButton.onClick(handleMakeOrder);
 
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {

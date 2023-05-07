@@ -147,12 +147,12 @@ const getStatusName = (statusCode) => {
 
 export const posterOrderMapper = (posterOrder) => {
   const priceAppendix = 100;
-  console.log(posterOrder);
+  console.log('posterOrderData', posterOrder);
 
   return {
     id: posterOrder.incoming_order_id,
     status: getStatusName(posterOrder.status),
-    deliveryPrice: posterOrder.delivery_price/priceAppendix,
+    deliveryPrice: 0,
     products: posterOrder.products.map(p => ({
       posterId: p.product_id,
       count: parseInt(p.count),

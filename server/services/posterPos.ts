@@ -4,8 +4,9 @@ import {posterOrderMapper} from '../../shared/mappers.js';
 
 export const createIncomingOrder = async (data) => {
   try {
-    console.log(data);
+    console.log('data', data);
     const posterPos = await getPosterPos(data.shopPosterPos);
+    console.log('posterpos', posterPos);
 
     return await fetch(`https://joinposter.com/api/incomingOrders.createIncomingOrder?token=${posterPos.accessToken}`, {
       method: 'POST',
@@ -14,7 +15,15 @@ export const createIncomingOrder = async (data) => {
       },
       body: JSON.stringify(serializePosterOrder([data]))
     }).then(response => response.json())
-      .then(data => posterOrderMapper(data.response));
+      .then(data => {
+        console.log(data);
+        if(!data.error) {
+          return posterOrderMapper(data.response);
+        } else {
+          console.error('posterError', data);
+        }
+
+      });
   } catch (e) {
     console.log(e);
     return null;
@@ -36,3 +45,28 @@ export const updateIncomingOrder = async (data) => {
     console(e);
   }
 }
+
+export const getIncomingOrder = async (data) => {
+  try {
+    const posterPos = await getPosterPos(data.account);
+    const params = new URLSearchParams({
+      token: posterPos.accessToken,
+      incoming_order_id: data.object_id
+    });
+
+    return await fetch(
+      `https://joinposter.com/api/incomingOrders.getIncomingOrder?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => posterOrderMapper(data.response));
+
+
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
