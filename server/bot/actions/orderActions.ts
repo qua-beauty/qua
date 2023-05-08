@@ -11,7 +11,7 @@ import {
   orderShopKeyboard,
   orderUserKeyboard
 } from "../keyboards.js";
-import {createIncomingOrder, updateIncomingOrder} from "../../services/posterPos.ts";
+import {createIncomingOrder} from "../../services/posterPos.ts";
 
 const getMessageData = (order) => {
   switch (order.status) {
@@ -132,7 +132,6 @@ export const updateOrderAction = async (order) => {
   }
 
   await updateOrder(orderId, orderData);
-  console.log(orderData);
 
   if (order.shopPosterPos) {
     if (order.status === statuses.PENDING) {

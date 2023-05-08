@@ -3,37 +3,36 @@ import {checkSum} from "./checkSum.ts";
 import {updateOrder} from "./order.ts";
 
 const callbackActions = {
-  'incoming_order': {
-    'changed': (data) => updateOrder(data, 'cook'),
-    'closed': (data) => updateOrder(data, 'cooked'),
-  }
+  'incoming_order': updateOrder
 }
 
-const callbackAction = (object, action) => {
-  if(callbackActions.hasOwnProperty(object) && callbackActions[object].hasOwnProperty(action)) {
-    return callbackActions[object][action];
+const callbackAction = (object) => {
+  if(callbackActions.hasOwnProperty(object)) {
+    return callbackActions[object];
   }
 
   return undefined;
 }
 
 export const posterCallback = async (
-  postData: Record<string, string | undefined>,
+  posterPosData: Record<string, string | undefined>,
 ): Promise<Response> => {
 
-  const validate = checkSum(postData);
-  if(!validate) {
-    throw new Error('Checksum is not valid');
+  const validate = checkSum(posterPosData);
+
+  if(validate) {
+    try {
+      const action = callbackAction(posterPosData.object);
+
+      if(action) {
+        await action(posterPosData);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    console.error('Checksum is not valid');
   }
-
-  const action = callbackAction(postData.object, postData.action);
-
-  if(action) {
-    await action(postData);
-  }
-
-  console.log(postData);
-
 
   return {
     status: 200,

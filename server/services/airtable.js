@@ -43,7 +43,27 @@ export const getPosterPos = async (posterPosId) => {
     const posterPosData = await airtablePosterPosBase.find(posterPosId)
     return posterPosMapper(posterPosData);
   } catch (error) {
-    console.error(`Error while retrieving poster data for account ${posterAccount}: ${error}`);
+    console.error(`Error while retrieving poster data for account ${posterPosId}: ${error}`);
+    return null;
+  }
+};
+
+export const getPosterPosByAccount = async (posterAccountNumber) => {
+  if (!posterAccountNumber) {
+    return null;
+  }
+
+  try {
+    const posterPosData = await airtablePosterPosBase.select({
+      maxRecords: 1,
+      filterByFormula: `{Account Number} = ${posterAccountNumber.toString()}`
+    }).then(data => data.records[0]);
+
+    if(posterPosData) {
+      return posterPosMapper(posterPosData);
+    }
+  } catch (error) {
+    console.error(`Error while retrieving poster data for account ${posterAccountNumber}: ${error}`);
     return null;
   }
 };
@@ -65,6 +85,26 @@ export const getOrder = async (orderId) => {
   } catch (error) {
     console.error(`Error in getOrder function: ${error}`);
     throw error;
+  }
+};
+
+export const getOrderByPosterPos = async (orderPosterPosId) => {
+  if (!orderPosterPosId) {
+    return null;
+  }
+
+  try {
+    const orderData = await airtableOrdersBase.select({
+      maxRecords: 1,
+      filterByFormula: `{Poster ID} = ${orderPosterPosId.toString()}`
+    }).then(data => data.records[0]);
+
+    if(orderData) {
+      return orderMapper(orderData);
+    }
+  } catch (error) {
+    console.error(`Error while retrieving poster data for account ${posterAccountNumber}: ${error}`);
+    return null;
   }
 };
 

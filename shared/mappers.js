@@ -1,3 +1,5 @@
+import {statuses} from '../server/bot/utils.js';
+
 export const shopMapper = (shop) => {
   return {
     id: shop.id,
@@ -132,26 +134,12 @@ export const telegramUserMapper = (user) => {
   }
 }
 
-const getStatusName = (statusCode) => {
-  switch(statusCode) {
-    case 0:
-      return 'pending';
-    case 1:
-      return 'cook';
-    case 7:
-      return 'declined';
-    default:
-      return '';
-  }
-};
-
 export const posterOrderMapper = (posterOrder) => {
   const priceAppendix = 100;
-  console.log('posterOrderData', posterOrder);
 
   return {
     id: posterOrder.incoming_order_id,
-    status: getStatusName(posterOrder.status),
+    status: posterOrder.status === 7 ? statuses.DECLINED : statuses.COOK,
     deliveryPrice: 0,
     products: posterOrder.products.map(p => ({
       posterId: p.product_id,
