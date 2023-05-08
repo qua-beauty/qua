@@ -6,6 +6,7 @@ import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
 import {orderMapper} from '../shared/mappers.js';
 import {updateOrderAction} from './bot/actions/orderActions.ts';
+import {posterCallback} from './posterpos/callback.ts';
 
 const app = new Application();
 const router = new Router();
@@ -19,6 +20,21 @@ router.post('/answerWebAppQuery', async (context) => {
 
   try {
     context.response.body = await bot.api.answerWebAppQuery(queryId, data);
+  } catch (error) {
+    console.error(error);
+    context.response.status = 500;
+    context.response.body = 'Error processing the request';
+  }
+});
+
+router.post('/posterWebhook', async (context) => {
+  const data = await context.request.body().value;
+  console.log(data);
+
+  try {
+    await posterCallback(data);
+    context.response.status = 200;
+    context.response.body = 'OK';
   } catch (error) {
     console.error(error);
     context.response.status = 500;
