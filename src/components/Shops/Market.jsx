@@ -27,7 +27,8 @@ const Market = ({ market, onSelect }) => {
       padding: '16px',
       display: 'flex',
       flexDirection: 'column',
-      marginBottom: '24px'
+      marginBottom: '24px',
+      color: 'black'
     }}>
       <Heading fontSize={'2x1'} fontWeight={'500'}>
         {market.name}
