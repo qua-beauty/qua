@@ -20,6 +20,10 @@ const router = createBrowserRouter([
         element: (<Catalog/>),
       },
       {
+        path: 'market/:shopId',
+        element: (<Catalog/>),
+      },
+      {
         path: 'basket',
         element: (<Basket/>)
       },
