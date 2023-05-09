@@ -18,6 +18,7 @@ const Product = () => {
   const {productId} = useParams();
   const currentProduct = useSelector(state => state.products.current);
   const shops = useSelector(state => state.shops.data);
+  const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
   const {basket, count, price, currency, shop: basketShop} = useSelector(state => state.basket);
@@ -72,10 +73,10 @@ const Product = () => {
   }, [currentShop]);
 
   useEffect(() => {
-    if (shops) {
-      dispatch(setCurrentShop(shops.find(s => s.id === currentProduct.shop)));
+    if (shops || market) {
+      dispatch(setCurrentShop(shops.find(s => s.id === currentProduct.shop) || market));
     }
-  }, [currentProduct, shops]);
+  }, [currentProduct, shops, market]);
 
   const countInBasket = getProductCount(currentProduct?.id);
   const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
