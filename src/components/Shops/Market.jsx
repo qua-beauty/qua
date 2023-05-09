@@ -13,8 +13,8 @@ const Market = ({ market, onSelect }) => {
   const navigate = useNavigate();
   const isWorking = isWorkingTime(market.startTime, market.endTime) && market.available;
 
-  const handleSelect = async (shop) => {
-    
+  const handleSelect = async () => {
+    navigate(`/market/${market.id}`);
   };
 
   return (
@@ -30,7 +30,7 @@ const Market = ({ market, onSelect }) => {
       marginBottom: '24px'
     }}>
       <Heading fontSize={'2x1'} fontWeight={'500'}>
-        Продукты
+        {market.name}
         <Box as={'span'} position={'relative'} top={'-2px'} ml={'4px'} textTransform={'uppercase'} bg={'black'} color={'white'} fontSize={'xs'} p={'0 4px'} borderRadius={'12px'}>Beta</Box>
       </Heading>
       <Flex alignItems={'center'} gap={'6px'}>

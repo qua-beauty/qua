@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const shopTypes = {
+export const shopTypes = {
   RESTAURANT: 'restaurant',
   MARKET: 'market'
 }

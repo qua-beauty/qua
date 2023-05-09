@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectProductsByShop, setCurrentProduct} from '../api/slices/productSlice.js';
 import {Box, Button, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
-import {setCurrentShop} from '../api/slices/shopSlice.js';
+import {setCurrentShop, shopTypes} from '../api/slices/shopSlice.js';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
@@ -17,6 +17,7 @@ function Catalog() {
   const currentShop = useSelector((state) => state.shops.current);
   const filters = useSelector((state) => state.filters.filters);
   const shops = useSelector(state => state.shops.data);
+  const market = useSelector(state => state.shops.market);
   const catalog = useSelector(selectProductsByShop(currentShop?.id, filters));
   const navigate = useNavigate();
   const {basket, count, price, currency} = useSelector(state => state.basket);
@@ -66,8 +67,8 @@ function Catalog() {
       if(shopId) {
         const shop = shops.find(s => s.id === shopId);
 
-        if (shop) {
-          dispatch(setCurrentShop(shop));
+        if (shop || market) {
+          dispatch(setCurrentShop(shop || market));
         } else {
           navigate('/');
         }
@@ -75,7 +76,7 @@ function Catalog() {
         dispatch(setCurrentShop(shops[0]));
       }
     }
-  }, [shops]);
+  }, [shops, market]);
 
   const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
 
@@ -83,7 +84,12 @@ function Catalog() {
     <Container p={'16px'}>
       <Flex mt={'8px'} justifyContent={'space-between'}>
         <Box>
-          <Heading fontSize={'2x1'}>{currentShop.name}</Heading>
+          <Heading fontSize={'2x1'}>
+            {currentShop.name}
+            {currentShop.type === shopTypes.MARKET &&
+              <Box as={'span'} position={'relative'} top={'-2px'} ml={'4px'} textTransform={'uppercase'} bg={'black'}
+                   color={'white'} fontSize={'xs'} p={'0 4px'} borderRadius={'12px'}>Beta</Box>}
+          </Heading>
           <Flex mt={'4px'} alignItems={'baseline'} gap={'6px'}>
             <Text fontWeight={'500'} fontSize={'md'}>
               {isWorking ? <>
@@ -91,7 +97,8 @@ function Catalog() {
               </> : <>
                 <Offline/> {currentShop.available ? t('info.status.inactive') : ''}
               </>}
-              {isWorking ? currentShop.workTime : (currentShop.available ? currentShop.startTime : t('info.status.closed'))}
+              {isWorking ? currentShop.workTime : (currentShop.available ? currentShop.startTime : t(
+                'info.status.closed'))}
             </Text>
           </Flex>
         </Box>
