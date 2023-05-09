@@ -1,16 +1,18 @@
 import React, {useEffect} from 'react';
-import {Box, Container, Flex, Heading} from '@chakra-ui/react';
+import {Box, Container, Flex, Heading, Text} from '@chakra-ui/react';
 import ShopItem from '../components/Shops/ShopItem.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {webApp} from '../telegram.js';
 import ShopsSkeleton from '../components/Shops/ShopsSkeleton.jsx';
+import Market from '../components/Shops/Market.jsx';
 
 const Shops = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const shops = useSelector(state => state.shops.data);
+  const market = useSelector(state => state.shops.market);
 
   const handleSelect = async (shop) => {
     await dispatch(setCurrentShop(shop));
@@ -25,6 +27,7 @@ const Shops = () => {
 
   return (
     <Container p={'16px'}>
+      {market && <Market market={market} />}
       {shops ? <Box p={'8px'}>
         <Heading fontSize={'lg'} fontWeight={'400'} mb={'16px'}>Выберите ресторан</Heading>
         <Flex direction={'column'} gap={'24px'}>
