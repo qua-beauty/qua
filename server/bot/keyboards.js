@@ -1,6 +1,6 @@
 import {InlineKeyboard, Keyboard} from 'https://deno.land/x/grammy/mod.ts';
 import 'https://deno.land/x/dotenv/load.ts';
-import {actions} from './utils.js';
+import {actions, adminRoles} from './utils.js';
 import {t} from './i18n.js';
 
 export const startKeyboard = () => new InlineKeyboard()
@@ -42,6 +42,13 @@ export const orderCloseKeyboard = (orderId, lng = 'ru') => new InlineKeyboard()
 export const orderUserKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCancelOrder'), `${actions.ORDER_CANCEL} ${orderId}`);
 
-export const loadingKeyboard = () => new InlineKeyboard()
-  .text(t('keyboardLoading'));
+export const adminKeyboard = () => new InlineKeyboard()
+  .text(t('admin.keyboard.stat'), actions.ADMIN_STAT).row()
+  .text(t('admin.keyboard.exit'), actions.ADMIN_EXIT).row()
 
+export const adminStatKeyboard = () => new InlineKeyboard()
+  .text(t('admin.keyboard.todayStat'), actions.ADMIN_STAT_TODAY).row()
+  .text(t('admin.keyboard.yesterdayStat'), actions.ADMIN_STAT_YESTERDAY).row()
+  .text(t('admin.keyboard.weekStat'), actions.ADMIN_STAT_WEEK).row()
+  .text(t('admin.keyboard.monthStat'), actions.ADMIN_STAT_MONTH).row()
+  .text(t('admin.keyboard.exit'), actions.ADMIN_EXIT).row()

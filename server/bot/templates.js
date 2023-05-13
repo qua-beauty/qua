@@ -1,6 +1,23 @@
 import {t} from './i18n.js';
 import {deliveryTypes, getGoogleMapsLink, statuses} from './utils.js';
 
+
+export const statTemplate = (period, data) => {
+  if(data) {
+    const shopSum = Object.keys(data.shopSum).map(shopName => `${shopName}: ${data.shopSum[shopName]}\n`).join('');
+
+    return `
+Period ${period}: 
+All Shops: ${data.sum} Rs
+${shopSum}
+Delivery: ${data.deliverySum} Rs
+Commission: ${data.commissionSum} Rs
+`;
+  } else {
+    return `No data for ${period} period`;
+  }
+}
+
 export const defaultOrderTemplate = (order, type = 'user', lng = 'ru') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
   const location = order.address?.split(', ');

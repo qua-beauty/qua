@@ -12,6 +12,7 @@ import about from './actions/about.js';
 import start from './actions/start.js';
 import {session} from './session.js';
 import {orderAction} from './actions/orderActions.ts';
+import {adminExitAction, adminMenuAction, adminStatAction, adminStatPeriodAction} from './actions/admin.ts';
 
 export const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN'));
 
@@ -45,3 +46,11 @@ bot.callbackQuery(new RegExp(actions.ORDER_COOKED), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_DELIVERY), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_COMPLETE), orderAction);
 bot.callbackQuery(new RegExp(actions.ORDER_CLOSED), orderAction);
+
+bot.command('admin', adminMenuAction);
+bot.callbackQuery(actions.ADMIN_STAT, adminStatAction);
+bot.callbackQuery(actions.ADMIN_STAT_TODAY, adminStatPeriodAction);
+bot.callbackQuery(actions.ADMIN_STAT_YESTERDAY, adminStatPeriodAction);
+bot.callbackQuery(actions.ADMIN_STAT_WEEK, adminStatPeriodAction);
+bot.callbackQuery(actions.ADMIN_STAT_MONTH, adminStatPeriodAction);
+bot.callbackQuery(actions.ADMIN_EXIT, adminExitAction);

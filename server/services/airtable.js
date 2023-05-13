@@ -78,6 +78,20 @@ export const saveUser = async (userData) => {
   }
 };
 
+export const getOrders = async (options) => {
+  console.log(options);
+  try {
+    return await airtableOrdersBase.select(options)
+      .then(data => {
+        console.log(data);
+        return data.records.map(orderData => orderMapper(orderData));
+      });
+  } catch (error) {
+    console.error(`Error in getOrder function: ${error}`);
+    throw error;
+  } 
+};
+
 export const getOrder = async (orderId) => {
   try {
     const orderData = await airtableOrdersBase.find(orderId);

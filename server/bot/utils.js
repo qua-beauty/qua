@@ -4,6 +4,18 @@ export const masks = {
   phone: new RegExp(/^(\+)?((\d{2,3}) ?\d|\d)(([ -]?\d)|( ?(\d{2,3}) ?)){5,12}\d$/),
 };
 
+export const adminRoles = {
+  SUPER_ADMIN: 'Super Admin',
+  OWNER: 'Owner'
+}
+
+export const periodByAction = {
+  ADMIN_STAT_TODAY: 'Today',
+  ADMIN_STAT_YESTERDAY: 'Yesterday',
+  ADMIN_STAT_WEEK: 'WTD',
+  ADMIN_STAT_MONTH: 'MTD',
+}
+
 export const statuses = {
   PENDING: 'pending',
   CANCELLED: 'cancelled',
@@ -30,7 +42,13 @@ export const actions = {
   ORDER_COMPLETE: 'ORDER_COMPLETE',
   ORDER_CLOSED: 'ORDER_CLOSED',
   BACK_TO_HOME: 'BACK_TO_HOME',
-  CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
+  CHANGE_LANGUAGE: 'CHANGE_LANGUAGE',
+  ADMIN_STAT: 'ADMIN_STAT',
+  ADMIN_STAT_TODAY: 'ADMIN_STAT_TODAY',
+  ADMIN_STAT_YESTERDAY: 'ADMIN_STAT_YESTERDAY',
+  ADMIN_STAT_WEEK: 'ADMIN_STAT_WEEK',
+  ADMIN_STAT_MONTH: 'ADMIN_STAT_MONTH',
+  ADMIN_EXIT: 'ADMIN_EXIT',
 }
 
 export const statusByAction = {

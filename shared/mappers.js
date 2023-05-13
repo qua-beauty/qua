@@ -82,6 +82,7 @@ export const orderMapper = (order) => {
     address: order.fields['Address'],
     shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
     shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
+    shopName: order.fields['Shop Name'],
     shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined,
     shopAddress: order.fields['Shop Address'] ? order.fields['Shop Address'][0] : undefined,
     count: order.fields['Count'],
@@ -109,7 +110,8 @@ export const userMapper = (user) => {
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
     language: user.fields['Language'],
-    referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined
+    referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined,
+    permissions: user.fields['Permissions']
   };
 }
 
