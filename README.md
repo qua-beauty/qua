@@ -1,5 +1,5 @@
 # qua.beauty
-Ukranian Beauty Aggregator
+Ukrainian Beauty Aggregator
 
 # Front-end
 - React
