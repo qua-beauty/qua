@@ -1,6 +1,5 @@
 # qua.beauty
 Ukranian Beauty Aggregator
-made by swami.market 
 
 # Front-end
 - React
@@ -107,3 +106,5 @@ yarn bot
 ```
 
 Now when you open web app in the bot it will be local web app
+
+forked from swami.market
