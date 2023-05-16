@@ -1,6 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
 import {airtableBaseQuery} from './airtableBaseQuery.js';
-import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {orderMapper, shopMapper, userMapper} from '../../shared/mappers.js';
 import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 export const AirtableApi = createApi({
@@ -14,24 +14,6 @@ export const AirtableApi = createApi({
       }),
       transformResponse(result, meta, arg) {
         return result.map((item) => shopMapper(item));
-      }
-    }),
-    getProducts: builder.query({
-      query: () => ({
-        tableName: 'Products',
-        method: 'select'
-      }),
-      transformResponse(result, meta, arg) {
-        return result.map((item) => productMapper(item));
-      }
-    }),
-    getCategories: builder.query({
-      query: () => ({
-        tableName: 'Categories',
-        method: 'select'
-      }),
-      transformResponse(result, meta, arg) {
-        return result.map((item) => categoryMapper(item));
       }
     }),
     saveOrder: builder.mutation({
@@ -75,6 +57,5 @@ export const {
   useGetProductsQuery,
   useGetCategoriesQuery,
   useGetUserMutation,
-  useSaveOrderMutation,
   useSaveUserMutation
 } = AirtableApi;
