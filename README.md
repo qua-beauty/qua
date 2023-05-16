@@ -1,14 +1,14 @@
-# swami.market
-Маркетплейс для handmade продуктов и услуг от мастеров
+# qua.beauty
+Ukranian Beauty Aggregator
+made by swami.market 
 
 # Front-end
 - React
-- Styled Components
-- MUI (need to move to mui base after release)
+- Chakra UI
 
 # Back-end
-- Node.js (Deno maybe?)
-- Google Firebase (Supabase maybe?)
+- Deno
+- Airtable
 
 # Install dependencies
 
