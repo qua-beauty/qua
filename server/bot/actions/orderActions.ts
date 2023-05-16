@@ -11,7 +11,6 @@ import {
   orderShopKeyboard,
   orderUserKeyboard
 } from "../keyboards.js";
-import {createIncomingOrder} from "../../services/posterPos.ts";
 
 const getMessageData = (order) => {
   switch (order.status) {
@@ -132,24 +131,6 @@ export const updateOrderAction = async (order) => {
   }
 
   await updateOrder(orderId, orderData);
-
-  if (order.shopPosterPos) {
-    if (order.status === statuses.PENDING) {
-      try {
-        const posterOrder = await createIncomingOrder(orderData);
-
-        orderData = {
-          ...orderData,
-          posterId: posterOrder.id.toString()
-        }
-
-        await updateOrder(orderId, orderData);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
-
 };
 
 export const orderAction = async (ctx) => {

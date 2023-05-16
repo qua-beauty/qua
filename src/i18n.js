@@ -1,25 +1,30 @@
 import i18next from "i18next";
 import {initReactI18next} from 'react-i18next';
-import botEn from '../shared/locales/en/react.json';
-import botRu from '../shared/locales/ru/react.json';
+import reactEn from '../shared/locales/en/react.json';
+import reactRu from '../shared/locales/ru/react.json';
+import reactUa from '../shared/locales/ua/react.json';
 import commonRu from '../shared/locales/ru/common.json';
+import commonUa from '../shared/locales/ua/common.json';
 import commonEn from '../shared/locales/en/common.json';
-import {webApp} from './telegram.js';
 
 i18next
   .use(initReactI18next)
   .init({
     resources: {
       en: {
-        react: botEn,
+        react: reactEn,
         common: commonEn
       },
       ru: {
-        react: botRu,
+        react: reactRu,
         common: commonRu
+      },
+      ua: {
+        react: reactUa,
+        common: commonUa
       }
     },
-    fallbackLng: "ru",
+    fallbackLng: "ua",
     fallbackNS: 'react',
 
     interpolation: {
