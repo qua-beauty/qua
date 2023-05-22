@@ -1,3 +1,24 @@
 {
-  "helloWorld": "Hello World"
+  "catalogTitle": "Choose restaurant",
+  "info": {
+    "status": {
+      "active": "Open ",
+      "inactive": "Opens at",
+      "closed": "Closed"
+    },
+    "delivery": "Delivery ≈ {{minutes}} minutes",
+    "rest": "Opens at 10AM"
+  },
+  "product": {
+    "count": "it"
+  },
+  "basket": {
+    "title": "Basket",
+    "deliveryTitle": "Delivery",
+    "ingredientsTitle": "ingredients",
+    "addButton": "Add to basket",
+    "viewButton": "Basket \uD83E\uDDFA",
+    "continueButton": "Continue",
+    "continueDisabledButton": "Basket is empty"
+  }
 }

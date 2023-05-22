@@ -1,0 +1,25 @@
+{
+  "status": {
+    "draft": "",
+    "pending": "⏳ පිළිතුරක් බලා",
+    "cook": "\uD83D\uDC68\u200D\uD83C\uDF73 සූදානම් වෙනවා",
+    "cooked": "⌛ සූදානම්, බලා සිටින්න",
+    "delivery": "\uD83D\uDEF5 භාරදීම",
+    "complete": "\uD83C\uDFC1 ස්ථානයට පැමිණියා",
+    "closed": "✅ සම්පූර්ණ කළා",
+    "declined": "\uD83D\uDED1 අවලංගු කළා",
+    "cancelled": "❌ අවලංගු කළා"
+  },
+  "type": {
+    "delivery": "බෙදා හැරීම",
+    "pickup": "අවුලා ගන්න"
+  },
+  "price": {
+    "free": "Бесплатно",
+    "unknown": "Не можем определить"
+  },
+  "currency": {
+    "LKR": "Rs",
+    "RUB": "Rb"
+  }
+}

@@ -9,11 +9,11 @@ import {chakraTheme} from './theme.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <Provider store={store}>
-        <ChakraProvider theme={chakraTheme}>
-          <ColorModeScript initialColorMode={chakraTheme.config.initialColorMode}/>
-          <RouterProvider router={router}/>
-        </ChakraProvider>
-      </Provider>
+    <Provider store={store}>
+      <ChakraProvider theme={chakraTheme}>
+        <ColorModeScript initialColorMode={chakraTheme.config.initialColorMode}/>
+        <RouterProvider router={router}/>
+      </ChakraProvider>
+    </Provider>
   </React.StrictMode>
 );

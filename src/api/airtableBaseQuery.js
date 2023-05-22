@@ -4,11 +4,11 @@ export const airtableBase = new Airtable({
   apiKey: import.meta.env.VITE_AIRTABLE_API_KEY
 }).base(import.meta.env.VITE_AIRTABLE_BASE);
 
-export const airtableBaseQuery = async ({tableName, method, data}) => {
+export const airtableBaseQuery = async ({tableName, method, allowDisable, data, permissions}) => {
   try {
     let result;
     if (method === 'select') {
-      result = await selectRecords(tableName);
+      result = await selectRecords(tableName, allowDisable, permissions);
     }
 
     if (method === 'create') {
@@ -26,7 +26,7 @@ export const airtableBaseQuery = async ({tableName, method, data}) => {
 };
 
 
-async function selectRecords(tableName) {
+async function selectRecords(tableName, allowDisable, permissions) {
   return await airtableBase(tableName).select({
     view: 'Grid view',
     filterByFormula: `NOT({Disabled})`

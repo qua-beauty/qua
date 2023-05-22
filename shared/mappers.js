@@ -6,14 +6,11 @@ export const shopMapper = (shop) => {
     name: shop.fields['Name'],
     address: shop.fields['Address'],
     delivery: {
-      ru: shop.fields['Delivery'],
-      en: shop.fields['Delivery En']
+      ru: shop.fields['About'],
     },
     phone: shop.fields['Phone'],
-    textColor: shop.fields['Text Color'],
-    backgroundColor: shop.fields['Background Color'],
-    endTime: shop.fields['End Time'],
     startTime: shop.fields['Start Time'],
+    endTime: shop.fields['End Time'],
     workTime: `${shop.fields['Start Time']} - ${shop.fields['End Time']}`,
     logo: shop.fields['Logotype'] ? shop.fields['Logotype'][0].url : undefined,
     thumbnail: shop.fields['Thumbnail'] ? shop.fields['Thumbnail'][0].url : undefined,
@@ -30,28 +27,17 @@ export const productMapper = (product) => {
   return {
     id: product.id,
     name: {
-      ru: product.fields['Name'],
-      en: product.fields['Name En']
+      ru: product.fields['Name']
     },
     category: product.fields['Category'] ? product.fields['Category'][0] : undefined,
     price: product.fields['Price'],
     about: {
-      ru: product.fields['About'],
-      en: product.fields['About En'],
-    },
-    ingredients: {
-      ru: product.fields['Ingredients'],
-      en: product.fields['Ingredients En'],
+      ru: product.fields['About']
     },
     image: product.fields['Image'] ? product.fields['Image'][0].url : undefined,
     icon: product.fields['Icon'],
-    isVegan: product.fields['isVegan'],
-    isGF: product.fields['isGF'],
-    isVegetarian: product.fields['isVegetarian'],
     isAvailable: product.fields['isAvailable'],
-    shop: product.fields['Shop'] ? product.fields['Shop'][0] : undefined,
-    posterId: product.fields['Poster ID'],
-    weight: product.fields['Weight'],
+    shop: product.fields['Master'] ? product.fields['Master'][0] : undefined,
     discountPrice: product.fields['Discount Price'],
     discount: product.fields['Discount']
   };
@@ -61,11 +47,10 @@ export const categoryMapper = (category) => {
   return {
     id: category.id,
     name: {
-      ru: category.fields['Name'],
-      en: category.fields['Name En']
+      ru: category.fields['Name']
     },
     icon: category.fields['Icon'],
-    shops: category.fields['Shops'],
+    shops: category.fields['Masters'],
     products: category.fields['Products']
   };
 }
@@ -80,22 +65,20 @@ export const orderMapper = (order) => {
     userChat: order.fields['User Chat'] ?  order.fields['User Chat'][0] : undefined,
     products: order.fields['Products'],
     address: order.fields['Address'],
-    shop: order.fields['Shop'] ? order.fields['Shop'][0] : undefined,
-    shopChat: order.fields['Shop Chat'] ? order.fields['Shop Chat'][0] : undefined,
-    shopPosterPos: order.fields['Shop PosterPos'] ? order.fields['Shop PosterPos'][0] : undefined,
-    shopAddress: order.fields['Shop Address'] ? order.fields['Shop Address'][0] : undefined,
+    shop: order.fields['Master'] ? order.fields['Master'][0] : undefined,
+    shopChat: order.fields['Master Chat'] ? order.fields['Master Chat'][0] : undefined,
+    shopName: order.fields['Master Name'],
+    shopPosterPos: order.fields['Master PosterPos'] ? order.fields['Master PosterPos'][0] : undefined,
+    shopAddress: order.fields['Master Address'] ? order.fields['Master Address'][0] : undefined,
     count: order.fields['Count'],
     price: order.fields['Price'],
     commission: order.fields['Commission'],
     deliveryPrice: order.fields['Delivery Price'],
     comment: order.fields['Comment'],
     phone: order.fields['Phone'],
-    productsJson: order.fields['Products JSON'] ? JSON.parse(order.fields['Products JSON']) : undefined,
     telegram: order.fields['Telegram'] ? JSON.parse(order.fields['Telegram']) : undefined,
     username: order.fields['Username'],
     distance: order.fields['Distance'],
-    posterId: order.fields['Poster ID'],
-    posterTransactionId: order.fields['Poster Transaction ID'],
     number: order.fields['Number']
   }
 }
@@ -109,20 +92,11 @@ export const userMapper = (user) => {
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
     language: user.fields['Language'],
-    referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined
+    referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined,
+    permissions: user.fields['Permissions']
   };
 }
 
-export const posterPosMapper = (poster) => {
-  return {
-    id: poster.id,
-    account: poster.fields['Account'],
-    accountNumber: poster.fields['Account Number'],
-    accessToken: poster.fields['Access Token'],
-    status: poster.fields['Status'],
-    shop: poster.fields['Shop'],
-  };
-}
 
 export const telegramUserMapper = (user) => {
   return {

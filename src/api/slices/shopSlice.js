@@ -1,21 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export const shopTypes = {
-  RESTAURANT: 'restaurant',
-  MARKET: 'market'
+  RESTAURANT: 'master',
+  DEV: 'dev'
 }
 
 export const shopSlice = createSlice({
-  name: 'shops',
+  name: 'masters',
   initialState: {
     data: null,
-    market: null,
     current: null
   },
   reducers: {
     setShopsData: (state, action) => {
-      state.data = action.payload.filter(s => s.type === shopTypes.RESTAURANT);
-      state.market = action.payload.find(s => s.type === shopTypes.MARKET);
+      state.data = action.payload;
     },
     setCurrentShop: (state, action) => {
       state.current = action.payload;
