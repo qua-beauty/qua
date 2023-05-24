@@ -44,17 +44,9 @@ const Basket = () => {
         price,
         currency,
         user,
-        shop: currentShop,
+        master: currentShop,
         date: new Date(),
         commission: price * (parseInt(currentShop.commission) / 100),
-        productsJson: basket.map(product => ({
-          name: product.name[lng],
-          count: product.count,
-          icon: product.icon,
-          price: product.discountPrice || product.price,
-          posterId: product.posterId,
-          weight: product.weight
-        })),
         status: 'draft',
       }]).unwrap().then(async (order) => {
         if (webApp) {
