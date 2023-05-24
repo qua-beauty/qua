@@ -85,7 +85,7 @@ const Product = () => {
     if (!webApp) return;
 
     if (basket.length > 0) {
-      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 ? `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})` : ''}`;
+      webApp.MainButton.text = `Перейти к бронированиям`;
       webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
@@ -174,7 +174,7 @@ const Product = () => {
       </Box>
 
       {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
+        <Button as={Link} to={'/basket'}>Перейти к бронированиям</Button>
       )}
     </>
   ) : <></>

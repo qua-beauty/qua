@@ -19,6 +19,7 @@ export const shopMapper = (shop) => {
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
     available: shop.fields['Available'],
+    about: shop.fields['About'],
     type: shop.fields['Type'].toLowerCase()
   };
 };

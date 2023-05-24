@@ -41,7 +41,7 @@ const ProductInline = ({product}) => {
           <BasketCounter size={'sm'} added={count} onAdd={handleAddProduct} onDelete={handleDeleteProduct} isBasket={true} />
           <Text textDecoration={isDeleted ? 'line-through' : 'none'} textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>
             <Text as={'span'} color={'telegram.200'}>{countInBasket > 0 ? `${countInBasket}x ` : ''}</Text>
-            {(discountPrice || price) * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.LKR`, {ns: 'common'})}
+            {(discountPrice || price) * (countInBasket > 0 ? countInBasket : 1)} {t(`currency.USD`, {ns: 'common'})}
           </Text>
         </Flex>
       </Flex>

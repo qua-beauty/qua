@@ -45,7 +45,7 @@ function Catalog() {
     if (!(webApp && webApp.hasOwnProperty('MainButton'))) return;
 
     if (basket.length > 0) {
-      webApp.MainButton.text = `${t('basket.viewButton')} ${count > 0 ? `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})` : ''}`;
+      webApp.MainButton.text = `Bookings`;
       webApp.MainButton.color = theme.colors.telegram['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(navigateBasket);
@@ -82,31 +82,16 @@ function Catalog() {
 
   return currentShop ? (
     <Container p={'16px'}>
-      <Flex mt={'8px'} justifyContent={'space-between'}>
-        <Box>
-          <Heading fontSize={'2x1'}>
-            {currentShop.name}
-            {currentShop.type === shopTypes.MARKET &&
-              <Box as={'span'} position={'relative'} top={'-2px'} ml={'4px'} textTransform={'uppercase'} bg={'black'}
-                   color={'white'} fontSize={'xs'} p={'0 4px'} borderRadius={'12px'}>Beta</Box>}
-          </Heading>
-          <Flex mt={'4px'} alignItems={'baseline'} gap={'6px'}>
-            <Text fontWeight={'500'} fontSize={'md'}>
-              {isWorking ? <>
-                <Online/> {t('info.status.active')}
-              </> : <>
-                <Offline/> {currentShop.available ? t('info.status.inactive') : ''}
-              </>}
-              {isWorking ? currentShop.workTime : (currentShop.available ? currentShop.startTime : t(
-                'info.status.closed'))}
-            </Text>
-          </Flex>
-        </Box>
-        <Box>
-          {currentShop.logo && <Box width={'56px'} height={'56px'} borderRadius={'50%'} overflow={'hidden'}>
-            <img src={currentShop.logo} width={'100%'} alt=""/>
-          </Box>}
-        </Box>
+      <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
+        {currentShop.logo && <Box width={'120px'} height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
+          <img src={currentShop.logo} width={'100%'} alt=""/>
+        </Box>}
+        <Heading mt={'12px'} fontSize={'2x1'}>
+          {currentShop.name}
+        </Heading>
+        <Text mt={'4px'} fontSize={'md'}>
+          {currentShop.about}
+        </Text>
       </Flex>
       <Box mt={'16px'} pb={'72px'} position={'relative'}>
         <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
@@ -117,7 +102,7 @@ function Catalog() {
         <Filters shopId={currentShop.id}/>
       </Box>
       {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>{t('basket.viewButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
+        <Button as={Link} to={'/basket'}>Перейти к бронированиям</Button>
       )}
     </Container>
   ) : <CatalogSkeleton />;
