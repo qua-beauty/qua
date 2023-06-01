@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
 import {Offline, Online} from '../components/Status.jsx';
 
-function Catalog() {
+function ServicesCatalog() {
   const dispatch = useDispatch();
   const currentShop = useSelector((state) => state.shops.current);
   const filters = useSelector((state) => state.filters.filters);
@@ -83,14 +83,12 @@ function Catalog() {
   return currentShop ? (
     <Container p={'16px'}>
       <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
-        {currentShop.logo && <Box width={'120px'} height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
-          <img src={currentShop.logo} width={'100%'} alt=""/>
-        </Box>}
+
         <Heading mt={'12px'} fontSize={'2x1'}>
-          {currentShop.name}
+          Select Service
         </Heading>
         <Text mt={'4px'} fontSize={'md'}>
-          {currentShop.about}
+
         </Text>
       </Flex>
       <Box mt={'16px'} pb={'72px'} position={'relative'}>
@@ -108,4 +106,4 @@ function Catalog() {
   ) : <CatalogSkeleton />;
 }
 
-export default Catalog;
+export default ServicesCatalog;
