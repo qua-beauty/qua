@@ -34,7 +34,7 @@ export const orderCompleteKeyboard = (orderId, lng = 'en') => new InlineKeyboard
   .text(t('keyboardCompleteOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);
 
 export const orderCloseKeyboard = (orderId, lng = 'en') => new InlineKeyboard()
-  .text(t('keyboardCloseOrder', lng), `${actions.ORDER_CLOSED} ${orderId}`);
+  .text(t('keyboardCloseOrder', lng), `${actions.ORDER_CLOSE} ${orderId}`);
 
 export const orderUserKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardCancelOrder'), `${actions.ORDER_CANCEL} ${orderId}`);

@@ -10,6 +10,7 @@
   "keyboardDeclineOrder": "Cancel booking",
   "keyboardScheduleOrder": "Schedule the booking",
   "keyboardCompleteOrder": "Order is complete",
+  "keyboardCloseOrder": "Close the order",
   "keyboardCancelOrder": "Cancel order",
   "keyboardChangeLanguage": "\uD83C\uDF10 Change language",
   "messageAbout": "About us",
