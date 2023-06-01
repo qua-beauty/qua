@@ -8,7 +8,7 @@ import commonSi from "../../shared/locales/si/common.json" assert { type: "json"
 
 i18next
   .init({
-    lng: 'ru',
+    lng: 'en',
     defaultNS: 'bot',
     resources: {
       en: {
@@ -27,4 +27,4 @@ i18next
   });
 
 export const i18n = i18next;
-export const t = (key, lng = 'ru', options) => i18next.getFixedT(lng)(key, options);
+export const t = (key, lng = 'en', options) => i18next.getFixedT(lng)(key, options);
