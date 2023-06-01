@@ -32,8 +32,8 @@ const getMessageData = (order) => {
     case statuses.SCHEDULED:
       return {
         message: t('messageOrderSchedule'),
-        shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'si')},
+        shopKeyboard: {reply_markup: orderCompleteKeyboard(order.id)},
+        deliveryKeyboard: null,
         userKeyboard: null
       }
     case statuses.COMPLETED:
