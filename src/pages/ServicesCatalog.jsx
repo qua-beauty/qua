@@ -19,7 +19,7 @@ function ServicesCatalog() {
   const filters = useSelector((state) => state.filters.filters);
   const shops = useSelector(state => state.shops.data);
   const market = useSelector(state => state.shops.market);
-  const catalog = useSelector(selectProductsByShop(currentShop?.id, filters));
+  const catalog = useSelector(state => state.products.data)
   const navigate = useNavigate();
   const {basket, count, price, currency} = useSelector(state => state.basket);
   const theme = useTheme();
@@ -81,7 +81,9 @@ function ServicesCatalog() {
 
   const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
 
-  return currentShop ? (
+
+
+  return currentShop && catalog ? (
     <Container p={'16px'}>
       <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
 

@@ -33,12 +33,13 @@ const AnimatedCard = () => {
             initial="hidden"
             animate="visible"
             style={{
+                width: "100%",
                 padding: theme.space[5],
                 boxShadow: theme.shadows.md,
                 borderWidth: "1px",
                 flex: "1",
                 borderRadius: theme.radii.md,
-                background: `linear-gradient(to right, #FFEBCD, #FFDEAD)`, // Измените на ваше предпочтение
+                background: `linear-gradient(to right, #ECE3FC, #ECE3FC)`, // Измените на ваше предпочтение
                 color: theme.colors.gray[800], // Измените на ваше предпочтение
             }}
         >
