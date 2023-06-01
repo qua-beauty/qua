@@ -51,7 +51,7 @@ const Basket = () => {
       }]).unwrap().then(async (order) => {
         if (webApp) {
           if(isDirectWebApp) {
-            webApp.openTelegramLink(`https://t.me/swamimarketbot?start=order-${order.id}`);
+            webApp.openTelegramLink(`https://t.me/quadevbot?start=order-${order.id}`);
           } else {
             await fetchAnswerWebQuery({messageText: `order-${order.id}`});
             dispatch(clearBasket());

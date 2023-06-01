@@ -1,6 +1,6 @@
 import {getOrder, updateOrder} from '../../services/airtable.js';
 import {deliveryTypes, statusByAction, statuses} from '../utils.js';
-import {defaultOrderTemplate, deliveryOrderTemplate} from '../templates.js';
+import {defaultOrderTemplate} from '../templates.js';
 import {bot} from '../bot.js';
 import {t} from "../i18n.js";
 import {
@@ -76,7 +76,6 @@ const getMessageData = (order) => {
 export const updateOrderAction = async (order) => {
   const orderId = order.id;
   const messageData = getMessageData(order);
-  const deliveryChat = -1001927483990 //TODO: REMOVE IT FROM HERE
   const {shopChat, userChat} = order;
 
   if (order.status !== statuses.PENDING) {
@@ -97,29 +96,15 @@ export const updateOrderAction = async (order) => {
     } catch (error) {
       console.error(error);
     }
-
-    try {
-      if (order?.telegram?.deliveryOrderMessage) await bot.api.deleteMessage(deliveryChat, order.telegram.deliveryOrderMessage);
-    } catch (error) {
-      console.error(error);
-    }
   }
-
-  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(shopChat, defaultOrderTemplate(order), messageData.shopKeyboard);
 
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
   let telegram = {
-    shopOrderMessage: shopOrderMessageNew,
     userOrderMessage: userOrderMessageNew,
     userTitleMessage: userTitleMessageNew,
   };
-
-  if(order.type === deliveryTypes.DELIVERY) {
-    const {message_id: deliveryOrderMessageNew} = await bot.api.sendMessage(deliveryChat, deliveryOrderTemplate(order, 'si'), messageData.deliveryKeyboard);
-    telegram.deliveryOrderMessage = deliveryOrderMessageNew;
-  }
 
   let orderData = {
     ...order,
