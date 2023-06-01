@@ -2,9 +2,9 @@
   "status": {
     "draft": "",
     "pending": "Waiting",
-    "accept": "Accepted",
-    "schedule": "Scheduled",
-    "complete": "Completed",
+    "accepted": "Accepted",
+    "scheduled": "Scheduled",
+    "completed": "Completed",
     "declined": "Declined",
     "cancelled": "Cancelled"
   },

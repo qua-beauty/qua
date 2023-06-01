@@ -97,7 +97,7 @@ function ServicesCatalog() {
       </Flex>
       <Box mt={'16px'} pb={'72px'} position={'relative'}>
         <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
-          {catalog.map(product => {
+          {catalog?.map(product => {
             return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
           })}
         </Flex>

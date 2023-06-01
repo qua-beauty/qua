@@ -92,6 +92,7 @@ export const updateOrderAction = async (order) => {
     }
   }
 
+  console.log(order);
   const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(order.shopTelegramId, defaultOrderTemplate(order), messageData.shopKeyboard);
 
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
