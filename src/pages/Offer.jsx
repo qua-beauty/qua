@@ -12,7 +12,7 @@ import AddToBasket from '../components/AddToBasket.jsx';
 import NoImage from '../components/NoImage.jsx';
 import {Percent} from '@phosphor-icons/react';
 
-const Product = () => {
+const Offer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {productId} = useParams();
@@ -177,4 +177,4 @@ const Product = () => {
   ) : <></>
 };
 
-export default Product;
+export default Offer;
