@@ -7,7 +7,7 @@ import {
   orderCloseKeyboard,
   orderCompleteKeyboard,
   orderCookedKeyboard,
-  orderDeliveryKeyboard, orderPickupCookedKeyboard,
+  orderDeliveryKeyboard, orderPickupCookedKeyboard, orderScheduleKeyboard,
   orderShopKeyboard,
   orderUserKeyboard
 } from "../keyboards.js";
@@ -21,30 +21,24 @@ const getMessageData = (order) => {
         deliveryKeyboard: null,
         userKeyboard: {reply_markup: orderUserKeyboard(order.id)}
       };
-    case statuses.COOK:
+    case statuses.ACCEPTED:
       return {
-        message: t('messageOrderCooking'),
-        shopKeyboard: {reply_markup: order.type === deliveryTypes.DELIVERY ? orderCookedKeyboard(order.id) : orderPickupCookedKeyboard(order.id)},
+        message: t('messageOrderAccept'),
+        shopKeyboard: {reply_markup: orderScheduleKeyboard(order.id)},
         deliveryKeyboard: null,
         userKeyboard: null
       };
-    case statuses.COOKED:
+
+    case statuses.SCHEDULED:
       return {
-        message: t('messageOrderCooked'),
-        shopKeyboard: null,
-        deliveryKeyboard: {reply_markup: orderDeliveryKeyboard(order.id, 'si')},
-        userKeyboard: null
-      };
-    case statuses.DELIVERY:
-      return {
-        message: t('messageOrderDelivery'),
+        message: t('messageOrderSchedule'),
         shopKeyboard: null,
         deliveryKeyboard: {reply_markup: orderCompleteKeyboard(order.id, 'si')},
         userKeyboard: null
       }
-    case statuses.COMPLETE:
+    case statuses.COMPLETED:
       return {
-        message: order.type === deliveryTypes.DELIVERY ? t('messageOrderComplete') : t('messageOrderPickup'),
+        message: t('messageOrderComplete'),
         shopKeyboard: {reply_markup: orderCloseKeyboard(order.id)},
         deliveryKeyboard: {reply_markup: orderCloseKeyboard(order.id, 'si')},
         userKeyboard: null
@@ -98,12 +92,15 @@ export const updateOrderAction = async (order) => {
     }
   }
 
+  const {message_id: shopOrderMessageNew} = await bot.api.sendMessage(order.shopTelegramId, defaultOrderTemplate(order), messageData.shopKeyboard);
+
   const {message_id: userOrderMessageNew} = await bot.api.sendMessage(userChat, defaultOrderTemplate(order), messageData.userKeyboard);
   const {message_id: userTitleMessageNew} = await bot.api.sendMessage(userChat, messageData.message);
 
   let telegram = {
     userOrderMessage: userOrderMessageNew,
     userTitleMessage: userTitleMessageNew,
+    shopOrderMessage: shopOrderMessageNew
   };
 
   let orderData = {

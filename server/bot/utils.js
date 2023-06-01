@@ -8,11 +8,9 @@ export const statuses = {
   PENDING: 'pending',
   CANCELLED: 'cancelled',
   DECLINED: 'declined',
-  COOK: 'cook',
-  COOKED: 'cooked',
-  DELIVERY: 'delivery',
-  COMPLETE: 'complete',
-  COMPLETE_PICKUP: 'completePickup',
+  ACCEPTED: 'accepted',
+  SCHEDULED: 'scheduled',
+  COMPLETED: 'completed',
   CLOSED: 'closed',
 }
 
@@ -24,11 +22,10 @@ export const actions = {
   ORDER_PICKUP: 'ORDER_PICKUP',
   ORDER_CANCEL: 'ORDER_CANCEL',
   ORDER_DECLINE: 'ORDER_DECLINE',
-  ORDER_COOK: 'ORDER_COOK',
-  ORDER_COOKED: 'ORDER_COOKED',
-  ORDER_DELIVERY: 'ORDER_DELIVERY',
+  ORDER_ACCEPT: 'ORDER_ACCEPT',
+  ORDER_SCHEDULE: 'ORDER_SCHEDULE',
   ORDER_COMPLETE: 'ORDER_COMPLETE',
-  ORDER_CLOSED: 'ORDER_CLOSED',
+  ORDER_CLOSE: 'ORDER_CLOSE',
   BACK_TO_HOME: 'BACK_TO_HOME',
   CHANGE_LANGUAGE: 'CHANGE_LANGUAGE'
 }
@@ -36,11 +33,10 @@ export const actions = {
 export const statusByAction = {
   [actions.ORDER_CANCEL]: statuses.CANCELLED,
   [actions.ORDER_DECLINE]: statuses.DECLINED,
-  [actions.ORDER_COOK]: statuses.COOK,
-  [actions.ORDER_COOKED]: statuses.COOKED,
-  [actions.ORDER_DELIVERY]: statuses.DELIVERY,
-  [actions.ORDER_COMPLETE]: statuses.COMPLETE,
-  [actions.ORDER_CLOSED]: statuses.CLOSED,
+  [actions.ORDER_ACCEPT]: statuses.ACCEPTED,
+  [actions.ORDER_SCHEDULE]: statuses.SCHEDULED,
+  [actions.ORDER_COMPLETE]: statuses.COMPLETED,
+  [actions.ORDER_CLOSE]: statuses.CLOSED,
 }
 
 export const deliveryTypes = {

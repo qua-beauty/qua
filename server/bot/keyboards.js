@@ -22,16 +22,13 @@ export const sharePhoneKeyboard = () => new Keyboard()
 
 export const orderShopKeyboard = (orderId) => new InlineKeyboard()
   .text(t('keyboardDeclineOrder'), `${actions.ORDER_DECLINE} ${orderId}`)
-  .text(t('keyboardAcceptOrder'), `${actions.ORDER_COOK} ${orderId}`);
-
-export const orderCookedKeyboard = (orderId) => new InlineKeyboard()
-  .text(t('keyboardCookedOrder'), `${actions.ORDER_COOKED} ${orderId}`);
+  .text(t('keyboardAcceptOrder'), `${actions.ORDER_ACCEPT} ${orderId}`);
 
 export const orderPickupCookedKeyboard = (orderId, lng = 'en') => new InlineKeyboard()
   .text(t('keyboardCookedOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);
 
-export const orderDeliveryKeyboard = (orderId, lng = 'en') => new InlineKeyboard()
-  .text(t('keyboardDeliveryOrder', lng), `${actions.ORDER_DELIVERY} ${orderId}`);
+export const orderScheduleKeyboard = (orderId, lng = 'en') => new InlineKeyboard()
+  .text(t('keyboardScheduleOrder', lng), `${actions.ORDER_SCHEDULE} ${orderId}`);
 
 export const orderCompleteKeyboard = (orderId, lng = 'en') => new InlineKeyboard()
   .text(t('keyboardCompleteOrder', lng), `${actions.ORDER_COMPLETE} ${orderId}`);

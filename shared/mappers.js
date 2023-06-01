@@ -69,6 +69,7 @@ export const orderMapper = (order) => {
     shop: order.fields['Master'] ? order.fields['Master'][0] : undefined,
     shopChat: order.fields['Master Chat'] ? order.fields['Master Chat'][0] : undefined,
     shopName: order.fields['Master Name'],
+    shopTelegramId: order.fields['Master TelegramId'],
     shopPosterPos: order.fields['Master PosterPos'] ? order.fields['Master PosterPos'][0] : undefined,
     shopAddress: order.fields['Master Address'] ? order.fields['Master Address'][0] : undefined,
     count: order.fields['Count'],

@@ -7,7 +7,7 @@ export const serializeOrder = (orderData) => {
       Address: order.address,
       Username: order.username,
       Products: order.products?.map((p) => p?.id || p),
-      Shop: [order.shop?.id || order.shop],
+      Master: [order.master?.id || order.master],
       Count: order.count,
       Price: order.price,
       Comment: order.comment,
