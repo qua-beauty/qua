@@ -11,6 +11,7 @@ import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
 import {Offline, Online} from '../components/Status.jsx';
+import AnimatedCard from "../components/AnimatedCard.jsx";
 
 function ServicesCatalog() {
   const dispatch = useDispatch();
@@ -85,7 +86,8 @@ function ServicesCatalog() {
       <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
 
         <Heading mt={'12px'} fontSize={'2x1'}>
-          Select Service
+          <AnimatedCard />
+
         </Heading>
         <Text mt={'4px'} fontSize={'md'}>
 
@@ -99,9 +101,6 @@ function ServicesCatalog() {
         </Flex>
         <Filters shopId={currentShop.id}/>
       </Box>
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>Перейти к бронированиям</Button>
-      )}
     </Container>
   ) : <CatalogSkeleton />;
 }
