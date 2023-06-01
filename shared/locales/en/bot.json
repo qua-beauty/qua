@@ -20,6 +20,7 @@
   "messageOrderAccept": "Accepted",
   "messageOrderSchedule": "Scheduled",
   "messageOrderComplete": "Completed",
+  "messageOrderClosed": "Closed",
   "messageBotError": "Something happens with bot, we invited an operator to chat",
   "messageChangeLanguage": "Please choose a language what you want",
   "orderCard": {

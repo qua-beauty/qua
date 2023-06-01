@@ -6,7 +6,8 @@
     "scheduled": "Scheduled",
     "completed": "Completed",
     "declined": "Declined",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "closed": "Closed"
   },
   "price": {
     "free": "Free",
