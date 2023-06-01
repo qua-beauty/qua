@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deno-deploy": "deployctl deploy --no-static --token=ddp_K4ZuQy5Zad23CGw2bYU92vtLwkEKvw0cGpER --exclude=node_modules --include=server,shared --prod --project=swamimarket ./server/server.js",
+    "deno-deploy": "deployctl deploy --no-static --token=ddp_mAqpAfj7UUIz6uB974zhTPvDwwALBr0ZzYRM --exclude=node_modules --include=server,shared --prod --project=qua-beauty ./server/server.js",
     "netlify-deploy": "yarn build && netlify deploy --prod",
     "netlify-dev": "netlify dev --live --debug",
     "bot": "cd ./server && deno run --allow-env --allow-read --allow-net server.js"
