@@ -87,7 +87,7 @@ function ServicesCatalog() {
     <Container p={'16px'}>
       <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
 
-        <Heading mt={'12px'} fontSize={'2x1'}>
+        <Heading mt={'12px'} fontSize={'2x1'} width={'100%'}>
           <AnimatedCard />
 
         </Heading>
