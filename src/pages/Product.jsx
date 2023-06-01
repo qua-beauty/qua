@@ -173,9 +173,6 @@ const Product = () => {
         </VStack>
       </Box>
 
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>Перейти к бронированиям</Button>
-      )}
     </>
   ) : <></>
 };
