@@ -27,8 +27,6 @@ bot.catch((error) => {
   error.ctx.reply(t('messageBotError'));
 });
 
-bot.command('start', start);
-
 bot.hears(masks.order, async (ctx) => {
   await ctx.conversation.enter('newOrder');
 });
