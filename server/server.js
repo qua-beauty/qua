@@ -6,7 +6,6 @@ import 'https://deno.land/x/dotenv/load.ts';
 import {bot} from './bot/bot.js';
 import {orderMapper} from '../shared/mappers.js';
 import {updateOrderAction} from './bot/actions/orderActions.ts';
-import {posterCallback} from './posterpos/callback.ts';
 
 const app = new Application();
 const router = new Router();

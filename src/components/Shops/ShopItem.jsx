@@ -11,24 +11,25 @@ const ShopItem = ({onSelect, ...shop}) => {
   const {t} = useTranslation();
 
   return (
-      <Flex sx={{
-        flexDirection: 'column',
-      }} onClick={() => onSelect(shop)}>
-        <Flex direction={"column"} sx={{
-          width: '100%',
-          height: 200,
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          justifyContent: 'center',
-          gap: '8px',
-        }}>
-          {logo && <Box width={'120px'} height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
-            <img src={logo} width={'100%'} alt=""/>
-          </Box>}
-          <Heading fontSize={'xl'}>{name}</Heading>
-        </Flex>
+    <Flex sx={{
+      flexDirection: 'column',
+      minWidth: 'calc(50% - 8px)'
+    }} onClick={() => onSelect(shop)}>
+      <Flex direction={"column"} sx={{
+        width: '100%',
+        height: 200,
+        alignItems: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        justifyContent: 'center',
+        gap: '8px',
+      }}>
+        {logo && <Box width={'120px'} height={'120px'} borderRadius={'50%'} overflow={'hidden'}>
+          <img src={logo} width={'100%'} alt=""/>
+        </Box>}
+        <Heading fontSize={'md'}>{name}</Heading>
       </Flex>
+    </Flex>
   );
 };
 

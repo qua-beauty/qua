@@ -29,8 +29,8 @@ const Shops = () => {
   return (
     <Container p={'16px'}>
       {shops ? <Box p={'8px'}>
-        <Heading fontSize={'lg'} fontWeight={'400'} mb={'16px'}>Выберите мастера</Heading>
-        <Flex direction={'column'} gap={'24px'}>
+        <Heading fontSize={'lg'} fontWeight={'400'} mb={'16px'}>Select Master</Heading>
+        <Flex flexWrap={'wrap'} gap={'8px'}>
           {shops.map(shop =>
             <ShopItem key={shop.id} onSelect={handleSelect} {...shop} />
           )}

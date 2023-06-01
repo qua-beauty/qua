@@ -44,17 +44,9 @@ const Basket = () => {
         price,
         currency,
         user,
-        shop: currentShop,
+        master: currentShop,
         date: new Date(),
         commission: price * (parseInt(currentShop.commission) / 100),
-        productsJson: basket.map(product => ({
-          name: product.name[lng],
-          count: product.count,
-          icon: product.icon,
-          price: product.discountPrice || product.price,
-          posterId: product.posterId,
-          weight: product.weight
-        })),
         status: 'draft',
       }]).unwrap().then(async (order) => {
         if (webApp) {
@@ -79,16 +71,15 @@ const Basket = () => {
     if (webApp) {
 
       if(basket.length === 0) {
-        webApp.MainButton.text = t('basket.continueDisabledButton');
+        webApp.MainButton.text = 'Нет бронирований';
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
       } else if(!isWorking) {
-        webApp.MainButton.text = t('basket.continueNotWorking');
+        webApp.MainButton.text = 'Не доступно';
         webApp.MainButton.color = theme.colors.background.default;
         webApp.MainButton.disable();
       } else {
-        webApp.MainButton.text = `${t('basket.continueButton')} ${count > 0 && `(${count}x${price} ${t(
-          `currency.${currency}`, {ns: 'common'})})`}`;
+        webApp.MainButton.text = `Заброинировать`;
         webApp.MainButton.color = '#66bb6a';
         webApp.MainButton.enable();
       }
@@ -117,26 +108,15 @@ const Basket = () => {
   return currentShop && (
     <Box p={'16px'}>
       <Flex direction={'column'} alignItems={'center'}>
-        <Heading fontSize={'2x1'} fontWeight={'400'}>{t('basket.title')}</Heading>
+        <Heading fontSize={'2x1'} fontWeight={'400'}>Bookings</Heading>
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
 
-      {currentShop?.delivery && <Box mt={'16px'} bg={'background.default'} p={'8px'} sx={{ ...borderRadius(12, 12) }}>
-        <Text color={'text.secondary'}>{t('basket.deliveryTitle')}</Text>
-        <Text fontSize={'md'} sx={{
-          '& p > strong': {
-            display: 'block',
-            marginBottom: '2px',
-            marginTop: '12px'
-          }
-        }}><ReactMarkdown>{currentShop?.delivery[lng]}</ReactMarkdown></Text>
-      </Box>}
-
       {import.meta.env.DEV && (
-        <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>{t('basket.continueButton')} {count > 0 && `(${count}x${price} ${t(`currency.${currency}`, { ns: 'common' })})`}</Button>
+        <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>Заброинировать</Button>
       )}
     </Box>
   );

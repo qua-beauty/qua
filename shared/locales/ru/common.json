@@ -21,6 +21,7 @@
   },
   "currency": {
     "LKR": "Rs",
-    "RUB": "Rb"
+    "RUB": "Rb",
+    "USD": "$"
   }
 }

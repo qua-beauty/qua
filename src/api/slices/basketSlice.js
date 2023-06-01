@@ -21,7 +21,7 @@ const basketSlice = createSlice({
     basket: [],
     count: 0,
     price: 0,
-    currency: 'LKR',
+    currency: 'USD',
     shop: null
   },
   reducers: {
