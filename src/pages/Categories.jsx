@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
 import AnimatedCard from "../components/AnimatedCard.jsx";
 
-function ServicesCatalog() {
+function Categories() {
   const dispatch = useDispatch();
   const currentShop = useSelector((state) => state.shops.current);
   const filters = useSelector((state) => state.filters.filters);
@@ -106,4 +106,4 @@ function ServicesCatalog() {
   ) : <CatalogSkeleton />;
 }
 
-export default ServicesCatalog;
+export default Categories;

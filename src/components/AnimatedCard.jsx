@@ -48,7 +48,7 @@ const AnimatedCard = () => {
                 animate="pulse"
             >
                 <Text fontSize="2xl" fontWeight="bold" textAlign="center">
-                    Select Service
+                    Categories
                 </Text>
             </motion.div>
         </motion.div>
