@@ -2,17 +2,17 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {webApp} from '../telegram.js';
 import {useDispatch, useSelector} from 'react-redux';
-import {addProduct, clearBasket, deleteProduct} from '../api/slices/basketSlice.js';
+import {makeBook} from '../api/slices/bookingSlice.js';
 import {useTranslation} from 'react-i18next';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {Box, Button, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/react';
 import {borderRadius} from '../globalSx.js';
 import {getCategoryName, getProductCount} from '../api/helpers.js';
-import AddToBasket from '../components/AddToBasket.jsx';
+import BookButton from '../components/BookButton.jsx';
 import NoImage from '../components/NoImage.jsx';
 import {Percent} from '@phosphor-icons/react';
 
-const Offer = () => {
+const Product = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {productId} = useParams();
@@ -21,32 +21,10 @@ const Offer = () => {
   const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
-  const {basket, count, price, currency, shop: basketShop} = useSelector(state => state.basket);
+  const {basket, count, price, currency, shop: basketShop} = useSelector(state => state.booking);
   const theme = useTheme();
 
   const [added, setAdded] = useState(0);
-
-  const handleAddProduct = () => {
-    if(basketShop && (basketShop !== currentProduct.shop)) {
-      if(webApp) {
-        webApp.showConfirm('Блюда из предыдущего ресторана будут удалены', (confirm) => {
-          if(confirm) {
-            dispatch(clearBasket());
-            dispatch(addProduct(currentProduct));
-            setAdded(added + 1);
-          }
-        });
-      }
-    } else {
-      dispatch(addProduct(currentProduct));
-      setAdded(added + 1);
-    }
-  };
-
-  const handleDeleteProduct = () => {
-    dispatch(deleteProduct(currentProduct));
-    setAdded(added - 1);
-  };
 
   useEffect(() => {
     if (currentProduct) {
@@ -79,7 +57,7 @@ const Offer = () => {
   }, [currentProduct, shops, market]);
 
   const countInBasket = getProductCount(currentProduct?.id);
-  const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
+  const navigateBasket = useCallback(() => navigate('/booking'), [navigate]);
 
   useEffect(() => {
     if (!webApp) return;
@@ -158,9 +136,7 @@ const Offer = () => {
             </Flex>
           </Box>
 
-          <AddToBasket price={currentProduct.price} discountPrice={currentProduct.discountPrice}
-                       discount={currentProduct.discount} count={countInBasket} onAdd={handleAddProduct}
-                       onDelete={handleDeleteProduct}/>
+          <BookButton product={currentProduct}/>
 
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>
@@ -173,8 +149,11 @@ const Offer = () => {
         </VStack>
       </Box>
 
+      {import.meta.env.DEV && (
+        <Button as={Link} to={'/booking'}>Перейти к бронированиям</Button>
+      )}
     </>
   ) : <></>
 };
 
-export default Offer;
+export default Product;

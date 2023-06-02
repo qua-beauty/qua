@@ -1,7 +1,7 @@
 import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentProduct} from '../api/slices/productSlice.js';
-import {Box, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
+import {Box, Button, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -20,7 +20,7 @@ function Categories() {
   const market = useSelector(state => state.shops.market);
   const catalog = useSelector(state => state.products.data)
   const navigate = useNavigate();
-  const {basket, count, price, currency} = useSelector(state => state.basket);
+  const {basket, count, price, currency} = useSelector(state => state.booking);
   const theme = useTheme();
   const {shopId} = useParams();
   const {t} = useTranslation();
@@ -30,7 +30,7 @@ function Categories() {
     navigate(`/product/${product.id}`);
   }
 
-  const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
+  const navigateBasket = useCallback(() => navigate('/booking'), [navigate]);
 
   useEffect(() => {
     if (webApp) {

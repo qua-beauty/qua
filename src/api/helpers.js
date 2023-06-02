@@ -18,7 +18,7 @@ export const getProductCount = (productId) => {
   if(!productId) {
     return null;
   }
-  const basket = store.getState().basket.basket;
+  const basket = store.getState().booking.basket;
   if (productId && basket.length > 0) {
     const product = basket.find(p => p.id === productId)
     return product ? product.count : null

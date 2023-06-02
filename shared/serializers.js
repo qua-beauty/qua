@@ -2,6 +2,7 @@ export const serializeOrder = (orderData) => {
   return orderData.map((order) => {
     const fields = {
       Date: order.date,
+      'Book Date': order.bookTime,
       User: [order.user?.id || order.user],
       Phone: order.phone,
       Address: order.address,

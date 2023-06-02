@@ -1,23 +1,22 @@
 import React, {useCallback, useEffect} from 'react';
-import ProductInline from '../components/Basket/ProductInline.jsx';
+import ProductInline from '../components/Booking/ProductInline.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearBasket, clearDeletedBasket} from '../api/slices/basketSlice.js';
+import {cancelBook, clearBasket, clearDeletedBasket, setBookTime} from '../api/slices/bookingSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
-import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
-import {borderRadius} from '../globalSx.js';
-import ReactMarkdown from 'react-markdown';
 import {isWorkingTime} from '../helpers.js';
+import TimeSlotPicker from '../components/Booking/TimeSlotPicker.jsx';
 
-const Basket = () => {
+const Booking = () => {
   const dispatch = useDispatch();
-  const {price, count, currency} = useSelector(state => state.basket);
-  const allBasket = useSelector(state => state.basket.basket);
+  const {price, bookTime, currency} = useSelector(state => state.booking);
+  const allBasket = useSelector(state => state.booking.basket);
+
   const basket = useSelector(state => {
-    const {basket} = state.basket;
+    const {basket} = state.booking;
     return basket.filter(product => !product.isDeleted);
   });
 
@@ -25,10 +24,18 @@ const Basket = () => {
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
-  const {t, i18n: { language: lng }} = useTranslation();
   const theme = useTheme();
 
   const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
+
+  const handleTimeChange = (date) => {
+    dispatch(setBookTime(date.toISOString()));
+  }
+
+  const handleCancelBook = useCallback(() => {
+    dispatch(cancelBook());
+    navigate('/');
+  }, [])
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -40,7 +47,7 @@ const Basket = () => {
     try {
       saveOrder([{
         products: basket,
-        count,
+        bookTime: new Date(bookTime),
         price,
         currency,
         user,
@@ -108,12 +115,18 @@ const Basket = () => {
   return currentShop && (
     <Box p={'16px'}>
       <Flex direction={'column'} alignItems={'center'}>
-        <Heading fontSize={'2x1'} fontWeight={'400'}>Bookings</Heading>
+        <Heading fontSize={'2x1'} fontWeight={'400'}>Make Booking</Heading>
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
+
+      <TimeSlotPicker onChange={handleTimeChange} />
+
+      <Box p={'12px'}>
+        <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelBook} color={'telegram.200'} variant="outline">Cancel Booking</Button>
+      </Box>
 
       {import.meta.env.DEV && (
         <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>Заброинировать</Button>
@@ -122,4 +135,4 @@ const Basket = () => {
   );
 };
 
-export default Basket;
+export default Booking;
