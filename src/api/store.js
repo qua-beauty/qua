@@ -5,7 +5,7 @@ import {productReducer} from './slices/productSlice.js';
 import {categoryReducer} from './slices/categorySlice.js';
 import {userReducer} from './slices/userSlice.js';
 import {filterReducer} from './slices/filterSlice.js';
-import {basketReducer} from './slices/basketSlice.js';
+import {bookingReducer} from './slices/bookingSlice.js';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ const store = configureStore({
     products: productReducer,
     categories: categoryReducer,
     filters: filterReducer,
-    basket: basketReducer,
+    booking: bookingReducer,
     user: userReducer,
     [AirtableApi.reducerPath]: AirtableApi.reducer
   },

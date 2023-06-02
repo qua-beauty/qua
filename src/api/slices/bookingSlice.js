@@ -14,7 +14,7 @@ const calculateBasketParams = (basket) => {
   return [totalCount, totalPrice];
 };
 
-const basketSlice = createSlice({
+const bookingSlice = createSlice({
   name: 'basket',
   initialState: {
     order: null,
@@ -83,6 +83,6 @@ const basketSlice = createSlice({
   },
 });
 
-export const {addProduct, deleteProduct, clearBasket, clearDeletedBasket} = basketSlice.actions;
+export const {addProduct, deleteProduct, clearBasket, clearDeletedBasket} = bookingSlice.actions;
 
-export const basketReducer = basketSlice.reducer;
+export const bookingReducer = bookingSlice.reducer;

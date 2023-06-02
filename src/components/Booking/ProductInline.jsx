@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {Box, Flex, Heading, Text} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import BasketCounter from '../BasketCounter.jsx';
-import {addProduct, deleteProduct} from '../../api/slices/basketSlice.js';
+import {addProduct, deleteProduct} from '../../api/slices/bookingSlice.js';
 import {useDispatch} from 'react-redux';
 import {getCategoryName, getProductCount} from '../../api/helpers.js';
 import NoImage from '../NoImage.jsx';

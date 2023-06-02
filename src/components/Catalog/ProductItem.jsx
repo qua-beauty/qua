@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {addProduct, clearBasket, deleteProduct} from '../../api/slices/basketSlice.js';
+import {addProduct, clearBasket, deleteProduct} from '../../api/slices/bookingSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
 import {Box, Flex, Heading, useTheme} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import {getProductCount} from '../../api/helpers.js';
-import AddToBasket from '../AddToBasket.jsx';
+import BookButton from '../BookButton.jsx';
 import NoImage from '../NoImage.jsx';
 import {webApp} from '../../telegram.js';
 import {Percent} from '@phosphor-icons/react';
@@ -15,7 +15,7 @@ const ProductItem = ({onSelect, ...product}) => {
   const dispatch = useDispatch();
   const [added, setAdded] = useState(0);
   const {name, image, price, discountPrice, discount, id} = product;
-  const {basket, shop: basketShop} = useSelector(state => state.basket);
+  const {basket, shop: basketShop} = useSelector(state => state.booking);
   const {i18n: {language: lng}} = useTranslation();
   const theme = useTheme();
 
@@ -104,8 +104,7 @@ const ProductItem = ({onSelect, ...product}) => {
           <Heading mb={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}
                    height={'51px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
 
-          <AddToBasket price={price} discountPrice={discountPrice} discount={discount} count={countInBasket}
-                       onAdd={handleAddProduct} onDelete={handleDeleteProduct}/>
+          <BookButton product={product}/>
         </Box>
 
       </Flex>

@@ -1,23 +1,21 @@
 import React, {useCallback, useEffect} from 'react';
-import ProductInline from '../components/Basket/ProductInline.jsx';
+import ProductInline from '../components/Booking/ProductInline.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearBasket, clearDeletedBasket} from '../api/slices/basketSlice.js';
+import {clearBasket, clearDeletedBasket} from '../api/slices/bookingSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
-import {borderRadius} from '../globalSx.js';
-import ReactMarkdown from 'react-markdown';
 import {isWorkingTime} from '../helpers.js';
 
-const Basket = () => {
+const Booking = () => {
   const dispatch = useDispatch();
-  const {price, count, currency} = useSelector(state => state.basket);
-  const allBasket = useSelector(state => state.basket.basket);
+  const {price, count, currency} = useSelector(state => state.booking);
+  const allBasket = useSelector(state => state.booking.basket);
   const basket = useSelector(state => {
-    const {basket} = state.basket;
+    const {basket} = state.booking;
     return basket.filter(product => !product.isDeleted);
   });
 
@@ -122,4 +120,4 @@ const Basket = () => {
   );
 };
 
-export default Basket;
+export default Booking;

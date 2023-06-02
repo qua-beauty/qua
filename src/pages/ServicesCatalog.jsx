@@ -1,6 +1,6 @@
 import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectProductsByShop, setCurrentProduct} from '../api/slices/productSlice.js';
+import {setCurrentProduct} from '../api/slices/productSlice.js';
 import {Box, Button, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop, shopTypes} from '../api/slices/shopSlice.js';
@@ -10,7 +10,6 @@ import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
-import {Offline, Online} from '../components/Status.jsx';
 import AnimatedCard from "../components/AnimatedCard.jsx";
 
 function ServicesCatalog() {
@@ -21,7 +20,7 @@ function ServicesCatalog() {
   const market = useSelector(state => state.shops.market);
   const catalog = useSelector(state => state.products.data)
   const navigate = useNavigate();
-  const {basket, count, price, currency} = useSelector(state => state.basket);
+  const {basket, count, price, currency} = useSelector(state => state.booking);
   const theme = useTheme();
   const {shopId} = useParams();
   const {t} = useTranslation();
@@ -31,7 +30,7 @@ function ServicesCatalog() {
     navigate(`/product/${product.id}`);
   }
 
-  const navigateBasket = useCallback(() => navigate('/basket'), [navigate]);
+  const navigateBasket = useCallback(() => navigate('/booking'), [navigate]);
 
   useEffect(() => {
     if (webApp) {

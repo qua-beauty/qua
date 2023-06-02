@@ -8,7 +8,7 @@ import {setCategoriesData} from './api/slices/categorySlice.js';
 import {setCurrentShop, setShopsData} from './api/slices/shopSlice.js';
 import './i18n';
 import {useTranslation} from 'react-i18next';
-import {Box, Container} from '@chakra-ui/react';
+import {Box} from '@chakra-ui/react';
 import {withProfiler} from '@sentry/react';
 
 function App() {
