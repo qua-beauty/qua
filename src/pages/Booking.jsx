@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import ProductInline from '../components/Booking/ProductInline.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearBasket, clearDeletedBasket} from '../api/slices/bookingSlice.js';
+import {cancelBook, clearBasket, clearDeletedBasket} from '../api/slices/bookingSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
@@ -15,6 +15,7 @@ const Booking = () => {
   const dispatch = useDispatch();
   const {price, count, currency} = useSelector(state => state.booking);
   const allBasket = useSelector(state => state.booking.basket);
+
   const basket = useSelector(state => {
     const {basket} = state.booking;
     return basket.filter(product => !product.isDeleted);
@@ -24,10 +25,14 @@ const Booking = () => {
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
-  const {t, i18n: { language: lng }} = useTranslation();
   const theme = useTheme();
 
   const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
+
+  const handleCancelBook = useCallback(() => {
+    dispatch(cancelBook());
+    navigate('/');
+  }, [])
 
   const handleMakeOrder = useCallback(() => {
     if (webApp) {
@@ -107,7 +112,7 @@ const Booking = () => {
   return currentShop && (
     <Box p={'16px'}>
       <Flex direction={'column'} alignItems={'center'}>
-        <Heading fontSize={'2x1'} fontWeight={'400'}>Bookings</Heading>
+        <Heading fontSize={'2x1'} fontWeight={'400'}>Make Booking</Heading>
       </Flex>
 
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
@@ -115,6 +120,10 @@ const Booking = () => {
       </Flex>
 
       <TimeSlotPicker />
+
+      <Box p={'12px'}>
+        <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelBook} color={'telegram.200'} variant="outline">Cancel Booking</Button>
+      </Box>
 
       {import.meta.env.DEV && (
         <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>Заброинировать</Button>

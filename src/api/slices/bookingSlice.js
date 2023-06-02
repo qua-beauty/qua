@@ -38,51 +38,17 @@ const bookingSlice = createSlice({
       state.count = 0;
       state.price = 0;
     },
-    addProduct: (state, action) => {
-      const newBasket = [...state.basket];
-      const existingProductIndex = newBasket.findIndex((x) => x.id === action.payload.id);
-
-      if (existingProductIndex > -1) {
-        newBasket[existingProductIndex].count++;
-        delete newBasket[existingProductIndex].isDeleted;
-      } else {
-        const productToAdd = { ...action.payload, count: 1 };
-        if (productToAdd.isDeleted) {
-          delete productToAdd.isDeleted;
-        }
-        newBasket.push(productToAdd);
-      }
-
-      const params = calculateBasketParams(newBasket);
-
-      state.shop = newBasket[0].shop;
-      state.basket = newBasket;
-      state.count = params[0];
-      state.price = params[1];
+    cancelBook: (state) => {
+      state.basket = [];
+      state.count = 0;
+      state.price = 0;
     },
-    deleteProduct: (state, action) => {
-      const newBasket = state.basket.map((p) => {
-        if (p.id === action.payload.id) {
-          if (p.count > 1) {
-            --p.count;
-          } else {
-            p.isDeleted = true;
-          }
-        }
-        return p;
-      });
-
-      const params = calculateBasketParams(newBasket);
-
-      state.basket = newBasket;
-      state.count = params[0];
-      state.price = params[1];
-
-      if(state.count === 0) state.shop = null;
+    makeBook: (state, action) => {
+      state.basket = [action.payload];
     },
   },
 });
 
-export const {addProduct, deleteProduct, clearBasket, clearDeletedBasket} = bookingSlice.actions;
+export const {clearBasket, clearDeletedBasket, cancelBook, makeBook} = bookingSlice.actions;
 
 export const bookingReducer = bookingSlice.reducer;

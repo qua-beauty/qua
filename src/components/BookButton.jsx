@@ -1,9 +1,9 @@
 import React from 'react';
-import {Box, Button, Flex, IconButton, Text, useTheme} from '@chakra-ui/react';
+import {Button, Flex, useTheme} from '@chakra-ui/react';
 import {rgba} from '../utils.js';
-import {MinusCircle, PlusCircle} from '@phosphor-icons/react';
+import {PlusCircle} from '@phosphor-icons/react';
 import {useTranslation} from 'react-i18next';
-import {addProduct} from '../api/slices/bookingSlice.js';
+import {makeBook} from '../api/slices/bookingSlice.js';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const BookButton = ({ product }) => {
   const navigate = useNavigate();
 
   const handleBook = () => {
-    dispatch(addProduct(product));
+    dispatch(makeBook(product));
     navigate('/booking');
   }
 
