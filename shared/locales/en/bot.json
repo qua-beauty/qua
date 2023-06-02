@@ -31,6 +31,7 @@
     "commission": "<strong>Commission</strong>: ${{commission}}",
     "address": "<strong>Address:</strong> {{address}}",
     "phone": "<strong>Phone:</strong> +{{phone}}",
+    "bookTime": "<strong>bookTime:</strong> {{bookTime}}",
     "username": "<strong>Username:</strong> @{{username}}",
     "comment": "<strong>Comment:</strong> {{comment}}",
     "status": "<strong>Status</strong>: {{status}}"

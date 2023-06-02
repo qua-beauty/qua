@@ -6,8 +6,7 @@ import {cancelBook, clearBasket, clearDeletedBasket, setBookTime} from '../api/s
 import {useSaveOrderMutation} from '../api/api.js';
 import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
-import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
-import {isWorkingTime} from '../helpers.js';
+import {Box, Button, Flex, Heading} from '@chakra-ui/react';
 import TimeSlotPicker from '../components/Booking/TimeSlotPicker.jsx';
 
 const Booking = () => {
@@ -24,9 +23,6 @@ const Booking = () => {
   const user = useSelector(state => state.user.data);
   const navigate = useNavigate();
   const [saveOrder] = useSaveOrderMutation();
-  const theme = useTheme();
-
-  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
 
   const handleTimeChange = (date) => {
     dispatch(setBookTime(date.toISOString()));
@@ -47,7 +43,7 @@ const Booking = () => {
     try {
       saveOrder([{
         products: basket,
-        bookTime: new Date(bookTime),
+        bookTime: bookTime,
         price,
         currency,
         user,
@@ -72,26 +68,15 @@ const Booking = () => {
     } catch (e) {
       console.log(e);
     }
-  }, [basket, currentShop, user])
+  }, [basket, currentShop, user, bookTime])
 
   useEffect(() => {
     if (webApp) {
-
-      if(basket.length === 0) {
-        webApp.MainButton.text = 'Нет бронирований';
-        webApp.MainButton.color = theme.colors.background.default;
-        webApp.MainButton.disable();
-      } else if(!isWorking) {
-        webApp.MainButton.text = 'Не доступно';
-        webApp.MainButton.color = theme.colors.background.default;
-        webApp.MainButton.disable();
-      } else {
-        webApp.MainButton.text = `Заброинировать`;
+      if(bookTime) {
+        webApp.MainButton.text = `Book and continue`;
         webApp.MainButton.color = '#66bb6a';
+        webApp.MainButton.show();
         webApp.MainButton.enable();
-      }
-
-      if(isWorking) {
         webApp.MainButton.onClick(handleMakeOrder);
       }
 
@@ -104,7 +89,7 @@ const Booking = () => {
         webApp.MainButton.offClick(handleMakeOrder);
       };
     }
-  }, [basket, theme]);
+  }, [basket, bookTime]);
 
   useEffect(() => {
     return () => {
@@ -129,7 +114,7 @@ const Booking = () => {
       </Box>
 
       {import.meta.env.DEV && (
-        <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>Заброинировать</Button>
+        <Button onClick={handleMakeOrder}>Заброинировать</Button>
       )}
     </Box>
   );

@@ -1,14 +1,10 @@
 import {t} from './i18n.js';
-import {deliveryTypes, getGoogleMapsLink, statuses} from './utils.js';
+import {getGoogleMapsLink} from './utils.js';
 
 export const defaultOrderTemplate = (order, type = 'user', lng = 'en') => {
   const sum = parseInt(order.price) + parseInt(order.deliveryPrice) + parseInt(order.commission);
   const location = order.address?.split(', ');
   let status = order.status;
-
-  if(order.status === statuses.COMPLETE && order.type === deliveryTypes.PICKUP) {
-    status = statuses.COMPLETE_PICKUP;
-  }
 
   let data = {
     id: `#${order.number}\n`,
@@ -18,8 +14,8 @@ export const defaultOrderTemplate = (order, type = 'user', lng = 'en') => {
     comment: order.comment,
     price: order.price,
     commission: order.commission,
+    bookTime: order.bookTime,
     sum,
-    type: order?.type === deliveryTypes.PICKUP ? t(`type.${order.type}`, lng, {ns: 'common'}) : '',
     address: location ? getGoogleMapsLink(location[0], location[1]) : '',
     status: t(`status.${status}`, lng, {ns: 'common'})
   };

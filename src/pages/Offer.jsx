@@ -15,29 +15,13 @@ import {Percent} from '@phosphor-icons/react';
 const Product = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {productId} = useParams();
   const currentProduct = useSelector(state => state.products.current);
   const shops = useSelector(state => state.shops.data);
   const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
-  const {basket, count, price, currency, shop: basketShop} = useSelector(state => state.booking);
+  const {basket} = useSelector(state => state.booking);
   const theme = useTheme();
-
-  const [added, setAdded] = useState(0);
-
-  useEffect(() => {
-    if (currentProduct) {
-      if (!basket) {
-        setAdded(0);
-      } else if (basket.length > 0) {
-        const product = basket.find(p => p.id === productId);
-        const count = product ? product.count : 0;
-
-        setAdded(count);
-      }
-    }
-  }, [basket, currentProduct]);
 
 
   useEffect(() => {
