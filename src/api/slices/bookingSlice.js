@@ -19,7 +19,7 @@ const bookingSlice = createSlice({
   initialState: {
     order: null,
     basket: [],
-    count: 0,
+    bookTime: null,
     price: 0,
     currency: 'USD',
     shop: null
@@ -35,20 +35,23 @@ const bookingSlice = createSlice({
     },
     clearBasket: (state) => {
       state.basket = [];
-      state.count = 0;
       state.price = 0;
     },
     cancelBook: (state) => {
       state.basket = [];
-      state.count = 0;
+      state.bookTime = null;
       state.price = 0;
+    },
+    setBookTime: (state, action) => {
+      state.bookTime = action.payload;
     },
     makeBook: (state, action) => {
       state.basket = [action.payload];
+      state.price = action.payload.price;
     },
   },
 });
 
-export const {clearBasket, clearDeletedBasket, cancelBook, makeBook} = bookingSlice.actions;
+export const {clearBasket, clearDeletedBasket, cancelBook, makeBook, setBookTime} = bookingSlice.actions;
 
 export const bookingReducer = bookingSlice.reducer;

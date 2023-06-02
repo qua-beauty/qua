@@ -2,18 +2,17 @@ import React, {useCallback, useEffect} from 'react';
 import ProductInline from '../components/Booking/ProductInline.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {cancelBook, clearBasket, clearDeletedBasket} from '../api/slices/bookingSlice.js';
+import {cancelBook, clearBasket, clearDeletedBasket, setBookTime} from '../api/slices/bookingSlice.js';
 import {useSaveOrderMutation} from '../api/api.js';
 import {isDirectWebApp, webApp} from '../telegram.js';
 import {fetchAnswerWebQuery} from '../api/services.js';
-import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {isWorkingTime} from '../helpers.js';
 import TimeSlotPicker from '../components/Booking/TimeSlotPicker.jsx';
 
 const Booking = () => {
   const dispatch = useDispatch();
-  const {price, count, currency} = useSelector(state => state.booking);
+  const {price, bookTime, currency} = useSelector(state => state.booking);
   const allBasket = useSelector(state => state.booking.basket);
 
   const basket = useSelector(state => {
@@ -28,6 +27,10 @@ const Booking = () => {
   const theme = useTheme();
 
   const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
+
+  const handleTimeChange = (date) => {
+    dispatch(setBookTime(date.toISOString()));
+  }
 
   const handleCancelBook = useCallback(() => {
     dispatch(cancelBook());
@@ -44,7 +47,7 @@ const Booking = () => {
     try {
       saveOrder([{
         products: basket,
-        count,
+        bookTime: new Date(bookTime),
         price,
         currency,
         user,
@@ -119,7 +122,7 @@ const Booking = () => {
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
 
-      <TimeSlotPicker />
+      <TimeSlotPicker onChange={handleTimeChange} />
 
       <Box p={'12px'}>
         <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelBook} color={'telegram.200'} variant="outline">Cancel Booking</Button>
