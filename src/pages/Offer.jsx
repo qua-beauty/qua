@@ -12,7 +12,7 @@ import AddToBasket from '../components/AddToBasket.jsx';
 import NoImage from '../components/NoImage.jsx';
 import {Percent} from '@phosphor-icons/react';
 
-const Product = () => {
+const Offer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {productId} = useParams();
@@ -173,11 +173,8 @@ const Product = () => {
         </VStack>
       </Box>
 
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/basket'}>Перейти к бронированиям</Button>
-      )}
     </>
   ) : <></>
 };
 
-export default Product;
+export default Offer;
