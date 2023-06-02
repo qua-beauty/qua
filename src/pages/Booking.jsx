@@ -9,6 +9,7 @@ import {fetchAnswerWebQuery} from '../api/services.js';
 import {useTranslation} from 'react-i18next';
 import {Box, Button, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {isWorkingTime} from '../helpers.js';
+import TimeSlotPicker from '../components/Booking/TimeSlotPicker.jsx';
 
 const Booking = () => {
   const dispatch = useDispatch();
@@ -112,6 +113,8 @@ const Booking = () => {
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>
+
+      <TimeSlotPicker />
 
       {import.meta.env.DEV && (
         <Button isDisabled={basket.length === 0} onClick={handleMakeOrder}>Заброинировать</Button>
