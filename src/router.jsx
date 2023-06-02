@@ -1,9 +1,9 @@
 import React from 'react';
 import {createBrowserRouter} from 'react-router-dom';
 import Booking from './pages/Booking.jsx';
-import Product from './pages/Product.jsx';
 import App from './App.jsx';
-import ServicesCatalog from './pages/ServicesCatalog.jsx';
+import Categories from './pages/Categories.jsx';
+import Offer from './pages/Offer.jsx';
 
 const router = createBrowserRouter([
   {
@@ -12,15 +12,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: (<ServicesCatalog/>),
+        element: (<Categories/>),
       },
       {
         path: 'shop/:shopId',
-        element: (<ServicesCatalog/>),
+        element: (<Categories/>),
       },
       {
         path: 'market/:shopId',
-        element: (<ServicesCatalog/>),
+        element: (<Categories/>),
       },
       {
         path: 'booking',
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'product/:productId',
-        element: (<Product/>),
+        element: (<Offer/>),
       },
     ]
   },
