@@ -22,6 +22,7 @@ function Catalog() {
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.hide();
+      webApp.MainButton.hide();
     }
   }, []);
 
