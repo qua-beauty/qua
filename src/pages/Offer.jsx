@@ -32,7 +32,7 @@ const Product = () => {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
         console.log(currentShop);
-        navigate(`/shop/${currentShop.id}`);
+        navigate(`/`);
       });
 
       webApp.MainButton.text = `Book`;
