@@ -1,6 +1,6 @@
 import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
-import {setCurrentProduct} from '../api/slices/productSlice.js';
+import {selectProductsByFilters, setCurrentProduct} from '../api/slices/productSlice.js';
 import {Box, Button, Container, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import React, {useCallback, useEffect} from 'react';
 import {setCurrentShop} from '../api/slices/shopSlice.js';
@@ -12,13 +12,12 @@ import {useTranslation} from 'react-i18next';
 import {isWorkingTime} from '../helpers.js';
 import AnimatedCard from "../components/AnimatedCard.jsx";
 
-function Categories() {
+function Catalog() {
   const dispatch = useDispatch();
   const currentShop = useSelector((state) => state.shops.current);
   const filters = useSelector((state) => state.filters.filters);
   const shops = useSelector(state => state.shops.data);
-  const market = useSelector(state => state.shops.market);
-  const catalog = useSelector(state => state.products.data)
+  const catalog = useSelector(selectProductsByFilters(filters))
   const navigate = useNavigate();
   const {basket, count, price, currency} = useSelector(state => state.booking);
   const theme = useTheme();
@@ -67,8 +66,8 @@ function Categories() {
       if(shopId) {
         const shop = shops.find(s => s.id === shopId);
 
-        if (shop || market) {
-          dispatch(setCurrentShop(shop || market));
+        if (shop) {
+          dispatch(setCurrentShop(shop));
         } else {
           navigate('/');
         }
@@ -76,34 +75,20 @@ function Categories() {
         dispatch(setCurrentShop(shops[0]));
       }
     }
-  }, [shops, market]);
-
-  const isWorking = isWorkingTime(currentShop?.startTime, currentShop?.endTime) && currentShop.available;
-
-
+  }, [shops]);
 
   return currentShop && catalog ? (
     <Container p={'16px'}>
-      <Flex mt={'8px'} justifyContent={'center'} alignItems={'center'} textAlign={'center'} direction={'column'}>
-
-        <Heading mt={'12px'} fontSize={'2x1'} width={'100%'}>
-          <AnimatedCard />
-
-        </Heading>
-        <Text mt={'4px'} fontSize={'md'}>
-
-        </Text>
-      </Flex>
+      <Filters />
       <Box mt={'16px'} pb={'72px'} position={'relative'}>
         <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
           {catalog?.map(product => {
             return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
           })}
         </Flex>
-        <Filters shopId={currentShop.id}/>
       </Box>
     </Container>
   ) : <CatalogSkeleton />;
 }
 
-export default Categories;
+export default Catalog;
