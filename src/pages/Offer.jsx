@@ -20,9 +20,12 @@ const Product = () => {
   const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
-  const {basket} = useSelector(state => state.booking);
   const theme = useTheme();
 
+  const handleMakeBook = useCallback(() => {
+    dispatch(makeBook(currentProduct));
+    navigate('/booking');
+  }, [navigate, currentProduct]);
 
   useEffect(() => {
     if (webApp) {
@@ -31,6 +34,17 @@ const Product = () => {
         console.log(currentShop);
         navigate(`/shop/${currentShop.id}`);
       });
+
+      webApp.MainButton.text = `Book`;
+      webApp.MainButton.color = theme.colors.telegram['200'];
+      webApp.MainButton.textColor = theme.colors.text.primary;
+      webApp.MainButton.onClick(handleMakeBook);
+      webApp.MainButton.show();
+      webApp.enableClosingConfirmation();
+
+      return () => {
+        webApp && webApp.MainButton.offClick(handleMakeBook);
+      }
     }
   }, [currentShop]);
 
@@ -39,31 +53,6 @@ const Product = () => {
       dispatch(setCurrentShop(shops.find(s => s.id === currentProduct.shop) || market));
     }
   }, [currentProduct, shops, market]);
-
-  const countInBasket = getProductCount(currentProduct?.id);
-  const navigateBasket = useCallback(() => navigate('/booking'), [navigate]);
-
-  useEffect(() => {
-    if (!webApp) return;
-
-    if (basket.length > 0) {
-      webApp.MainButton.text = `Перейти к бронированиям`;
-      webApp.MainButton.color = theme.colors.telegram['200'];
-      webApp.MainButton.textColor = theme.colors.text.primary;
-      webApp.MainButton.onClick(navigateBasket);
-      webApp.MainButton.show();
-      webApp.enableClosingConfirmation();
-    } else {
-      webApp.MainButton.hide();
-      webApp.disableClosingConfirmation();
-    }
-
-    return () => {
-      webApp && webApp.MainButton.offClick(navigateBasket);
-    }
-  }, [basket, theme]);
-
-  console.log(currentProduct);
 
   return (currentProduct && currentShop) ? (
     <>
@@ -116,8 +105,6 @@ const Product = () => {
             </Flex>
           </Box>
 
-          <BookButton product={currentProduct}/>
-
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>
             <Text>{currentProduct.ingredients[lng]}</Text>
@@ -128,10 +115,6 @@ const Product = () => {
           </Box>}
         </VStack>
       </Box>
-
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/booking'}>Перейти к бронированиям</Button>
-      )}
     </>
   ) : <></>
 };
