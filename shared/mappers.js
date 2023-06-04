@@ -39,6 +39,7 @@ export const productMapper = (product) => {
     icon: product.fields['Icon'],
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Master'] ? product.fields['Master'][0] : undefined,
+    shopName: product.fields['Master Name'] ? product.fields['Master Name'][0] : undefined,
     discountPrice: product.fields['Discount Price'],
     discount: product.fields['Discount']
   };

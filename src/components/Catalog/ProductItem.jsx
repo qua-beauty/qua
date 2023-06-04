@@ -1,12 +1,12 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 
-import {Box, Flex, Heading, useTheme} from '@chakra-ui/react';
+import {Box, Flex, Heading, Text} from '@chakra-ui/react';
 import {borderRadius} from '../../globalSx.js';
 import NoImage from '../NoImage.jsx';
 
 const ProductItem = ({onSelect, ...product}) => {
-  const {name, image} = product;
+  const {name, image, price} = product;
   const {i18n: {language: lng}} = useTranslation();
 
   return (
@@ -49,10 +49,10 @@ const ProductItem = ({onSelect, ...product}) => {
             {image ? <img src={image} height={'100%'} alt=""/> : <NoImage fontSize={'56px'}/>}
           </Box>
         </Box>
-        <Box p={'8px'}>
-          <Heading mb={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}
-                   height={'51px'} overflow={'hidden'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
-        </Box>
+        <Flex direction={'column'} p={'8px'} justifyContent={'center'} display={'flex'} alignItems={'center'} textAlign={'center'}>
+          <Heading mt={'4px'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
+          <Text mt={'2px'} fontSize={'md'}>${price}</Text>
+        </Flex>
 
       </Flex>
   );

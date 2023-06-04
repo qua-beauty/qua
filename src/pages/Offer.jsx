@@ -98,12 +98,6 @@ const Product = () => {
               maxWidth: 'fit-content'
             }
           }}>
-            {currentProduct.discountPrice &&
-              <Box zIndex={3} p={'4px'} display={'flex'} alignItems={'center'} position={'absolute'} right={'8px'}
-                   top={'8px'} overflow={'hidden'} bg={theme.colors.telegram['200']} borderRadius={'12px'}
-                   color={'white'}>
-                <Percent size={36} weight="duotone" />
-              </Box>}
             {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> :
               <NoImage fontSize={'96px'}/>}
           </Box>
@@ -113,10 +107,12 @@ const Product = () => {
           <Box>
             <Flex mt={'12px'} justifyContent={'space-between'}>
               <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(currentProduct.category, lng)}</Text>
+              <Text>{currentProduct.shopName}</Text>
             </Flex>
 
             <Flex>
               <Heading mr={'8px'} flex={'1'} fontSize={'2x1'} fontWeight={'500'}>{currentProduct.name[lng]}</Heading>
+              <Heading fontSize={'2x1'}>${currentProduct.price}</Heading>
             </Flex>
           </Box>
 
