@@ -20,17 +20,31 @@ const Product = () => {
   const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
   const {t, i18n: {language: lng}} = useTranslation();
-  const {basket} = useSelector(state => state.booking);
   const theme = useTheme();
 
+  const handleMakeBook = useCallback(() => {
+    dispatch(makeBook(currentProduct));
+    navigate('/booking');
+  }, [navigate, currentProduct]);
 
   useEffect(() => {
     if (webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(() => {
         console.log(currentShop);
-        navigate(`/shop/${currentShop.id}`);
+        navigate(`/`);
       });
+
+      webApp.MainButton.text = `Book`;
+      webApp.MainButton.color = theme.colors.telegram['200'];
+      webApp.MainButton.textColor = theme.colors.text.primary;
+      webApp.MainButton.onClick(handleMakeBook);
+      webApp.MainButton.show();
+      webApp.enableClosingConfirmation();
+
+      return () => {
+        webApp && webApp.MainButton.offClick(handleMakeBook);
+      }
     }
   }, [currentShop]);
 
@@ -39,31 +53,6 @@ const Product = () => {
       dispatch(setCurrentShop(shops.find(s => s.id === currentProduct.shop) || market));
     }
   }, [currentProduct, shops, market]);
-
-  const countInBasket = getProductCount(currentProduct?.id);
-  const navigateBasket = useCallback(() => navigate('/booking'), [navigate]);
-
-  useEffect(() => {
-    if (!webApp) return;
-
-    if (basket.length > 0) {
-      webApp.MainButton.text = `Перейти к бронированиям`;
-      webApp.MainButton.color = theme.colors.telegram['200'];
-      webApp.MainButton.textColor = theme.colors.text.primary;
-      webApp.MainButton.onClick(navigateBasket);
-      webApp.MainButton.show();
-      webApp.enableClosingConfirmation();
-    } else {
-      webApp.MainButton.hide();
-      webApp.disableClosingConfirmation();
-    }
-
-    return () => {
-      webApp && webApp.MainButton.offClick(navigateBasket);
-    }
-  }, [basket, theme]);
-
-  console.log(currentProduct);
 
   return (currentProduct && currentShop) ? (
     <>
@@ -98,12 +87,6 @@ const Product = () => {
               maxWidth: 'fit-content'
             }
           }}>
-            {currentProduct.discountPrice &&
-              <Box zIndex={3} p={'4px'} display={'flex'} alignItems={'center'} position={'absolute'} right={'8px'}
-                   top={'8px'} overflow={'hidden'} bg={theme.colors.telegram['200']} borderRadius={'12px'}
-                   color={'white'}>
-                <Percent size={36} weight="duotone" />
-              </Box>}
             {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> :
               <NoImage fontSize={'96px'}/>}
           </Box>
@@ -113,14 +96,14 @@ const Product = () => {
           <Box>
             <Flex mt={'12px'} justifyContent={'space-between'}>
               <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(currentProduct.category, lng)}</Text>
+              <Text>{currentProduct.shopName}</Text>
             </Flex>
 
             <Flex>
               <Heading mr={'8px'} flex={'1'} fontSize={'2x1'} fontWeight={'500'}>{currentProduct.name[lng]}</Heading>
+              <Heading fontSize={'2x1'}>${currentProduct.price}</Heading>
             </Flex>
           </Box>
-
-          <BookButton product={currentProduct}/>
 
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>
@@ -132,10 +115,6 @@ const Product = () => {
           </Box>}
         </VStack>
       </Box>
-
-      {import.meta.env.DEV && (
-        <Button as={Link} to={'/booking'}>Перейти к бронированиям</Button>
-      )}
     </>
   ) : <></>
 };

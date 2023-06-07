@@ -18,18 +18,14 @@ export const productSlice = createSlice({
 
 const productSelector = (state) => state.products;
 
-export const selectProductsByShop = (shop, filters) => (
+export const selectProductsByFilters = (filters) => (
   createSelector(productSelector, (products) => {
     if(!products.data) return [];
+    if(!filters) return products.data;
 
     const filterKeys = Object.keys(filters);
-    const shopProducts = products.data.filter((p) => p.shop === shop);
 
-    if(!filters) {
-      return shopProducts;
-    }
-
-    return shopProducts.filter((product) => {
+    return products.data.filter((product) => {
       return filterKeys.every((eachKey) => {
         if (!filters[eachKey].length) {
           return true;

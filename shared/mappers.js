@@ -14,7 +14,7 @@ export const shopMapper = (shop) => {
     workTime: `${shop.fields['Start Time']} - ${shop.fields['End Time']}`,
     logo: shop.fields['Logotype'] ? shop.fields['Logotype'][0].url : undefined,
     thumbnail: shop.fields['Thumbnail'] ? shop.fields['Thumbnail'][0].url : undefined,
-    categories: shop.fields['Categories'],
+    categories: shop.fields['Catalog'],
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
@@ -39,6 +39,7 @@ export const productMapper = (product) => {
     icon: product.fields['Icon'],
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Master'] ? product.fields['Master'][0] : undefined,
+    shopName: product.fields['Master Name'] ? product.fields['Master Name'][0] : undefined,
     discountPrice: product.fields['Discount Price'],
     discount: product.fields['Discount']
   };
@@ -50,7 +51,6 @@ export const categoryMapper = (category) => {
     name: {
       ru: category.fields['Name']
     },
-    icon: category.fields['Icon'],
     shops: category.fields['Masters'],
     products: category.fields['Products']
   };

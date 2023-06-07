@@ -12,7 +12,6 @@ const BookButton = ({ product }) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleBook = () => {
     dispatch(makeBook(product));
     navigate('/booking');

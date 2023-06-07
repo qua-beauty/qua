@@ -72,12 +72,16 @@ const Booking = () => {
 
   useEffect(() => {
     if (webApp) {
+      webApp.MainButton.text = `Book and continue`;
+      webApp.MainButton.color = '#66bb6a';
+      webApp.MainButton.show();
+      webApp.MainButton.enable();
+      webApp.MainButton.onClick(handleMakeOrder);
+
       if(bookTime) {
-        webApp.MainButton.text = `Book and continue`;
-        webApp.MainButton.color = '#66bb6a';
         webApp.MainButton.show();
-        webApp.MainButton.enable();
-        webApp.MainButton.onClick(handleMakeOrder);
+      } else {
+        webApp.MainButton.hide();
       }
 
       webApp.BackButton.show();
