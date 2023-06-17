@@ -8,7 +8,7 @@ import ProductItem from '../components/Catalog/ProductItem.jsx';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 
-function Catalog() {
+function MainPage() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters.filters);
   const catalog = useSelector(selectProductsByFilters(filters))
@@ -40,4 +40,4 @@ function Catalog() {
   ) : <CatalogSkeleton />;
 }
 
-export default Catalog;
+export default MainPage;

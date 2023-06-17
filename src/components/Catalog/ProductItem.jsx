@@ -53,7 +53,6 @@ const ProductItem = ({onSelect, ...product}) => {
           <Heading mt={'4px'} fontSize={'md'} fontWeight={'500'}>{name[lng]}</Heading>
           <Text mt={'2px'} fontSize={'md'}>${price}</Text>
         </Flex>
-
       </Flex>
   );
 };
