@@ -101,6 +101,8 @@ const Booking = () => {
     };
   }, []);
 
+  console.log(allBasket)
+
   return currentShop && (
     <Box p={'16px'}>
       <Flex direction={'column'} alignItems={'center'}>
@@ -116,10 +118,6 @@ const Booking = () => {
       <Box p={'12px'}>
         <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelBook} color={'telegram.200'} variant="outline">Cancel Booking</Button>
       </Box>
-
-      {import.meta.env.DEV && (
-        <Button onClick={handleMakeOrder}>Заброинировать</Button>
-      )}
     </Box>
   );
 };

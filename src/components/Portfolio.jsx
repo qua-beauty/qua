@@ -19,7 +19,7 @@ const Portfolio = ({ portfolio }) => {
     <>
       <Flex gap={'8px'}>
         {portfolio.map(portfolioItem => (
-          <Box borderRadius={'8px'} w='72px' overflow={'hidden'}>
+          <Box key={portfolioItem.url} borderRadius={'8px'} w='72px' overflow={'hidden'}>
             <Image
               alt=""
               src={portfolioItem.url}
@@ -31,7 +31,7 @@ const Portfolio = ({ portfolio }) => {
 
       {isIPhone1413Open && (
         <PortalPopup
-          overlayColor="rgba(0, 0, 0, 0.3)"
+          overla  yColor="rgba(0, 0, 0, 0.3)"
           placement="Centered"
           onOutsideClick={closeIPhone1413}
         >

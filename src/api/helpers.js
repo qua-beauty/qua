@@ -1,8 +1,8 @@
 import store from './store.js';
 
-export const getCategoryName = (categoryId, lng) => {
+export const getCategoryName = (categoryId) => {
   if(categoryId)
-    return store.getState().categories?.data?.find(c => c.id === categoryId).name[lng];
+    return store.getState().categories?.data?.find(c => c.id === categoryId).name;
 
   return null;
 }

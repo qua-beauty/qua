@@ -115,11 +115,11 @@ const Product = () => {
 
           {currentProduct.ingredients && <Box bg={'background.default'} p={'10px'} sx={{ ...borderRadius(12, 12) }}>
             <Text color={'text.secondary'}>{t('basket.ingredientsTitle')}</Text>
-            <Text>{currentProduct.ingredients[lng]}</Text>
+            <Text>{currentProduct.ingredients}</Text>
           </Box>}
 
           {currentProduct.about && <Box p={'10px'}>
-            <Text>{currentProduct.about[lng]}</Text>
+            <Text>{currentProduct.about}</Text>
           </Box>}
         </VStack>
       </Box>

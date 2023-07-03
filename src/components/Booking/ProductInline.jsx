@@ -7,9 +7,11 @@ import NoImage from '../NoImage.jsx';
 
 const ProductInline = ({product}) => {
   const {name, image, price, discountPrice, category, isDeleted} = product;
-  const {t, i18n: { language: lng }} = useTranslation();
+  const {t} = useTranslation();
 
   const countInBasket = getProductCount(product?.id);
+
+  console.log(product);
 
   return (
     <Flex flex={'1'} sx={borderRadius(12, 20)} mt={'10px'} padding={'10px'} bg={isDeleted ? 'background.default' : 'background.paper'} opacity={isDeleted ? '0.8' : '1'}>
@@ -18,8 +20,9 @@ const ProductInline = ({product}) => {
       </Flex>
       <Flex flex={'1'} direction={'column'} justifyContent={'space-between'} pl={'12px'}>
         <Box>
-          <Text textDecoration={isDeleted ? 'line-through' : 'none'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(category, lng)}</Text>
-          <Heading textDecoration={isDeleted ? 'line-through' : 'none'} fontSize={'sm'} fontWeight={'400'} color="primary">{name[lng]}</Heading>
+
+        <Text textDecoration={isDeleted ? 'line-through' : 'none'} color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(category)}</Text>
+          <Heading textDecoration={isDeleted ? 'line-through' : 'none'} fontSize={'sm'} fontWeight={'400'} color="primary">{name}</Heading>
         </Box>
         <Flex alignItems={'center'} justifyContent={'space-between'}>
           <Text textDecoration={isDeleted ? 'line-through' : 'none'} textAlign={'right'} fontSize={'lg'} fontWeight={'700'} whiteSpace={'nowrap'}>

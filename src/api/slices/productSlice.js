@@ -18,6 +18,35 @@ export const productSlice = createSlice({
 
 const productSelector = (state) => state.products;
 
+export const selectProductsByShop = (shop, filters) => (
+  createSelector(productSelector, (products) => {
+    if(!products.data) return [];
+
+    
+
+    const shopProducts = products.data.filter((p) => {
+      console.log(p.shop, shop);
+      return p.shop === shop
+    });
+
+    if(!filters) {
+      return shopProducts;
+    }
+
+    const filterKeys = Object.keys(filters);
+
+    return shopProducts.filter((product) => {
+      return filterKeys.every((eachKey) => {
+        if (!filters[eachKey].length) {
+          return true;
+        }
+
+        return product[eachKey] === filters[eachKey];
+      });
+    });
+  })
+)
+
 export const selectProductsByFilters = (filters) => (
   createSelector(productSelector, (products) => {
     if(!products.data) return [];

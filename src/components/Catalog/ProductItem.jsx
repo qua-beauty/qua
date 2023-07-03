@@ -68,7 +68,7 @@ const ProductItem = ({onSelect, ...product}) => {
         </Box>
         <Flex direction={'column'} p={'8px'} display={'flex'}>
           <Text fontSize={'md'} fontWeight={'500'} color={'telegram.200'}>@{shopUsername}</Text>
-          <Heading mt={'2px'} fontSize={'lg'} fontWeight={'500'}>{name[lng]}</Heading>
+          <Heading mt={'2px'} fontSize={'lg'} fontWeight={'500'}>{name}</Heading>
         </Flex>
       </Flex>
   );

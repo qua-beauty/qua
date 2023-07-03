@@ -42,10 +42,10 @@ const Filters = () => {
                   transition={'0.225s ease-out'}
                   bg={isActive ? rgba(theme.colors.brand[200], 0.2) : 'default'}
                   textAlign={'center'}>
-              <Box><img src={cat.icon} height={'56px'} alt={cat.name[lng]}/></Box>
+              <Box><img src={cat.icon} height={'56px'} alt={cat.name}/></Box>
               <Heading height={'28px'} display={'flex'} alignItems={'center'} transition={'0.125s ease-out'}
                        fontWeight={isActive ? '600' : '500'} color={isActive ? theme.colors.brand[500] : 'inherit'}
-                       fontSize={'sm'} lineHeight={'1.15'}>{cat.name[lng]}</Heading>
+                       fontSize={'sm'} lineHeight={'1.15'}>{cat.name}</Heading>
             </Flex>
           )
         })}

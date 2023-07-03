@@ -5,9 +5,6 @@ export const shopMapper = (shop) => {
     id: shop.id,
     name: shop.fields['Name'],
     address: shop.fields['Address'],
-    delivery: {
-      ru: shop.fields['About'],
-    },
     phone: shop.fields['Phone'],
     startTime: shop.fields['Start Time'],
     endTime: shop.fields['End Time'],
@@ -34,15 +31,11 @@ export const shopMapper = (shop) => {
 export const productMapper = (product) => {
   return {
     id: product.id,
-    name: {
-      ru: product.fields['Name']
-    },
+    name: product.fields['Name'],
     category: product.fields['Category'] ? product.fields['Category'][0] : undefined,
     categoryName: product.fields['Category Name'] ? product.fields['Category Name'][0] : undefined,
     price: product.fields['Price'],
-    about: {
-      ru: product.fields['About']
-    },
+    about: product.fields['About'],
     image: product.fields['Image'] ? product.fields['Image'][0].url : undefined,
     icon: product.fields['Icon'],
     isAvailable: product.fields['isAvailable'],
@@ -50,16 +43,15 @@ export const productMapper = (product) => {
     shopName: product.fields['Master Name'] ? product.fields['Master Name'][0] : undefined,
     shopUsername: product.fields['Master Username'] ? product.fields['Master Username'][0] : undefined,
     discountPrice: product.fields['Discount Price'],
-    discount: product.fields['Discount']
+    discount: product.fields['Discount'],
+    time: product.fields['Time']
   };
 }
 
 export const categoryMapper = (category) => {
   return {
     id: category.id,
-    name: {
-      ru: category.fields['Name']
-    },
+    name: category.fields['Name'],
     icon: category.fields['Icon'] ? category.fields['Icon'][0].url : undefined,
     shops: category.fields['Masters'],
     products: category.fields['Products']
