@@ -3,7 +3,7 @@ import {createBrowserRouter} from 'react-router-dom';
 import Booking from './pages/Booking.jsx';
 import App from './App.jsx';
 import Catalog from './pages/Catalog.jsx';
-import Offer from './pages/Offer.jsx';
+import Offer from './pages/Product.jsx';
 
 const router = createBrowserRouter([
   {

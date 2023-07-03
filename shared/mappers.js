@@ -31,6 +31,7 @@ export const productMapper = (product) => {
       ru: product.fields['Name']
     },
     category: product.fields['Category'] ? product.fields['Category'][0] : undefined,
+    categoryName: product.fields['Category Name'] ? product.fields['Category Name'][0] : undefined,
     price: product.fields['Price'],
     about: {
       ru: product.fields['About']
@@ -40,6 +41,7 @@ export const productMapper = (product) => {
     isAvailable: product.fields['isAvailable'],
     shop: product.fields['Master'] ? product.fields['Master'][0] : undefined,
     shopName: product.fields['Master Name'] ? product.fields['Master Name'][0] : undefined,
+    shopUsername: product.fields['Master Username'] ? product.fields['Master Username'][0] : undefined,
     discountPrice: product.fields['Discount Price'],
     discount: product.fields['Discount']
   };
@@ -51,6 +53,7 @@ export const categoryMapper = (category) => {
     name: {
       ru: category.fields['Name']
     },
+    icon: category.fields['Icon'] ? category.fields['Icon'][0].url : undefined,
     shops: category.fields['Masters'],
     products: category.fields['Products']
   };

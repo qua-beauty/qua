@@ -16,8 +16,12 @@ const colors = {
     100: rgba(webApp?.themeParams.button_color || '#B378FF', 0.12)
   },
   brand: {
-    200: isColorModeDark ? '#EBFF73' : '#B378FF',
-    500: isColorModeDark ? '#EBFF73' : '#6B2ABD'
+    200: isColorModeDark ? '#DEFFA9' : '#DEFFA9',
+    500: isColorModeDark ? '#DEFFA9' : '#DEFFA9'
+  },
+  brandText: {
+    200: `rgba(0, 0, 0, 0.87)`,
+    500: `rgba(0, 0, 0, 0.87)`,
   },
   text: {
     primary: isColorModeDark ? '#fff' : 'rgba(0, 0, 0, 0.87)',
@@ -35,7 +39,8 @@ const fontSizes = {
   md: '0.875rem',
   lg: '1rem',
   xl: '1.0625rem',
-  '2x1': '1.25rem'
+  '2x1': '1.25rem',
+  '4x1': '1.75rem'
 };
 
 const fonts = {

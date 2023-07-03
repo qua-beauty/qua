@@ -77,6 +77,8 @@ const TimeSlotPicker = ({ onChange }) => {
                 onClick={() => handleTimeClick(format(timeSlot, 'HH:mm'))}
                 variant={selectedTime === format(timeSlot, 'HH:mm') ? 'solid' : 'outline'}
                 isDisabled={!selectedDate}
+                borderColor={'telegram.200'}
+                color={'text.primary'}
               >
                 {format(timeSlot, 'hh:mm a')}
               </Button>

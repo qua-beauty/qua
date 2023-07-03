@@ -9,6 +9,7 @@ export const defaultOrderTemplate = (order, type = 'user', lng = 'en') => {
   let data = {
     id: `#${order.number}\n`,
     title: type,
+    productName: order.phone,
     phone: order.phone,
     username: order.username,
     comment: order.comment,

@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {toggleFilter} from '../../api/slices/filterSlice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {Flex, Heading, Text, useTheme} from '@chakra-ui/react';
+import {Box, Flex, Heading, Text, useTheme} from '@chakra-ui/react';
 import {rgba} from '../../utils.js';
 import {borderRadius} from '../../globalSx.js';
 
@@ -19,32 +19,33 @@ const Filters = () => {
   };
 
   return categories && (
-    <Flex background={rgba(theme.colors.background.default, 0.87)}
+    <Flex background={'linear-gradient(267.6deg, rgba(219, 197, 255, 0.64) -2.66%, rgba(255, 202, 243, 0.64) 104.89%)'}
           backdropFilter={'blur(6px)'}
           borderRadius={'16px'}
-          height={'68px'}
           ref={stickyElementRef}
           zIndex={'100'}
           overflowX={'auto'}
           alignItems={'stretch'}
           justifyContent={'stretch'}>
-      <Flex flex={1} gap={1} justifyContent={'space-around'} p={'4px'}>
+      <Flex flex={1} pt={'16px'} gap={1} flexWrap={'wrap'}  p={'12px 4px 4px'}>
         {categories.map(cat => {
           const isActive = filters && filters['category'] === cat.id;
 
           return (
             <Flex key={cat.id}
                   as={'button'} direction={'column'} justifyContent={'center'} alignItems={'center'} onClick={handleFilter(cat.id)}
-                  pl={'12px'}
-                  pr={'12px'}
+                  pl={'0'}
+                  pr={'0'}
+                  mb={'12px'}
+                  maxW={'24%'}
                   sx={borderRadius(16)}
                   transition={'0.225s ease-out'}
                   bg={isActive ? rgba(theme.colors.brand[200], 0.2) : 'default'}
                   textAlign={'center'}>
-              <Text>{cat.icon}</Text>
+              <Box><img src={cat.icon} height={'56px'} alt={cat.name[lng]}/></Box>
               <Heading height={'28px'} display={'flex'} alignItems={'center'} transition={'0.125s ease-out'}
-                       fontWeight={isActive ? '600' : '400'} color={isActive ? theme.colors.brand[500] : 'inherit'}
-                       fontSize={'xs'} lineHeight={'1.15'}>{cat.name[lng]}</Heading>
+                       fontWeight={isActive ? '600' : '500'} color={isActive ? theme.colors.brand[500] : 'inherit'}
+                       fontSize={'sm'} lineHeight={'1.15'}>{cat.name[lng]}</Heading>
             </Flex>
           )
         })}

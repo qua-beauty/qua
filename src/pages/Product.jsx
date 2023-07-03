@@ -56,31 +56,22 @@ const Product = () => {
 
   return (currentProduct && currentShop) ? (
     <>
-      <Box p={'8px 8px 80px'} maxWidth={'480px'} m={'0 auto'}>
+      <Box p={'0 0 80px'} maxWidth={'480px'} m={'0 auto'}>
         <Box sx={{
-          'background': 'var(--chakra-colors-background-default)',
-          ...borderRadius(16),
-          'width': '100%',
-          paddingBottom: '100%',
-          display: 'flex',
-          height: 0,
-          alignItems: 'center',
-          justifyContent: 'center',
+          height: 400,
           position: 'relative',
-          overflow: 'hidden',
-          '&:before': {
-            content: '""',
-            display: 'block',
-            paddingTop: '100%'
-          }
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: '#edab9b',
+          overflow: 'hidden'
         }}>
           <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            width: '100%',
+            position: 'relative',
+            zIndex: 2,
+            width: '300px',
+            height: '300px',
+
             '& img': {
               height: '100%',
               width: 'auto',
@@ -89,19 +80,36 @@ const Product = () => {
           }}>
             {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> :
               <NoImage fontSize={'96px'}/>}
+            <Box position={'absolute'} bottom={'8px'} left={'8px'} background={'whiteAlpha.800'} color={'brandText.200'} p={'2px 4px'} borderRadius={'6px'}>
+              <Text fontSize={'md'} fontWeight={'500'}>{currentProduct.categoryName}</Text>
+            </Box>
           </Box>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: `url(${currentProduct.image}) no-repeat center`,
+            filter: 'blur(20px)',
+            position: 'absolute',
+            zIndex: 1,
+            top: 0,
+            right: 0,
+            left: 0,
+            bottom: 0,
+          }} />
         </Box>
 
         <VStack spacing={'20px'} p={'0 8px'} alignItems={'stretch'}>
           <Box>
-            <Flex mt={'12px'} justifyContent={'space-between'}>
-              <Text color={'text.secondary'} fontSize={'md'} fontWeight={'400'}>{getCategoryName(currentProduct.category, lng)}</Text>
-              <Text>{currentProduct.shopName}</Text>
+            <Flex mt={'12px'} justifyContent={'space-between'} alignItems={'center'}>
+              <Heading fontSize={'4x1'} fontWeight={'500'}>{currentProduct.shopName}</Heading>
+              <Box background={'telegram.200'} color={'white'} p={'2px 4px 0'} borderRadius={'6px'}>
+                <Text fontSize={'2x1'} fontWeight={'600'}>${currentProduct.price}</Text>
+              </Box>
             </Flex>
 
             <Flex>
-              <Heading mr={'8px'} flex={'1'} fontSize={'2x1'} fontWeight={'500'}>{currentProduct.name[lng]}</Heading>
-              <Heading fontSize={'2x1'}>${currentProduct.price}</Heading>
+
             </Flex>
           </Box>
 
