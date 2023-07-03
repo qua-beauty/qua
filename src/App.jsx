@@ -59,7 +59,7 @@ function App() {
   const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading;
 
   return (
-    <Box>
+    <Box maxW={480} m={'0 auto'}>
       <Outlet isLoading={isLoading}/>
     </Box>
   );

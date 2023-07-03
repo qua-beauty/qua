@@ -4,6 +4,7 @@ import Booking from './pages/Booking.jsx';
 import App from './App.jsx';
 import Catalog from './pages/Catalog.jsx';
 import Offer from './pages/Product.jsx';
+import Shop from './pages/Shop.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: 'product/:productId',
         element: (<Offer/>),
+      },
+      {
+        path: 'shop/:shopId',
+        element: (<Shop/>),
       },
     ]
   },

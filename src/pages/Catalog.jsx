@@ -1,23 +1,24 @@
-import Filters from '../components/Catalog/Filters.jsx';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectProductsByFilters, setCurrentProduct} from '../api/slices/productSlice.js';
-import {Box, Container, Flex, useTheme} from '@chakra-ui/react';
+import {setCurrentShop} from '../api/slices/shopSlice.js';
+import {Box, Container, Flex, Button, useTheme} from '@chakra-ui/react';
 import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import ProductItem from '../components/Catalog/ProductItem.jsx';
+import MasterCard from '../components/Catalog2/MasterCard';
 import {webApp} from '../telegram.js';
 import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
+import Stories from "../components/Catalog2/Stories";
+import Filters from "../components/Catalog2/Filters";
 
 function Catalog() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters.filters);
-  const catalog = useSelector(selectProductsByFilters(filters))
+  const catalog = useSelector((state) => state.shops.data)
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleSelect = (product) => {
-    dispatch(setCurrentProduct(product));
-    navigate(`/product/${product.id}`);
+  const handleSelect = (master) => {
+    dispatch(setCurrentShop(master));
+    navigate(`/shop/${master.id}`);
   }
 
   useEffect(() => {
@@ -33,16 +34,22 @@ function Catalog() {
   }
 
   return catalog ? (
-    <Container p={'16px'} background={gradient[theme.colorMode]}>
-      <Filters />
-      <Box mt={'16px'} pb={'72px'} position={'relative'}>
-        <Flex alignItems={'center'} m={'0 -4px'} flexWrap={'wrap'}>
-          {catalog?.map(product => {
-            return <ProductItem onSelect={() => handleSelect(product)} key={product.id} {...product} />;
-          })}
-        </Flex>
+    <Box pb='40px'>
+      <Flex direction='column' p='1rem' gap='1.5rem'>
+      <Stories />
+        <Filters />
+      </Flex>
+      <Flex w={'100%'} p={'1rem'} gap={'24px'} direction={'column'}>
+        {catalog?.map(master => {
+          return <MasterCard onSelect={() => handleSelect(master)} key={master.id} {...master} />;
+        })}
+      </Flex>
+      <Box textAlign={'center'}>
+        <Button variant={'outline'} colorScheme='telegram'>
+        Show more
+        </Button>
       </Box>
-    </Container>
+    </Box>
   ) : <CatalogSkeleton />;
 }
 

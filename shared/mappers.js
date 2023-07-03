@@ -13,14 +13,21 @@ export const shopMapper = (shop) => {
     endTime: shop.fields['End Time'],
     workTime: `${shop.fields['Start Time']} - ${shop.fields['End Time']}`,
     logo: shop.fields['Logotype'] ? shop.fields['Logotype'][0].url : undefined,
-    thumbnail: shop.fields['Thumbnail'] ? shop.fields['Thumbnail'][0].url : undefined,
+    avatar: shop.fields['Avatar'] ? shop.fields['Avatar'][0].url : undefined,
     categories: shop.fields['Catalog'],
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
     commission: shop.fields['Commission'],
     available: shop.fields['Available'],
     about: shop.fields['About'],
-    type: shop.fields['Type'].toLowerCase()
+    type: shop.fields['Type'].toLowerCase(),
+    category: shop.fields['Category'] ? {
+      id: shop.fields['Category'][0],
+      name: shop.fields['Category Name'][0],
+      color: shop.fields['Category Color'][0],
+      textColor: shop.fields['Category Color Text'][0],
+    } : undefined,
+    portfolio: shop.fields['Portfolio Images'] ? shop.fields['Portfolio Images'] : undefined
   };
 };
 
