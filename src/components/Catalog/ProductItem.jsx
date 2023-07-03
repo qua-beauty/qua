@@ -70,7 +70,6 @@ const ProductItem = ({onSelect, ...product}) => {
           <Text fontSize={'md'} fontWeight={'500'} color={'telegram.200'}>@{shopUsername}</Text>
           <Heading mt={'2px'} fontSize={'lg'} fontWeight={'500'}>{name[lng]}</Heading>
         </Flex>
-
       </Flex>
   );
 };

@@ -9,7 +9,7 @@ import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import Stories from "../components/Catalog2/Stories";
 import Filters from "../components/Catalog2/Filters";
 
-function Catalog() {
+function MainPage() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters.filters);
   const catalog = useSelector((state) => state.shops.data)
@@ -53,4 +53,4 @@ function Catalog() {
   ) : <CatalogSkeleton />;
 }
 
-export default Catalog;
+export default MainPage;
