@@ -8,12 +8,12 @@ const Shop = () => {
   const currentShop = useSelector(state => state.shops.current);
 
   return (
-    <div className="relative bg-text-white w-full overflow-hidden flex flex-col items-center justify-start gap-[0.81rem]">
+    <Box color={text.primary}>
       <Details master={currentShop} />
       <Services />
       <Reviews />
       <Schedule />
-    </div>
+    </Box>
   );
 };
 

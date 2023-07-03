@@ -39,7 +39,7 @@ function MainPage() {
       <Stories />
         <Filters />
       </Flex>
-      <Flex w={'100%'} p={'1rem'} gap={'24px'} direction={'column'}>
+      <Flex w={'100%'} p={'1rem'} gap={'24px'} direction={'column'}  color={text.primary}>
         {catalog?.map(master => {
           return <MasterCard onSelect={() => handleSelect(master)} key={master.id} {...master} />;
         })}
