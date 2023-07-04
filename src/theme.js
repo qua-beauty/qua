@@ -16,8 +16,9 @@ const colors = {
     100: rgba(webApp?.themeParams.button_color || '#B378FF', 0.12)
   },
   brand: {
-    200: isColorModeDark ? '#DEFFA9' : '#8951FF',
-    500: isColorModeDark ? '#DEFFA9' : '#DEFFA9'
+    200: isColorModeDark ? '#8951FF' : '#8951FF',
+    500: isColorModeDark ? '#5C10FF' : '#5C10FF',
+    600: isColorModeDark ? '#5C10FF' : '#5C10FF'
   },
   brandText: {
     200: `rgba(0, 0, 0, 0.87)`,

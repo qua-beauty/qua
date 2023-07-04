@@ -109,6 +109,9 @@ const Booking = () => {
         <Heading fontSize={'2x1'} fontWeight={'400'}>Make Booking</Heading>
       </Flex>
 
+      <ImmersiveCard categoryName={currentShop.category.name} name={currentShop.name} />
+
+
       <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
         {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product}/>)}
       </Flex>

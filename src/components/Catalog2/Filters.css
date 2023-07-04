@@ -1,0 +1,68 @@
+.filters-button {
+  cursor: pointer;
+  display: flex;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+
+  border-radius: 1rem;
+  border: 3px solid var(--background-primary, #8951FF);
+  background: rgba(137, 81, 255, 0.96);
+  box-shadow: 0px 6px 12px 0px rgba(137, 81, 255, 0.50), 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+
+  color: var(--text-white, #FFF);
+  transition: 0.25s ease;
+
+  &:hover,
+  &:active {
+    box-shadow: 0px 10px 20px 0px rgba(137, 81, 255, 0.50), 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 3px solid var(--background-primary, #b88fff);
+  }
+}
+
+.filters-title {
+  
+  font-size: 16px;
+  font-family: SF Pro Text;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.48px;
+}
+
+.filters-items {
+  color: var(--text-white, rgba(255, 255, 255, 0.72));
+font-size: 13px;
+font-family: SF Pro Text;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: -0.39px;
+}
+
+.filters-brand {
+  display: flex;
+width: 40px;
+flex-direction: column;
+
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 18px;
+  font-family: Quicksand, 'SF Pro';
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.54px;
+}
+
+.filters-result-title {
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--text-secondary, rgba(17, 14, 52, 0.54));
+font-size: 13px;
+font-family: SF Pro Display;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: -0.26px;
+}

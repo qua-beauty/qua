@@ -22,7 +22,7 @@ const MasterCard = ({ onSelect, ...master }) => {
       <Box flex={1}>
         <Flex justifyContent={'space-between'} alignItems={'flex-start'}>
           <Box>
-            <Box bg={master.category.color} color={master.category.textColor} fontSize='md'>
+            <Box bg={master.category.color} color={master.category.textColor} display="inline" fontSize='md'>
               {master.category.name}
             </Box>
             <Text fontSize='lg'>{master.name}</Text>
