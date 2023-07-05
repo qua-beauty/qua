@@ -58,20 +58,20 @@ export const categoryMapper = (category) => {
   };
 }
 
-export const reviewMapper = (category) => {
+export const reviewMapper = (review) => {
   return {
-    id: category.id,
-    date: category.fields['Date'],
-    rating: category.fields['Rating'],
-    text: category.fields['Text'],
+    id: review.id,
+    date: review.fields['Date'],
+    rating: review.fields['Rating'],
+    text: review.fields['Text'],
     shop: {
-      id: category.fields['Master'][0]
+      id: review.fields['Master'][0]
     },
     from: {
-      id: category.fields['From'][0],
-      name: category.fields['From Name'][0]
+      id: review.fields['From'][0],
+      name: review.fields['From Name'][0]
     },
-    order: category.fields['Order']
+    order: review.fields['Order']
   };
 }
 

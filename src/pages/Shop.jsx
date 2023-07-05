@@ -20,14 +20,11 @@ const Shop = () => {
   const products = useSelector(selectProductsByShop(currentShop?.id));
   const reviews = useSelector(selectReviewsByShop(currentShop?.id));
 
-
   const handleSelect = useCallback((product) => {
-    console.log(product);
     dispatch(makeBook(product));
     navigate('/booking');
   }, [navigate]);
 
-  console.log(products)
 
   return (
     <Flex direction='column' color={'text.primary'} gap='32px'>

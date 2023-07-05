@@ -8,6 +8,7 @@ export const reviewSlice = createSlice({
   },
   reducers: {
     setReviewsData: (state, action) => {
+      console.log(action);
       state.data = action.payload;
     },
     setCurrentReview: (state, action) => {
@@ -22,9 +23,8 @@ export const selectReviewsByShop = (shop) => (
   createSelector(reviewSelector, (reviews) => {
     if(!reviews?.data) return [];
 
-    const shopReviews = products.data.filter((p) => {
-      console.log(p.shop, shop);
-      return p.shop === shop
+    const shopReviews = reviews.data.filter((p) => {
+      return p.shop.id === shop
     });
 
     return shopReviews;  
@@ -32,4 +32,4 @@ export const selectReviewsByShop = (shop) => (
 )
 
 export const {setReviewsData, setCurrentReview} = reviewSlice.actions;
-export const ReviewReducer = reviewSlice.reducer;
+export const reviewReducer = reviewSlice.reducer;

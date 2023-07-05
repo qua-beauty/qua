@@ -23,6 +23,7 @@ function App() {
   const { i18n } = useTranslation();
 
   const user = useSelector(state => state.user.data);
+
   const { data: shops, isLoading: isShopsLoading } = useGetShopsQuery();
   const { data: products, isLoading: isProductsLoading } = useGetProductsQuery();
   const { data: reviews, isLoading: isReviewsLoading } = useGetReviewsQuery();
@@ -68,7 +69,7 @@ function App() {
     }
   }, [products]);
 
-  const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading;
+  const isLoading = isCategoriesLoading || isProductsLoading || isShopsLoading || isReviewsLoading;
 
   return (
     <Box maxW={480} m={'0 auto'}>

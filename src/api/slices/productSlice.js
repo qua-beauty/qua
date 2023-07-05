@@ -23,7 +23,6 @@ export const selectProductsByShop = (shop, filters) => (
     if(!products.data) return [];
 
     const shopProducts = products.data.filter((p) => {
-      console.log(p.shop, shop);
       return p.shop === shop
     });
 

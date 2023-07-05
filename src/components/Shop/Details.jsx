@@ -6,7 +6,7 @@ import Location from '../Location';
 
 const Details = ({ master }) => {
   return master && (
-    <div className="flex flex-col p-4 space-y-4">
+    <div className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4 items-center">
         <div className="w-32 h-32 rounded-full overflow-hidden">
           <img src={master.avatar} alt="Master Avatar" className="w-full h-full object-cover" />
