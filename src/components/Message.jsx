@@ -13,14 +13,12 @@ const Corner = () => {
 const Message = ({ children, author, date, avatar }) => {
   return (
     <div className="message">
-      
       <Avatar width='32px' height='32px' name={author} src={avatar} />
-
       <div className="bubble-message bubble-message-received">
       <Box bottom='0' left='-8px' position='absolute'><Corner /></Box>
         <Heading color='brand.200' fontSize='lg' className="block">{author}</Heading>
         <Text fontSize='lg'>{children}</Text>
-        <Box textAlign='right'>
+        <Box textAlign='right' mt={'2px'}>
           <Text fontSize='sm' color='text.secondary' className="block">{date}</Text>
         </Box>
       </div>

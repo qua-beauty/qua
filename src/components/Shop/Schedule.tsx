@@ -6,6 +6,7 @@ const Schedule: FunctionComponent = () => {
       <div className="absolute top-[0rem] left-[0rem] tracking-[-0.02em] font-medium">
         Schedule for the week
       </div>
+      
       <div className="absolute top-[3rem] left-[3.06rem] flex flex-col items-start justify-start text-[0.75rem] text-telegram font-sf-pro-text">
         <div className="relative w-[16.31rem] h-[15rem]">
           <div className="absolute top-[0rem] left-[0rem] w-[12.5rem] h-[15rem] text-[0.94rem] text-black">

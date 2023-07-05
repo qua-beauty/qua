@@ -32,7 +32,8 @@ const colors = {
   background: {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',
     paper: webApp?.themeParams.bg_color || '#ffffff',
-    paperImmersive: 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)'
+    paperImmersive: 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)',
+    reviews: 'linear-gradient(180deg, #FFF 0%, #EEE5FF 99.99%, #FFF 100%)'
   }
 };
 

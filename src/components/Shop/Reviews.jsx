@@ -4,7 +4,7 @@ import Message from "../Message";
 
 const Reviews = ({ reviews }) => {
   return (
-    <Box>
+    <Box bg='background.reviews' mt='16px' pb='16px'>
       <Flex justifyContent={'space-between'} position={'relative'} zIndex={1}>
         <Heading fontSize='20px' letterSpacing={'-1px'} fontWeight={'500'}>Reviews</Heading>
         <Text>
@@ -12,7 +12,7 @@ const Reviews = ({ reviews }) => {
         </Text>
       </Flex>
 
-      <Flex direction='column' gap='24px' mt='16px' mb='16px'>
+      <Flex direction='column' alignItems={'center'} gap='24px' mt='16px' mb='16px'>
         {reviews.map(review => (
           <Message author={review.from.name} date={review.date} avatar={review.from.avatar}>
             {review.text}
@@ -20,9 +20,11 @@ const Reviews = ({ reviews }) => {
         ))}
       </Flex>
 
-      <Text fontSize='sm' color='text.disabled'>
+      <Box p='0 32px' textAlign={'center'}>
+        <Text fontSize='sm' color='text.disabled'>
           To leave a review you need to have an appointment
         </Text>
+      </Box>
     </Box>
   );
 };
