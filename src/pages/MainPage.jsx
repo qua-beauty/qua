@@ -5,9 +5,10 @@ import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import MasterCard from '../components/Catalog2/MasterCard';
 import {webApp} from '../telegram.js';
-import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
+// import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import Stories from "../components/Catalog2/Stories";
 import Filters from "../components/Catalog2/Filters";
+import CatalogSkeleton from "../components/MainPage/CatalogSkeleton.jsx";
 
 function MainPage() {
   const dispatch = useDispatch();
