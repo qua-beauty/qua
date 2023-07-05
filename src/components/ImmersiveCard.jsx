@@ -41,3 +41,5 @@ const ImmersiveCard = ({ name, categoryName }) => {
     </Stack>
   )
 }
+
+export default ImmersiveCard;

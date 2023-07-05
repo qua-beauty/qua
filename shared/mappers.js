@@ -58,6 +58,23 @@ export const categoryMapper = (category) => {
   };
 }
 
+export const reviewMapper = (category) => {
+  return {
+    id: category.id,
+    date: category.fields['Date'],
+    rating: category.fields['Rating'],
+    text: category.fields['Text'],
+    shop: {
+      id: category.fields['Master'][0]
+    },
+    from: {
+      id: category.fields['From'][0],
+      name: category.fields['From Name'][0]
+    },
+    order: category.fields['Order']
+  };
+}
+
 export const orderMapper = (order) => {
   return {
     id: order.id,

@@ -1,6 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
 import {airtableBaseQuery} from './airtableBaseQuery.js';
-import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper} from '../../shared/mappers.js';
+import {categoryMapper, orderMapper, productMapper, shopMapper, userMapper, reviewMapper} from '../../shared/mappers.js';
 import {serializeOrder, serializeUser} from '../../shared/serializers.js';
 
 export const AirtableApi = createApi({
@@ -23,6 +23,15 @@ export const AirtableApi = createApi({
       }),
       transformResponse(result, meta, arg) {
         return result.map((item) => productMapper(item));
+      }
+    }),
+    getReviews: builder.query({
+      query: () => ({
+        tableName: 'Reviews',
+        method: 'select'
+      }),
+      transformResponse(result, meta, arg) {
+        return result.map((item) => reviewMapper(item));
       }
     }),
     getCategories: builder.query({
@@ -73,6 +82,7 @@ export const AirtableApi = createApi({
 export const {
   useGetShopsQuery,
   useGetProductsQuery,
+  useGetReviewsQuery,
   useGetCategoriesQuery,
   useGetUserMutation,
   useSaveOrderMutation,

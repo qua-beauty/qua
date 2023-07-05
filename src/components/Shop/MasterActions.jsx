@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-const MasterActions: FunctionComponent = () => {
+const MasterActions = () => {
   return (
     <div className="rounded-xl bg-brand-purple w-[22.38rem] flex flex-row py-[0.5rem] px-[1rem] box-border items-center justify-between z-[1] text-left text-[0.75rem] text-black font-sf-pro-text">
       <div className="flex flex-row items-start justify-start gap-[0.5rem]">

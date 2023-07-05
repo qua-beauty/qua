@@ -12,3 +12,71 @@
     transition: opacity 250ms ease-in;
   }
   
+  .message {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .bubble-message {
+    position: relative;
+    max-width: 320px;
+    margin-bottom: 16px;
+
+    padding: 8px 12px;
+    line-height: 22px;
+    
+    word-wrap: break-word;
+    
+    border-radius: 20px;
+  
+    &:before {
+      width: 20px;
+    }
+  
+    
+  
+    &:before,
+    &:after {
+      position: absolute;
+      bottom: 0;
+      height: 25px; /* height of our bubble "tail" - should match the border-radius above */
+      content: '';
+    }
+  }
+
+  .bubble-message-received {
+    align-self: flex-start;
+    color: black;
+    background: var(--chakra-colors-background-default);
+
+    &:before {
+        left: -7px;
+        background-color: var(--chakra-colors-background-default);
+        border-bottom-right-radius: 16px 14px;
+        border-top-left-radius: 104px;
+    }
+
+    &:after {
+        left: -26px;
+        border-bottom-right-radius: 10px;
+    }
+  }
+
+  .bubble-message-sent {
+    .sent {
+        align-self: flex-end;
+        color: white;
+        background: var(--sentColor);
+      
+        &:before {
+          right: -7px;
+          background-color: var(--sentColor);
+          border-bottom-left-radius: 16px 14px;
+        }
+      
+        &:after {
+          right: -26px;
+          border-bottom-left-radius: 10px;
+        }
+      }
+  }

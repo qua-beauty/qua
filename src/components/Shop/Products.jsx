@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Product from "./Product.jsx";
 import { Box, Flex, Image, Heading, Text, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, Button } from '@chakra-ui/react';
+import { MainButton } from "../MainButton.jsx";
 
 const Products = ({ products, onSelect }) => {
   const [activeProduct, setActiveProduct] = useState(null);
@@ -21,9 +22,9 @@ const Products = ({ products, onSelect }) => {
           Sort by <Text as='span' color='telegram.200'>Price</Text>
         </Text>
       </Flex>
-      <Flex direction={'column'} gap='8px'>
+      <Flex direction={'column'} gap='20px'>
         {products.map(product => (
-          <Product key={product.id} onSelect={() => setActiveProduct(product)} simpleDesign={product.name} m={product.time} prop={product.price} />
+          <Product key={product.id} onSelect={() => setActiveProduct(product)} name={product.name} time={product.time} price={product.price} about={product.about} />
         ))}
 
         <Drawer placement={'bottom'} onClose={() => setActiveProduct(null)} isOpen={activeProduct}>
@@ -52,8 +53,7 @@ const Products = ({ products, onSelect }) => {
                 </div>
                 
               </div>
-              <Button onClick={() => onSelect(activeProduct)} colorScheme="brand" borderRadius={0} w="100%" h="80px" pb="24px" fontSize='xl' color='white'
-                >Continue to book</Button>
+              <MainButton onClick={async () => onSelect(activeProduct)}>Book</MainButton>  
             </Flex>
           </DrawerContent>
         </Drawer>

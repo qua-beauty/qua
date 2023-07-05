@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useState, useCallback } from "react";
-import PortfolioView from "./Shop/PortfolioView";
-import PortalPopup from "./Shop/PortalPopup";
-import { Box, Flex, Image, Heading, Text } from '@chakra-ui/react';
+
+import { Box, Flex, Image, Heading, Text, Modal, ModalOverlay, ModalContent, ModalCloseButton } from '@chakra-ui/react';
 
 const Portfolio = ({ portfolio }) => {
-  const [isIPhone1413Open, setIPhone1413Open] = useState(false);
+  const [activePortfolio, setActivePortfolio] = useState(null);
 
-  const openIPhone1413 = useCallback((event) => {
+  const handleModalOpen = useCallback((portfolio) => (event) =>  {
     event.stopPropagation();
-    setIPhone1413Open(true);
+    setActivePortfolio(portfolio);
   }, []);
 
-  const closeIPhone1413 = useCallback(() => {
-    setIPhone1413Open(false);
+  const handleModalClose = useCallback(() => {
+    setActivePortfolio(null);
   }, []);
 
   return portfolio && (
@@ -23,21 +22,24 @@ const Portfolio = ({ portfolio }) => {
             <Image
               alt=""
               src={portfolioItem.url}
-              onClick={openIPhone1413}
+              onClick={handleModalOpen(portfolioItem)}
             />
           </Box>
         ))}
       </Flex>
 
-      {isIPhone1413Open && (
-        <PortalPopup
-          overla  yColor="rgba(0, 0, 0, 0.3)"
-          placement="Centered"
-          onOutsideClick={closeIPhone1413}
-        >
-          <PortfolioView portfolio={portfolio} onClose={closeIPhone1413} />
-        </PortalPopup>
-      )}
+      <Modal onClose={handleModalClose} isOpen={activePortfolio} isCentered>
+        <ModalOverlay />
+        <ModalContent overflow={'hidden'}>
+        <Image
+              alt=""
+              src={activePortfolio?.url}
+            />
+          <ModalCloseButton color="white" />
+        </ModalContent>
+      </Modal>
+
+      
     </>
   );
 };

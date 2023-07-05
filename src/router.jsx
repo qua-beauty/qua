@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage.jsx';
 import Offer from './pages/Product.jsx';
 import Shop from './pages/Shop.jsx';
 import Filters from './pages/Filters.jsx';
+import Payment from './pages/Payment.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: 'filters',
         element: (<Filters/>)
+      },
+      {
+        path: 'payment',
+        element: (<Payment/>)
       },
       {
         path: 'product/:productId',

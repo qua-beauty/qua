@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductsByShop } from '../api/slices/productSlice.js';
+import { selectReviewsByShop } from '../api/slices/reviewSlice.js';
 import Details from "../components/Shop/Details";
 import Products from "../components/Shop/Products.jsx";
 import Reviews from "../components/Shop/Reviews";
@@ -17,10 +18,11 @@ const Shop = () => {
   const filters = useSelector((state) => state.filters.filters);
 
   const products = useSelector(selectProductsByShop(currentShop?.id));
+  const reviews = useSelector(selectReviewsByShop(currentShop?.id));
 
 
   const handleSelect = useCallback((product) => {
-    console.log(product)
+    console.log(product);
     dispatch(makeBook(product));
     navigate('/booking');
   }, [navigate]);
@@ -31,7 +33,7 @@ const Shop = () => {
     <Flex direction='column' color={'text.primary'} gap='32px'>
       <Details master={currentShop} />
       <Products products={products} onSelect={handleSelect} />
-      <Reviews />
+      <Reviews reviews={reviews} />
       <Schedule />
     </Flex>
   );

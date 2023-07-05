@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import useAuth from './hooks/useAuth.js';
 import { Outlet, useParams } from 'react-router-dom';
-import { useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery } from './api/api.js';
+import { useGetCategoriesQuery, useGetProductsQuery, useGetShopsQuery, useGetReviewsQuery } from './api/api.js';
 import { useDispatch, useSelector } from 'react-redux';
+import { setReviewsData } from './api/slices/reviewSlice.js';
 import { setCurrentProduct, setProductsData } from './api/slices/productSlice.js';
 import { setCategoriesData } from './api/slices/categorySlice.js';
 import { setCurrentShop, setShopsData } from './api/slices/shopSlice.js';
@@ -24,6 +25,7 @@ function App() {
   const user = useSelector(state => state.user.data);
   const { data: shops, isLoading: isShopsLoading } = useGetShopsQuery();
   const { data: products, isLoading: isProductsLoading } = useGetProductsQuery();
+  const { data: reviews, isLoading: isReviewsLoading } = useGetReviewsQuery();
   const { data: categories, isLoading: isCategoriesLoading } = useGetCategoriesQuery();
 
   useEffect(() => {
@@ -42,6 +44,12 @@ function App() {
       }
     }
   }, [shops]);
+
+  useEffect(() => {
+    if (reviews) {
+      dispatch(setReviewsData(reviews));
+    }
+  }, [reviews]);
 
   useEffect(() => {
     if (categories) {
