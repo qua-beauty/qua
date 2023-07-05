@@ -15,12 +15,14 @@
   .message {
     display: flex;
     align-items: flex-end;
+    gap: 12px;
   }
 
   .bubble-message {
+    background: #fff;
+    border: 1px solid #B5CADD;
     position: relative;
     max-width: 320px;
-    margin-bottom: 16px;
 
     padding: 8px 12px;
     line-height: 22px;
@@ -45,21 +47,7 @@
   }
 
   .bubble-message-received {
-    align-self: flex-start;
-    color: black;
-    background: var(--chakra-colors-background-default);
-
-    &:before {
-        left: -7px;
-        background-color: var(--chakra-colors-background-default);
-        border-bottom-right-radius: 16px 14px;
-        border-top-left-radius: 104px;
-    }
-
-    &:after {
-        left: -26px;
-        border-bottom-right-radius: 10px;
-    }
+    
   }
 
   .bubble-message-sent {
