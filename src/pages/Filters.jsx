@@ -28,13 +28,11 @@ const Filters = () => {
         display="flex"
         flexDir={"row"}
         flexWrap="wrap"
-        maxWidth={358}
         flex="0 1 auto"
         p="12px 12px 0px 12px"
         flexDirection="column"
         justifyContent="flex-start"
         alignItems="flex-start"
-        gap="21px"
         flexShrink={0}
         borderRadius="16px"
         bg="white"
@@ -56,7 +54,7 @@ const Filters = () => {
           {allCategories && (
             <Flex flexDirection="row" flexWrap="wrap">
               {allCategories.map(category => (
-                <Box key={category.name} width="33%">
+                <Box key={category.name} width="33.33%" gap="21px">
                   <CategoryFilter
                     onClick={handleClick(category.name)}
                     categoryName={category.name}

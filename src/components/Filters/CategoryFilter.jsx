@@ -29,7 +29,6 @@ const CategoryFilter = ({onClick, categoryName}) => {
           cursor="pointer"
         />
         <Text
-          // variant="unstyled"
           cursor="pointer"
           color="#110E34"
           textAlign="center"
