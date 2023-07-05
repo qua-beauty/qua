@@ -3,12 +3,10 @@ import {statuses} from '../server/bot/utils.js';
 export const shopMapper = (shop) => {
   return {
     id: shop.id,
+    workTime: shop.fields['Work Time'] ? JSON.parse(shop.fields['Work Time']) : undefined,
     name: shop.fields['Name'],
     address: shop.fields['Address'],
     phone: shop.fields['Phone'],
-    startTime: shop.fields['Start Time'],
-    endTime: shop.fields['End Time'],
-    workTime: `${shop.fields['Start Time']} - ${shop.fields['End Time']}`,
     logo: shop.fields['Logotype'] ? shop.fields['Logotype'][0].url : undefined,
     avatar: shop.fields['Avatar'] ? shop.fields['Avatar'][0].url : undefined,
     categories: shop.fields['Catalog'],

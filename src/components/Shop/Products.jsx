@@ -7,7 +7,7 @@ const Products = ({ products, onSelect }) => {
   const [activeProduct, setActiveProduct] = useState(null);
 
   return products && (
-    <Flex direction='column' position={'relative'} gap='24px'>
+    <Flex direction='column' position={'relative'} gap='24px' mt='16px'>
       <Flex justifyContent={'space-between'} position={'relative'} zIndex={1}>
         <Image
           position={'absolute'}
