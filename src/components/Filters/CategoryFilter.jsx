@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, Image, Button, Text, Stack} from "@chakra-ui/react";
+import {ManicureIcon} from './ManicureIcon';
 
 const categoryImages = {
   "Hairstyle": "../src/assets/filters/hairstyle.svg",
@@ -16,18 +17,13 @@ const CategoryFilter = ({onClick, categoryName}) => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      justifyContent="center"
+      justifyContent="center"й  
       marginBottom="10px"
       onClick={() => onClick(categoryName)}
     >
+      
       <Stack spacing="2">
-        <Image
-          src={categoryImages[categoryName]}
-          alt={categoryName}
-          width="70px"
-          height="72px"
-          cursor="pointer"
-        />
+      <ManicureIcon width='72px' height='70px' />
         <Text
           cursor="pointer"
           color="#110E34"

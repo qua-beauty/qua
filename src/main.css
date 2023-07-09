@@ -30,41 +30,4 @@
     word-wrap: break-word;
     
     border-radius: 20px;
-  
-    &:before {
-      width: 20px;
-    }
-  
-    
-  
-    &:before,
-    &:after {
-      position: absolute;
-      bottom: 0;
-      height: 25px; /* height of our bubble "tail" - should match the border-radius above */
-      content: '';
-    }
-  }
-
-  .bubble-message-received {
-    
-  }
-
-  .bubble-message-sent {
-    .sent {
-        align-self: flex-end;
-        color: white;
-        background: var(--sentColor);
-      
-        &:before {
-          right: -7px;
-          background-color: var(--sentColor);
-          border-bottom-left-radius: 16px 14px;
-        }
-      
-        &:after {
-          right: -26px;
-          border-bottom-left-radius: 10px;
-        }
-      }
   }

@@ -8,7 +8,7 @@ import {webApp} from '../telegram.js';
 // import CatalogSkeleton from '../components/Catalog/CatalogSkeleton.jsx';
 import Stories from "../components/Catalog2/Stories";
 import Filters from "../components/Catalog2/Filters";
-import CatalogSkeleton from "../components/MainPage/CatalogSkeleton.jsx";
+import ShopsSkeleton from "../components/MainPage/ShopsSkeleton.jsx";
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ function MainPage() {
         </Button>
       </Box>
     </Box>
-  ) : <CatalogSkeleton />;
+  ) : <ShopsSkeleton />;
 }
 
 export default MainPage;
