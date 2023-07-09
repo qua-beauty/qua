@@ -13,12 +13,10 @@
     "bot": "cd ./server && deno run --allow-env --allow-read --allow-net server.js"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@grammyjs/conversations": "^1.1.1",
-    "@phosphor-icons/react": "^2.0.8",
     "@reduxjs/toolkit": "^1.9.2",
     "@sentry/react": "^7.47.0",
     "airtable": "^0.11.6",
@@ -30,7 +28,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
-    "react-icons": "^4.8.0",
     "react-markdown": "^8.0.5",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.5.0",

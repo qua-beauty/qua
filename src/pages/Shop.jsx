@@ -14,9 +14,7 @@ import { BackButton } from '../components/BackButton';
 const Shop = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const currentShop = useSelector(state => state.shops.current);
-
   const products = useSelector(selectProductsByShop(currentShop?.id));
   const reviews = useSelector(selectReviewsByShop(currentShop?.id));
 

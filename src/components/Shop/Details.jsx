@@ -13,7 +13,7 @@ const Details = ({ master }) => {
           <Text as='span' bg={master.category.color} color={master.category.textColor} fontSize='2xl'>{master.category.name}</Text>
           <Heading fontSize='4xl'>{master.name}</Heading>
         </Box>
-        <Box position={'absolute'} top='0' right='0'>
+        <Box position={'absolute'} top='1rem' right='1rem'>
           <Location>300m</Location>
         </Box>
         <MasterActions />

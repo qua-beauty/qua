@@ -1,11 +1,10 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { NearMeIcon } from './Icons/NearMeIcon';
 
 const Location = ({ children }) => {
   return (
-    <Flex alignItems={'center'}>
-      <Image
-        alt={'location'}
-        src="/near-me-fill1-wght400-grad0-opsz48-1.svg" />
+    <Flex alignItems={'center'} color='text.secondary'>
+      <NearMeIcon />
       <Text fontSize='md'>{children}</Text>
     </Flex>
   )
