@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Product from "./Product.jsx";
 import { Box, Flex, Image, Heading, Text, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, Button } from '@chakra-ui/react';
 import { MainButton } from "../MainButton.jsx";
+import { SortControl } from '../SortControl.jsx';
 
 const Products = ({ products, onSelect }) => {
   const [activeProduct, setActiveProduct] = useState(null);
 
   return products && (
-    <Flex direction='column' position={'relative'} gap='24px' mt='16px'>
+    <Flex direction='column' position={'relative'} gap='24px' p='1rem'>
       <Flex justifyContent={'space-between'} position={'relative'} zIndex={1}>
         <Image
           position={'absolute'}
@@ -18,9 +19,7 @@ const Products = ({ products, onSelect }) => {
           src="/vector.svg"
         />
         <Heading fontSize='20px' letterSpacing={'-1px'} fontWeight={'500'}>Services</Heading>
-        <Text>
-          Sort by <Text as='span' color='telegram.200'>Price</Text>
-        </Text>
+        <SortControl />
       </Flex>
       <Flex direction={'column'} gap='20px'>
         {products.map(product => (
@@ -51,9 +50,9 @@ const Products = ({ products, onSelect }) => {
                 <div className="relative text-[0.88rem] tracking-[-0.03em] leading-[1.25rem] font-sf-pro-text text-black inline-block w-full pb-[32px]">
                   {activeProduct?.about}
                 </div>
-                
+
               </div>
-              <MainButton onClick={async () => onSelect(activeProduct)}>Book</MainButton>  
+              <MainButton onClick={async () => onSelect(activeProduct)}>Book</MainButton>
             </Flex>
           </DrawerContent>
         </Drawer>

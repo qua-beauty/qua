@@ -1,28 +1,28 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
+import { Box, Flex, Text, Heading, Image, Avatar } from '@chakra-ui/react';
 import MasterActions from "./MasterActions";
 import Portfolio from "../Portfolio";
-
 import Location from '../Location';
 
 const Details = ({ master }) => {
   return master && (
-    <div className="flex flex-col space-y-4">
-      <div className="flex flex-col space-y-4 items-center">
-        <div className="w-32 h-32 rounded-full overflow-hidden">
-          <img src={master.avatar} alt="Master Avatar" className="w-full h-full object-cover" />
-        </div>
-        <div className={`bg-${master.category.color} text-${master.category.textColor} text-md`}>
-          {master.category.name}
-        </div>
-        <h1 className="-mt-2 text-4xl font-medium">{master.name}</h1>
-        <div className="absolute top-4 right-4">
+    <Box p='1rem' position={'relative'}>
+      <Flex direction='column' gap='1rem' alignItems='center'>
+        <Avatar width={'140px'} height={'140px'} src={master.avatar} alt={master.name} name={master.name} />
+        <Box textAlign={'center'}>
+          <Text as='span' bg={master.category.color} color={master.category.textColor} fontSize='2xl'>{master.category.name}</Text>
+          <Heading fontSize='4xl'>{master.name}</Heading>
+        </Box>
+        <Box position={'absolute'} top='0' right='0'>
           <Location>300m</Location>
-        </div>
-      </div>
-      <MasterActions />
-      <p className="text-md">{master.about}</p>
-      <Portfolio portfolio={master.portfolio} />
-    </div>
+        </Box>
+        <MasterActions />
+        <Box>
+          <Text fontSize='lg'>{master.about}</Text>
+        </Box>
+        <Portfolio portfolio={master.portfolio} />
+      </Flex>
+    </Box>
   );
 };
 

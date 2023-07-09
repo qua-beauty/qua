@@ -1,18 +1,17 @@
 import { Box, Flex, Image, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import Message from "../Message";
+import { SortControl } from '../SortControl.jsx';
 
 const Reviews = ({ reviews }) => {
   return (
-    <Box bg='background.reviews' mt='16px' pb='16px'>
+    <Box bg='background.reviews' p='1rem'>
       <Flex justifyContent={'space-between'} position={'relative'} zIndex={1}>
-        <Heading fontSize='20px' letterSpacing={'-1px'} fontWeight={'500'}>Reviews</Heading>
-        <Text>
-          Sort by <Text as='span' color='telegram.200'>Date</Text>
-        </Text>
+        <Heading fontSize='4xl' letterSpacing={'-1px'} fontWeight={'500'}>Reviews</Heading>
+        <SortControl />
       </Flex>
 
-      <Flex direction='column' alignItems={'center'} gap='24px' mt='16px' mb='16px'>
+      <Flex direction='column' alignItems={'center'} gap='24px' mt='24px' mb='16px'>
         {reviews.map(review => (
           <Message author={review.from.name} date={review.date} avatar={review.from.avatar}>
             {review.text}

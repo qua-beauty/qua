@@ -4,6 +4,12 @@ import {rgba} from './utils.js';
 
 export const isColorModeDark = webApp?.colorScheme === 'dark';
 
+const paperImmersiveLight = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)';
+const paperImmersiveDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%)';
+
+const reviewsLight = 'linear-gradient(180deg, #FFF 0%, #EEE5FF 99.99%, #FFF 100%)';
+const reviewsDark = 'linear-gradient(180deg, #000 0%, #EEE5FF 99.99%, #000 100%)';
+
 const config = {
   initialColorMode: isColorModeDark ? 'dark' : 'light',
   useSystemColorMode: false,
@@ -31,9 +37,9 @@ const colors = {
   },
   background: {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',
-    paper: webApp?.themeParams.bg_color || '#ffffff',
-    paperImmersive: 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)',
-    reviews: 'linear-gradient(180deg, #FFF 0%, #EEE5FF 99.99%, #FFF 100%)'
+    paper: webApp?.themeParams.bg_color || '#fff',
+    paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
+    reviews: isColorModeDark ? reviewsDark : reviewsLight
   }
 };
 
