@@ -1,8 +1,9 @@
-import { Button } from '@chakra-ui/react';
+import { Button, useTheme } from '@chakra-ui/react';
 import { webApp } from '../telegram.js';
 import { useEffect, useCallback } from 'react';
 
 export const MainButton = ({ onClick, children }) => {
+  const theme = useTheme();
 
   const handleClick = useCallback(async () => {
     webApp?.MainButton.disable();
@@ -31,9 +32,7 @@ export const MainButton = ({ onClick, children }) => {
   }, []);
 
   return webApp ? <></> : (
-    <Button onClick={handleClick}
-      colorScheme="brand"
-      borderRadius={0} w="100%" h="80px" pb="24px" fontSize='xl' color='white'>
+    <Button onClick={handleClick} colorScheme="brand" borderRadius={0} w="100%" h="80px" pb="24px" fontSize='xl' color='white'>
       {children}
     </Button>
   )
