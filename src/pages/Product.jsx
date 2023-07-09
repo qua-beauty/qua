@@ -1,16 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {webApp} from '../telegram.js';
-import {useDispatch, useSelector} from 'react-redux';
-import {makeBook} from '../api/slices/bookingSlice.js';
-import {useTranslation} from 'react-i18next';
-import {setCurrentShop} from '../api/slices/shopSlice.js';
-import {Box, Button, Flex, Heading, Text, useTheme, VStack} from '@chakra-ui/react';
-import {borderRadius} from '../globalSx.js';
-import {getCategoryName, getProductCount} from '../api/helpers.js';
-import BookButton from '../components/BookButton.jsx';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { webApp } from '../telegram.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeBook } from '../api/slices/bookingSlice.js';
+import { useTranslation } from 'react-i18next';
+import { setCurrentShop } from '../api/slices/shopSlice.js';
+import { Box, Flex, Heading, Text, useTheme, VStack } from '@chakra-ui/react';
+import { borderRadius } from '../globalSx.js';
 import NoImage from '../components/NoImage.jsx';
-import {Percent} from '@phosphor-icons/react';
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -19,7 +16,7 @@ const Product = () => {
   const shops = useSelector(state => state.shops.data);
   const market = useSelector(state => state.shops.market);
   const currentShop = useSelector(state => state.shops.current);
-  const {t, i18n: {language: lng}} = useTranslation();
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const handleMakeBook = useCallback(() => {
@@ -78,8 +75,8 @@ const Product = () => {
               maxWidth: 'fit-content'
             }
           }}>
-            {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt=""/> :
-              <NoImage fontSize={'96px'}/>}
+            {currentProduct.image ? <img style={borderRadius(16)} src={currentProduct.image} width={'100%'} alt="" /> :
+              <NoImage fontSize={'96px'} />}
             <Box position={'absolute'} bottom={'8px'} left={'8px'} background={'whiteAlpha.800'} color={'brandText.200'} p={'2px 4px'} borderRadius={'6px'}>
               <Text fontSize={'md'} fontWeight={'500'}>{currentProduct.categoryName}</Text>
             </Box>

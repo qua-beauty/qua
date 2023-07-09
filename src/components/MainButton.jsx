@@ -25,12 +25,7 @@ export const MainButton = ({ onClick, children }) => {
       webApp.MainButton.show();
     }
 
-    return () => {
-      if(webApp) {
-        webApp.MainButton.offClick(onClick);
-        webApp.MainButton.hide();
-      }
-    }
+    
   }, []);
 
   return webApp ? <></> : (

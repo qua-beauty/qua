@@ -9,7 +9,7 @@ const CardContainer = ({ children }) => {
 }
 
 export const MasterCard = ({ shop }) => {
-  return (
+  return shop && (
     <CardContainer>
       <Avatar src={shop.avatar} width='40px' height='40px'></Avatar>
       <Box flex='1'>
@@ -21,7 +21,7 @@ export const MasterCard = ({ shop }) => {
 }
 
 export const ProductCard = ({ product }) => {
-  return (
+  return product && (
     <CardContainer>
       <Box>
         <Text fontSize='2xl' color='text.primary'>{product.name}</Text>

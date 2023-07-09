@@ -9,7 +9,7 @@ const WorkTime = ({ workTime = [] }) => {
   return workTime && (
     <Box p='1rem'>
       <Heading fontSize='4xl' letterSpacing={'-1px'} fontWeight={'500'}>Schedule</Heading>
-      <Flex direction='column' gap='8px' mt='24px' p='0 1rem'>
+      <Flex direction='column' gap='8px' mt='24px'>
         {workTime.map((item, index) => (
           <Flex key={index} gap='24px'>
             <Text w='92px' fontSize='lg' textAlign='right' color={(isDisabled(item) ? 'text.disabled' : 'text.primary')}>{daysOfWeek[index]}</Text>

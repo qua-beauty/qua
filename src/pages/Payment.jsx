@@ -51,8 +51,8 @@ const Payment = () => {
       <Heading fontSize='5xl'>Make Appointment</Heading>
 
       <VStack mt='1rem' gap='8px' alignItems={'stretch'}>
-        <MasterCard />
-        <ProductCard />
+        <MasterCard shop={currentShop} />
+        <ProductCard product={products[0]} />
         <DateTimeCard />
       </VStack>
 
