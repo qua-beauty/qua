@@ -15,6 +15,7 @@ const FiltersButton = ({ onFiltersClick }) => {
       p='8px 18px'
       borderRadius='16px'
       fontWeight='500'
+      boxShadow='0px 6px 12px 0px rgba(137, 81, 255, 0.50), 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
     >
       <Text fontSize='3xl' fontWeight={'400'} textTransform={'uppercase'} color='text.onPrimarySecondary'>Qua</Text>
       <Box>
