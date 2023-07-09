@@ -3,31 +3,11 @@
 @tailwind utilities;
 
 .fade-enter {
-    opacity: 0;
-    z-index: 1;
-  }
-  
-  .fade-enter.fade-enter-active {
-    opacity: 1;
-    transition: opacity 250ms ease-in;
-  }
-  
-  .message {
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
-  }
+  opacity: 0;
+  z-index: 1;
+}
 
-  .bubble-message {
-    background: #fff;
-    border: 1px solid #B5CADD;
-    position: relative;
-    max-width: 320px;
-
-    padding: 8px 12px;
-    line-height: 22px;
-    
-    word-wrap: break-word;
-    
-    border-radius: 20px;
-  }
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
