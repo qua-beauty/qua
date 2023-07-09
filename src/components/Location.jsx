@@ -1,5 +1,5 @@
-import { Flex, Image, Text } from '@chakra-ui/react';
-import { NearMeIcon } from './Icons/NearMeIcon';
+import { Flex, Text } from '@chakra-ui/react';
+import { NearMeIcon } from './Icons';
 
 const Location = ({ children }) => {
   return (

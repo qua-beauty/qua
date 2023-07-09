@@ -3,10 +3,10 @@ import { setCurrentShop } from '../api/slices/shopSlice.js';
 import { Box, Flex, Button } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MasterCard from '../components/Catalog2/MasterCard';
+import MasterCard from '../components/Catalog/MasterCard.jsx';
 import { webApp } from '../telegram.js';
-import Stories from "../components/Catalog2/Stories";
-import Filters from "../components/Catalog2/Filters";
+import Stories from "../components/Catalog/Stories.jsx";
+import Filters from "../components/Catalog/Filters.jsx";
 import ShopsSkeleton from "../components/MainPage/ShopsSkeleton.jsx";
 
 function MainPage() {

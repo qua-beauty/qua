@@ -1,10 +1,8 @@
 import React from "react";
-import { useCallback } from "react";
-import './Filters.css';
 import { Button, Text, Flex, Box } from "@chakra-ui/react";
+import { TuneIcon } from '../Icons'
 
 const FiltersButton = ({ onFiltersClick }) => {
-  
   return (
     <Button
       onClick={onFiltersClick}
@@ -27,7 +25,7 @@ const FiltersButton = ({ onFiltersClick }) => {
         </Flex>
       </Box>
       <Box>
-        <img alt="" src="/tune-fill0-wght400-grad0-opsz48-1.svg" />
+        <TuneIcon fontSize='20px' color='text.onPrimarySecondary' />
       </Box>
     </Button>
   );
