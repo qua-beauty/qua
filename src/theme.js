@@ -23,7 +23,7 @@ const colors = {
   },
   brand: {
     200: isColorModeDark ? '#8951FF' : '#8951FF',
-    500: isColorModeDark ? '#5C10FF' : '#5C10FF',
+    500: isColorModeDark ? '#8951FF' : '#8951FF',
     600: isColorModeDark ? '#5C10FF' : '#5C10FF'
   },
   brandText: {
@@ -34,6 +34,8 @@ const colors = {
     primary: isColorModeDark ? '#fff' : 'rgba(0, 0, 0, 0.87)',
     secondary: isColorModeDark ? 'rgba(255, 255, 255, 0.72)' : 'rgba(0, 0, 0, 0.54)',
     disabled: isColorModeDark ? 'rgba(255, 255, 255, 0.54)' : 'rgba(0, 0, 0, 0.40)',
+    onPrimary: '#fff',
+    onPrimarySecondary: 'rgba(255,255,255,0.72)'
   },
   background: {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',

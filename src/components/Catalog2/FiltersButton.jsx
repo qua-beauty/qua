@@ -1,7 +1,7 @@
 import React from "react";
 import { useCallback } from "react";
 import './Filters.css';
-import { Button } from "@chakra-ui/react";
+import { Button, Text, Flex, Box } from "@chakra-ui/react";
 
 const FiltersButton = ({ onFiltersClick }) => {
   
@@ -12,20 +12,22 @@ const FiltersButton = ({ onFiltersClick }) => {
       w='100%'
       h='56px'
       justifyContent={'space-between'}
-      p='8px 12px'
+      p='8px 18px'
+      borderRadius='16px'
+      fontWeight='500'
     >
-      <div className="filters-brand">QUA</div>
-      <div className="flex flex-col items-center justify-start">
-        <div className="filters-title">All beauty services</div>
-        <div className="filters-items">Around 10km ○ Any price</div>
-      </div>
-      <div className="w-[2.5rem] flex flex-row items-center justify-end">
-        <img
-          className="relative w-[1.25rem] h-[1.25rem] "
-          alt=""
-          src="/tune-fill0-wght400-grad0-opsz48-1.svg"
-        />
-      </div>
+      <Text fontSize='3xl' fontWeight={'400'} textTransform={'uppercase'} color='text.onPrimarySecondary'>Qua</Text>
+      <Box>
+        <Text fontSize='xl' color='text.onPrimary'>All beauty services</Text>
+        <Flex mt='2px' fontSize='9px' gap='8px' alignItems='center' color='text.onPrimarySecondary'>
+          <Text fontSize='sm'>Around 10km</Text>
+          ○
+          <Text fontSize='sm'>Any price</Text>
+        </Flex>
+      </Box>
+      <Box>
+        <img alt="" src="/tune-fill0-wght400-grad0-opsz48-1.svg" />
+      </Box>
     </Button>
   );
 };
