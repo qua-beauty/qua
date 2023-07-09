@@ -1,8 +1,11 @@
-import {extendTheme} from '@chakra-ui/react';
-import {webApp} from './telegram.js';
-import {rgba} from './utils.js';
+import { extendTheme } from '@chakra-ui/react';
+import { webApp } from './telegram.js';
+import { rgba } from './utils.js';
 
 export const isColorModeDark = webApp?.colorScheme === 'dark';
+
+const paper = webApp?.themeParams.bg_color || '#ffffff';
+const paperMaster = `linear-gradient(180deg, ${paper} 0%, ${rgba(paper, 0.5)} 52.08%, rgba(136, 81, 255, 0.10) 100%)`;
 
 const paperImmersiveLight = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)';
 const paperImmersiveDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%)';
@@ -39,9 +42,10 @@ const colors = {
   },
   background: {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',
-    paper: webApp?.themeParams.bg_color || '#fff',
+    paper,
     paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
-    reviews: isColorModeDark ? reviewsDark : reviewsLight
+    reviews: isColorModeDark ? reviewsDark : reviewsLight,
+    paperMaster
   }
 };
 

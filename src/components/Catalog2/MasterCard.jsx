@@ -6,10 +6,12 @@ import Location from "../Location";
 const MasterCard = ({ onSelect, ...master }) => {
   return (
     <Flex
-      p={'1rem 0'}
+      p={'1rem'}
       gap={'1rem'}
       w={'100%'}
       onClick={onSelect}
+      background='background.paperMaster'
+      borderRadius='16px'
     >
       <Box w={'56px'}>
         <Flex direction="column" alignItems={'center'}>
