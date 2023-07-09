@@ -1,14 +1,8 @@
 import React from 'react';
-import {Box, Image, Button, Text, Stack} from "@chakra-ui/react";
+import {Box, Text, Stack} from "@chakra-ui/react";
+import FilterIcon from "../FilterIcon.jsx";
 
-const categoryImages = {
-  "Hairstyle": "../src/assets/filters/hairstyle.svg",
-  "Manicure": "../src/assets/filters/manicure.svg",
-  "Makeup": "../src/assets/filters/makeup.svg",
-  "Barbershop": "../src/assets/filters/barbershop.svg",
-  "Pedicure": "../src/assets/filters/pedicure.svg",
-  "Skin Care": "../src/assets/filters/skinCare.svg",
-};
+
 
 const CategoryFilter = ({onClick, categoryName}) => {
   return (
@@ -21,13 +15,7 @@ const CategoryFilter = ({onClick, categoryName}) => {
       onClick={() => onClick(categoryName)}
     >
       <Stack spacing="2">
-        <Image
-          src={categoryImages[categoryName]}
-          alt={categoryName}
-          width="70px"
-          height="72px"
-          cursor="pointer"
-        />
+       <FilterIcon name={categoryName}  />
         <Text
           cursor="pointer"
           color="#110E34"
