@@ -8,27 +8,27 @@ const CardContainer = ({ children }) => {
   )
 }
 
-export const MasterCard = () => {
+export const MasterCard = ({ shop }) => {
   return (
     <CardContainer>
-      <Avatar width='40px' height='40px'></Avatar>
+      <Avatar src={shop.avatar} width='40px' height='40px'></Avatar>
       <Box flex='1'>
-        <Text fontSize='md' fontWeight='500' color='brand.200'>Nail Maker</Text>
-        <Text fontSize='2xl' color='text.primary'>Veronika Stepura</Text>
+        <Text fontSize='md' fontWeight='500' color='brand.200'>{shop.category.name}</Text>
+        <Text fontSize='2xl' color='text.primary'>{shop.name}</Text>
       </Box>
     </CardContainer>
   )
 }
 
-export const ProductCard = () => {
+export const ProductCard = ({ product }) => {
   return (
     <CardContainer>
       <Box>
-        <Text fontSize='2xl' color='text.primary'>Nail design – 1 difficulty</Text>
-        <Text fontSize='md' color='text.secondary'>Nail Maker</Text>
+        <Text fontSize='2xl' color='text.primary'>{product.name}</Text>
+        <Text fontSize='md' color='text.secondary'>{product.time}m</Text>
       </Box>
       <Box>
-        <Heading fontSize='5xl' fontWeight='600'>$120</Heading>
+        <Heading fontSize='5xl' fontWeight='600'>${product.price}</Heading>
       </Box>
     </CardContainer>
   )

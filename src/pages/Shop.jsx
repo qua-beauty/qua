@@ -27,7 +27,7 @@ const Shop = () => {
 
 
   return (
-    <Flex direction='column' color={'text.primary'} gap='32px' p='16px 0 60px'>
+    <Flex direction='column' color={'text.primary'} gap='32px' p='16px 0 10rem'>
       <BackButton onClick={() => navigate(-1)} />
       <Details master={currentShop} />
       <Products products={products} onSelect={handleSelect} />

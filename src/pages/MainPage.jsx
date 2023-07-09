@@ -27,7 +27,7 @@ function MainPage() {
   }, []);
 
   return catalog ? (
-    <Box pb='40px'>
+    <Box pb='10rem'>
       <Flex direction='column' p='1rem' gap='1.5rem'>
         <Stories />
         <Filters />

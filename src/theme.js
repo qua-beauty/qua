@@ -44,7 +44,8 @@ const colors = {
     paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
     paperReviews,
     paperMaster
-  }
+  },
+  borderColor: 'rgba(137, 81, 255, 0.24)'
 };
 
 const fontSizes = {

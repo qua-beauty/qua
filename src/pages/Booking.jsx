@@ -1,22 +1,20 @@
 import React, { useCallback, useEffect } from 'react';
-import ProductInline from '../components/Booking/ProductInline.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cancelBook, clearDeletedBasket, setBookTime } from '../api/slices/bookingSlice.js';
-import { Box, Button, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Heading, VStack } from '@chakra-ui/react';
 import TimeSlotPicker from '../components/Booking/TimeSlotPicker.jsx';
-import ImmersiveCard from '../components/ImmersiveCard.jsx';
 import {MainButton} from '../components/MainButton.jsx';
 import {BackButton} from '../components/BackButton.jsx';
+import { MasterCard, ProductCard, DateTimeCard } from '../components/Payment/Cards';
 
 const Booking = () => {
   const dispatch = useDispatch();
   const { bookTime } = useSelector(state => state.booking);
-  const allBasket = useSelector(state => state.booking.basket);
-
-
+  const products = useSelector(state => state.booking.basket);
   const currentShop = useSelector(state => state.shops.current);
   const navigate = useNavigate();
+  
 
   const handleTimeChange = (date) => {
     dispatch(setBookTime(date.toISOString()));
@@ -37,28 +35,26 @@ const Booking = () => {
     };
   }, []);
 
+
   return currentShop && (
-    <Box p={'16px'}>
+    <>
+      <Box p={'1rem'} pb='10rem'>
       <BackButton onClick={handleCancelOrder} />
+      <Heading fontSize='5xl'>Make Appointment</Heading>
 
-      <Flex direction={'column'} alignItems={'center'}>
-        <Heading fontSize={'2x1'} fontWeight={'400'}>Make Booking</Heading>
-      </Flex>
+      <VStack mt='1rem' gap='8px' mb='2rem' alignItems={'stretch'}>
+        <MasterCard shop={currentShop} />
+        <ProductCard product={products[0]} />
+      </VStack>
 
-      <ImmersiveCard categoryName={currentShop.category.name} name={currentShop.name} />
+      <TimeSlotPicker onChange={handleTimeChange} shop={currentShop} product={products[0]} />
 
-
-      <Flex mt={'10px'} direction={'column'} alignItems={'stretch'}>
-        {allBasket && allBasket.map(product => <ProductInline key={product.id} product={product} />)}
-      </Flex>
-
-      <TimeSlotPicker onChange={handleTimeChange} />
-
-      <Box p={'12px'}>
+      <Box mt='32px'>
         <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelOrder} color={'telegram.200'} variant="outline">Cancel Booking</Button>
-        <MainButton disabled={!bookTime} onClick={handleConfirmOrder}>Continue</MainButton>
       </Box>
     </Box>
+    <MainButton disabled={!bookTime} onClick={handleConfirmOrder}>Continue</MainButton>
+    </>
   );
 };
 

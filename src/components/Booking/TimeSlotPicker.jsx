@@ -4,87 +4,84 @@ import {
   VStack,
   FormControl,
   FormLabel,
-  FormHelperText,
   Button,
   Flex,
+  Text,
+  Heading,
 } from '@chakra-ui/react';
-import { format, addHours, setHours, setMinutes, isPast, isToday } from 'date-fns';
+import { useAvailability } from '../../hooks/useAvailability';
 
-const TimeSlotPicker = ({ onChange }) => {
+const combineDateAndTime = (date, time) => {
+  const timeParts = time.split(':');
+  const timeHours = Number(timeParts[0]);
+  const timeMinutes = Number(timeParts[1]);
+
+  // Clone the date object to avoid mutating the original
+  const combinedDate = new Date(date.getTime());
+  combinedDate.setHours(timeHours, timeMinutes, 0, 0);
+
+  return combinedDate;
+};
+
+const TimeSlotPicker = ({ onChange, shop, product }) => {
+  const availableDates = useAvailability(shop.workTime, product.time);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [timeSlots, setTimeSlots] = useState([]);
 
   useEffect(() => {
-    if (selectedDate) {
-      const currentDate = new Date(selectedDate);
-      generateTimeSlots(currentDate);
-    }
-  }, [selectedDate]);
+    setSelectedDate(availableDates[0])
+  }, [availableDates])
 
-  useEffect(() => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split('T')[0];
-    setSelectedDate(formattedDate);
-  }, []);
-
-  const handleDateChange = (event) => {
-    const selectedDate = event.target.value;
-    setSelectedDate(selectedDate);
-    const currentDate = new Date(selectedDate);
-    generateTimeSlots(currentDate);
+  const handleDateChange = (date) => (event) => {
+    setSelectedDate(date);
     setSelectedTime(null);
   };
 
-  const handleTimeClick = (time) => {
-    setSelectedTime(time);
+  const handleTimeClick = (timeSlot) => {
+    setSelectedTime(timeSlot);
 
     if (onChange) {
-      const selectedDateTime = new Date(`${selectedDate}T${time}`);
+      const selectedDateTime = combineDateAndTime(selectedDate.date, timeSlot.time);
+      console.log(selectedDateTime)
       onChange(selectedDateTime);
     }
-  };
-
-  const generateTimeSlots = (date) => {
-    const startTime = setMinutes(setHours(date, 10), 0); // Set the start time to 10 AM
-    const currentHour = date.getHours();
-    const endTime = addHours(startTime, 22 - 10); // 22:00 is the end time
-
-    const slots = [];
-    let currentTime = startTime;
-    while (currentTime <= endTime) {
-      if (!isPast(currentTime) || (isToday(currentTime) && currentTime.getHours() > currentHour)) {
-        slots.push(currentTime);
-      }
-      currentTime = addHours(currentTime, 1);
-    }
-    setTimeSlots(slots);
   };
 
   return (
     selectedDate && (
       <Box>
-        <FormControl p={'12px'}>
-          <Flex justifyContent={'space-between'} alignItems={'center'}>
-            <FormLabel mb={'0'}>Select Date</FormLabel>
-            <input type="date" value={selectedDate} onChange={handleDateChange} />
-          </Flex>
-          <VStack mt={'12px'} spacing={2} alignItems="flex-start">
-            {timeSlots.map((timeSlot) => (
-              <Button
-                w={'100%'}
-                key={timeSlot}
-                onClick={() => handleTimeClick(format(timeSlot, 'HH:mm'))}
-                variant={selectedTime === format(timeSlot, 'HH:mm') ? 'solid' : 'outline'}
-                isDisabled={!selectedDate}
-                borderColor={'telegram.200'}
-                color={'text.primary'}
-              >
-                {format(timeSlot, 'hh:mm a')}
+        <FormControl>
+          <FormLabel mb={'0'} color='text.secondary'>Choose Date</FormLabel>
+          <Flex gap='8px' mt='8px'>
+            {availableDates.map(date => (
+              <Button onClick={handleDateChange(date)} colorScheme='brand' variant={selectedDate.date === date.date ? 'solid' : 'outline'} w='54px' h='56px' flexDirection='column' isDisabled={date.isDisabled}>
+                <Text fontWeight='500' fontSize='xs' color={date.isWeekend ? '#F03F3F' : 'currentColor'}>{date.weekday}</Text>
+                <Heading fontWeight='500' fontSize='4xl'>{date.dayNumber}</Heading>
               </Button>
             ))}
+          </Flex>
+        </FormControl>
+        <FormControl mt='32px'>
+          <VStack gap='24px' alignItems={'flex-start'}>
+            {selectedDate.timePeriods.map(timePeriod => <Box>
+              <FormLabel mb={'0'} color='text.secondary'>{timePeriod.name}</FormLabel>
+              <Flex gap='8px' mt={'8px'} spacing={2} alignItems="flex-start" flexWrap={'wrap'}>
+                {timePeriod.timeSlots.map((timeSlot, index) => (
+                  <Button
+                    key={index}
+                    w='80px'
+                    onClick={() => handleTimeClick(timeSlot)}
+                    variant={selectedTime === timeSlot ? 'solid' : 'outline'}
+                    isDisabled={timeSlot.isBreak}
+                    colorScheme='brand'
+                  >
+                    {timeSlot.time}
+                  </Button>
+                ))}
+              </Flex>
+            </Box>)}
           </VStack>
-          <FormHelperText>Please select a time slot.</FormHelperText>
         </FormControl>
       </Box>
     )
