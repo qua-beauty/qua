@@ -19,7 +19,7 @@ const MasterActions = () => {
           <TelegramIcon fontSize='56px' />
         </IconButton>
         <IconButton size='lg' colorScheme="brand" isRound={true}>
-          <LikeOutlinedIcon mt='2px' fontSize='32px' />
+          <LikeOutlinedIcon color='text.onPrimary' mt='2px' fontSize='32px' />
         </IconButton>
       </Flex>
       <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
@@ -27,7 +27,11 @@ const MasterActions = () => {
         <Text fontSize='xs' fontWeight='500'>Liked by</Text>
         <Flex justifyContent={'center'}>
           <Avatar w='32px' h='32px' name='Vk' />
-          <Avatar w='32px' h='32px' name='+ 4' bg={'brand.600'} />
+          <Avatar w='32px' h='32px' name='+ 4' bg={'brand.200'} color='text.onPrimary' sx={{
+            '& div': {
+              fontSize: '0.875rem'
+            }
+          }} />
         </Flex>
       </Flex>
       <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
