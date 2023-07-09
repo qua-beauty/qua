@@ -35,8 +35,8 @@ const Booking = () => {
   }, []);
 
 
-  return currentShop && (
-    <>
+  return (currentShop && products.length > 0) && (
+    <Box>
       <Box p={'1rem'} pb='10rem'>
         <BackButton onClick={handleCancelOrder} />
         <Heading fontSize='5xl'>Make Appointment</Heading>
@@ -54,8 +54,8 @@ const Booking = () => {
       </Box>
 
       <MainButton onClick={handleConfirmOrder}>Continue</MainButton>
-    </>
-  );
+    </Box>
+  )
 };
 
 export default Booking;

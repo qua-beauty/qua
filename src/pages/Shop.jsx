@@ -14,7 +14,9 @@ import { BackButton } from '../components/BackButton';
 const Shop = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const currentShop = useSelector(state => state.shops.current);
+
   const products = useSelector(selectProductsByShop(currentShop?.id));
   const reviews = useSelector(selectReviewsByShop(currentShop?.id));
 
@@ -24,7 +26,7 @@ const Shop = () => {
   }, [navigate]);
 
 
-  return (
+  return currentShop && (
     <Flex direction='column' color={'text.primary'} gap='32px' p='16px 0 10rem'>
       <BackButton onClick={() => navigate(-1)} />
       <Details master={currentShop} />

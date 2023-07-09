@@ -8,7 +8,6 @@ export const reviewSlice = createSlice({
   },
   reducers: {
     setReviewsData: (state, action) => {
-      console.log(action);
       state.data = action.payload;
     },
     setCurrentReview: (state, action) => {

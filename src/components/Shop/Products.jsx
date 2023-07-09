@@ -3,6 +3,7 @@ import Product from "./Product.jsx";
 import { Flex, Image, Heading, Drawer, DrawerOverlay, DrawerContent } from '@chakra-ui/react';
 import { ProductPopup } from "./ProductPopup.jsx";
 import { SortControl } from '../SortControl.jsx';
+import ServiceTitleBgSvg from '../../assets/service-title-bg.svg';
 
 const Products = ({ products, onSelect }) => {
   const [activeProduct, setActiveProduct] = useState(null);
@@ -16,7 +17,7 @@ const Products = ({ products, onSelect }) => {
           left={'-72px'}
           zIndex={-1}
           alt=""
-          src="/vector.svg"
+          src={ServiceTitleBgSvg}
         />
         <Heading fontSize='20px' letterSpacing={'-1px'} fontWeight={'500'}>Services</Heading>
         <SortControl />

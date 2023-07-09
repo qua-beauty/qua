@@ -5,7 +5,6 @@ const WorkTime = ({ workTime = [] }) => {
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const isDisabled = (item) => item.workTime.length === 0;
 
-  console.log(workTime);
   return workTime && (
     <Box p='1rem'>
       <Heading fontSize='4xl' letterSpacing={'-1px'} fontWeight={'500'}>Schedule</Heading>

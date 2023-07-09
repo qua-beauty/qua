@@ -12,8 +12,8 @@ const Reviews = ({ reviews }) => {
       </Flex>
 
       <Flex direction='column' alignItems={'center'} gap='24px' mt='24px' mb='16px'>
-        {reviews.map(review => (
-          <Message author={review.from.name} date={review.date} avatar={review.from.avatar}>
+        {reviews.map((review, index) => (
+          <Message key={index} author={review.from.name} date={review.date} avatar={review.from.avatar}>
             {review.text}
           </Message>
         ))}

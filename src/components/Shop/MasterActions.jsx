@@ -24,7 +24,7 @@ const MasterActions = () => {
       </Flex>
       <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
       <Flex direction='column' justifyContent={'center'} flex='1' textAlign={'center'}>
-        <Text>Liked by</Text>
+        <Text fontSize='xs' fontWeight='500'>Liked by</Text>
         <Flex justifyContent={'center'}>
           <Avatar w='32px' h='32px' name='Vk' />
           <Avatar w='32px' h='32px' name='+ 4' bg={'brand.600'} />
@@ -32,7 +32,7 @@ const MasterActions = () => {
       </Flex>
       <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
       <Flex direction={'column'} justifyContent={'center'} flex='1' textAlign={'center'}>
-        <Text>2 reviews</Text>
+        <Text fontSize='xs' fontWeight='500'>2 reviews</Text>
         <Flex justifyContent={'center'}>
           <ReviewBadge emoji='👍' color='#EDFFB1' />
         </Flex>

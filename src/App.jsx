@@ -11,10 +11,6 @@ import './i18n';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@chakra-ui/react';
 import { withProfiler } from '@sentry/react';
-import {
-  TransitionGroup,
-  CSSTransition
-} from "react-transition-group";
 
 function App() {
   useAuth();
@@ -73,21 +69,7 @@ function App() {
 
   return (
     <Box maxW={480} m={'0 auto'}>
-      <TransitionGroup>
-        {/*
-            This is no different than other usage of
-            <CSSTransition>, just make sure to pass
-            `location` to `Switch` so it can match
-            the old location as it animates out.
-          */}
-        <CSSTransition
-          key={location.pathname}
-          classNames="fade"
-          timeout={300}
-        >
-        <Outlet isLoading={isLoading} />
-      </CSSTransition>
-    </TransitionGroup>
+      <Outlet isLoading={isLoading} />
     </Box >
   );
 }
