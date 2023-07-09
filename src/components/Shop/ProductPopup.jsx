@@ -1,7 +1,7 @@
 import { Flex, Text, Box, Heading, Tag } from '@chakra-ui/react';
 import { MainButton } from '../MainButton';
 
-export const ProductPopup = ({ product }) => {
+export const ProductPopup = ({ product, onSelect }) => {
   return product && (
     <>
       <Flex direction={'column'} justifyContent={'center'} p='1rem'>

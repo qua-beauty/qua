@@ -29,7 +29,7 @@ const Products = ({ products, onSelect }) => {
         <Drawer placement={'bottom'} onClose={() => setActiveProduct(null)} isOpen={activeProduct}>
           <DrawerOverlay />
           <DrawerContent background='background.paper'>
-            <ProductPopup product={activeProduct} />
+            <ProductPopup product={activeProduct} onSelect={onSelect} />
           </DrawerContent>
         </Drawer>
       </Flex>
