@@ -54,7 +54,10 @@ const Filters = () => {
           {allCategories && (
             <Flex flexDirection="row" flexWrap="wrap">
               {allCategories.map(category => (
-                <Box key={category.name} width="33.33%" gap="21px">
+                <Box
+                  key={category.name}
+                  width="33.33%"
+                  height="33.33%">
                   <CategoryFilter
                     onClick={handleClick(category.name)}
                     categoryName={category.name}
