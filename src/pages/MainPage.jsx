@@ -37,11 +37,11 @@ function MainPage() {
           return <MasterCard onSelect={() => handleSelect(master)} key={master.id} {...master} />;
         })}
       </Flex>
-      <Box textAlign={'center'}>
-        <Button variant={'outline'} colorScheme='telegram'>
+      {false && <Box textAlign={'center'}>
+        <Button variant={'outline'} colorScheme='brand'>
           Show more
         </Button>
-      </Box>
+      </Box>}
     </Box>
   ) : <ShopsSkeleton />;
 }

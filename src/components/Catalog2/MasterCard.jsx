@@ -6,7 +6,7 @@ import Location from "../Location";
 const MasterCard = ({ onSelect, ...master }) => {
   return (
     <Flex
-      p={'1rem'}
+      p={'1rem 0'}
       gap={'1rem'}
       w={'100%'}
       onClick={onSelect}
@@ -19,7 +19,7 @@ const MasterCard = ({ onSelect, ...master }) => {
           <Text mt='1' fontSize='md'>~$120</Text>
         </Flex>
       </Box>
-      <Box flex={1}>
+      <Box flex={1} maxW={'calc(100% - 56px - 1rem)'}>
         <Flex justifyContent={'space-between'} alignItems={'flex-start'}>
           <Box>
             <Box bg={master.category.color} color={master.category.textColor} display="inline" fontSize='md'>
@@ -30,7 +30,7 @@ const MasterCard = ({ onSelect, ...master }) => {
           <Location>240m</Location>
         </Flex>
         <Box mt='3'>
-          <Portfolio portfolio={master.portfolio} />
+          <Portfolio portfolio={master.portfolio} previewWidth='60px' />
         </Box>
       </Box>
     </Flex>
