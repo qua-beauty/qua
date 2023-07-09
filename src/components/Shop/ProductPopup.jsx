@@ -18,7 +18,7 @@ export const ProductPopup = ({ product, onSelect }) => {
           <Text color='md'>{product.about}</Text>
         </Box>}
       </Flex>
-      <MainButton onClick={async () => onSelect(activeProduct)}>Book</MainButton>
+      <MainButton onClick={async () => onSelect(product)}>Book</MainButton>
     </>
   )
 }
