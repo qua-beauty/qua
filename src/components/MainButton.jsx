@@ -19,7 +19,7 @@ export const MainButton = ({ onClick, children }) => {
   useEffect(() => {
     if (webApp) {
       webApp.MainButton.text = children;
-      webApp.MainButton.color = theme.colors.telegram['200'];
+      webApp.MainButton.color = theme.colors.brand['200'];
       webApp.MainButton.textColor = theme.colors.text.primary;
       webApp.MainButton.onClick(onClick);
       webApp.MainButton.show();

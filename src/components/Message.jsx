@@ -15,7 +15,7 @@ const Message = ({ children, author, date, avatar }) => {
   const {colors: { background }} = useTheme();
 
   return (
-    <Flex className="message" gap='12px'>
+    <Flex className="message" gap='12px' alignItems='flex-end'>
       <Avatar width='32px' height='32px' name={author} src={avatar} />
       <Box border={`0.5px solid ${background.default}`} position='relative' bg={background.paper} borderRadius='16px' wordWrap='break-word' p='8px 12px' maxW='320px'>
         <Box bottom='0' left='-8px' position='absolute'><Corner bg={background.paper} border={background.default} /></Box>

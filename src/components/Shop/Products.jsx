@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Product from "./Product.jsx";
-import { Box, Flex, Image, Heading, Text, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, Button } from '@chakra-ui/react';
-import { MainButton } from "../MainButton.jsx";
+import { Flex, Image, Heading, Drawer, DrawerOverlay, DrawerContent } from '@chakra-ui/react';
+import { ProductPopup } from "./ProductPopup.jsx";
 import { SortControl } from '../SortControl.jsx';
 
 const Products = ({ products, onSelect }) => {
@@ -29,31 +29,7 @@ const Products = ({ products, onSelect }) => {
         <Drawer placement={'bottom'} onClose={() => setActiveProduct(null)} isOpen={activeProduct}>
           <DrawerOverlay />
           <DrawerContent background='background.paper'>
-            <Flex direction={'column'} justifyContent={'center'}>
-              <div className="relative p-[16px] rounded-t-3xl rounded-b-none bg-text-white w-full overflow-hidden flex flex-col box-border items-center justify-start gap-[1.63rem] max-w-full max-h-full text-left text-[1.25rem] text-text-primary font-sf-pro-display">
-                <div
-                  className="w-full h-[3rem] flex flex-row items-start justify-between cursor-pointer"
-
-                >
-                  <div className="flex flex-col items-start justify-start gap-[0.25rem]">
-                    <div className="relative tracking-[-0.02em] font-medium">
-                      {activeProduct?.name}
-                    </div>
-                    <div className="relative text-[1.06rem] tracking-[-0.03em] font-medium font-sf-pro-text text-text-secondary">
-                      {activeProduct?.time}m
-                    </div>
-                  </div>
-                  <div className="rounded-xl bg-telegram [backdrop-filter:blur(8px)] h-[2.25rem] overflow-hidden flex flex-row py-[0.13rem] px-[0.75rem] box-border items-center justify-center text-right text-[1.13rem] text-text-white font-sf-pro-text">
-                    <div className="relative tracking-[-0.03em] font-medium">${activeProduct?.price}</div>
-                  </div>
-                </div>
-                <div className="relative text-[0.88rem] tracking-[-0.03em] leading-[1.25rem] font-sf-pro-text text-black inline-block w-full pb-[32px]">
-                  {activeProduct?.about}
-                </div>
-
-              </div>
-              <MainButton onClick={async () => onSelect(activeProduct)}>Book</MainButton>
-            </Flex>
+            <ProductPopup product={activeProduct} />
           </DrawerContent>
         </Drawer>
       </Flex>
