@@ -5,7 +5,7 @@ import { SortControl } from '../SortControl.jsx';
 
 const Reviews = ({ reviews }) => {
   return (
-    <Box bg='background.reviews' p='1rem'>
+    <Box bg='background.paperReviews' p='1rem'>
       <Flex justifyContent={'space-between'} position={'relative'} zIndex={1}>
         <Heading fontSize='4xl' letterSpacing={'-1px'} fontWeight={'500'}>Reviews</Heading>
         <SortControl />

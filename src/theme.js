@@ -6,12 +6,10 @@ export const isColorModeDark = webApp?.colorScheme === 'dark';
 
 const paper = webApp?.themeParams.bg_color || '#ffffff';
 const paperMaster = `linear-gradient(180deg, ${paper} 0%, ${rgba(paper, 0.5)} 52.08%, rgba(136, 81, 255, 0.10) 100%)`;
+const paperReviews = isColorModeDark ? `linear-gradient(180deg, ${paper} 0%, rgba(137, 81, 255, 0.40) 100%)` : `linear-gradient(180deg, ${paper} 0%, #EEE5FF 100%)`;
 
 const paperImmersiveLight = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)';
 const paperImmersiveDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%)';
-
-const reviewsLight = 'linear-gradient(180deg, #FFF 0%, #EEE5FF 99.99%, #FFF 100%)';
-const reviewsDark = 'linear-gradient(180deg, #000 0%, #EEE5FF 99.99%, #000 100%)';
 
 const config = {
   initialColorMode: isColorModeDark ? 'dark' : 'light',
@@ -44,7 +42,7 @@ const colors = {
     default: webApp?.themeParams.secondary_bg_color || '#ededed',
     paper,
     paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
-    reviews: isColorModeDark ? reviewsDark : reviewsLight,
+    paperReviews,
     paperMaster
   }
 };
