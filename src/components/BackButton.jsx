@@ -13,7 +13,7 @@ export const BackButton = ({ onClick }) => {
     }
   }, []);
 
-  return (
+  return webApp ? <></> : (
     <CloseButton size='lg' onClick={onClick} position='absolute' top='16px' left='16px' zIndex='100' />      
   )
 }
