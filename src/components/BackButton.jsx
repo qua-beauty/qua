@@ -6,11 +6,6 @@ export const BackButton = ({ onClick }) => {
   useEffect(() => {
     webApp?.BackButton.show();
     webApp?.BackButton.onClick(onClick);
-
-    return () => {
-      webApp?.BackButton.offClick(onClick);
-      webApp?.BackButton.hide();
-    }
   }, []);
 
   return webApp ? <></> : (
