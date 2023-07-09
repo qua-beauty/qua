@@ -43,7 +43,6 @@ const TimeSlotPicker = ({ onChange, shop, product }) => {
 
     if (onChange) {
       const selectedDateTime = combineDateAndTime(selectedDate.date, timeSlot.time);
-      console.log(selectedDateTime)
       onChange(selectedDateTime);
     }
   };

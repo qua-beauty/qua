@@ -25,9 +25,9 @@ const Booking = () => {
     navigate(-1);
   }
 
-  const handleConfirmOrder = useCallback(async () => {
+  const handleConfirmOrder = async () => {
     navigate('/payment');
-  }, []);
+  };
 
   useEffect(() => {
     return () => {
@@ -53,7 +53,8 @@ const Booking = () => {
         <Button w={'100%'} borderColor={'telegram.200'} onClick={handleCancelOrder} color={'telegram.200'} variant="outline">Cancel Booking</Button>
       </Box>
     </Box>
-    <MainButton disabled={!bookTime} onClick={handleConfirmOrder}>Continue</MainButton>
+
+    <MainButton onClick={handleConfirmOrder}>Continue</MainButton>
     </>
   );
 };
