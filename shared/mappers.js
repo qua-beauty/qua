@@ -12,7 +12,7 @@ export const shopMapper = (shop) => {
     categories: shop.fields['Catalog'],
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
-    username: shop.fields['Telegram'],
+    username: shop.fields['Username'],
     commission: shop.fields['Commission'],
     available: shop.fields['Available'],
     about: shop.fields['About'],
