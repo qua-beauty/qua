@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentShop } from '../api/slices/shopSlice.js';
+import { selectShopsByFilters, setCurrentShop } from '../api/slices/shopSlice.js';
 import { Box, Flex, Button } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,8 @@ import ShopsSkeleton from "../components/MainPage/ShopsSkeleton.jsx";
 
 function MainPage() {
   const dispatch = useDispatch();
-  const catalog = useSelector((state) => state.shops.data);
+  const filters = useSelector(state => state.filters.filters);
+  const catalog = useSelector(selectShopsByFilters(filters));
   const navigate = useNavigate();
 
   const handleSelect = (master) => {
@@ -30,7 +31,7 @@ function MainPage() {
     <Box pb='10rem'>
       <Flex direction='column' p='1rem' gap='1.5rem'>
         <Stories />
-        <Filters />
+        <Filters itemsCount={catalog.length} />
       </Flex>
       <Flex w={'100%'} p={'1rem'} gap={'24px'} direction={'column'}>
         {catalog?.map(master => {

@@ -1,9 +1,9 @@
-import {useCallback} from 'react';
-import {Box, Text} from '@chakra-ui/react'
+import { useCallback } from 'react';
+import { Box, Text } from '@chakra-ui/react'
 import FiltersButton from "./FiltersButton";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Filters = () => {
+const Filters = ({ itemsCount }) => {
   const navigate = useNavigate();
 
   const handleFiltersOpen = useCallback(() => {
@@ -13,7 +13,9 @@ const Filters = () => {
   return (
     <Box>
       <FiltersButton onFiltersClick={handleFiltersOpen} />
-      <Text mt='1rem' color='text.secondary' fontSize='sm' textAlign='center'>4 masters found</Text>
+      <Text mt='1rem' color='text.secondary' fontSize='sm' textAlign='center'>
+        {itemsCount} masters found
+      </Text>
     </Box>
   );
 };
