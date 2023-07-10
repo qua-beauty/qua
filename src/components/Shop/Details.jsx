@@ -16,7 +16,7 @@ const Details = ({ master }) => {
         <Box position={'absolute'} top='1rem' right='1rem'>
           <Location>300m</Location>
         </Box>
-        <MasterActions />
+        <MasterActions master={master} />
         <Box>
           <Text fontSize='lg'>{master.about}</Text>
         </Box>

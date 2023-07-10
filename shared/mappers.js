@@ -12,9 +12,15 @@ export const shopMapper = (shop) => {
     categories: shop.fields['Catalog'],
     adminGroup: shop.fields['Admin Group'],
     instagram: shop.fields['Instagram'],
+    username: shop.fields['Telegram'],
     commission: shop.fields['Commission'],
     available: shop.fields['Available'],
     about: shop.fields['About'],
+    likes: shop.fields['Likes'] ? shop.fields['Likes'].map((id, index) => ({
+      id,
+      name: shop.fields['Likes Names'][index],
+      avatar: shop.fields['Likes Avatars'][index]?.url
+    })) : undefined,
     type: shop.fields['Type'].toLowerCase(),
     category: shop.fields['Category'] ? {
       id: shop.fields['Category'][0],
@@ -111,6 +117,7 @@ export const userMapper = (user) => {
     address: user.fields['Address'],
     username: user.fields['Username'],
     telegramId: user.fields['TelegramId'],
+    avatar: user.fields['Avatar'] ? user.fields['Avatar'][0].url : undefined,
     language: user.fields['Language'],
     referrer: user.fields['Referrer'] ? user.fields['Referrer'][0] : undefined,
     permissions: user.fields['Permissions']

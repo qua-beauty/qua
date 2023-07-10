@@ -19,6 +19,10 @@ export const airtableBaseQuery = async ({tableName, method, allowDisable, data, 
       result = await retrieveRecord(tableName, data);
     }
 
+    if (method === 'update') {
+      result = await updateRecord(tableName, data);
+    }
+
     return {data: result};
   } catch (error) {
     return {error};
@@ -35,6 +39,10 @@ async function selectRecords(tableName, allowDisable, permissions) {
 
 async function createRecords(tableName, data) {
   return await airtableBase(tableName).create(data);
+}
+
+async function updateRecord(tableName, data) {
+  return await airtableBase(tableName).update(data.id, data.fields);
 }
 
 

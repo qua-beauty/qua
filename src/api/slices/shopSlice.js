@@ -15,11 +15,14 @@ export const shopSlice = createSlice({
     setShopsData: (state, action) => {
       state.data = action.payload;
     },
+    setShopLikes: (state, action) => {
+      state.current.likes = action.payload;
+    },
     setCurrentShop: (state, action) => {
       state.current = action.payload;
     }
   }
 });
 
-export const {setShopsData, setCurrentShop} = shopSlice.actions;
+export const {setShopsData, setCurrentShop, setShopLikes} = shopSlice.actions;
 export const shopReducer = shopSlice.reducer;

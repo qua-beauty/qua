@@ -1,5 +1,4 @@
 export const serializeOrder = (orderData) => {
-  console.log(orderData);
   return orderData.map((order) => {
     const fields = {
       Date: order.date,
@@ -46,6 +45,15 @@ export const serializeUser = (userData) => {
       'Referrer': user.referrer ? [user.referrer] : ''
     }
   }));
+}
+
+export const serializeShop = (shopData) => {
+  return shopData.map(shop => ({
+    id: shop.id,
+    fields: {
+      'Likes': shop.likes
+    }
+  }))[0];
 }
 
 export const serializePosterOrder = (orderData) => {
