@@ -1,4 +1,4 @@
-import { Box, Card, Flex, FormControl, FormLabel, Text, useTheme } from '@chakra-ui/react';
+import { Box, Card, Flex, FormControl, FormLabel, Text, useTheme, Tag } from '@chakra-ui/react';
 import { rgba } from '../../utils';
 
 export const FilterCard = ({ children, title, label, value, isExpanded }) => {
@@ -17,7 +17,8 @@ export const FilterCard = ({ children, title, label, value, isExpanded }) => {
       ) : (
         <Flex gap='1' p='1'>
           <Text fontWeight='500' fontSize='lg' color='text.secondary' w='100px'>{label}</Text>
-          <Text fontWeight='500' fontSize='xl' color='text.primary'>{value}</Text>
+          <Text flex='1' fontWeight='500' fontSize='xl' color='text.primary'>{value}</Text>
+          <Tag bg={rgba(theme.colors.brand['200'], 0.2)}>Soon</Tag>
         </Flex>
       )}
     </Card>

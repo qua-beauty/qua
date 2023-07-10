@@ -1,45 +1,22 @@
-import React from 'react';
-import {Box, Image, Button, Text, Stack} from "@chakra-ui/react";
-import {ManicureIcon} from './ManicureIcon';
+import { useSelector } from 'react-redux';
+import { FilterCard } from './FilterCard';
+import { CategoryOption } from './CategoryOption';
+import { Flex } from '@chakra-ui/react'
 
-const categoryImages = {
-  "Hairstyle": "../src/assets/filters/hairstyle.svg",
-  "Manicure": "../src/assets/filters/manicure.svg",
-  "Makeup": "../src/assets/filters/makeup.svg",
-  "Barbershop": "../src/assets/filters/barbershop.svg",
-  "Pedicure": "../src/assets/filters/pedicure.svg",
-  "Skin Care": "../src/assets/filters/skinCare.svg",
-};
+export const CategoryFilter = ({ onChange, selectedCategory }) => {
+  const categories = useSelector(state => state.categories.data);
 
-const CategoryFilter = ({onClick, categoryName}) => {
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"й  
-      marginBottom="10px"
-      onClick={() => onClick(categoryName)}
-    >
-      
-      <Stack spacing="2">
-      <ManicureIcon width='72px' height='70px' />
-        <Text
-          cursor="pointer"
-          color="#110E34"
-          textAlign="center"
-          fontSize="17px"
-          fontFamily="SF Pro Display"
-          fontStyle="normal"
-          fontWeight="500"
-          lineHeight="18px"
-          letterSpacing="-0.34px"
-        >
-          {categoryName}
-        </Text>
-      </Stack>
-    </Box>
-  );
-};
+  const handleOptionClick = (category) => () => {
+    onChange('category', category.id);
+  }
 
-export default CategoryFilter;
+  return categories && (
+    <FilterCard title='Which category you are interesting in?' isExpanded={true}>
+      <Flex flexWrap={'wrap'}>
+        {categories.map(category => (
+          <CategoryOption key={category.id} name={category.name} icon={category.icon} isSelected={category.id === selectedCategory} onClick={handleOptionClick(category)} />
+        ))}
+      </Flex>
+    </FilterCard>
+  )
+}

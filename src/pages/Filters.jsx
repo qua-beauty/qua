@@ -1,7 +1,7 @@
 import { BackButton } from "../components/BackButton.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex } from "@chakra-ui/react";
-import { CategoriesFilter } from '../components/Filters/CategoriesFilter.jsx';
+import { CategoryFilter } from '../components/Filters/CategoryFilter.jsx';
 import { FilterActions } from '../components/Filters/FilterActions.jsx';
 import { FilterCard } from "../components/Filters/FilterCard.jsx";
 import { clearFilters, toggleFilter } from '../api/slices/filterSlice.js';
@@ -27,9 +27,9 @@ const Filters = () => {
 
   return (
     <Box bg='background.filters' p='1.5rem 1rem 10rem' minH='100vh'>
-      <BackButton />
+      <BackButton onClick={handleSaveFilters} />
       <Flex direction={'column'} gap='0.5rem'>
-        <CategoriesFilter onChange={handleFilterChange} selectedCategory={filters?.category} />
+        <CategoryFilter onChange={handleFilterChange} selectedCategory={filters?.category} />
         <FilterCard label='Date' value='Any' />
         <FilterCard label='Distance' value='Any' />
         <FilterCard label='Price' value='Any' />
