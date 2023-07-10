@@ -11,7 +11,7 @@ import ShopsSkeleton from "../components/MainPage/ShopsSkeleton.jsx";
 
 function MainPage() {
   const dispatch = useDispatch();
-  const catalog = useSelector((state) => state.shops.data)
+  const catalog = useSelector((state) => state.shops.data);
   const navigate = useNavigate();
 
   const handleSelect = (master) => {

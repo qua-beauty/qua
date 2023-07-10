@@ -21,9 +21,12 @@ const filterSlice = createSlice({
           [filterName]: filterValue
         };
       }
+    },
+    clearFilters: (state, action) => {
+      state.filters = {}
     }
   }
 });
 
-export const { toggleFilter } = filterSlice.actions;
+export const { toggleFilter, clearFilters } = filterSlice.actions;
 export const filterReducer = filterSlice.reducer;

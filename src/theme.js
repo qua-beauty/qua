@@ -11,6 +11,9 @@ const paperReviews = isColorModeDark ? `linear-gradient(180deg, ${paper} 0%, rgb
 const paperImmersiveLight = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%)';
 const paperImmersiveDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%)';
 
+const filtersGradientLight = 'linear-gradient(180deg, #FFF 0%, rgba(255, 203, 203, 0.35) 15.63%, rgba(137, 81, 255, 0.15) 56.77%, #FFF 100%)';
+const filtersGradientDark = 'linear-gradient(180deg, #000 0%, rgba(97, 71, 255, 0.35) 15.63%, rgba(255, 81, 248, 0.15) 56.77%, #000 100%)';
+
 const config = {
   initialColorMode: isColorModeDark ? 'dark' : 'light',
   useSystemColorMode: false,
@@ -43,7 +46,8 @@ const colors = {
     paper,
     paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
     paperReviews,
-    paperMaster
+    paperMaster,
+    filters: isColorModeDark ? filtersGradientDark : filtersGradientLight
   },
   borderColor: 'rgba(137, 81, 255, 0.24)'
 };
@@ -90,6 +94,12 @@ export const chakraTheme = extendTheme({
         letterSpacing: '-0.02rem',
         fontWeight: '500',
       }
+    },
+    Button: {
+      baseStyle: {
+
+      },
+
     }
   },
   config,
