@@ -54,7 +54,10 @@ const TimeSlotPicker = ({ onChange, shop, product }) => {
           <FormLabel mb={'0'} color='text.secondary'>Choose Date</FormLabel>
           <Flex gap='8px' mt='8px'>
             {availableDates.map((date, index) => (
-              <Button key={index} onClick={handleDateChange(date)} colorScheme='brand' variant={selectedDate.date === date.date ? 'solid' : 'outline'} w='54px' h='56px' flexDirection='column' isDisabled={date.isDisabled}>
+              <Button key={index} onClick={handleDateChange(date)}
+                variant={selectedDate.date === date.date ? 'solid' : 'outline'}
+                w='54px' h='56px'
+                flexDirection='column' isDisabled={date.isDisabled}>
                 <Text fontWeight='500' fontSize='xs' color={date.isWeekend ? '#F03F3F' : 'currentColor'}>{date.weekday}</Text>
                 <Heading fontWeight='500' fontSize='4xl'>{date.dayNumber}</Heading>
               </Button>
@@ -73,7 +76,6 @@ const TimeSlotPicker = ({ onChange, shop, product }) => {
                     onClick={() => handleTimeClick(timeSlot)}
                     variant={selectedTime === timeSlot ? 'solid' : 'outline'}
                     isDisabled={timeSlot.isBreak}
-                    colorScheme='brand'
                   >
                     {timeSlot.time}
                   </Button>
