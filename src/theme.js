@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { defineStyleConfig, extendTheme } from '@chakra-ui/react';
 import { webApp } from './telegram.js';
 import { rgba } from './utils.js';
 
@@ -13,6 +13,10 @@ const paperImmersiveDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.10) 0%,
 
 const filtersGradientLight = 'linear-gradient(180deg, #FFF 0%, rgba(255, 203, 203, 0.35) 15.63%, rgba(137, 81, 255, 0.15) 56.77%, #FFF 100%)';
 const filtersGradientDark = 'linear-gradient(180deg, #000 0%, rgba(97, 71, 255, 0.35) 15.63%, rgba(255, 81, 248, 0.15) 56.77%, #000 100%)';
+
+const buttonLight = 'linear-gradient(180deg, rgba(137, 81, 255, 0.08) 0%, rgba(137, 81, 255, 0.16) 69.27%)';
+
+const buttonDark = 'linear-gradient(180deg, rgba(137, 81, 255, 0.16) 0%, rgba(137, 81, 255, 0.08) 100%)';
 
 const config = {
   initialColorMode: isColorModeDark ? 'dark' : 'light',
@@ -47,7 +51,8 @@ const colors = {
     paperImmersive: isColorModeDark ? paperImmersiveDark : paperImmersiveLight,
     paperReviews,
     paperMaster,
-    filters: isColorModeDark ? filtersGradientDark : filtersGradientLight
+    filters: isColorModeDark ? filtersGradientDark : filtersGradientLight,
+    button: isColorModeDark ? buttonDark : buttonLight
   },
   borderColor: 'rgba(137, 81, 255, 0.24)'
 };
@@ -82,6 +87,54 @@ const styles = {
   },
 };
 
+const Button = defineStyleConfig({
+  // The styles all button have in common
+  baseStyle: {
+    fontWeight: '500',
+    borderRadius: 'base'
+  },
+  sizes: {
+    md: {
+      fontSize: '3xl',
+      borderRadius: '12px',
+      h: '42px',
+      px: 3, // <-- these values are tokens from the design system
+    },
+    lg: {
+      h: '60px',
+      fontSize: '3xl',
+      borderRadius: '16px',
+      px: 4,
+    }
+  },
+  variants: {
+    outline: {
+      background: 'background.button',
+      border: '1px solid',
+      borderColor: rgba(colors.brand[200], 0.25),
+      color: 'brand.200',
+
+      '&:hover': {
+        background: 'background.button',
+        borderColor: rgba(colors.brand[200], 0.75),
+      },
+
+      '&:active': {
+        background: 'linear-gradient(180deg, rgba(137, 81, 255, 0.16) 3.13%, rgba(137, 81, 255, 0.08) 100%)',
+      }
+    },
+    solid: {
+      bg: 'brand.200',
+      color: 'white',
+    },
+  },
+  // The default size and variant values
+  defaultProps: {
+    size: 'md',
+    variant: 'outline',
+  },
+})
+
 export const chakraTheme = extendTheme({
   components: {
     Text: {
@@ -95,12 +148,7 @@ export const chakraTheme = extendTheme({
         fontWeight: '500',
       }
     },
-    Button: {
-      baseStyle: {
-
-      },
-
-    }
+    Button
   },
   config,
   styles,

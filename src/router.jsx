@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage.jsx';
 import Shop from './pages/Shop.jsx';
 import Filters from './pages/Filters.jsx';
 import Payment from './pages/Payment.jsx';
+import Maps from './pages/Maps.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,10 @@ const router = createBrowserRouter([
         path: 'booking',
         element: (<Booking/>)
       },
-
+      {
+        path: 'maps',
+        element: (<Maps/>)
+      },
       {
         path: 'filters',
         element: (<Filters/>)
