@@ -126,3 +126,24 @@ export const BarbershopIcon = createIcon({
   ],
 });
 
+
+export const categoryIcons = {
+  hairstyle: <HairstyleIcon fontSize='72px' />,
+  makeup: <MakeupIcon fontSize='72px' />,
+  manicure: <ManicureIcon fontSize='72px' />,
+  pedicure: <PedicureIcon fontSize='72px' />,
+  skincare: <SkincareIcon fontSize='72px' />,
+  barbershop: <BarbershopIcon fontSize='72px' />,
+}
+
+export const getCategoryIcon = (categoryName) => {
+  if(!categoryName) return <></>;
+  
+  const name = categoryName.toLowerCase().replace(' ', '');
+  
+  if(categoryIcons.hasOwnProperty(name)) {
+    return categoryIcons[name]
+  }
+
+  return <></>;
+}

@@ -1,15 +1,15 @@
 import React from "react";
 import { Box, Flex, IconButton, Avatar, Text, Divider, useTheme } from '@chakra-ui/react';
 import { rgba } from "../../utils";
-import { TelegramIcon, LikeOutlinedIcon, LikeIcon } from "../Icons";
+import { LikeOutlinedIcon, LikeIcon, ChatIcon } from "../Icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectReviewsByShop } from '../../api/slices/reviewSlice';
 import { useAddLikeMutation, useDeleteLikeMutation } from "../../api/api";
 import { setShopLikes } from "../../api/slices/shopSlice";
 
-const ReviewBadge = ({ emoji, color }) => {
+const ReviewBadge = ({ emoji, color, ...rest }) => {
   return (
-    <Box bg={color} w='32px' h='32px' borderRadius='16px' fontSize='5xl' textAlign={'center'} verticalAlign={'middle'}>{emoji}</Box>
+    <Box bg={color} w='32px' h='32px' borderRadius='16px' fontSize='5xl' textAlign={'center'} lineHeight={'32px'} {...rest}>{emoji}</Box>
   )
 }
 
@@ -37,7 +37,7 @@ const MasterActions = ({ master }) => {
         name: user.name,
         avatar: user.avatar
       }].concat(master.likes.map(like => like))
-      
+
       await addLike([{
         id: master.id,
         likes: likes.map(like => like.id)
@@ -47,54 +47,40 @@ const MasterActions = ({ master }) => {
     dispatch(setShopLikes(likes));
   }
 
-  const likesLength = master?.likes?.length;
-  const firstLikes = master?.likes?.slice(0, 3);
+  const firstLikes = master?.likes?.slice(0, 2);
   const isMasterLiked = master?.likes?.some(like => like.id === user.id);
 
-  console.log(master?.likes);
-
   return (
-    <Flex w='100%' gap='1rem' p='10px 1rem' alignItems={'center'} bg={rgba(theme.colors.brand['200'], 0.1)} borderRadius='1rem'>
-      <Flex gap='8px' flex='1' justifyContent={'center'}>
-        <IconButton as='a' href={`https://t.me/${master.username}`} size='lg' colorScheme="brand" isRound={true} p='0' w='48px' h='48px'>
-          <TelegramIcon fontSize='56px' />
-        </IconButton>
-        <IconButton onClick={handleLike} size='lg' colorScheme="brand" isRound={true}>
-          {isMasterLiked
-            ? <LikeIcon color='text.onPrimary' mt='2px' fontSize='32px' />
-            : <LikeOutlinedIcon color='text.onPrimary' mt='2px' fontSize='32px' />}
-        </IconButton>
-      </Flex>
-      {likesLength > 0 && <>
-        <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
-        <Flex direction='column' justifyContent={'center'} flex='1' textAlign={'center'}>
-          <Text fontSize='xs' fontWeight='500'>Liked by</Text>
-          <Flex justifyContent={'center'}>
+    <Flex w='100%' gap='1rem' alignItems={'center'} justifyContent={'center'}>
+      <IconButton as='a' href={`https://t.me/${master.username}`} w='60px' size='lg'>
+        <ChatIcon fontSize='32px' />
+      </IconButton>
+      
+      <IconButton onClick={handleLike} size='lg' colorScheme="brand">
+        <Flex p='0 8px 0 12px' gap='16px' alignItems='center'>
+          <Flex gap='8px' alignItems='center'>
+            {isMasterLiked
+              ? <LikeIcon color='#F03F3F' mt='2px' fontSize='32px' />
+              : <LikeOutlinedIcon color='brand.200' mt='2px' fontSize='32px' />}
+            <Text fontSize='3xl' fontWeight='600' color='text.primary'>24</Text>
+          </Flex>
+          {firstLikes && <Box pl='12px'>
             {firstLikes.map(like => (
-              <Avatar key={like.id} src={like.avatar} w='32px' h='32px' name={like.name} ml={'-8px'} />
+              <Avatar key={like.id} src={like.avatar} w='32px' h='32px' name={like.name} ml={'-12px'} />
             ))}
-
-            {likesLength > 3 && (
-              <Avatar ml={'-8px'} w='32px' h='32px' name={`+ ${likesLength - 3}`} bg={'brand.200'} color='text.onPrimary' sx={{
-                '& div': {
-                  fontSize: '0.875rem'
-                }
-              }} />
-            )}
-
-          </Flex>
+          </Box>}
         </Flex>
-      </>}
+      </IconButton>
 
-      {reviews?.length > 0 && <>
-        <Divider borderColor='rgba(0, 0, 0, 0.2)' h='48px' orientation='vertical' />
-        <Flex direction={'column'} justifyContent={'center'} flex='1' textAlign={'center'}>
-          <Text fontSize='xs' fontWeight='500'>{reviews.length} reviews</Text>
-          <Flex justifyContent={'center'}>
+      {reviews?.length > 0 && <IconButton onClick={handleLike} size='lg' colorScheme="brand">
+        <Flex p='0 16px 0 12px' gap='12px' alignItems='center'>
+          <Flex>
             <ReviewBadge emoji='👍' color='#EDFFB1' />
+            <ReviewBadge emoji='😍' color='#FFD7EC' ml='-12px' />
           </Flex>
+          <Text fontSize='3xl' fontWeight='600' color='text.primary'>{reviews.length}</Text>
         </Flex>
-      </>}
+      </IconButton>}
     </Flex>
   );
 };

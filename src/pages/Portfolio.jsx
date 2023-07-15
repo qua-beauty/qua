@@ -17,10 +17,10 @@ const Portfolio = () => {
   const portfolio = currentShop?.portfolio;
   let { shopId, portfolioId } = useParams();
 
-  const handlePhotoChange = (currentIndex) => {
+  const handlePhotoChange = (currentIndex, isButton) => {
     setCurrentPortfolio(currentIndex);
     window.history.replaceState(null, '', `/shop/${currentShop.id}/portfolio/${portfolio[currentIndex].id}`);
-    swiper?.slideTo(currentIndex);
+    !isButton && swiper?.slideTo(currentIndex);
   }
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Portfolio = () => {
       <Box p='12px'>
         <Flex p='8px 0 10px' gap='8px'>
           {portfolio.map((portfolioItem, index) => (
-            <Box onClick={() => handlePhotoChange(index)} flex={1} key={portfolioItem.id} background={currentPortfolio === index ? 'brand.200' : 'blackAlpha.400'} height='4px' borderRadius={'2px'} overflow={'hidden'} />
+            <Box onClick={() => handlePhotoChange(index, true)} flex={1} key={portfolioItem.id} background={currentPortfolio === index ? 'brand.200' : 'blackAlpha.400'} height='4px' borderRadius={'2px'} overflow={'hidden'} />
           ))}
         </Flex>
         <Swiper initialSlide={currentPortfolio}
@@ -57,7 +57,7 @@ const Portfolio = () => {
             overflow: 'hidden'
           }}>
           {portfolio.map(portfolioItem => (
-            <SwiperSlide key={portfolioItem.url} key={portfolioItem.id}>
+            <SwiperSlide key={portfolioItem.id}>
               <Box position={'relative'}>
                 <Image
                   alt=""

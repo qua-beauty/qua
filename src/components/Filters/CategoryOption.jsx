@@ -1,25 +1,6 @@
 import { Flex, Heading, Box, useTheme } from '@chakra-ui/react';
 import { rgba } from '../../utils';
-import {HairstyleIcon, MakeupIcon, ManicureIcon, PedicureIcon, SkincareIcon, BarbershopIcon} from './Icons';
-
-const categoryIcons = {
-  hairstyle: <HairstyleIcon fontSize='72px' />,
-  makeup: <MakeupIcon fontSize='72px' />,
-  manicure: <ManicureIcon fontSize='72px' />,
-  pedicure: <PedicureIcon fontSize='72px' />,
-  skincare: <SkincareIcon fontSize='72px' />,
-  barbershop: <BarbershopIcon fontSize='72px' />,
-}
-
-const getCategoryIcon = (categoryName) => {
-  const name = categoryName.toLowerCase().replace(' ', '');
-  
-  if(categoryIcons.hasOwnProperty(name)) {
-    return categoryIcons[name]
-  }
-
-  return <></>;
-}
+import { getCategoryIcon } from './Icons';
 
 export const CategoryOption = ({ name, isSelected, onClick }) => {
   const theme = useTheme();
