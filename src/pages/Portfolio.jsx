@@ -7,12 +7,18 @@ import { BackButton } from "../components/BackButton";
 import { useEffect, useState } from "react";
 
 const Portfolio = () => {
+  const [swiper, setSwiper] = useState(null);
   const [currentPortfolio, setCurrentPortfolio] = useState(null);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentShop = useSelector(state => state.shops.current);
   const portfolio = currentShop.portfolio;
   let { portfolioId } = useParams();
+
+  const handlePhotoChange = (currentIndex) => {
+    setCurrentPortfolio(currentIndex);
+    window.history.replaceState(null, '', `/shop/${currentShop.id}/portfolio/${portfolio[currentIndex].id}`);
+    swiper.slideTo(currentIndex);
+  }
 
   useEffect(() => {
     if (portfolioId) {
@@ -21,14 +27,25 @@ const Portfolio = () => {
     }
   }, [portfolioId]);
 
-  return currentPortfolio !== null && (
+  return (currentPortfolio !== null && portfolio) && (
     <>
       <BackButton onClick={() => navigate(-1)} />
-      <Box p='1.5rem 1rem 10rem' minH='100vh'>
-        <Swiper initialSlide={currentPortfolio}>
+      <Box p='12px'>
+        <Flex p='8px 0 10px' gap='8px'>
+          {portfolio.map((portfolioItem, index) => (
+            <Box onClick={() => handlePhotoChange(index)} flex={1} key={portfolioItem.id} background={currentPortfolio === index ? 'brand.200' : 'blackAlpha.400'} height='4px' borderRadius={'2px'} overflow={'hidden'} />
+          ))}
+        </Flex>
+        <Swiper initialSlide={currentPortfolio}
+          onSwiper={setSwiper}
+          onSlideChange={(swiper) => handlePhotoChange(swiper.activeIndex)}
+          style={{
+            borderRadius: '8px',
+            overflow: 'hidden'
+          }}>
           {portfolio.map(portfolioItem => (
-            <SwiperSlide key={portfolioItem.url} borderRadius={'8px'}>
-              <Box overflow={'hidden'} position={'relative'}>
+            <SwiperSlide key={portfolioItem.url}>
+              <Box position={'relative'}>
                 <Image
                   alt=""
                   src={portfolioItem.image}
