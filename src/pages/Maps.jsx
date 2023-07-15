@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import Map from '../components/Map/Map';
 import SliderControl from '../components/SliderControl';
 import { BackButton } from '../components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { TuneIcon } from '../components/Icons';
 
 const Maps = () => {
   const navigate = useNavigate();
@@ -22,7 +23,12 @@ const Maps = () => {
   return (
     <Box>
       <BackButton onClick={() => navigate(-1)} />
-      <SliderControl />
+      <Flex p='8px 12px 16px' gap='24px'>
+        <SliderControl />
+        <Button size='lg' variant='outline' onClick={() => navigate('/filters')} >
+          <TuneIcon fontSize='28px' />
+        </Button>
+      </Flex>
       <Map shops={others} me={me} />
     </Box>
   );

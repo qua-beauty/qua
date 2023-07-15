@@ -7,7 +7,7 @@ module.exports = {
         "button-border": "rgba(17, 14, 52, 0.16)",
         "text-primary": "#110e34",
         pink: "#ffcbcb",
-        "text-secondary": "rgba(17, 14, 52, 0.54)",
+        secondary: "rgba(17, 14, 52, 0.54)",
         darkslategray: "#323232",
         "text-white": "#fff",
         "brand-lime": "#edffb1",

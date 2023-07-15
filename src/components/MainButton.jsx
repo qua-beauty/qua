@@ -29,7 +29,7 @@ export const MainButton = ({ onClick, children }) => {
   }, []);
 
   return webApp ? <></> : (
-    <Button onClick={handleClick} colorScheme="brand" borderRadius={0} w="100%" h="80px" pb="24px" fontSize='xl' color='white'>
+    <Button onClick={handleClick} colorScheme="brand" variant='solid' borderRadius={0} w="100%" h="80px" pb="24px" fontSize='xl' color='white'>
       {children}
     </Button>
   )

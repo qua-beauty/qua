@@ -17,12 +17,12 @@ const Filters = () => {
   };
 
   const handleSaveFilters = () => {
-    navigate('/');
+    navigate(-1);
   }
 
   const handleClearFilters = () => {
     dispatch(clearFilters());
-    navigate('/');
+    navigate(-1);
   }
 
   return (
