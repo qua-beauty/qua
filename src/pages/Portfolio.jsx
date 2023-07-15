@@ -2,30 +2,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex, Image, Text, Avatar } from "@chakra-ui/react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 import { BackButton } from "../components/BackButton";
 import { useEffect, useState } from "react";
+import 'swiper/css';
+import { setCurrentShop } from "../api/slices/shopSlice";
 
 const Portfolio = () => {
   const [swiper, setSwiper] = useState(null);
   const [currentPortfolio, setCurrentPortfolio] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const shops = useSelector(state => state.shops.data);
   const currentShop = useSelector(state => state.shops.current);
-  const portfolio = currentShop.portfolio;
-  let { portfolioId } = useParams();
+  const portfolio = currentShop?.portfolio;
+  let { shopId, portfolioId } = useParams();
 
   const handlePhotoChange = (currentIndex) => {
     setCurrentPortfolio(currentIndex);
     window.history.replaceState(null, '', `/shop/${currentShop.id}/portfolio/${portfolio[currentIndex].id}`);
-    swiper.slideTo(currentIndex);
+    swiper?.slideTo(currentIndex);
   }
 
   useEffect(() => {
-    if (portfolioId) {
-      const index = portfolio.findIndex(portfolioItem => portfolioItem.id === portfolioId);
-      setCurrentPortfolio(index || 0);
+    const index = currentShop?.portfolio.findIndex(portfolioItem => portfolioItem.id === portfolioId);
+    setCurrentPortfolio(index || 0);
+  }, [currentShop])
+
+  useEffect(() => {
+    if(shops) {
+      if(shopId) {
+        const shop = shops.find(s => s.id === shopId);
+
+        if (shop) {
+          dispatch(setCurrentShop(shop));
+        }
+      }
     }
-  }, [portfolioId]);
+  }, [shops]);
 
   return (currentPortfolio !== null && portfolio) && (
     <>
@@ -44,7 +57,7 @@ const Portfolio = () => {
             overflow: 'hidden'
           }}>
           {portfolio.map(portfolioItem => (
-            <SwiperSlide key={portfolioItem.url}>
+            <SwiperSlide key={portfolioItem.url} key={portfolioItem.id}>
               <Box position={'relative'}>
                 <Image
                   alt=""
@@ -59,7 +72,6 @@ const Portfolio = () => {
                 </Flex>
               </Box>
               <Text mt='12px' fontSize='md'>{portfolioItem.description}</Text>
-
             </SwiperSlide>
           ))}
         </Swiper>
