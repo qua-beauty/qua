@@ -62,7 +62,7 @@ const MasterActions = ({ master }) => {
             {isMasterLiked
               ? <LikeIcon color='#F03F3F' mt='2px' fontSize='32px' />
               : <LikeOutlinedIcon color='brand.200' mt='2px' fontSize='32px' />}
-            <Text fontSize='3xl' fontWeight='600' color='text.primary'>24</Text>
+            <Text fontSize='3xl' fontWeight='600' color='text.primary'>{master.likes.length}</Text>
           </Flex>
           {firstLikes && <Box pl='12px'>
             {firstLikes.map(like => (
