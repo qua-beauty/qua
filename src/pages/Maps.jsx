@@ -19,6 +19,7 @@ const Maps = () => {
   const me = catalog.find((item) => item.id === 1); // Get "me" data from the catalog
 
   const others = catalog.filter((item) => item.id !== 1); // Filter out "me" from the catalog
+  
 
   return (
     <Box>
