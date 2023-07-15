@@ -14,7 +14,7 @@ const Details = ({ master }) => {
           <Heading fontSize='4xl'>{master.name}</Heading>
         </Box>
         <Box position={'absolute'} top='1rem' right='1rem'>
-          <Location>300m</Location>
+          <Location address={master.address} />
         </Box>
         <MasterActions master={master} />
         <Box>

@@ -4,10 +4,14 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     data: null,
+    geo: null
   },
   reducers: {
     setUser: (state, action) => {
       state.data = action.payload;
+    },
+    setUserGeo: (state, action) => {
+      state.geo = action.payload;
     },
     clearUser: (state, action) => {
       state.data = null;
@@ -15,5 +19,5 @@ export const userSlice = createSlice({
   }
 });
 
-export const {setUser, clearUser} = userSlice.actions;
+export const {setUser, clearUse, setUserGeo} = userSlice.actions;
 export const userReducer = userSlice.reducer;

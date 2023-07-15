@@ -1,8 +1,9 @@
-import {webApp} from '../telegram.js';
-import {useGetUserMutation, useSaveUserMutation} from '../api/api.js';
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUser} from '../api/slices/userSlice.js';
+import { webApp } from '../telegram.js';
+import { useGetUserMutation, useSaveUserMutation } from '../api/api.js';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, setUserGeo } from '../api/slices/userSlice.js';
+import useGeolocation from 'react-hook-geolocation';
 
 const checkReferral = () => {
   const url = window.location.href;
@@ -21,6 +22,16 @@ const useAuth = () => {
   const user = useSelector(state => state.user.data);
   const [saveUser] = useSaveUserMutation();
   const [getUser] = useGetUserMutation();
+  const geolocation = useGeolocation();
+
+  useEffect(() => {
+    if (geolocation.latitude && geolocation.longitude) {
+      dispatch(setUserGeo({
+        lat: geolocation.latitude,
+        lng: geolocation.longitude
+      }));
+    }
+  }, [geolocation])
 
   useEffect(() => {
     let userData = {
@@ -40,7 +51,7 @@ const useAuth = () => {
         try {
           const referrer = checkReferral();
 
-          if(referrer) {
+          if (referrer) {
             const referrerUser = await getUser({
               id: referrer
             }).unwrap();
@@ -50,7 +61,7 @@ const useAuth = () => {
               referrer: referrerUser.id
             }
           }
-        } catch(e) {
+        } catch (e) {
           console.log(e);
         }
 

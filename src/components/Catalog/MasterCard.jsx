@@ -29,7 +29,7 @@ const MasterCard = ({ onSelect, ...master }) => {
             </Box>
             <Text fontSize='lg'>{master.name}</Text>
           </Box>
-          <Location>240m</Location>
+          <Location address={master.address} />
         </Flex>
         <Box mt='3'>
           <Portfolio portfolio={master.portfolio} shopId={master.id} previewWidth='60px' />

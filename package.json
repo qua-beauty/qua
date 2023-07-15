@@ -31,6 +31,7 @@
     "netlify-lambda": "^2.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-geolocation": "^1.1.0",
     "react-i18next": "^12.2.0",
     "react-markdown": "^8.0.5",
     "react-redux": "^8.0.5",
