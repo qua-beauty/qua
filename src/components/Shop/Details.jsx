@@ -20,7 +20,7 @@ const Details = ({ master }) => {
         <Box>
           <Text fontSize='lg'>{master.about}</Text>
         </Box>
-        <Portfolio portfolio={master.portfolio} />
+        <Portfolio portfolio={master.portfolio} shopId={master.id} />
       </Flex>
     </Box>
   );

@@ -35,8 +35,11 @@
     "react-markdown": "^8.0.5",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.5.0",
+    "react-swipe": "^6.0.4",
+    "react-swipeable": "^7.0.1",
     "react-transition-group": "^4.4.5",
-    "smooth-corners": "^1.0.8"
+    "smooth-corners": "^1.0.8",
+    "swiper": "^10.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^2.2.0",

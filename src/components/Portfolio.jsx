@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from "react";
-import { Box, Flex, Image, Modal, ModalOverlay, ModalContent, ModalCloseButton } from '@chakra-ui/react';
+import { Box, Flex, Image } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
 
-const Portfolio = ({ portfolio, previewWidth = '82px' }) => {
-  const [activePortfolio, setActivePortfolio] = useState(null);
 
-  const handleModalOpen = useCallback((portfolio) => (event) => {
+
+const Portfolio = ({ portfolio, shopId, previewWidth = '82px' }) => {
+  const navigate = useNavigate();
+
+  const handlePortfolioOpen = useCallback((portfolio) => (event) => {
     event.stopPropagation();
-    setActivePortfolio(portfolio);
+    navigate(`/shop/${shopId}/portfolio/${portfolio.id}`);
   }, []);
 
-  const handleModalClose = useCallback(() => {
-    setActivePortfolio(null);
-  }, []);
 
   return portfolio && (
     <>
@@ -21,26 +21,13 @@ const Portfolio = ({ portfolio, previewWidth = '82px' }) => {
             <Box key={portfolioItem.url} borderRadius={'8px'} w={previewWidth} minW={previewWidth} overflow={'hidden'}>
               <Image
                 alt=""
-                src={portfolioItem.url}
-                onClick={handleModalOpen(portfolioItem)}
+                src={portfolioItem.image}
+                onClick={handlePortfolioOpen(portfolioItem)}
               />
             </Box>
           ))}
         </Flex>
       </Box>
-
-      <Modal onClose={handleModalClose} isOpen={activePortfolio} isCentered>
-        <ModalOverlay />
-        <ModalContent overflow={'hidden'}>
-          <Image
-            alt=""
-            src={activePortfolio?.url}
-          />
-          <ModalCloseButton color="white" />
-        </ModalContent>
-      </Modal>
-
-
     </>
   );
 };

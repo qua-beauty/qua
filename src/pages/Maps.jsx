@@ -19,8 +19,6 @@ const Maps = () => {
 
   const others = catalog.filter((item) => item.id !== 1); // Filter out "me" from the catalog
 
-  console.log(others);
-
   return (
     <Box>
       <BackButton onClick={() => navigate(-1)} />

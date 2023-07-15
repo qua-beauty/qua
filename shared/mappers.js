@@ -28,7 +28,11 @@ export const shopMapper = (shop) => {
       color: shop.fields['Category Color'][0],
       textColor: shop.fields['Category Color Text'][0],
     } : undefined,
-    portfolio: shop.fields['Portfolio Images'] ? shop.fields['Portfolio Images'] : undefined
+    portfolio: shop.fields['Portfolio'] ? shop.fields['Portfolio'].map((id, index) => ({
+      id,
+      image: shop.fields['Portfolio Images'][index]?.url,
+      description: shop.fields['Portfolio Descriptions'][index]
+    })) : undefined
   };
 };
 

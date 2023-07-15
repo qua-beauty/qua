@@ -7,6 +7,7 @@ import Shop from './pages/Shop.jsx';
 import Filters from './pages/Filters.jsx';
 import Payment from './pages/Payment.jsx';
 import Maps from './pages/Maps.jsx';
+import Portfolio from './pages/Portfolio.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: 'payment',
         element: (<Payment/>)
+      },
+      {
+        path: 'shop/:shopId/portfolio/:portfolioId',
+        element: (<Portfolio/>)
       },
       {
         path: 'shop/:shopId',
